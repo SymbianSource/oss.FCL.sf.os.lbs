@@ -1,0 +1,33 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+PRJ_TESTEXPORTS
+
+../testdata/sf_lbs_x3p.ini	c:/testdata/configs/sf_lbs_x3p.ini
+../scripts/sf_hybrid_ueassisted_x3p_accurate_gps.script	c:/testdata/scripts/sf_hybrid_ueassisted_x3p_accurate_gps.script
+../scripts/sf_hybrid_ueassisted_x3p_accurate_gps_timeout.script	c:/testdata/scripts/sf_hybrid_ueassisted_x3p_accurate_gps_timeout.script
+../scripts/sf_hybrid_ueassisted_x3p_client_timeout.script	c:/testdata/scripts/sf_hybrid_ueassisted_x3p_client_timeout.script
+../scripts/sf_hybrid_ueassisted_x3p_gps_futile.script	c:/testdata/scripts/sf_hybrid_ueassisted_x3p_gps_futile.script
+../scripts/sf_hybrid_ueassisted_x3p_no_gps.script	c:/testdata/scripts/sf_hybrid_ueassisted_x3p_no_gps.script
+../scripts/sf_hybrid_ueassisted_x3p_no_gps_timeout.script	c:/testdata/scripts/sf_hybrid_ueassisted_x3p_no_gps_timeout.script
+../scripts/sf_hybrid_uebased_x3p_gps_futile.script	c:/testdata/scripts/sf_hybrid_uebased_x3p_gps_futile.script
+../scripts/sf_uebased_x3p.script	c:/testdata/scripts/sf_uebased_x3p.script
+../scripts/sf_x3p_Acc_ref_pos.script	c:/testdata/scripts/sf_x3p_Acc_ref_pos.script
+../scripts/sf_x3p_gpsmodeoptions.script	c:/testdata/scripts/sf_x3p_gpsmodeoptions.script
+
+PRJ_TESTMMPFILES
+
+ctsflbshybridx3pserver.mmp
+

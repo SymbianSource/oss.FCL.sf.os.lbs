@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!DOCTYPE testSuite SYSTEM "file:///c:/program files/common files/symbian/testSuite.dtd" [ ]>
+
+<testSuite>
+	<name>SfLbsMtlrSuite</name>
+	<testItems>
+		<test>sflbsmtlr</test>
+	</testItems>
+	<testExecuteServers>
+		<server>SfLbsMTLRTestServer</server>
+	</testExecuteServers>
+</testSuite>

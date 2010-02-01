@@ -1,0 +1,6 @@
+component           lbs_metadata
+source   \sf\os\lbs\lbs_info\lbs_metadata 
+source   \sf\os\lbs\package_definition.xml
+source   \sf\os\lbs\distribution.policy.s60
+notes_source      \component_defs\release.src
+ipr T 

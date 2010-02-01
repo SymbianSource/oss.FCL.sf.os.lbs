@@ -1,0 +1,145 @@
+digraph finite_state_machine {
+	rankdir=TB;
+	ranksep=1.0;
+	orientation=portrait;
+	fontpath="C:\WINNT\Fonts";
+	size="10,8";
+	graph [	fontname = "Times-Bold",
+		fontsize = 24,
+//
+//	Title of the diagram
+//
+		label = "Hybrid - LBS - UE-Assisted MO-LR - GPS Result Futile"];
+	node [shape=box,style="rounded,filled", color=greenyellow, fontname="Helvetica-Bold",fontsize=16];
+	edge [fontname="Helvetica",fontsize=14];
+//
+// 	[fontcolor=red color=red fontsize=16]
+//
+
+//
+// List of State
+//
+{ rank = same;
+	Idle [label="Idle"];
+	Autonomous [label="Autonomous\nUE-Based positioning"];
+	UE_Based [label="Performing UE-Based positioning\nunder Hybrid Positioning"];
+}
+	UE_Assisted [label="Performing UE-Assisted positioning\n(UE-Based positioning continue)"];
+{ rank = same;
+	Waiting_MC_UEBasedCont [label="Waiting for M.C.(Release)\n(UE-Based positioning continue)"];
+	Waiting_MC_UEBasedStop [label="Waiting for M.C.(Release)\n(UE-Based positioning Stopped)"];
+}
+{ rank = same;
+	Waiting_Facility_UEBasedCont [label="Waiting for Facility\n(UE-Based positioning continue)"];
+	Waiting_Facility_UEBasedStop [label="Waiting for Facility\n(UE-Based positioning Stopped)"];
+}
+{ rank = same;
+	End [label="Positioning Ends\nComplete User Request\nFor no UE-Based positioning"];
+}
+
+//	UE_Based -> Waiting_MC [label = "UE-Based success/\nStop UE-Based Positioning,\nSend M.R.\n(confidence=68)"];
+
+
+//
+// Idle State
+//
+	Idle -> Autonomous [label = "User starts Location check\nStart Autonomous positioning\nStart LcsMOLR"
+					,fontcolor=red color=red fontsize=16];
+
+//
+// Autonomous State
+//
+
+	Autonomous -> UE_Based [label = "Receives M.C.(Setup)\nStart a2,a4 timer"
+					,fontcolor=red color=red fontsize=16];
+
+
+//
+// UE Based State
+//
+	//
+	//Transition to UE-Assisted	
+	//
+	UE_Based:sw -> UE_Assisted [taillabel="\n\n\n\n\nTimer a2 expired/\nSend M.R\nReceive M.C.\n(Modify,Reporting Interval=t)\nStart up Timer t"
+					,fontcolor=red color=red fontsize=16];
+	//
+	//Transition to Waiting for M.C.	
+	//
+	UE_Based -> "Waiting_MC_UEBasedStop":e [label = "UE-Based success/\nStop UE-Based Positioning\nComplete User request\n(UE Based result)\nSend M.R.\n(confidence=68)"];
+	UE_Based:e -> "Waiting_MC_UEBasedStop":e [label = "UE-Based fix\n(Futile)/\nStop UE-Based\nPositioning,\nSend M.R.(RefPos)\n(confidence=100)"];
+//	UE_Based -> "Waiting_MC":e [label = "Ref Position\naccurate enough/\nStop UE-Based Positioning,\nSend M.R.\n(confidence=0)"];
+	
+ 	
+//
+// UE Assisted State
+//
+
+	//Loopback
+	UE_Assisted -> UE_Assisted:sw [headlabel="\n\n\nTimer t expired/\nSend M.R,\nrestart timer t"];
+	//
+	//Transition to Waiting for Facility UE-Based continue
+	//
+	UE_Assisted -> Waiting_Facility_UEBasedCont:n [headlabel = "Receive M.C.(Release)"];
+	//
+	//Transition to Waiting for M.C. UE-Based positioning continue	
+	//
+	UE_Assisted:w -> Waiting_MC_UEBasedCont [label = "timer a4 expired/\nSend M.R.\n(confidence=100)"];
+	//
+	//Transition to Waiting for M.C. UE-Based positioning Stopped	
+	//
+	UE_Assisted:s -> Waiting_MC_UEBasedStop:n [label = "UE-Based success/\nStop UE-Based Positioning\nComplete User request\n(UE Based result)\nSend M.R.\n(confidence=68)"];
+	UE_Assisted:e -> Waiting_MC_UEBasedStop:n [label = "UE-Based fix\n(Futile)/\nStop UE-Based Positioning,\nSend M.R.(RefPos)\n(confidence=100)"
+							,fontcolor=red color=red fontsize=16];
+//
+// Waiting for M.C. Release UE-Based Continue state
+//
+	//
+	//Transition to Waiting for M.C. UE-Based positioning Stopped	
+	//
+	Waiting_MC_UEBasedCont -> Waiting_MC_UEBasedStop [label = "UE-Based fix accuracy too low/Stop UE-Based Pos."];
+	Waiting_MC_UEBasedCont -> Waiting_MC_UEBasedStop [label = "UE-Based success/Stop UE-Based Pos.,\nComplete User request(UE Based result)\n"];
+	//
+	//Transition to Waiting for Facility UE-Based positioning continue	
+	//
+	Waiting_MC_UEBasedCont:s -> Waiting_Facility_UEBasedCont:n //[headlabel = "Receive M.C.(Release)\n\n"];
+	//
+	//Transition to Positioning End	
+	//
+	Waiting_MC_UEBasedCont:sw -> End:w [label = "M.C. wait timer expired/\nStop UE-Based\nSend M.R.\n(undefined Error)"];
+
+//
+// Waiting for M.C. Release UE-Based Stopped state
+//
+
+	//
+	//Transition to Waiting for Facility UE-Based positioning Stopped	
+	//
+	Waiting_MC_UEBasedStop -> Waiting_Facility_UEBasedStop:n [headlabel = "Receive M.C.(Release)"
+					,fontcolor=red color=red fontsize=16];
+	//
+	//Transition to Positioning End	
+	//
+	Waiting_MC_UEBasedStop:e -> End:e [label = "M.C. wait timer expired/\nSend M.R.\n(undefined Error)"];
+//
+// Waiting for Receiving Facility UE-Based Continue state
+//
+	//
+	//Transition to Waiting for Receiving Facility UE-Based Stopped state	
+	//
+	Waiting_Facility_UEBasedCont -> Waiting_Facility_UEBasedStop [label = "UE-Based fix accuracy too low/ Stop UE-Based Pos."];
+	Waiting_Facility_UEBasedCont -> Waiting_Facility_UEBasedStop [label = "UE-Based success/Stop UE-Based Pos., Complete User request(UE Based result)"];
+	//
+	//Transition to End state	
+	//
+	Waiting_Facility_UEBasedCont:s -> End:w [taillabel = "\n\n\nFacility wait timer expired/\nStop UE-Based Positioning"];
+	Waiting_Facility_UEBasedCont:e -> End:w [label = "Recv Facility/\nStop UE-Based Positioning"];
+//
+// Waiting for Receiving Facility UE-Based Stopped state
+//
+	//
+	//Transition to End state	
+	//
+	Waiting_Facility_UEBasedStop:sw -> End:e [label = "Recv Facility"
+					,fontcolor=red color=red fontsize=16];
+	Waiting_Facility_UEBasedStop:s -> End:e [label = "Facility wait timer expired"];
+}

@@ -1,0 +1,10 @@
+component	lbs_agpslocationmanager
+
+source \sf\os\lbs\locationmgmt\agpslocationmgr
+binary	\sf\os\lbs\locationmgmt\agpslocationmgr\group all
+exports	\sf\os\lbs\locationmgmt\agpslocationmgr\group
+
+notes_source	\component_defs\release.src
+
+ipr E 
+ipr T  \sf\os\lbs\locationmgmt\agpslocationmgr\test

@@ -1,0 +1,13 @@
+component	lbs_gps_data_source_adaptation
+
+source \sf\os\lbs\datasourceadaptation\gpsdatasourceadaptation
+
+binary	\sf\os\lbs\datasourceadaptation\gpsdatasourceadaptation\group all
+
+exports	\sf\os\lbs\datasourceadaptation\gpsdatasourceadaptation\group
+
+notes_source	\component_defs\release.src
+
+ipr E
+ipr T  \sf\os\lbs\datasourceadaptation\gpsdatasourceadaptation\psytester
+ipr T  \sf\os\lbs\datasourceadaptation\gpsdatasourceadaptation\\common\test

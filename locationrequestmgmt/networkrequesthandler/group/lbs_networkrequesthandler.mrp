@@ -1,0 +1,18 @@
+component	lbs_networkrequesthandler
+
+source \sf\os\lbs\locationrequestmgmt\networkrequesthandler
+source \sf\os\lbs\locationrequestmgmt\networkrequesthandler\LBSPrivacyNotification
+source \sf\os\lbs\locationrequestmgmt\networkrequesthandler\LbsX3P
+
+
+binary  \sf\os\lbs\locationrequestmgmt\networkrequesthandler\group all
+exports	\sf\os\lbs\locationrequestmgmt\networkrequesthandler\group
+
+notes_source	\component_defs\release.src
+
+ipr E 
+
+ipr T  \sf\os\lbs\locationrequestmgmt\networkrequesthandler\test
+ipr T  \sf\os\lbs\locationrequestmgmt\networkrequesthandler\LBSPrivacyNotification\LbsPrivacyExtNotifiers\test
+ipr T  \sf\os\lbs\locationrequestmgmt\networkrequesthandler\LBSPrivacyNotification\LbsQueryAndNotification\QueryAndNotificationAPI\test
+ipr T  \sf\os\lbs\locationrequestmgmt\networkrequesthandler\LbsX3P\LbsX3PApi\test

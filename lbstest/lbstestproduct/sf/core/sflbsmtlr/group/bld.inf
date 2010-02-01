@@ -1,0 +1,29 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+PRJ_TESTEXPORTS
+
+../testdata/sflbsmtlr.ini	c:/testdata/configs/sflbsmtlr.ini
+../testdata/sf_1028224b_custom1behaviour_noextprofileinuse.cre	c:/testdata/configs/sf_1028224b_custom1behaviour_noextprofileinuse.cre
+../testdata/sf_1028224b_custom1behaviour_noextprofileinuse.txt	c:/testdata/configs/sf_1028224b_custom1behaviour_noextprofileinuse.txt
+../testdata/sf_1028224b_originalbehaviour_noextprofileinuse.cre	c:/testdata/configs/sf_1028224b_originalbehaviour_noextprofileinuse.cre
+../testdata/sf_1028224b_originalbehaviour_noextprofileinuse.txt	c:/testdata/configs/sf_1028224b_originalbehaviour_noextprofileinuse.txt
+../testdata/sf_lbstestprofile_valid_profilenotinuse.ini	c:/testdata/configs/sf_lbstestprofile_valid_profilenotinuse.ini
+../scripts/sflbsmtlr.script	c:/testdata/scripts/sflbsmtlr.script
+
+PRJ_TESTMMPFILES
+
+ctsflbsmtlrserver.mmp
+

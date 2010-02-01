@@ -1,0 +1,12 @@
+component	lbs_networklocationmanager
+
+source \sf\os\lbs\locationmgmt\networklocationmgr
+binary	\sf\os\lbs\locationmgmt\networklocationmgr\group all
+exports	\sf\os\lbs\locationmgmt\networklocationmgr\group
+
+notes_source	\component_defs\release.src
+
+ipr E 
+
+ipr T  \sf\os\lbs\locationmgmt\networklocationmgr\t_lbsDummygateway
+ipr T  \sf\os\lbs\locationmgmt\networklocationmgr\te_LbsNetworkLocationManager

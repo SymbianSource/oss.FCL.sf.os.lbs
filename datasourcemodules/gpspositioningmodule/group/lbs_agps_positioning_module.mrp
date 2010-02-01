@@ -1,0 +1,13 @@
+component	lbs_agps_positioning_module
+
+source \sf\os\lbs\datasourcemodules\gpspositioningmodule
+
+binary	\sf\os\lbs\datasourcemodules\gpspositioningmodule\group all
+
+exports	\sf\os\lbs\datasourcemodules\gpspositioningmodule\group
+
+notes_source	\component_defs\release.src
+
+ipr E 
+ipr T  \sf\os\lbs\datasourcemodules\gpspositioningmodule\lbsagpspsy\test
+ipr T  \sf\os\lbs\datasourcemodules\gpspositioningmodule\lbsgpspsy\test

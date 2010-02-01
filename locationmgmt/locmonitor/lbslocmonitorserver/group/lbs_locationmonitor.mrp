@@ -1,0 +1,11 @@
+component	lbs_locationmonitor
+
+source  \sf\os\lbs\locationmgmt\locmonitor\lbslocmonitorserver
+source  \sf\os\lbs\locationmgmt\locmonitor\test
+binary	\sf\os\lbs\locationmgmt\locmonitor\lbslocmonitorserver\group all
+exports	\sf\os\lbs\locationmgmt\locmonitor\lbslocmonitorserver\group
+
+notes_source	\component_defs\release.src
+
+ipr E 
+ipr T  \sf\os\lbs\locationmgmt\locmonitor\test

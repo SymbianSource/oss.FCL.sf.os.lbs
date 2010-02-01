@@ -1,0 +1,79 @@
+digraph finite_state_machine {
+	//rankdir=LR;
+	rankdir=TB;
+	ranksep=1.0;
+	orientation=portrait;
+	fontpath="C:\WINNT\Fonts";
+	size="8,8";
+	graph [	fontname = "Times-Bold",fontsize = 24,
+//
+//	Title of the graph
+//
+		label = "Hybrid - LBS - UE-Assisted MT-LR - Accurate GPS Result"];
+//
+	node [shape=box,style="rounded,filled", color=greenyellow, fontsize=16, fontname="Times-Bold"];
+	edge [fontsize=14 fontname="Helvetica"];
+//
+// 	[fontcolor=red color=red fontsize=16]
+//
+
+//
+// List of State
+//
+{ rank = same;
+	Idle [label="Idle"];
+	Priv_Request [label="Performing Privacy Request"];
+	Waiting_MCStartup [label="Waiting for M.C. Startup"]; 
+}
+	UE_Based [label="Performing UE-Based positioning\nunder Hybrid Positioning"];
+	UE_Assisted [label="Performing UE-Assisted positioning\n(UE-Based positioning continue)"];
+	Waiting_MC [label="Waiting for M.C. Release"];
+	End [label="Positioning Ends"];
+//
+// Idle State
+//
+	//Transition to UE-Assisted	
+	Idle -> Priv_Request [fontcolor=red color=red label = "NotifyStartLcsMT-LR/\nStart Privacy Request"];
+//
+// Privacy Request State
+//
+	Priv_Request -> Waiting_MCStartup [fontcolor=red color=red label = "Request Accepted/\nSend Release\n(Request Accepted)"];
+	
+//
+// Waiting for M.C. Startup  State
+//
+	Waiting_MCStartup ->  UE_Based [fontcolor=red color=red label="Receive M.C./\nStart UE Based Positioning\nStart a2,a4"];
+	//Waiting_MCStartup -> Waiting_MC [label = "Receive M.C. && Use Ref Position/\nSend M.R.\n(confidence=0)"];
+//
+// UE Based State
+//
+	//
+	//Transition to UE-Assisted	
+	//
+	UE_Based -> UE_Assisted [fontcolor=red color=red label="Timer a2 expired/\nSend M.R\nReceive M.C.\n(Modify,Reporting Interval=t)\nStart up Timer t"];
+	//
+	//Transition to Waiting for M.C.	
+	//
+	UE_Based -> Waiting_MC [label = "UE-Based success/\nStop UE-Based Positioning,\nSend M.R.\n(confidence=68)"];
+	UE_Based -> Waiting_MC [label = "UE-Based fix (Futile)/\nStop UE-Based Positioning,\nSend M.R.(RefPos)\n(confidence=100)"];
+	
+//
+// UE Assisted State
+//
+
+	//Loopback
+	UE_Assisted:n -> UE_Assisted:w [label="Timer t expired/\nSend M.R,\nrestart timer t"];
+	//
+	//Transition to Waiting for M.C.	
+	//
+	UE_Assisted -> Waiting_MC [label = "timer a4 expired/\nStop UE-Based Positioning,\nSend M.R.\n(confidence=100)"];
+	UE_Assisted -> Waiting_MC [fontcolor=red color=red label = "UE-Based success/\nStop UE-Based Positioning,\nSend M.R.\n(confidence=68)"];
+	UE_Assisted -> Waiting_MC [label = "UE-Based fix (Futile)/\nStop UE-Based Positioning,\nSend M.R.(RefPos)\n(confidence=100)"];
+	UE_Assisted -> End [label = "Receive M.C. Release/\nStop UE-Based Positioning"];
+//
+// End State
+//
+	Waiting_MC -> End [fontcolor=red color=red label = "Receive M.C. Release"];
+	Waiting_MC -> End [label = "M.C. Wait timer expired/nSend M.R.\n(Undefined Error)"];
+
+}

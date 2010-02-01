@@ -1,0 +1,66 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// @file ctlbsclientserver.mmp
+// This is the make file for the LBS Client Tests
+// 
+//
+
+
+
+CAPABILITY WriteDeviceData ReadDeviceData Location ReadUserData WriteUserData AllFiles
+
+TARGET		sflbsclienttestserver.exe
+TARGETTYPE	exe
+UID			0x1000007A 0x10287206
+VENDORID 	0x70000001
+
+
+#include 	"../../../../common/group/ctlbscommon.mmp"
+
+USERINCLUDE		../inc
+USERINCLUDE		../../../../../../datasourcemodules/networkpositioningmodule/inc
+//USERINCLUDE		../../lbsassdata/inc
+
+// Lbs Client framework code.
+SOURCEPATH	../src
+SOURCE	ctlbsclienteventtimer.cpp
+SOURCE	ctlbsclientgetlkpao.cpp
+SOURCE	ctlbsclientnotifyposupdao.cpp
+SOURCE	ctlbsclientobserver.cpp
+SOURCE	ctlbsclientperiodictester.cpp
+SOURCE	ctlbsclientserver.cpp
+SOURCE	ctlbsclientshareddata.cpp
+SOURCE	ctlbsclientstep.cpp
+SOURCE	ctlbsclientstepcellbasednpud.cpp
+SOURCE	ctlbsclientsteplastknownpos.cpp
+SOURCE	ctlbsclientstepmultireq.cpp
+SOURCE	ctlbsclientstepnotifyposupdate.cpp
+SOURCE	ctlbsclientsteptracking.cpp
+SOURCE	ctlbsclientstepupdateoptions.cpp
+
+
+// LBS libraries.
+LIBRARY lbs.lib
+LIBRARY	lbsloccommon.lib
+LIBRARY	lbsadmin.lib
+LIBRARY lbslocdatasource.lib
+LIBRARY lbsnetprotocol.lib
+LIBRARY lbsassistancedata.lib
+
+// LBS test libraries.
+LIBRARY lbstestutils.lib
+LIBRARY lbsnetsim.lib
+LIBRARY	lbstestclient.lib
+
+SMPSAFE

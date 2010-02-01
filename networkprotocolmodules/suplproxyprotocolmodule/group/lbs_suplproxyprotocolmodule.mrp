@@ -1,0 +1,21 @@
+component	lbs_suplproxyprotocolmodule
+
+source \sf\os\lbs\networkprotocolmodules\common
+source \sf\os\lbs\networkprotocolmodules\suplcontrolplaneprotocols
+source \sf\os\lbs\networkprotocolmodules\suplproxyprotocolmodule
+
+binary	\sf\os\lbs\networkprotocolmodules\common\group all
+binary  \sf\os\lbs\networkprotocolmodules\suplcontrolplaneprotocols\common\group all
+binary	\sf\os\lbs\networkprotocolmodules\suplproxyprotocolmodule\group all
+
+exports	\sf\os\lbs\networkprotocolmodules\common\group
+exports	\sf\os\lbs\networkprotocolmodules\suplcontrolplaneprotocols\common\group
+exports	\sf\os\lbs\networkprotocolmodules\suplproxyprotocolmodule\group
+
+notes_source	\component_defs\release.src
+
+ipr E 
+
+ipr T	\sf\os\lbs\networkprotocolmodules\common\test
+ipr T	\sf\os\lbs\networkprotocolmodules\suplcontrolplaneprotocols\common\test
+ipr T	\sf\os\lbs\networkprotocolmodules\suplproxyprotocolmodule\test

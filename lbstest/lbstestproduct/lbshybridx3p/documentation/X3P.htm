@@ -1,0 +1,505 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html;charset=ISO-8859-1" http-equiv="Content-Type">
+  <title>Hybrid LBS Integration Tests Specification - X3P</title>
+  <meta content="PhilippeG" name="author">
+</head>
+<body>
+<big><big>Hybrid LBS Integration Tests Specification - X3P
+<img style="width: 167px; height: 47px;" alt="Symbian Logo" src="logo_symbian.gif"><br>
+
+
+</big></big>
+
+
+  
+
+    
+<table class="MsoNormalTable" style="border-collapse: collapse; width: 633px; height: 208px;" border="0" cellpadding="0" cellspacing="0">
+  <tbody>
+    <tr style="">
+
+
+      <td style="padding: 0cm 5.4pt; width: 144.9pt;" valign="top" width="193">
+      
+      <p class="MsoBodyText" style="margin-bottom: 0.0001pt;"><b style=""><span style="font-size: 12pt; color: windowtext; font-style: normal;">Security
+Classification: </span></b></p>
+
+
+      </td>
+
+
+      <td style="padding: 0cm 5.4pt; width: 306pt;" valign="top" width="408">
+      
+      <p class="Metadata">Symbian Confidential</p>
+
+
+      </td>
+
+
+    </tr>
+
+
+    <tr style="">
+
+
+      <td style="padding: 0cm 5.4pt; width: 144.9pt;" valign="top" width="193">
+      
+      <p class="MetadataTitle">Document Reference:</p>
+
+
+      </td>
+
+
+      <td style="padding: 0cm 5.4pt; width: 306pt;" valign="top" width="408">
+      
+      <p class="Metadata">SGL.GT0346.xxx</p>
+
+
+      </td>
+
+
+    </tr>
+
+
+    <tr style="">
+
+
+      <td style="padding: 0cm 5.4pt; width: 144.9pt;" valign="top" width="193">
+      
+      <p class="MetadataTitle">Status:</p>
+
+
+      </td>
+
+
+      <td style="padding: 0cm 5.4pt; width: 306pt;" valign="top" width="408">
+      
+      <p class="Metadata">Draft</p>
+
+
+      </td>
+
+
+    </tr>
+
+
+    <tr style="">
+
+
+      <td style="padding: 0cm 5.4pt; width: 144.9pt;" valign="top" width="193">
+      
+      <p class="MetadataTitle">Version:</p>
+
+
+      </td>
+
+
+      <td style="padding: 0cm 5.4pt; width: 306pt;" valign="top" width="408">
+      
+      <p class="Metadata">0.1</p>
+
+
+      </td>
+
+
+    </tr>
+
+
+    <tr style="">
+
+
+      <td style="padding: 0cm 5.4pt; width: 144.9pt;" valign="top" width="193">
+      
+      <p class="MetadataTitle">Date:</p>
+
+
+      </td>
+
+
+      <td style="padding: 0cm 5.4pt; width: 306pt;" valign="top" width="408">
+      
+      <p class="Metadata"><date month="11" day="13" year="2006">21 february 2007</date></p>
+
+
+      </td>
+
+
+    </tr>
+
+
+    <tr style="">
+
+
+      <td style="padding: 0cm 5.4pt; width: 144.9pt;" valign="top" width="193">
+      
+      <p class="MetadataTitle">Team/Department :</p>
+
+
+      </td>
+
+
+      <td style="padding: 0cm 5.4pt; width: 306pt;" valign="top" width="408">
+      
+      <p class="Metadata">LBS</p>
+
+
+      </td>
+
+
+    </tr>
+
+
+    <tr style="">
+
+
+      <td style="padding: 0cm 5.4pt; width: 144.9pt;" valign="top" width="193">
+      
+      <p class="MetadataTitle">Author(s):</p>
+
+
+      </td>
+
+
+      <td style="padding: 0cm 5.4pt; width: 306pt;" valign="top" width="408">
+      
+      <p class="Metadata">PhilippeG</p>
+
+
+      </td>
+
+
+    </tr>
+
+
+    <tr style="">
+
+
+      <td style="padding: 0cm 5.4pt; width: 144.9pt;" valign="top" width="193">
+      
+      <p class="MetadataTitle">Owner(s):</p>
+
+
+      </td>
+
+
+      <td style="padding: 0cm 5.4pt; width: 306pt;" valign="top" width="408">
+      
+      <p class="Metadata">Graham Leak</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<hr style="width: 100%; height: 2px;"><a name="Hybrid_X3P_-_Basic"></a><big>Hybrid
+X3P - Basic</big><br>
+
+
+
+
+
+
+  
+
+
+    
+<table style="text-align: left; width: 898px; height: 143px;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+
+
+
+      <td style="background-color: rgb(153, 153, 153);"><big>Test
+Case (Link to State Machine)</big></td>
+
+
+
+      
+
+
+      
+
+
+      <td style="background-color: rgb(153, 153, 153);"><big>Comments</big></td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td><a name="Hybrid_LBS_UE-Based_X3P"></a><a href="Hybrid-UE-BasedMO-LRX3P.svg">Hybrid LBS
+UE-Based X3P</a><br>
+
+
+
+      </td>
+
+
+
+      
+
+
+      
+
+
+      <td></td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td><a name="Hybrid_LBS_UE-Assisted_X3P_Accurate"></a><a href="Hybrid-LBS-UE-AssistedX3P-AccurateGPSResult.svg">Hybrid
+LBS UE-Assisted X3P </a><br>
+
+
+
+      <a href="Hybrid-LBS-UE-AssistedX3P-AccurateGPSResult.svg">Accurate
+GPSResult</a></td>
+
+
+
+      
+
+
+      
+
+
+      <td></td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td><a name="Hybrid_LBS_UE-Assisted_X3P_NoGPSResult"></a><a href="Hybrid-LBS-UE-AssistedX3P-NoGPSResult.svg">Hybrid
+LBS UE-Assisted X3P </a><br>
+
+
+
+      <a href="Hybrid-LBS-UE-AssistedX3P-NoGPSResult.svg">NoGPSResult</a></td>
+
+
+
+      
+
+
+      
+
+
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<big><a name="Hybrid_X3P_-_Advanced"></a>
+Hybrid X3P - Advanced</big><br>
+
+
+
+
+
+
+  
+
+
+    
+<table style="text-align: left; width: 898px; height: 143px;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+
+
+
+      <td style="background-color: rgb(153, 153, 153);"><big>Test
+Case (Link to State Machine)</big></td>
+
+
+
+      
+
+
+      
+
+
+      <td style="background-color: rgb(153, 153, 153);"><big>Comments</big></td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td><a name="x3pAssistNOResFacilityTimeout"></a><a href="Hybrid-LBS-UE-AssistedX3P-NoGPSResultFacilityTimeout.svg">Hybrid
+LBS UE-Assisted X3P<br>
+
+
+
+NoGPSResult</a><br>
+
+
+
+      <a href="Hybrid-LBS-UE-AssistedX3P-NoGPSResultFacilityTimeout.svg">FacilityTimeout</a></td>
+
+
+
+      
+
+
+      
+
+
+      <td></td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td><a name="x3pAssistAccFacilityTimeout"></a><a href="Hybrid-LBS-UE-AssistedX3P-AccurateGPSResultFacilityTimeout.svg">Hybrid
+LBS UE-Assisted X3P<br>
+
+
+
+AccurateGPSResult</a><br>
+
+
+
+      <a href="Hybrid-LBS-UE-AssistedX3P-AccurateGPSResultFacilityTimeout.svg">FacilityTimeout</a></td>
+
+
+
+      
+
+
+      
+
+
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<big><a name="Hybrid_X3P_-_Futile_-_CR1009"></a>
+Hybrid X3P - Futile - (CR1009)<small><br>
+
+
+
+</small></big>
+
+
+
+  
+
+
+    
+<table style="text-align: left; width: 898px; height: 143px;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+
+
+
+      <td style="background-color: rgb(153, 153, 153);"><big>Test
+Case (Link to State Machine)</big></td>
+
+
+
+      
+
+
+      
+
+
+      <td style="background-color: rgb(153, 153, 153);"><big>Comments</big></td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td><a name="Hybrid_LBS_X3P_UE-Based_Futile"></a><a href="Hybrid-LBS-UE-Based-X3P-Futile.svg">Hybrid&nbsp;LBS
+X3P<br>
+
+
+
+UE-Based<br>
+
+
+
+GPS Result Futile</a></td>
+
+
+
+      
+
+
+      
+
+
+      <td></td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td><a name="Hybrid_LBS_X3P_UE-Assisted_Futile"></a><a href="Hybrid-LBS-UE-Assisted-X3P-Futile.svg">Hybrid&nbsp;LBS
+X3P<br>
+
+
+
+UE-Assisted<br>
+
+
+
+GPS Result Futile</a></td>
+
+
+
+      
+
+
+      
+
+
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<br>
+</body>
+</html>

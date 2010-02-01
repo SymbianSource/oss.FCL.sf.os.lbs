@@ -1,0 +1,21 @@
+component	lbs_locationserver
+
+
+source \sf\os\lbs\locationrequestmgmt\locationserver
+source \sf\os\lbs\locationrequestmgmt\locationserver\LbsQualityProfileApi
+source \sf\os\lbs\locationrequestmgmt\locationserver\LbsLocUtils
+source \sf\os\lbs\locationrequestmgmt\locationserver\lbstestpsys
+
+
+
+binary \sf\os\lbs\locationrequestmgmt\locationserver\group all
+exports	\sf\os\lbs\locationrequestmgmt\locationserver\group
+
+notes_source	\component_defs\release.src
+
+ipr E 
+
+
+ipr T  \sf\os\lbs\locationrequestmgmt\locationserver\LbsQualityProfileApi\test
+ipr T  \sf\os\lbs\locationrequestmgmt\locationserver\test\te_locsrv
+ipr T  \sf\os\lbs\locationrequestmgmt\locationserver\lbstestpsys

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testSuite>
+  <name>te_npeintegrationmodulesuite</name>
+  <testItems>
+    <test>te_npeintegrationmoduletest</test>
+  </testItems>
+  <testExecuteServers>
+    <server>te_npeintegrationmodule</server>
+  </testExecuteServers>
+</testSuite>
+

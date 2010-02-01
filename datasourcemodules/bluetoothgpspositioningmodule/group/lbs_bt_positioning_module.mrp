@@ -1,0 +1,11 @@
+component	lbs_bt_positioning_module
+
+source \sf\os\lbs\datasourcemodules\bluetoothgpspositioningmodule
+
+binary	\sf\os\lbs\datasourcemodules\bluetoothgpspositioningmodule\group all
+
+exports	\sf\os\lbs\datasourcemodules\bluetoothgpspositioningmodule\group
+
+notes_source	\component_defs\release.src
+
+ipr E 

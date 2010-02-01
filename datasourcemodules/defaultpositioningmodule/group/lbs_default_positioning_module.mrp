@@ -1,0 +1,13 @@
+component	lbs_default_positioning_module
+
+source \sf\os\lbs\datasourcemodules\defaultpositioningmodule
+
+binary	\sf\os\lbs\datasourcemodules\defaultpositioningmodule\group all
+
+exports	\sf\os\lbs\datasourcemodules\defaultpositioningmodule\group
+
+notes_source	\component_defs\release.src
+
+ipr E 
+ipr T	\sf\os\lbs\datasourcemodules\defaultpositioningmodule\test
+

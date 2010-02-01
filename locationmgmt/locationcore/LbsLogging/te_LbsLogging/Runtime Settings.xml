@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<?codewarrior exportversion="1.0" ideversion="5.5" ?>
+
+<!DOCTYPE EXPORTEDPANEL [
+<!ELEMENT EXPORTEDPANEL (NAME, (SETTINGLIST|VALUE))>
+<!ELEMENT SETTINGLIST (SETTING+)>
+<!ELEMENT SETTING (NAME?, (VALUE|(SETTING+)))>
+<!ELEMENT NAME (#PCDATA)>
+<!ELEMENT VALUE (#PCDATA)>
+]>
+
+<EXPORTEDPANEL>
+    <NAME>Debugger Runtime</NAME>
+    <SETTINGLIST>
+        <SETTING><NAME>MWRuntimeSettings_WorkingDirectory</NAME><VALUE></VALUE></SETTING>
+        <SETTING><NAME>MWRuntimeSettings_CommandLine</NAME><VALUE>\testdata\scripts\te_LbsLoggingSuite.script</VALUE></SETTING>
+        <SETTING><NAME>MWRuntimeSettings_HostApplication</NAME>
+            <SETTING><NAME>Path</NAME><VALUE>EPOC32\RELEASE\WINSCW\UDEB\testexecute.exe</VALUE></SETTING>
+            <SETTING><NAME>PathFormat</NAME><VALUE>Windows</VALUE></SETTING>
+            <SETTING><NAME>PathRoot</NAME><VALUE>drive E</VALUE></SETTING>
+        </SETTING>
+        <SETTING><NAME>MWRuntimeSettings_EnvVars</NAME><VALUE></VALUE></SETTING>
+    </SETTINGLIST>
+</EXPORTEDPANEL>

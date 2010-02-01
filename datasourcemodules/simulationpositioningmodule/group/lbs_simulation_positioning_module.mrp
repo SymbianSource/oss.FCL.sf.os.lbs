@@ -1,0 +1,11 @@
+component lbs_simulation_positioning_module
+
+source \sf\os\lbs\datasourcemodules\simulationpositioningmodule
+
+binary \sf\os\lbs\datasourcemodules\simulationpositioningmodule\group all
+
+exports	\sf\os\lbs\datasourcemodules\simulationpositioningmodule\group
+
+notes_source \component_defs\release.src
+
+ipr T

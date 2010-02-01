@@ -1,0 +1,65 @@
+// Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+TARGET      te_suplrrlpasnsuite.exe
+TARGETTYPE  exe
+UID 0x1000007A 0x10285AAC
+
+//Please add any change under here
+SOURCEPATH  ../src
+SOURCE		te_suplrrlpasnsuiteserver.cpp
+SOURCE	    te_suplrrlpasnsuitestepbase.cpp
+SOURCE      suplrrlpasn0step.cpp
+SOURCE      suplrrlpasn1step.cpp
+SOURCE      suplrrlpasn2step.cpp
+SOURCE      suplrrlpasn3step.cpp
+SOURCE      suplrrlpasn4step.cpp
+SOURCE      suplrrlpasn5step.cpp
+SOURCE      suplrrlpasn6step.cpp
+SOURCE      suplrrlpasn7step.cpp
+SOURCE      suplrrlpasn8step.cpp
+SOURCE      suplrrlpasn9step.cpp
+SOURCE      suplrrlpasn10step.cpp
+SOURCE      suplrrlpasn11step.cpp
+SOURCE      suplrrlpasn12step.cpp
+
+// test source path:
+USERINCLUDE   	../src
+// spoof server (message generator, checker):
+USERINCLUDE		../../../../test/suplspoofserver/inc
+// the suplrrlpasn1 module under test:
+USERINCLUDE		../../../inc
+USERINCLUDE		../../../../../../locationmgmt/locationcore/LbsPartnerCommon/inc
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY		euser.lib
+LIBRARY		testexecuteutils.lib 
+LIBRARY		testexecutelogclient.lib 
+
+//Please add your libraries under here. For example:
+LIBRARY		suplrrlpasn1.lib
+LIBRARY		suplspoofserver.lib
+
+// lbs libraries
+LIBRARY		lbsnetprotocol.lib
+LIBRARY		lbsloccommon.lib
+LIBRARY		lbs.lib
+LIBRARY		lbsassistancedata.lib 
+
+
+
+
+SMPSAFE

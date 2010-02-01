@@ -1,0 +1,22 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// bld.inf file for basic test framework
+//
+
+#include "../sflbsclient/group/bld.inf"
+#include "../sflbshybridmolr/group/bld.inf"
+#include "../sflbshybridmtlr/group/bld.inf"
+#include "../sflbshybridx3p/group/bld.inf"
+#include "../sflbsmtlr/group/bld.inf"
+#include "../sflbsx3p/group/bld.inf"

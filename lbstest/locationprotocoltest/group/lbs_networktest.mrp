@@ -1,0 +1,16 @@
+component	lbs_networktest
+
+source \sf\os\lbs\lbstest\locationprotocoltest
+source \sf\os\lbs\networkprotocolmodules\networkprotocolmodule\LbsAssistanceDataSourceInterface
+source \sf\os\lbs\networkprotocolmodules\networkprotocolmodule\LbsNetSim
+source \sf\os\lbs\networkprotocolmodules\networkprotocolmodule\LbsProtocolModule
+source \sf\os\lbs\networkprotocolmodules\networkprotocolmodule\suplasn1
+source \sf\os\lbs\networkprotocolmodules\networkprotocolmodule\LbsSuplTestProtocol
+
+binary	\sf\os\lbs\lbstest\locationprotocoltest\group all
+exports	\sf\os\lbs\lbstest\locationprotocoltest\group
+
+notes_source	\component_defs\release.src
+
+
+ipr T 

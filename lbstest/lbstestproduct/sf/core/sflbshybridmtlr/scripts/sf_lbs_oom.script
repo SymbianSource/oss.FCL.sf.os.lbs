@@ -1,0 +1,105 @@
+//! @File
+//! @SYMTestSuiteName	SF-LBS-HYBRIDMTLR-OOM
+//! @SYMScriptTestEnvironment TEF
+//
+//Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
+//All rights reserved.
+//This component and the accompanying materials are made available
+//under the terms of "Eclipse Public License v1.0"
+//which accompanies this distribution, and is available
+//at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+//Initial Contributors:
+//Nokia Corporation - initial contribution.
+//
+//Contributors:
+//
+//Description:
+//The following tests ensure network induced emergency and  MTLR emergencys requests are completed succesfully under OOM
+//The hybrid protocol module test framework is used, where the test code interacts with the protocol module API (to process simulated network activity) and the privacy controller API (to response to privacy notifications).
+//We are only adding NRH and AGPSMANAGER in the OOM listner loop.
+
+LOAD_SUITE SfLbsHybridMTLRTestServer -SharedData
+
+PRINT Run SfLbsHybridMTLRTestServer
+
+
+// Before we start LBS, select the test A-GPS integration module to use.
+PREFIX RUN_UTILS
+MkDir c:\private\10282253\
+MkDir c:\private\10282253\lbs\
+MkDir c:\private\10282253\lbs\locmods\
+CopyFile c:\testdata\configs\ctagpshybridmoduledatasource.ini c:\private\10282253\lbs\locmods\agpsintegmodule.ini
+CopyFile c:\testdata\configs\lbstestconfig.txt c:\config.txt
+REMOVE_PREFIX
+
+// Reset admin (reset will give us the EGpsPreferTerminalBased).
+RUN_TEST_STEP 010 SfLbsHybridMTLRTestServer LbsStep_ResetDefaultAdmin
+
+// Select MTLR privacy controller.
+RUN_TEST_STEP 010 SfLbsHybridMTLRTestServer LbsStep_SetPrivacyHandler c:\testdata\configs\sf_lbs_mtlr.ini PrivHandler
+
+// Use hybrid protocol module
+RUN_TEST_STEP 010 SfLbsHybridMTLRTestServer LbsStep_SetupProtocolStub
+
+// Now start LBS
+RUN_TEST_STEP 030 SfLbsHybridMTLRTestServer LbsStep_StartLbs
+
+
+
+START_TESTCASE                SFLBS-OOM-0001
+//! @SYMTestCaseID              SFLBS-OOM-0001
+//! @SYMTestCaseDesc            Performs a emergency MTLR, where the NRH invokes an accepted privacy request under OOM.
+//!                             Request = Normal MTLR
+//!                             Service = EServiceMobileTerminated
+//!                             Emergency = On
+//!                             Admin = On
+//!                             Response = Accept
+//! @SYMTestPriority            High
+//! @SYMTestActions             1. Set oom property ETrue
+//!                             2. Start a emergency location request (EServiceMobileTerminated) from the protocol module.
+//!                             3. Ensure the privacy controller is notified correctly with ENotifyLocationAccepted.
+//!                             4. Ensure the controller is sent the reference and a-gps positions.
+//!                             5. Ensure the a-gps position is sent to the protocol module.
+//!                             6. Send session complete from the protocol module.
+//! @SYMTestExpectedResults     Verify actions 2 (notification), 3 (reference + a-gps position privacy notifier), and 4 (a-gps position to network)
+//! @SYMTestType                CIT
+//! @SYMCreationDate            14/5/2009
+//! @SYMAuthor                  Padma
+//! @SYMTestStatus              3. Released
+RUN_TEST_STEP 010 SfLbsHybridMTLRTestServer LbsStep_InstallScheduler
+// Configure Hybrid AGps module options
+RUN_TEST_STEP 20 SfLbsHybridMTLRTestServer LbsStep_ConfigHybridModule c:\testdata\configs\sf_lbs_mtlr.ini NetworkInduced
+RUN_TEST_STEP 60 SfLbsHybridMTLRTestServer LbsOom c:\testdata\configs\sf_lbs_mtlr.ini MTLR_EmergencyOn_AdminAny
+END_TESTCASE                 SFLBS-OOM-0001
+
+
+START_TESTCASE                SFLBS-OOM-0002
+//! @SYMTestCaseID              SFLBS-OOM-0002
+//! @SYMTestCaseDesc            Performs a network induced emergency location request, where the NRH invokes an accepted privacy request under OOM
+//!                             Request = Network induced
+//!                             Service = EServiceNetworkInduced
+//!                             Emergency = On
+//!                             Admin = Any
+//!                             Response = Accept
+//! @SYMTestPriority            High
+//! @SYMTestActions             1. Set oom property ETrue
+//!                             2. Start a emergency location request (EServiceNetworkInduced) from the protocol module.
+//!                             3. Ensure the privacy controller is notified correctly with ENotifyLocationAccepted.
+//!                             4. Ensure the controller is sent a-gps position.
+//!                             5. Ensure the a-gps position is sent to the protocol module.
+//!                             6. Send session complete from the protocol module.
+//! @SYMTestExpectedResults     Verify actions 2 (notification), 3 (a-gps position privacy notifier), and 4 (a-gps position to network)
+//! @SYMTestType                CIT
+//! @SYMCreationDate            14/5/2009
+//! @SYMAuthor                  Padma
+//! @SYMTestStatus              3. Released
+RUN_TEST_STEP 010 SfLbsHybridMTLRTestServer LbsStep_InstallScheduler
+// Configure Hybrid AGps module options
+RUN_TEST_STEP 20 SfLbsHybridMTLRTestServer LbsStep_ConfigHybridModule c:\testdata\configs\sf_lbs_mtlr.ini NetworkInduced
+RUN_TEST_STEP 120 SfLbsHybridMTLRTestServer LbsOom c:\testdata\configs\sf_lbs_mtlr.ini NetworkInduced_EmergencyOn_AdminAny
+END_TESTCASE                  SFLBS-OOM-0002
+RUN_TEST_STEP 020 SfLbsHybridMTLRTestServer LbsStep_StopLbs
+RUN_UTILS DeleteFile c:\private\10282253\lbs\locmods\agpsintegmodule.ini
+
+

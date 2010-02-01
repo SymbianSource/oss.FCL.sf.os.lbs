@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testExecuteServer>
+  <name>te_npeintegrationmodule</name>
+  <mmpFile>te_npeintegrationmodule.mmp</mmpFile>
+  <bldInfPath>datasourcemodules\npeintegmodule\npeplugin\test\te_npeintegrationmodule\group\bld.inf</bldInfPath>
+
+	<dependencies>
+
+		<build type="test">
+	   		<hostPath>npeclientstub.dll</hostPath>
+      		<devicePath>c:\system\libs\npeclientstub.dll</devicePath>
+   			<mmpFile>npeclientstub.mmp</mmpFile>
+   			<bldInfPath>datasourcemodules\npeintegmodule\npeplugin\test\npeclientstub\group\bld.inf</bldInfPath>
+   		</build>
+
+	</dependencies>
+ </testExecuteServer>

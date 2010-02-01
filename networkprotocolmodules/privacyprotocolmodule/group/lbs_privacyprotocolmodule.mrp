@@ -1,0 +1,11 @@
+component	lbs_privacyprotocolmodule
+
+source \sf\os\lbs\networkprotocolmodules\privacyprotocolmodule
+binary	\sf\os\lbs\networkprotocolmodules\privacyprotocolmodule\group all
+exports	\sf\os\lbs\networkprotocolmodules\privacyprotocolmodule\group
+
+notes_source	\component_defs\release.src
+
+ipr E 
+
+ipr T	\sf\os\lbs\networkprotocolmodules\privacyprotocolmodule\test

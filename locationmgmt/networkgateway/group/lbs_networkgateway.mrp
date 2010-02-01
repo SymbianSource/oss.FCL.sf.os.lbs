@@ -1,0 +1,13 @@
+component	lbs_networkgateway
+
+source \sf\os\lbs\locationmgmt\networkgateway
+
+
+binary	\sf\os\lbs\locationmgmt\networkgateway\group all
+exports	\sf\os\lbs\locationmgmt\networkgateway\group
+
+notes_source	\component_defs\release.src
+
+ipr E 
+ipr T  \sf\os\lbs\locationmgmt\networkgateway\test
+

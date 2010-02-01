@@ -1,0 +1,23 @@
+EXPORTS
+	?OpenL@RLbsLocMonitorAreaPositioner@@QAEXAAVRLbsLocMonitorSession@@@Z @ 1 NONAME ; void RLbsLocMonitorAreaPositioner::OpenL(class RLbsLocMonitorSession &)
+	?ConstructL@RLbsLocMonitorAreaPositioner@@MAEXXZ @ 2 NONAME ; void RLbsLocMonitorAreaPositioner::ConstructL(void)
+	?ConstructL@CLbsLocMonitorPtrHolder@@IAEXHH@Z @ 3 NONAME ; void CLbsLocMonitorPtrHolder::ConstructL(int, int)
+	?PtrC@CLbsLocMonitorPtrHolder@@QAEAAVTPtrC8@@H@Z @ 4 NONAME ; class TPtrC8 & CLbsLocMonitorPtrHolder::PtrC(int)
+	?CancelDatabaseWipeOut@RLbsLocMonitorSession@@QBEHXZ @ 5 NONAME ; int RLbsLocMonitorSession::CancelDatabaseWipeOut(void) const
+	?Ptr@CLbsLocMonitorPtrHolder@@QAEAAVTPtr8@@H@Z @ 6 NONAME ; class TPtr8 & CLbsLocMonitorPtrHolder::Ptr(int)
+	?GetLastKnownPosition@RLbsLocMonitorAreaPositioner@@QBEXAAVTPositionInfoBase@@AAVTRequestStatus@@@Z @ 7 NONAME ; void RLbsLocMonitorAreaPositioner::GetLastKnownPosition(class TPositionInfoBase &, class TRequestStatus &) const
+	?Close@RLbsLocMonitorSession@@UAEXXZ @ 8 NONAME ; void RLbsLocMonitorSession::Close(void)
+	?Destruct@RLbsLocMonitorAreaPositioner@@MAEXXZ @ 9 NONAME ; void RLbsLocMonitorAreaPositioner::Destruct(void)
+	?GetLastKnownPositionArea@RLbsLocMonitorAreaPositioner@@QBEXAAVTPositionInfoBase@@AAVTPositionAreaInfoBase@@AAVTPosAreaReqParams@@AAVTRequestStatus@@@Z @ 10 NONAME ; void RLbsLocMonitorAreaPositioner::GetLastKnownPositionArea(class TPositionInfoBase &, class TPositionAreaInfoBase &, class TPosAreaReqParams &, class TRequestStatus &) const
+	?CancelGetLastKnownPositionArea@RLbsLocMonitorAreaPositioner@@QBEHXZ @ 11 NONAME ; int RLbsLocMonitorAreaPositioner::CancelGetLastKnownPositionArea(void) const
+	?NewL@CLbsLocMonitorPtrHolder@@SAPAV1@HH@Z @ 12 NONAME ; class CLbsLocMonitorPtrHolder * CLbsLocMonitorPtrHolder::NewL(int, int)
+	??0RLbsLocMonitorAreaPositioner@@QAE@XZ @ 13 NONAME ; RLbsLocMonitorAreaPositioner::RLbsLocMonitorAreaPositioner(void)
+	?CancelGetLastKnownPosition@RLbsLocMonitorAreaPositioner@@QBEHXZ @ 14 NONAME ; int RLbsLocMonitorAreaPositioner::CancelGetLastKnownPosition(void) const
+	??0RLbsLocMonitorSession@@QAE@XZ @ 15 NONAME ; RLbsLocMonitorSession::RLbsLocMonitorSession(void)
+	?WipeOutDatabase@RLbsLocMonitorSession@@QBEXAAVTRequestStatus@@@Z @ 16 NONAME ; void RLbsLocMonitorSession::WipeOutDatabase(class TRequestStatus &) const
+	?Close@RLbsLocMonitorAreaPositioner@@UAEXXZ @ 17 NONAME ; void RLbsLocMonitorAreaPositioner::Close(void)
+	??1CLbsLocMonitorPtrHolder@@UAE@XZ @ 18 NONAME ; CLbsLocMonitorPtrHolder::~CLbsLocMonitorPtrHolder(void)
+	?Connect@RLbsLocMonitorSession@@QAEHXZ @ 19 NONAME ; int RLbsLocMonitorSession::Connect(void)
+	?Version@RLbsLocMonitorSession@@UAE?AVTVersion@@XZ @ 20 NONAME ; class TVersion RLbsLocMonitorSession::Version(void)
+	?SetLastKnownPosition@RLbsLocMonitorAreaPositioner@@QBEHABVTPositionInfoBase@@@Z @ 21 NONAME ; int RLbsLocMonitorAreaPositioner::SetLastKnownPosition(class TPositionInfoBase const &) const
+

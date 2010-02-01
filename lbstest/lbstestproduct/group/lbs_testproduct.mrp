@@ -1,0 +1,15 @@
+component	lbs_testproduct
+
+source \sf\os\lbs\lbstest\lbstestproduct\test_group
+source \sf\os\lbs\lbstest\lbstestproduct\internal
+source \sf\os\lbs\lbstest\lbstestproduct\tdxml
+source \sf\os\lbs\lbstest\lbstestproduct
+source \sf\os\lbs\lbstest\lbstestproduct\cit
+source \sf\os\lbs\lbstest\lbstestproduct\ut
+
+exports	\sf\os\lbs\lbstest\lbstestproduct\group
+
+notes_source	\component_defs\release.src
+
+ipr T 
+ipr B \sf\os\lbs\lbstest\lbstestproduct\supl\mtlr\real\testdata

@@ -1,0 +1,605 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+
+
+
+
+
+
+
+
+
+<head>
+
+
+
+  
+  
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
+
+  
+  
+  <title>GT0346 Hybrid LBS Integration Tests</title>
+
+
+
+
+</head>
+
+
+
+
+
+
+
+
+
+
+<body>
+
+
+
+<div style="text-align: center;">
+<div style="text-align: left;"><big><big>Hybrid
+LBS Integration Tests Specification
+<img style="width: 167px; height: 47px;" alt="Symbian Logo" src="logo_symbian.gif" /><br />
+
+
+
+</big></big>
+<table class="MsoNormalTable" style="border-collapse: collapse; width: 633px; height: 208px;" border="0" cellpadding="0" cellspacing="0">
+
+
+
+  <tbody>
+
+
+
+    <tr style="">
+
+
+
+      <td style="padding: 0cm 5.4pt; width: 144.9pt;" valign="top" width="193">
+      
+      
+      <p class="MsoBodyText" style="margin-bottom: 0.0001pt;"><b style=""><span style="font-size: 12pt; color: windowtext; font-style: normal;">Security
+Classification: </span></b></p>
+
+
+
+      </td>
+
+
+
+      <td style="padding: 0cm 5.4pt; width: 306pt;" valign="top" width="408">
+      
+      
+      <p class="Metadata">Symbian Confidential</p>
+
+
+
+      </td>
+
+
+
+    </tr>
+
+
+
+    <tr style="">
+
+
+
+      <td style="padding: 0cm 5.4pt; width: 144.9pt;" valign="top" width="193">
+      
+      
+      <p class="MetadataTitle">Document Reference:</p>
+
+
+
+      </td>
+
+
+
+      <td style="padding: 0cm 5.4pt; width: 306pt;" valign="top" width="408">
+      
+      
+      <p class="Metadata">SGL.GT0346.200</p>
+
+
+
+      </td>
+
+
+
+    </tr>
+
+
+
+    <tr style="">
+
+
+
+      <td style="padding: 0cm 5.4pt; width: 144.9pt;" valign="top" width="193">
+      
+      
+      <p class="MetadataTitle">Status:</p>
+
+
+
+      </td>
+
+
+
+      <td style="padding: 0cm 5.4pt; width: 306pt;" valign="top" width="408">
+      
+      
+      <p class="Metadata">Draft</p>
+
+
+
+      </td>
+
+
+
+    </tr>
+
+
+
+    <tr style="">
+
+
+
+      <td style="padding: 0cm 5.4pt; width: 144.9pt;" valign="top" width="193">
+      
+      
+      <p class="MetadataTitle">Version:</p>
+
+
+
+      </td>
+
+
+
+      <td style="padding: 0cm 5.4pt; width: 306pt;" valign="top" width="408">
+      
+      
+      <p class="Metadata">0.1</p>
+
+
+
+      </td>
+
+
+
+    </tr>
+
+
+
+    <tr style="">
+
+
+
+      <td style="padding: 0cm 5.4pt; width: 144.9pt;" valign="top" width="193">
+      
+      
+      <p class="MetadataTitle">Date:</p>
+
+
+
+      </td>
+
+
+
+      <td style="padding: 0cm 5.4pt; width: 306pt;" valign="top" width="408">
+      
+      
+      <p class="Metadata"><date month="11" day="13" year="2006">21 february 2007</date></p>
+
+
+
+      </td>
+
+
+
+    </tr>
+
+
+
+    <tr style="">
+
+
+
+      <td style="padding: 0cm 5.4pt; width: 144.9pt;" valign="top" width="193">
+      
+      
+      <p class="MetadataTitle">Team/Department :</p>
+
+
+
+      </td>
+
+
+
+      <td style="padding: 0cm 5.4pt; width: 306pt;" valign="top" width="408">
+      
+      
+      <p class="Metadata">LBS</p>
+
+
+
+      </td>
+
+
+
+    </tr>
+
+
+
+    <tr style="">
+
+
+
+      <td style="padding: 0cm 5.4pt; width: 144.9pt;" valign="top" width="193">
+      
+      
+      <p class="MetadataTitle">Author(s):</p>
+
+
+
+      </td>
+
+
+
+      <td style="padding: 0cm 5.4pt; width: 306pt;" valign="top" width="408">
+      
+      
+      <p class="Metadata">PhilippeG</p>
+
+
+
+      </td>
+
+
+
+    </tr>
+
+
+
+    <tr style="">
+
+
+
+      <td style="padding: 0cm 5.4pt; width: 144.9pt;" valign="top" width="193">
+      
+      
+      <p class="MetadataTitle">Owner(s):</p>
+
+
+
+      </td>
+
+
+
+      <td style="padding: 0cm 5.4pt; width: 306pt;" valign="top" width="408">
+      
+      
+      <p class="Metadata">Graham Leak</p>
+
+
+
+      </td>
+
+
+
+    </tr>
+
+
+
+  
+  
+  </tbody>
+</table>
+
+
+
+<p class="MsoBodyText" style="margin-bottom: 0.0001pt;"><b style=""><span style="font-size: 14pt; color: windowtext; font-style: normal;">
+<p>&nbsp;</p>
+
+
+
+</span></b></p>
+
+
+
+<br />
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+<big><big>
+</big></big><br />
+
+
+
+<big>
+Basic - Hybrid LBS Integration Tests (PREQ1624)<br />
+
+
+
+</big><big>Hybrid MTLR - Basic</big><br />
+
+
+
+<a href="../lbshybridmtlr/documentation/mtlr.htm#HybridUEBasedMTLR">Hybrid-UE-Based
+MT-LR</a><br />
+
+
+
+<a href="../lbshybridmtlr/documentation/mtlr.htm#HybridUEAssistedMTLRAccurate">Hybrid
+LBS UE-Assisted MT-LR AccurateGPSResult</a><br />
+
+
+
+<a href="../lbshybridmtlr/documentation/mtlr.htm#HybridUEAssistedMTLRNoGPSResult">Hybrid
+UE-Assisted MT-LR NoGPSResult</a><br />
+
+
+
+<a href="../lbshybridmtlr/documentation/mtlr.htm#HybridLBSUEAssistedMTLRInaccurate">Hybrid
+LBS UE-Assisted MT-LR InaccurateGPSResult</a><br />
+
+
+
+<br />
+
+
+
+<big>Hybrid X3P - Basic</big><br />
+
+
+
+<a href="../lbshybridx3p/documentation/x3p.htm#Hybrid_LBS_UE-Based_X3P">Hybrid
+LBS UE-Based X3P</a><br />
+
+
+
+<a href="../lbshybridx3p/documentation/x3p.htm#Hybrid_LBS_UE-Assisted_X3P_Accurate">Hybrid
+LBS UE-Assisted X3P Accurate GPSResult</a><br />
+
+
+
+<a href="../lbshybridx3p/documentation/x3p.htm#Hybrid_LBS_UE-Assisted_X3P_NoGPSResult">Hybrid
+LBS UE-Assisted X3P NoGPSResult</a><br />
+
+
+
+<br />
+
+
+
+<br />
+
+
+
+<big>Hybrid MOLR - Basic</big><br />
+
+
+
+<a href="../lbshybridmolr/documentation/molr.htm#Hybrid_UE-BasedMO-LRSelf">Hybrid
+UE-Based MO-LR Self</a><br />
+
+
+
+<a href="../lbshybridmolr/documentation/molr.htm#Hybrid_LBS_UE-Assisted_MO-LR_Accurate">Hybrid
+LBS UE-Assisted MO-LR Accurate GPS Result</a><br />
+
+
+
+UE Based Position error radius &lt; Ref Position<br />
+
+
+
+<a href="../lbshybridmolr/documentation/molr.htm#Hybrid_LBS_UE-Assisted_MO-LR_Late">Hybrid
+LBS UE-Assisted MO-LR Late GPSResult</a><br />
+
+
+
+<a href="../lbshybridmolr/documentation/molr.htm#Hybrid_LBS_UE-Assisted_MO-LR_Innacurate">Hybrid
+LBS UE-Assisted MO-LR Inaccurate GPSResult</a><br />
+
+
+
+<br />
+
+
+
+<big>
+Advanced - Hybrid LBS Integration Tests (PREQ1624)<br />
+
+
+
+</big><big>Hybrid
+MTLR - Advanced</big><br />
+
+
+
+<a href="../lbshybridmtlr/documentation/mtlr.htm#HybridMTLRAssistAccurateMCTimeout">Hybrid
+LBS UE-Assisted MT-LR AccurateGPSResult MCReleaseTimeout</a><br />
+
+
+
+<br />
+
+
+
+<big>Hybrid X3P - Advanced</big><br />
+
+
+
+<a href="../lbshybridx3p/documentation/x3p.htm#x3pAssistNOResFacilityTimeout">Hybrid
+LBS UE-Assisted X3P NoGPSResult FacilityTimeout</a><br />
+
+
+
+<a href="../lbshybridx3p/documentation/x3p.htm#x3pAssistAccFacilityTimeout">Hybrid
+LBS UE-Assisted X3P AccurateGPSResult FacilityTimeout</a><br />
+
+
+
+<br />
+
+
+
+<big>Hybrid MOLR - Advanced</big><br />
+
+
+
+<a href="../lbshybridmolr/documentation/molr.htm#MO-LR_Accurate_PosQualityLTRefPos"></a><a href="../lbshybridmolr/documentation/molr.htm#MOLRLateResFacilityTimeout">Hybrid
+LBS UE-Assisted MO-LR LateGPSResult Facility Timeout</a><br />
+
+
+
+<a href="../lbshybridmolr/documentation/molr.htm#MOLRAssistInnacFacilityTimeout">Hybrid
+LBS UE-Assisted MO-LR InaccurateGPSResult Facility Timeout</a><br />
+
+
+
+<br />
+
+
+
+<big>
+Futile - Hybrid LBS Integration Tests (CR1009)<br />
+
+
+
+</big><big>Hybrid
+MTLR - Futile - (CR1009)</big><br />
+
+
+
+<a href="../lbshybridmtlr/documentation/mtlr.htm#HybridMTLRUEBasedFutile">Hybrid
+LBS MTLR UE Based Futile</a><br />
+
+
+
+<a href="../lbshybridmtlr/documentation/mtlr.htm#HybridMTLRUEAssistedFutile">Hybrid
+LBS MTLR UE Assisted Futile</a><br />
+
+
+
+<br />
+
+
+
+<big>Hybrid X3P - Futile - (CR1009)</big><br />
+
+
+
+<a href="../lbshybridx3p/documentation/x3p.htm#Hybrid_LBS_X3P_UE-Based_Futile">Hybrid
+LBS X3P UE-Based GPS Result Futile</a><br />
+
+
+
+<a href="../lbshybridx3p/documentation/x3p.htm#Hybrid_LBS_X3P_UE-Assisted_Futile">Hybrid
+LBS X3P UE-Assisted GPS Result Futile</a><br />
+
+
+
+<span style="text-decoration: underline;"><br />
+
+
+
+</span><big>Hybrid MOLR - Futile - (CR1009)</big><br />
+
+
+
+<a href="../lbshybridmolr/documentation/molr.htm#MOLR_UE-Autonomous_-_Futile">Hybrid LBS MOLR UE-Autonomous - Futile</a><br />
+
+
+<a href="../lbshybridmolr/documentation/molr.htm#Hybrid_LBS_MOLR_UE_Based_Futile">Hybrid
+LBS MOLR UE Based&nbsp;-Futile</a><br />
+
+
+
+<a href="../lbshybridmolr/documentation/molr.htm#Hybrid_LBS_MOLR_UE-Assisted-Futile">Hybrid
+LBS MOLR UE-Assisted-Futile</a><br />
+
+
+
+<a href="../lbshybridmolr/documentation/molr.htm#MOLR_UE-Assisted-Futile_FacilityTimeout">Hybrid
+LBS MOLR UE-Assisted-Futile Facility Timeout</a><br />
+
+
+
+<br />
+
+
+
+<big>
+Partial Update - LBS Integration Tests (CR1010)<br />
+
+
+
+<small>MOLR CR1010 - Autonomous and Assisted Modes Partial Update
+- Cases<br />
+
+
+
+</small></big><br />
+
+
+
+<big>Hybrid MOLR - Partial Update - (CR1010)</big><br />
+
+
+
+<a href="../lbshybridmolr/documentation/molr.htm#MOLR_UE-Based_Partial_Update">UE-Based
+Partial Update - Stop Normal</a><br />
+
+
+<a href="../lbshybridmolr/documentation/molr.htm#MOLR_UE-Based_Partial_Update_return_RefPos">Hybrid
+LBS MOLR UE-Based Partial Update - return Ref Pos</a><br />
+
+
+
+<a href="../lbshybridmolr/documentation/molr.htm#MOLR_UE-Based_Partial_Update_BeforeRefPos">UE-Based
+Partial Update - Stop Before Ref Pos</a><br />
+
+
+
+<a href="../lbshybridmolr/documentation/molr.htm#MOLR_UE-Assisted_Partial_Update">Hybrid
+LBS MOLR UE-Assisted Partial Update - Stop</a>
+<hr style="width: 100%; height: 2px;" /><br />
+
+
+<br />
+
+
+
+<br />
+
+
+
+</body>
+
+
+
+
+
+
+
+
+
+
+</html>
