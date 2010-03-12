@@ -30,6 +30,11 @@
 
 //TODO Verify
 #include "EPos_CPosLocMonitorReqHandlerHub.h"
+#include "OstTraceDefinitions.h"
+#ifdef OST_TRACE_COMPILER_IN_USE
+#include "EPos_CPositionRequestTraces.h"
+#endif
+
 
 
 
@@ -435,6 +440,7 @@ TInt CPositionRequest::RunError(TInt /*aError*/)
  */
 void CPositionRequest::DoCancel()
     {
+    OstTraceFunctionEntry1( CPOSITIONREQUEST_DOCANCEL_ENTRY, this );
     LBS_RDEBUG_VAR_INT("CPositionRequest::DoCancel() iRequestPhase", iRequestPhase);
     iTimeoutTimer->Cancel();
 
@@ -482,6 +488,7 @@ void CPositionRequest::DoCancel()
         }
 
     iRequestPhase = EPosReqInactive;
+    OstTraceFunctionExit1( CPOSITIONREQUEST_DOCANCEL_EXIT, this );
     }
 
 

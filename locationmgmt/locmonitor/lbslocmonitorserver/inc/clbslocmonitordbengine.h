@@ -68,6 +68,7 @@ private:
 	RSqlStatement iSqlSaveStatement;
 	TRequestStatus* iClientStatus;
 	
+	TBool iDBInitialised;
 	TInt iLastMcc;
 	TInt iLastMnc;
 	TInt iLastLac;

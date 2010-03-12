@@ -22,6 +22,11 @@
 
 #include "lbslocservermessageenums.h"
 #include "LbsPtrHolder.h"
+#include "OstTraceDefinitions.h"
+#ifdef OST_TRACE_COMPILER_IN_USE
+#include "LbsPositionerTraces.h"
+#endif
+
 
 #ifdef _DEBUG
     #include <e32debug.h>
@@ -39,6 +44,8 @@ EXPORT_C RPositionServer::RPositionServer()
     iPtrHolder(NULL),
     iReserved(NULL)
 	{
+	OstTraceFunctionEntry1( RPOSITIONSERVER_RPOSITIONSERVER_ENTRY, this );
+	OstTraceFunctionExit1( RPOSITIONSERVER_RPOSITIONSERVER_EXIT, this );
 	}
 
 /**
@@ -47,9 +54,11 @@ Symbian 2nd phase constructor can leave.
 */
 void RPositionServer::ConstructL()
 	{
+	OstTraceFunctionEntry1( RPOSITIONSERVER_CONSTRUCTL_ENTRY, this );
 	__ASSERT_ALWAYS(iPtrHolder == NULL, User::Panic(KPosClientFault, EPositionServerHandleNotClosed));
 
 	iPtrHolder = CServerPositioningPtrHolder::NewL(1, 1);
+	OstTraceFunctionExit1( RPOSITIONSERVER_CONSTRUCTL_EXIT, this );
 	}
 
 /**
@@ -58,8 +67,10 @@ Destruction method for RPositionServer. Just deletes the ptr-holder.
 */
 void RPositionServer::Destruct()
 	{
+	OstTraceFunctionEntry1( RPOSITIONSERVER_DESTRUCT_ENTRY, this );
 	delete iPtrHolder;
 	iPtrHolder = NULL;
+	OstTraceFunctionExit1( RPOSITIONSERVER_DESTRUCT_EXIT, this );
 	}
 
 /**
@@ -73,6 +84,7 @@ information or on opening a sub-session.
 */
 EXPORT_C TInt RPositionServer::Connect()
 	{
+	OstTraceFunctionEntry1( RPOSITIONSERVER_CONNECT_ENTRY, this );
 	TRAPD(ret, ConstructL());
 
 	if (ret == KErrNone)
@@ -107,6 +119,7 @@ EXPORT_C TInt RPositionServer::Connect()
 		Destruct();
 		}
 
+	OstTraceFunctionExitExt( RPOSITIONSERVER_CONNECT_EXIT, this, ret );
 	return ret;
 	}
 
@@ -123,8 +136,10 @@ are not cancelled before calling this method.
 */
 EXPORT_C void RPositionServer::Close()
 	{
+	OstTraceFunctionEntry1( RPOSITIONSERVER_CLOSE_ENTRY, this );
 	RSessionBase::Close();
 	Destruct();
+	OstTraceFunctionExit1( RPOSITIONSERVER_CLOSE_EXIT, this );
 	}
 
 /**
@@ -144,6 +159,7 @@ Location Server ( by calling RPositionServer::Connect() ).
 */
 EXPORT_C TInt RPositionServer::CancelRequest(TRequestId aRequestId)
 	{
+	OstTraceFunctionEntry1( RPOSITIONSERVER_CANCELREQUEST_ENTRY, this );
 	__ASSERT_ALWAYS(Handle(), User::Panic(KPosClientFault, EPositionServerBadHandle));
 
 	if (aRequestId != KServerNotifyModuleStatusEventSymbian &&
@@ -152,6 +168,7 @@ EXPORT_C TInt RPositionServer::CancelRequest(TRequestId aRequestId)
 		aRequestId != EReqEmptyLastKnownPositionStore
 		)
 		{
+        OstTraceFunctionExitExt( RPOSITIONSERVER_CANCELREQUEST_EXIT, this, KErrNotSupported );
         return KErrNotSupported;
         }
 	
@@ -183,6 +200,7 @@ Obtains the current version number of the location server.
 */
 EXPORT_C TVersion RPositionServer::Version() const
 	{
+	OstTraceFunctionEntry1( RPOSITIONSERVER_VERSION_ENTRY, this );
 	return TVersion(
 		KPosMajorVersionNumber,
 		KPosMinorVersionNumber,
@@ -206,6 +224,7 @@ are not cancelled before calling close.
 */
 EXPORT_C TInt RPositionServer::GetDefaultModuleId(TPositionModuleId& aModuleId) const
 	{
+	OstTraceFunctionEntry1( RPOSITIONSERVER_GETDEFAULTMODULEID_ENTRY, this );
 	__ASSERT_ALWAYS(Handle(), User::Panic(KPosClientFault, EPositionServerBadHandle));
 
     TPckg<TPositionModuleId> moduleId(aModuleId);
@@ -225,6 +244,7 @@ Location Server ( by calling RPositionServer::Connect() ).
 */
 EXPORT_C TInt RPositionServer::GetNumModules(TUint& aNumModules) const
 	{
+	OstTraceFunctionEntry1( RPOSITIONSERVER_GETNUMMODULES_ENTRY, this );
 	__ASSERT_ALWAYS(Handle(), User::Panic(KPosClientFault, EPositionServerBadHandle));
 
     TPckg<TUint> numModules(aNumModules);
@@ -248,6 +268,7 @@ EXPORT_C TInt RPositionServer::GetModuleInfoByIndex(
 	TInt aModuleIndex,
 	TPositionModuleInfoBase& aModuleInfo) const
 	{
+	OstTraceFunctionEntry1( RPOSITIONSERVER_GETMODULEINFOBYINDEX_ENTRY, this );
 	__ASSERT_ALWAYS(Handle(), User::Panic(KPosClientFault, EPositionServerBadHandle));
 
 	TPtr8 ptr(reinterpret_cast<TUint8*>(&aModuleInfo),
@@ -275,6 +296,7 @@ Location Server ( by calling RPositionServer::Connect() ).
 EXPORT_C TInt RPositionServer::GetModuleInfoById(TPositionModuleId aModuleId,
                                                  TPositionModuleInfoBase& aModuleInfo) const
 	{
+	OstTraceFunctionEntry1( RPOSITIONSERVER_GETMODULEINFOBYID_ENTRY, this );
 	__ASSERT_ALWAYS(Handle(), User::Panic(KPosClientFault, EPositionServerBadHandle));
 
     TPckg<TPositionModuleId> moduleId(aModuleId);
@@ -297,6 +319,7 @@ the specified positioning module
 EXPORT_C TInt RPositionServer::GetModuleStatus(TPositionModuleStatusBase& aPosModuleStatus,
                                                TPositionModuleId aModuleId) const
 	{
+	OstTraceFunctionEntry1( RPOSITIONSERVER_GETMODULESTATUS_ENTRY, this );
 	__ASSERT_ALWAYS(Handle(), User::Panic(KPosClientFault, EPositionServerBadHandle));
 
     TPckg<TPositionModuleId> moduleId(aModuleId);
@@ -337,6 +360,7 @@ EXPORT_C void RPositionServer::NotifyModuleStatusEvent(TPositionModuleStatusEven
                                                        TRequestStatus& aStatus,
                                                        const TPositionModuleId aModuleId) const
 	{
+	OstTraceFunctionEntry1( RPOSITIONSERVER_NOTIFYMODULESTATUSEVENT_ENTRY, this );
 	__ASSERT_ALWAYS(Handle(), User::Panic(KPosClientFault, EPositionServerBadHandle));
 	__ASSERT_ALWAYS(iPtrHolder != NULL, User::Panic(KPosClientFault, EPositionNullPointerHolder));
 
@@ -349,6 +373,7 @@ EXPORT_C void RPositionServer::NotifyModuleStatusEvent(TPositionModuleStatusEven
 
 	SendReceive(ELbsNotifyModuleStatusEvent, 
         TIpcArgs(&iPtrHolder->Ptr(0), &iPtrHolder->PtrC(0)), aStatus);
+	OstTraceFunctionExit1( RPOSITIONSERVER_NOTIFYMODULESTATUSEVENT_EXIT, this );
 	}
 
 /**
@@ -366,6 +391,7 @@ KErrNone if successful; any other system wide error code otherwise.
 */
 EXPORT_C void RPositionServer::EmptyLastKnownPositionStore(TRequestStatus& aStatus)
 	{
+	OstTraceFunctionEntry1( RPOSITIONSERVER_EMPTYLASTKNOWNPOSITIONSTORE_ENTRY, this );
 	__ASSERT_ALWAYS(Handle(), User::Panic(KPosClientFault, EPositionServerBadHandle));
 	__ASSERT_ALWAYS(iPtrHolder != NULL, User::Panic(KPosClientFault, EPositionNullPointerHolder));
 	
@@ -384,6 +410,8 @@ EXPORT_C RPositionerSubSessionBase::RPositionerSubSessionBase()
   : RSubSessionBase(),
     iReserved(NULL)
     {
+	OstTraceFunctionEntry1( RPOSITIONERSUBSESSIONBASE_RPOSITIONERSUBSESSIONBASE_ENTRY, this );
+	OstTraceFunctionExit1( RPOSITIONERSUBSESSIONBASE_RPOSITIONERSUBSESSIONBASE_EXIT, this );
 	}
 
 
@@ -406,6 +434,7 @@ Location Server ( by calling RPositionServer::Connect() ).
 */
 EXPORT_C TInt RPositionerSubSessionBase::CancelRequest(TRequestId aRequestId)
 	{
+	OstTraceFunctionEntry1( RPOSITIONERSUBSESSIONBASE_CANCELREQUEST_ENTRY, this );
 	__ASSERT_ALWAYS(SubSessionHandle(), User::Panic(KPosClientFault, EPositionServerBadHandle));
 
 	if (aRequestId != KGetLastKnownPositionSymbian &&
@@ -416,6 +445,7 @@ EXPORT_C TInt RPositionerSubSessionBase::CancelRequest(TRequestId aRequestId)
 		aRequestId != EReqNotifyPositionUpdate &&
 		aRequestId != EReqGetLastKnownPositionArea)
         {
+        OstTraceFunctionExitExt( RPOSITIONERSUBSESSIONBASE_CANCELREQUEST_EXIT, this, KErrNotSupported );
         return KErrNotSupported;
         }
 
@@ -447,6 +477,8 @@ EXPORT_C TInt RPositionerSubSessionBase::CancelRequest(TRequestId aRequestId)
 */
 EXPORT_C TInt RPositionerSubSessionBase::CompleteRequest(TInt /*aRequestId*/)
 	{
+	OstTraceFunctionEntry1( RPOSITIONERSUBSESSIONBASE_COMPLETEREQUEST_ENTRY, this );
+	OstTraceFunctionExitExt( RPOSITIONERSUBSESSIONBASE_COMPLETEREQUEST_EXIT, this, KErrNotSupported );
 	return KErrNotSupported;
 	}
 
@@ -462,6 +494,8 @@ EXPORT_C TAny* RPositionerSubSessionBase::ExtendedInterface(TInt /*aFunctionNumb
                                                             TAny* /*aPtr1*/,
                                                             TAny* /*aPtr2*/)
 	{
+	OstTraceFunctionEntry1( RPOSITIONERSUBSESSIONBASE_EXTENDEDINTERFACE_ENTRY, this );
+	OstTraceFunctionExitExt( RPOSITIONERSUBSESSIONBASE_EXTENDEDINTERFACE_EXIT, this, ( TUint )( NULL ) );
 	return NULL;
 	}
 
@@ -477,6 +511,8 @@ EXPORT_C RPositioner::RPositioner()
     iPtrHolder(NULL),
     iReserved(NULL)
 	{
+	OstTraceFunctionEntry1( RPOSITIONER_RPOSITIONER_ENTRY, this );
+	OstTraceFunctionExit1( RPOSITIONER_RPOSITIONER_EXIT, this );
 	}
 
 /**
@@ -484,10 +520,12 @@ symbian 2nd phase constructor
 */
 EXPORT_C void RPositioner::ConstructL()
 	{
+	OstTraceFunctionEntry1( RPOSITIONER_CONSTRUCTL_ENTRY, this );
 	__ASSERT_ALWAYS(iPtrHolder == NULL, User::Panic(KPosClientFault, EPositionServerHandleNotClosed));
 	
 	// Pointers to as many messages/requests as can be supported concurrently (currently 4)
 	iPtrHolder = CPositioningPtrHolder::NewL(4, 0);
+	OstTraceFunctionExit1( RPOSITIONER_CONSTRUCTL_EXIT, this );
 	}
 
 /**
@@ -495,8 +533,10 @@ destructs the data inside this class
 */
 EXPORT_C void RPositioner::Destruct()
 	{
+	OstTraceFunctionEntry1( RPOSITIONER_DESTRUCT_ENTRY, this );
 	delete iPtrHolder;
 	iPtrHolder = NULL;
+	OstTraceFunctionExit1( RPOSITIONER_DESTRUCT_EXIT, this );
 	}
 
 /**
@@ -518,6 +558,7 @@ by calling RPositionServer::Connect().
 */
 EXPORT_C TInt RPositioner::Open(RPositionServer& aPosServer)
 	{
+	OstTraceFunctionEntry1( RPOSITIONER_OPEN_ENTRY, this );
 	__ASSERT_ALWAYS(aPosServer.Handle() != 0,
 		User::Panic(KPosClientFault, EPositionServerBadHandle));
 
@@ -530,6 +571,7 @@ EXPORT_C TInt RPositioner::Open(RPositionServer& aPosServer)
 		{
 		Destruct();
 		}
+	OstTraceFunctionExitExt( RPOSITIONER_OPEN_EXIT, this, ret );
 	return ret;
 	}
 
@@ -557,6 +599,7 @@ by calling RPositionServer::Connect().
 EXPORT_C TInt RPositioner::Open(RPositionServer& aPosServer,
                                 TPositionModuleId aModuleId)
 	{
+	OstTraceFunctionEntry1( DUP1_RPOSITIONER_OPEN_ENTRY, this );
 	__ASSERT_ALWAYS(aPosServer.Handle() != 0,
 		User::Panic(KPosClientFault, EPositionServerBadHandle));
 
@@ -570,6 +613,7 @@ EXPORT_C TInt RPositioner::Open(RPositionServer& aPosServer,
 		{
 		Destruct();
 		}
+	OstTraceFunctionExitExt( DUP1_RPOSITIONER_OPEN_EXIT, this, ret );
 	return ret;
 	}
 
@@ -587,6 +631,7 @@ appropriate PSY for this sub-session.
 EXPORT_C TInt RPositioner::Open(RPositionServer& aPosServer,
                                 const TPositionCriteriaBase& aCriteria)
 	{
+	OstTraceFunctionEntry1( DUP2_RPOSITIONER_OPEN_ENTRY, this );
 	__ASSERT_ALWAYS(aPosServer.Handle() != 0,
 		User::Panic(KPosClientFault, EPositionServerBadHandle));
 
@@ -601,6 +646,7 @@ EXPORT_C TInt RPositioner::Open(RPositionServer& aPosServer,
 		{
 		Destruct();
 		}
+	OstTraceFunctionExitExt( DUP2_RPOSITIONER_OPEN_EXIT, this, ret );
 	return ret;
 	}
 
@@ -617,8 +663,10 @@ cancelled before calling this method.
 */
 EXPORT_C void RPositioner::Close()
 	{
+	OstTraceFunctionEntry1( RPOSITIONER_CLOSE_ENTRY, this );
 	CloseSubSession(ELbsPositionerClose);
 	Destruct();
+	OstTraceFunctionExit1( RPOSITIONER_CLOSE_EXIT, this );
 	}
 
 /**
@@ -640,8 +688,10 @@ EXPORT_C TInt RPositioner::SetRequestor(CRequestor::TRequestorType /*aType*/,
                                         CRequestor::TRequestorFormat /*aFormat*/,
                                         const TDesC& /*aData*/)
 	{
+	OstTraceFunctionEntry1( RPOSITIONER_SETREQUESTOR_ENTRY, this );
 	__ASSERT_ALWAYS(SubSessionHandle(), User::Panic(KPosClientFault, EPositionServerBadHandle));
 	
+	OstTraceFunctionExitExt( RPOSITIONER_SETREQUESTOR_EXIT, this, KErrNone );
 	return KErrNone;
 	}
 
@@ -661,8 +711,10 @@ this session ( by calling RPositioner::Open() ).
 */
 EXPORT_C TInt RPositioner::SetRequestor(const RRequestorStack& /*aRequestorStack*/)
 	{
+	OstTraceFunctionEntry1( DUP1_RPOSITIONER_SETREQUESTOR_ENTRY, this );
 	__ASSERT_ALWAYS(SubSessionHandle(), User::Panic(KPosClientFault, EPositionServerBadHandle));
 	
+	OstTraceFunctionExitExt( DUP1_RPOSITIONER_SETREQUESTOR_EXIT, this, KErrNone );
 	return KErrNone;
 	}
 
@@ -701,6 +753,7 @@ calling this method.
 EXPORT_C void RPositioner::GetLastKnownPosition(TPositionInfoBase& aPosInfo,
                                                 TRequestStatus& aStatus) const
 	{
+	OstTraceFunctionEntry1( RPOSITIONER_GETLASTKNOWNPOSITION_ENTRY, this );
 	__ASSERT_ALWAYS(SubSessionHandle(), User::Panic(KPosClientFault, EPositionServerBadHandle));
 	__ASSERT_ALWAYS(iPtrHolder != NULL, User::Panic(KPosClientFault, EPositionNullPointerHolder));
 
@@ -712,6 +765,7 @@ EXPORT_C void RPositioner::GetLastKnownPosition(TPositionInfoBase& aPosInfo,
 	SendReceive(ELbsGetLastKnownPosition, 
 				TIpcArgs(&iPtrHolder->Ptr(0), aPosInfo.PositionClassType(), aPosInfo.PositionClassSize()), 
 				aStatus);
+	OstTraceFunctionExit1( RPOSITIONER_GETLASTKNOWNPOSITION_EXIT, this );
 	}
 
 /**
@@ -775,6 +829,7 @@ EXPORT_C void RPositioner::GetLastKnownPositionArea(TPositionInfoBase& aPosInfo,
 					      				 TPositionAreaInfoBase& aAreaInfo,
 	                                   	 TRequestStatus& aStatus) const
 	{
+	 OstTraceFunctionEntry1( RPOSITIONER_GETLASTKNOWNPOSITIONAREA_ENTRY, this );
 	 
 	__ASSERT_ALWAYS(SubSessionHandle(), User::Panic(KPosClientFault, EPositionServerBadHandle));
 	__ASSERT_ALWAYS(iPtrHolder != NULL, User::Panic(KPosClientFault, EPositionNullPointerHolder));
@@ -791,6 +846,7 @@ EXPORT_C void RPositioner::GetLastKnownPositionArea(TPositionInfoBase& aPosInfo,
 	SendReceive(ELbsGetLastKnownPositionArea, 
 				TIpcArgs(&iPtrHolder->Ptr(2),&iPtrHolder->Ptr(3)), 
 				aStatus);
+	OstTraceFunctionExit1( RPOSITIONER_GETLASTKNOWNPOSITIONAREA_EXIT, this );
 	}
 	
 /**
@@ -838,6 +894,7 @@ calling this method.
 EXPORT_C void RPositioner::NotifyPositionUpdate(TPositionInfoBase& aPosInfo,
                                                 TRequestStatus& aStatus) const
 	{
+	OstTraceFunctionEntry1( RPOSITIONER_NOTIFYPOSITIONUPDATE_ENTRY, this );
 	__ASSERT_ALWAYS(SubSessionHandle(), User::Panic(KPosClientFault, EPositionServerBadHandle));
 	__ASSERT_ALWAYS(iPtrHolder != NULL, User::Panic(KPosClientFault, EPositionNullPointerHolder));
 
@@ -848,6 +905,7 @@ EXPORT_C void RPositioner::NotifyPositionUpdate(TPositionInfoBase& aPosInfo,
 
 	SendReceive(ELbsPosNotifyPositionUpdate, TIpcArgs(&iPtrHolder->Ptr(1)), aStatus);
 
+	OstTraceFunctionExit1( RPOSITIONER_NOTIFYPOSITIONUPDATE_EXIT, this );
 	}
 
 /**
@@ -872,6 +930,7 @@ this session ( by calling RPositioner::Open() ).
 */
 EXPORT_C TInt RPositioner::SetUpdateOptions(const TPositionUpdateOptionsBase& aPosOption)
 	{
+	OstTraceFunctionEntry1( RPOSITIONER_SETUPDATEOPTIONS_ENTRY, this );
 	__ASSERT_ALWAYS(SubSessionHandle(), User::Panic(KPosClientFault, EPositionServerBadHandle));
 
 	TPtrC8 ptr(
@@ -895,6 +954,7 @@ this session ( by calling RPositioner::Open() ).
 */
 EXPORT_C TInt RPositioner::GetUpdateOptions(TPositionUpdateOptionsBase& aPosOption) const
 	{
+	OstTraceFunctionEntry1( RPOSITIONER_GETUPDATEOPTIONS_ENTRY, this );
 	__ASSERT_ALWAYS(SubSessionHandle(), User::Panic(KPosClientFault, EPositionServerBadHandle));
 
 	TPtr8 ptr(
@@ -918,5 +978,6 @@ EXPORT_C TAny* RPositioner::ExtendedInterface(TInt aFunctionNumber,
                                               TAny* aPtr1,
                                               TAny* aPtr2)
 	{
+	OstTraceFunctionEntry1( RPOSITIONER_EXTENDEDINTERFACE_ENTRY, this );
 	return RPositionerSubSessionBase::ExtendedInterface(aFunctionNumber, aPtr1, aPtr2);
 	}

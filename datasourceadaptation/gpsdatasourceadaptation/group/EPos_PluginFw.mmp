@@ -33,7 +33,7 @@ SOURCE              EPos_CPosPsyExtension.cpp
 SOURCE              EPos_CPositionerRegistry.cpp
 
 USERINCLUDE         ../inc
-
+USERINCLUDE         ../traces
 
 OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 

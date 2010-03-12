@@ -51,19 +51,25 @@ void CLbsLocMonitorDbEngine::InitDbL()
 	TInt error = iDatabase.Open(KSecureLocMonDB);
 	if(KErrNotFound == error)
 		{		
-	    RSqlSecurityPolicy securityPolicy;
-	    User::LeaveIfError(securityPolicy.Create(TSecurityPolicy(TSecurityPolicy::EAlwaysPass)));
-	    CleanupClosePushL(securityPolicy);
-	    User::LeaveIfError(securityPolicy.SetDbPolicy(RSqlSecurityPolicy::EWritePolicy, TSecurityPolicy(TSecurityPolicy::EAlwaysPass)));
-	    #ifdef LBS_LOCMONITORDB_TEST
-	    User::LeaveIfError(iDatabase.Create(KSecureLocMonDB));
-	    #else
-	    User::LeaveIfError(iDatabase.Create(KSecureLocMonDB, securityPolicy));
+		RSqlSecurityPolicy securityPolicy;
+		User::LeaveIfError(securityPolicy.Create(TSecurityPolicy(TSecurityPolicy::EAlwaysPass)));
+		CleanupClosePushL(securityPolicy);
+		User::LeaveIfError(securityPolicy.SetDbPolicy(RSqlSecurityPolicy::EWritePolicy, TSecurityPolicy(TSecurityPolicy::EAlwaysPass)));
+		#ifdef LBS_LOCMONITORDB_TEST
+		User::LeaveIfError(iDatabase.Create(KSecureLocMonDB));
+		#else
+		User::LeaveIfError(iDatabase.Create(KSecureLocMonDB, securityPolicy));
 		#endif
-	    CleanupStack::PopAndDestroy(&securityPolicy);
+		CleanupStack::PopAndDestroy(&securityPolicy);
+		iDBInitialised = ETrue;
 		User::LeaveIfError(iDatabase.Exec(KCreateTable));
 		User::LeaveIfError(iDatabase.Exec(KCreateIndex4));
 		User::LeaveIfError(iDatabase.Exec(KCreateIndex3));
+		}
+	else
+		{
+		User::LeaveIfError(error);
+		iDBInitialised = ETrue;
 		}
 	User::LeaveIfError(iDatabase.Exec(KCreateTempTable));
 	User::LeaveIfError(iDatabase.Exec(KCreateTempIndex4));
@@ -71,7 +77,8 @@ void CLbsLocMonitorDbEngine::InitDbL()
 
 
 CLbsLocMonitorDbEngine::CLbsLocMonitorDbEngine():
-CActive(EPriorityStandard)
+CActive(EPriorityStandard),
+iDBInitialised(EFalse)
 	{
 	LBSLOG(ELogP1,"->CLbsLocMonitorDbEngine::CLbsLocMonitorDbEngine");
 	CActiveScheduler::Add(this);
@@ -82,16 +89,23 @@ CLbsLocMonitorDbEngine::~CLbsLocMonitorDbEngine()
 	{
 	LBSLOG(ELogP1,"->CLbsLocMonitorDbEngine::~CLbsLocMonitorDbEngine");
 	Cancel();
-	iPeriodic->Cancel();
-	delete iPeriodic;
-	iSqlSaveStatement.Close();
-	if(iIsLastValid)
+	if(iPeriodic)
 		{
-		Insert(ETrue);
+		iPeriodic->Cancel();
+		delete iPeriodic;
 		}
-	Flush(ETrue);
-	
-	iDatabase.Close();
+	if(iDBInitialised)
+		{
+		iSqlSaveStatement.Close();
+		if(iIsLastValid)
+			{
+			Insert(ETrue);
+			}
+
+		Flush(ETrue);
+		
+		iDatabase.Close();
+		}
 	}
 
 
