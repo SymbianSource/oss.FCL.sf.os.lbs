@@ -132,7 +132,6 @@ TTimeIntervalMicroSeconds CPosConstManager::GetTimeshiftValue(
     {
     switch ( aDeviceStatus )
         {
-        case TPositionModuleStatus::EDeviceReady:
         case TPositionModuleStatus::EDeviceActive:
             return Min( 
                 KPosTimeshiftValueMultiplier*aTtnf.Int64(), 
