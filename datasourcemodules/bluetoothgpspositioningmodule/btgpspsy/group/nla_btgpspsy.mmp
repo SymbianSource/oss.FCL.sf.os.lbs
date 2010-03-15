@@ -13,7 +13,7 @@
 // Description:
 //
 
-
+#include <platform_paths.hrh>
 
 TARGET      nlabtgpspsy.dll
 TARGETTYPE  PLUGIN
@@ -22,7 +22,7 @@ VENDORID            0x70000001
 
 CAPABILITY      ALL -TCB
 
-
+OS_LAYER_SYSTEMINCLUDE
 
 START RESOURCE  ../data/101FE99A.rss
 TARGET          nlabtgpspsy.rsc

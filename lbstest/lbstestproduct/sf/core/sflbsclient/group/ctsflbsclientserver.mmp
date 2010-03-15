@@ -32,6 +32,8 @@ USERINCLUDE		../inc
 USERINCLUDE		../../../../../../datasourcemodules/networkpositioningmodule/inc
 //USERINCLUDE		../../lbsassdata/inc
 
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+
 // Lbs Client framework code.
 SOURCEPATH	../src
 SOURCE	ctlbsclienteventtimer.cpp
