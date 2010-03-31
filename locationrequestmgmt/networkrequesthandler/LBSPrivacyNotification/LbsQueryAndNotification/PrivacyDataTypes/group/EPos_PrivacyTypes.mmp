@@ -29,8 +29,8 @@ SOURCE          EPos_CPosServiceRequestor.cpp
 SOURCE          EPos_RPosRequestorStack.cpp
 
 USERINCLUDE     ../inc
-// OS_LAYER_SYSTEMINCLUDE_SYMBIAN illigal depenancy on cntdef.h in APP layer. Needs fixing
-APP_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN //Needs macro for system include for epoc32\include\lbs
+
 
 LIBRARY         euser.lib
 LIBRARY         estor.lib

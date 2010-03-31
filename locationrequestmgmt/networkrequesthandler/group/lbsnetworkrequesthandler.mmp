@@ -97,7 +97,6 @@ USERINCLUDE   ../../../locationmgmt/locationcore/LbsNetInternalApi/inc
 USERINCLUDE   ../../../locationmgmt/locationcore/LbsLocDataSource/inc
 USERINCLUDE   ../../../locationmgmt/locationcore/LbsPartnerCommon/inc
 USERINCLUDE   ../LBSPrivacyNotification/LbsPrivacyController/inc
-USERINCLUDE   ../LBSPrivacyNotification/LbsQueryAndNotification/QueryAndNotificationAPI/inc
 USERINCLUDE   ../../../locationmgmt/locationcore/inc
 USERINCLUDE		../../../locationmgmt/locationcore/LbsLocCommon/ServerFramework/inc
 USERINCLUDE   ../../../locationmgmt/locationcore/LbsDebug/inc
@@ -108,8 +107,8 @@ USERINCLUDE   ../../../locationmgmt/locationcore/LbsNrhNgMsgs/inc
 USERINCLUDE		../../../locationmgmt/locationcore/LbsLocCommon/inc
 
 
-// OS_LAYER_SYSTEMINCLUDE_SYMBIAN relies on cntdef.h in app layer. This dependancy should be broken
-APP_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN //Needs macro for system include for epoc32\include\lbs
+
 
 LIBRARY		euser.lib
 LIBRARY		estor.lib

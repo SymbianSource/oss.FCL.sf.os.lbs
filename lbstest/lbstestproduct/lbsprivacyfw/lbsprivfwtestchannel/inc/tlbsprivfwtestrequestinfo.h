@@ -31,8 +31,7 @@
 #include <lbs/lbsnetcommon.h>
 #include <lbs/lbsnetprotocolbase.h>
 #include <lbs/lbslocdatasourcegpsbase.h>
-
-#include <lbs/epos_cposprivacynotifier.h>
+#include <lbs/epos_privacy.h>
 #include <lbs/epos_cposrequestor.h>
 #include <lbs/lbsprivacycontroller.h>
 

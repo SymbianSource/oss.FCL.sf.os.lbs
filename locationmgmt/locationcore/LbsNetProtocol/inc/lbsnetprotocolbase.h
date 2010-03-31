@@ -968,22 +968,22 @@ as the function number.
 class CLbsNetworkProtocolBase2 : public CLbsNetworkProtocolBase
 	{
 public:
-	virtual void RequestTransmitLocation(
+    IMPORT_C virtual void RequestTransmitLocation(
 									const TLbsNetSessionId& aSessionId,
 									const TDesC& aDestination,
 									TInt aPriority,
 									const TLbsNetPosRequestOptionsBase& aOptions) = 0;
 
-	virtual void RespondPrivacyRequest(
+	IMPORT_C virtual void RespondPrivacyRequest(
 									const TLbsNetSessionId& aSessionId,
 									const TLbsPrivacyResponse& aResponse,
 									TInt aReason) = 0;
 									
-	virtual void CancelExternalLocation(
+	IMPORT_C virtual void CancelExternalLocation(
 									const TLbsNetSessionId& aSessionId,
 									TInt aReason);
 
-	virtual void RequestAssistanceData(
+	IMPORT_C virtual void RequestAssistanceData(
 									TLbsAsistanceDataGroup aDataRequestMask,
 									const TLbsNetSessionIdArray& aSessionIdArray) = 0;
 									

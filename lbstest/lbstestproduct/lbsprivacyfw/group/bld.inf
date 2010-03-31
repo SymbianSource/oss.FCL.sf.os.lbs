@@ -16,7 +16,7 @@
 //#include "../lbsprivfwutils/group/bld.inf"					
 #include "../lbsprivfwtestchannel/group/BLD.INF"					
 #include "../lbsprivfwproxy/group/bld.inf"					
-#include "../lbsprivfwnotifier/group/bld.inf"	
+//#include "../lbsprivfwnotifier/group/bld.inf"	
 #include "../lbstestprivacycontroller/group/bld.inf"
 #include "../lbstestprivacycontrollersimple/group/bld.inf"				
 

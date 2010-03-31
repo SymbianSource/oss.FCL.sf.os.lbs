@@ -105,7 +105,6 @@ USERINCLUDE   ../../../../locationmgmt/locationcore/LbsNetInternalApi/inc
 USERINCLUDE   ../../../../locationmgmt/locationcore/LbsLocDataSource/inc
 USERINCLUDE   ../../../../locationmgmt/locationcore/LbsPartnerCommon/inc
 USERINCLUDE   ../../LBSPrivacyNotification/LbsPrivacyController/inc
-USERINCLUDE   ../../LBSPrivacyNotification/LbsQueryAndNotification/QueryAndNotificationAPI/inc
 USERINCLUDE   ../../../../locationmgmt/locationcore/inc
 USERINCLUDE   ../../../../locationmgmt/locationcore/LbsLocCommon/ServerFramework/inc
 USERINCLUDE   ../../../../locationmgmt/locationcore/LbsDebug/inc
@@ -116,7 +115,7 @@ USERINCLUDE   ../../../../locationmgmt/locationcore/LbsNrhNgMsgs/inc
 USERINCLUDE	  ../../../../locationmgmt/locationcore/LbsLocCommon/inc
 
 OS_LAYER_SYSTEMINCLUDE_SYMBIAN
-APP_LAYER_SYSTEMINCLUDE_SYMBIAN
+
 
 LIBRARY       euser.lib
 LIBRARY       estor.lib

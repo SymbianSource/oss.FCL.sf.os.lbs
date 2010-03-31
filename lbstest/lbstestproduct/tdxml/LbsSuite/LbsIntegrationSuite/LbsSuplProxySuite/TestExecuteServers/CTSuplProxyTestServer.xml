@@ -54,12 +54,12 @@
 			<devicePath>c:\resource\plugins\testreflocplugin.rsc</devicePath>
 		</data>
 
-		<build type="test">
+		<!-- build type="test">
 	   		<hostPath>testqnnplugin.dll</hostPath>
       		<devicePath>c:\system\libs\testqnnplugin.dll</devicePath>
    			<mmpFile>testqnnplugin.mmp</mmpFile>
    			<bldInfPath>lbstest\lbstestproduct\suplproxy\testqnnplugin\group\bld.inf</bldInfPath>
-   		</build>
+   		</build -->
 		
 		<data>
 			<hostPath>\epoc32\data\Z\resource\plugins\testqnnplugin.rsc</hostPath>

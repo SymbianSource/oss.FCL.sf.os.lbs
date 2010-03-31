@@ -42,6 +42,7 @@ SOURCE			persistencestep.cpp
 SOURCEPATH		../../../lbslocmonitorserver/src
 SOURCE	rlbslocmonitordb.cpp
 SOURCE	clbslocmonitordbengine.cpp
+SOURCE	clbslocmonitordbtimer.cpp
 SOURCE	lbslocmonitorareainfodefs.cpp
 
 OS_LAYER_SYSTEMINCLUDE_SYMBIAN

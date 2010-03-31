@@ -20,7 +20,7 @@
 
 REM LBS Privacy FW test support dlls
 
-#include <lbsprivfwnotifier.iby>
+REM #include <lbsprivfwnotifier.iby>
 #include <lbsprivfwproxy.iby>
 #include <lbsprivfwtestchannel.iby>
 REM #include <lbsprivfwutils.iby>

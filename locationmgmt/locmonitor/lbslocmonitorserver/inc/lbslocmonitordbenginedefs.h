@@ -23,7 +23,7 @@ const TInt KTempFlushSize = 50;
 const TInt KMaxDbSize = 1000;
 
 const TTimeIntervalMicroSeconds32 KInitialPeriod = 200000000;
-const TTimeIntervalMicroSeconds32 KFlushPeriod = 30000000;
+const TTimeIntervalSeconds KFlushPeriod = 7200; // 2 Hours in seconds
 
 
 #if defined (LBS_LOCMONITORDB_TEST) && defined (__WINS__)  // Unit test emulator

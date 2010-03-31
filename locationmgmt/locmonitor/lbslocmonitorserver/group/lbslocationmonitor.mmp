@@ -41,6 +41,7 @@ SOURCE lbslocmonitorareainfodefs.cpp
 SOURCE clbslocmonitorrequesthandler.cpp
 SOURCE	rlbslocmonitordb.cpp
 SOURCE	clbslocmonitordbengine.cpp
+SOURCE	clbslocmonitordbtimer.cpp
 
 
 SOURCEPATH		../../../locationcore/LbsLocCommon/ServerFramework/src
