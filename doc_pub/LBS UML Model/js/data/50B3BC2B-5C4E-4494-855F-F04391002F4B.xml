@@ -1,0 +1,2 @@
+tocTab[tocTab.length] = new Array("3.1.1.2.4.1.1", "1", "RRC-X3P Simple", "EARoot/EA3/EA1/EA1/EA2/EA4/EA1/EA1066.htm", "4.png", "", "", "{EB9D328C-BC2D-47a3-B7D7-3A30168FB657}", "Package");
+tocTab[tocTab.length] = new Array("3.1.1.2.4.1.2", "1", "RRC-X3P-Hybrid - UE-Assisted - Accurate GPS Result", "EARoot/EA3/EA1/EA1/EA2/EA4/EA1/EA1067.htm", "4.png", "", "", "{287F51F6-CE17-425f-A35F-BFC1FC0BE92B}", "Package");

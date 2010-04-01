@@ -1,0 +1,6 @@
+tocTab[tocTab.length] = new Array("3.1.1.2.4.1", "1", "RRC-X3P-Accurate GPS Results", "EARoot/EA3/EA1/EA1/EA2/EA4/EA1060.htm", "4.png", "", "", "{50B3BC2B-5C4E-4494-855F-F04391002F4B}", "Package");
+tocTab[tocTab.length] = new Array("3.1.1.2.4.2", "1", "RRC-X3P-Accurate Reference Position", "EARoot/EA3/EA1/EA1/EA2/EA4/EA1061.htm", "4.png", "", "", "{2CD10FE1-B697-4653-BEB3-279C859FD40F}", "Package");
+tocTab[tocTab.length] = new Array("3.1.1.2.4.3", "1", "RRC-X3P-Futile Positioning", "EARoot/EA3/EA1/EA1/EA2/EA4/EA1062.htm", "4.png", "", "", "{44228841-5138-4813-BBBE-928FBBF9BEB1}", "Package");
+tocTab[tocTab.length] = new Array("3.1.1.2.4.4", "1", "RRC-X3P-Inaccurate or no GPS results", "EARoot/EA3/EA1/EA1/EA2/EA4/EA1063.htm", "4.png", "", "", "{9B986AD4-7BC7-4bda-9E58-188BD76A7D05}", "Package");
+tocTab[tocTab.length] = new Array("3.1.1.2.4.5", "1", "RRC-X3P-Late GPS Results", "EARoot/EA3/EA1/EA1/EA2/EA4/EA1064.htm", "4.png", "", "", "{B5F13BD4-54B8-489e-94F1-E056A44BE6B1}", "Package");
+tocTab[tocTab.length] = new Array("3.1.1.2.4.6", "1", "RRC-X3P-Timeouts", "EARoot/EA3/EA1/EA1/EA2/EA4/EA1065.htm", "4.png", "", "", "{F50D80E2-9300-4973-ABF2-5DF2BA558F81}", "Package");

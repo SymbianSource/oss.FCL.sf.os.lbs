@@ -1,0 +1,3 @@
+tocTab[tocTab.length] = new Array("3.1.1.2.1.1.1", "1", "RRC-MOLR-Self", "EARoot/EA3/EA1/EA1/EA2/EA1/EA1/EA847.htm", "4.png", "", "", "{AC3DB8FB-D111-4b83-A516-2965D35B3C05}", "Package");
+tocTab[tocTab.length] = new Array("3.1.1.2.1.1.2", "1", "RRC-MOLR- Tracking", "EARoot/EA3/EA1/EA1/EA2/EA1/EA1/EA848.htm", "4.png", "", "", "{B2A00FD4-3B0F-46e5-B872-90D772DC6B79}", "Package");
+tocTab[tocTab.length] = new Array("3.1.1.2.1.1.3", "1", "RRC-MOLR-Hybrid - LBS - UE-Assisted MO-LR - Accurate GPS Result", "EARoot/EA3/EA1/EA1/EA2/EA1/EA1/EA849.htm", "4.png", "", "", "{BA64EB2D-1204-4643-9EE5-A84C30479841}", "Package");

@@ -1,0 +1,2 @@
+tocTab[tocTab.length] = new Array("3.2.1.2.1.1", "1", "Full ROM Configuration - LBS Startup ", "EARoot/EA3/EA2/EA1/EA2/EA1/EA1164.htm", "4.png", "", "", "{13FC9725-E78A-4a79-8007-EC7622C60714}", "Package");
+tocTab[tocTab.length] = new Array("3.2.1.2.1.2", "1", "Full ROM Configuration - LBS Startup - Epos Location Server", "EARoot/EA3/EA2/EA1/EA2/EA1/EA1165.htm", "4.png", "", "", "{6F5DA26C-A58C-4fcb-834A-61F5E972E047}", "Package");

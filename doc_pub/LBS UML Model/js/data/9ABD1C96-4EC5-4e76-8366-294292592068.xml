@@ -1,0 +1,3 @@
+tocTab[tocTab.length] = new Array("3.1.1.1.1.4.1", "1", "Generic - MOLR - TAP - CompleteRequest", "EARoot/EA3/EA1/EA1/EA1/EA1/EA4/EA261.htm", "4.png", "", "", "{F9B63442-B06E-45b2-8640-C00744ACA7F5}", "Package");
+tocTab[tocTab.length] = new Array("3.1.1.1.1.4.2", "1", "Generic - MOLR - TAP - Multiple Clients - Tracking", "EARoot/EA3/EA1/EA1/EA1/EA1/EA4/EA262.htm", "4.png", "", "", "{2C8829D2-CFC6-4653-80EF-AB284FE66CDD}", "Package");
+tocTab[tocTab.length] = new Array("3.1.1.1.1.4.3", "1", "Generic - MOLR - TAP - Single Client", "EARoot/EA3/EA1/EA1/EA1/EA1/EA4/EA263.htm", "4.png", "", "", "{D82A0F2F-6409-491a-94B5-D6029C3F3AF4}", "Package");
