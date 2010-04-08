@@ -979,7 +979,7 @@ public:
 									const TLbsPrivacyResponse& aResponse,
 									TInt aReason) = 0;
 									
-	virtual void CancelExternalLocation(
+	IMPORT_C virtual void CancelExternalLocation(
 									const TLbsNetSessionId& aSessionId,
 									TInt aReason);
 
