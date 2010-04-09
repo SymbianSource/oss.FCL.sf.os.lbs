@@ -1,0 +1,13 @@
+EXPORTS
+	??0TLbsLocInfoConverterPluginClassTypeBase@@IAE@XZ @ 1 NONAME ; TLbsLocInfoConverterPluginClassTypeBase::TLbsLocInfoConverterPluginClassTypeBase(void)
+	??0TLbsLocInfoConverterPluginParams@@QAE@AAVMLbsLocInfoConverterPluginObserver@@@Z @ 2 NONAME ; TLbsLocInfoConverterPluginParams::TLbsLocInfoConverterPluginParams(class MLbsLocInfoConverterPluginObserver &)
+	??1CLbsLocInfoConverterPluginBase@@UAE@XZ @ 3 NONAME ; CLbsLocInfoConverterPluginBase::~CLbsLocInfoConverterPluginBase(void)
+	?ClassSize@TLbsLocInfoConverterPluginClassTypeBase@@QBEIXZ @ 4 NONAME ; unsigned int TLbsLocInfoConverterPluginClassTypeBase::ClassSize(void) const
+	?ClassType@TLbsLocInfoConverterPluginClassTypeBase@@QBEKXZ @ 5 NONAME ; unsigned long TLbsLocInfoConverterPluginClassTypeBase::ClassType(void) const
+	?ExtendedInterface@CLbsLocInfoConverterPluginBase@@UAEPAXHPAX0@Z @ 6 NONAME ; void * CLbsLocInfoConverterPluginBase::ExtendedInterface(int, void *, void *)
+	?ExtendedInterface@MLbsLocInfoConverterPluginObserver@@EAEPAXHPAX0@Z @ 7 NONAME ; void * MLbsLocInfoConverterPluginObserver::ExtendedInterface(int, void *, void *)
+	?NewL@CLbsLocInfoConverterPluginBase@@SAPAV1@VTUid@@AAVTLbsLocInfoConverterPluginParams@@@Z @ 8 NONAME ; class CLbsLocInfoConverterPluginBase * CLbsLocInfoConverterPluginBase::NewL(class TUid, class TLbsLocInfoConverterPluginParams &)
+	?Observer@TLbsLocInfoConverterPluginParams@@QBEAAVMLbsLocInfoConverterPluginObserver@@XZ @ 9 NONAME ; class MLbsLocInfoConverterPluginObserver & TLbsLocInfoConverterPluginParams::Observer(void) const
+	?Version@CLbsLocInfoConverterPluginBase@@UBE?AVTVersion@@XZ @ 10 NONAME ; class TVersion CLbsLocInfoConverterPluginBase::Version(void) const
+	?Version@MLbsLocInfoConverterPluginObserver@@UBE?AVTVersion@@XZ @ 11 NONAME ; class TVersion MLbsLocInfoConverterPluginObserver::Version(void) const
+
