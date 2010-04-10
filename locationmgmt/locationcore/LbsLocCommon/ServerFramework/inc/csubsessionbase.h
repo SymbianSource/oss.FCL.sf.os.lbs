@@ -70,11 +70,6 @@ void CleanupVirtualReleasePushL(MRelease& aRef);
 @released
 @see MRelease
 
-/** 
-@internalTechnology
-@released
-@see MRelease
-
 MRelease based Interface, interface for subsession
  */
 class MSubSessionImpl : public MRelease

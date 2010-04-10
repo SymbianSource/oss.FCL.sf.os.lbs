@@ -51,4 +51,4 @@ enum _TLbsAdminInfoClassType
 	ELbsAdminProtocolModuleLoadingInfoClass			= 0x03
 	};
 
-#endif LBS_ADMIN_CLASS_TYPES_H
+#endif // LBS_ADMIN_CLASS_TYPES_H
