@@ -22,7 +22,7 @@
 
 #include "lbstestprivacycontrollersimple.h"
 
-EXPORT_C CTestPrivacyControllerSimple* CTestPrivacyControllerSimple::NewL()
+CTestPrivacyControllerSimple* CTestPrivacyControllerSimple::NewL()
 	{
 	CTestPrivacyControllerSimple* self = new (ELeave) CTestPrivacyControllerSimple;
 	CleanupStack::PushL(self);

@@ -22,7 +22,6 @@
 #include <lbssatellite.h>
 
 // CONSTANTS
-_LIT(KLastPosition, "c:\\private\\101f97b2\\LastKnownPos.dat");
 
 
 // ================= MEMBER FUNCTIONS =======================

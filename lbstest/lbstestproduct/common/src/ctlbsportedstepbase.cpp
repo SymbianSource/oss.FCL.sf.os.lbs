@@ -530,7 +530,7 @@ void CT_LbsPortedStepBase::RequestL(TPositionInfo& aPosInfo,
 // (other items were commented in a header).
 // ---------------------------------------------------------
 // 
-EXPORT_C void CT_LbsPortedStepBase::LogErrorAndLeaveL(const TDesC& aErrorInfo,
+void CT_LbsPortedStepBase::LogErrorAndLeaveL(const TDesC& aErrorInfo,
                                               const TInt   aReason)
     {
     ERR_PRINTF2(aErrorInfo, aReason);

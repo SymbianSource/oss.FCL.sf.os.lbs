@@ -225,7 +225,7 @@ TVerdict CT_LbsUEBasedMOLRSelf::doTestStepL()
      
     TESTL(gpsTimingData.DataType()== TGpsTimingMeasurementData::EGpsTimingDataTypeUtran && 
           gpsTimingData.NetworkMode()== TGpsTimingMeasurementData::ENetworkModeFdd && 
-          gpsTimingData.GPSTimingOfCellMsPart()==16383 && gpsTimingData.GPSTimingOfCellLsPart()==4294967295 && 
+          gpsTimingData.GPSTimingOfCellMsPart()==16383 && gpsTimingData.GPSTimingOfCellLsPart()==4294967295UL && 
           gpsTimingData.ReferenceIdentity()==511 && gpsTimingData.Sfn()==4095);  
                    
     

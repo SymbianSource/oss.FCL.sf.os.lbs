@@ -176,7 +176,7 @@ protected:
 #define DEFAULT_COURSE_OVER_GROUND_MAGNETIC                14.0
 //TGpsTimingMeasurementData
 #define DEFAULT_GPS_TIMING_OF_CELL_MsPart                  16383                          
-#define DEFAULT_GPS_TIMING_OF_CELL_LsPart                  4294967295 
+#define DEFAULT_GPS_TIMING_OF_CELL_LsPart                  4294967295UL 
 #define DEFAULT_REFERENCE_IDENTITY                         511
 #define DEFAULT_SFN                                        4095
 

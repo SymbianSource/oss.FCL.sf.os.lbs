@@ -206,7 +206,7 @@ void CT_LbsClientPosTp173::CheckErrorL()
 void CT_LbsClientPosTp173::HandleSettingsChangeL(TPosModulesEvent /*aModuleEvent*/)
     {
        
-    CleanupStack::PushL(TCleanupItem(MyStopActive));
+    CleanupStack::PushL(TCleanupItem(MyStopActive,NULL));
     if (iNoEvents)
         {
         _LIT(KErrorText, "Event received when no event should have been received");
@@ -241,7 +241,7 @@ void CT_LbsClientPosTp173::AssertTrueSecL(TBool aCondition, const TDesC& aErrorM
 //
 void CT_LbsClientPosTp173::NotifyTimeout()
 	{
-    CleanupStack::PushL(TCleanupItem(MyStopActive));
+    CleanupStack::PushL(TCleanupItem(MyStopActive, NULL));
     if (!iNoEvents)
         {
         _LIT(KErrorText, "No event received when event should have been received");
