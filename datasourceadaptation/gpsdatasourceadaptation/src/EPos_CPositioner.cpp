@@ -23,6 +23,11 @@
 #include "EPos_PositionerConstructParams.h"
 #include "EPos_CPositionerExtension.h"
 #include "EPos_CPosPsyExtension.h"
+#include "OstTraceDefinitions.h"
+#ifdef OST_TRACE_COMPILER_IN_USE
+#include "EPos_CPositionerTraces.h"
+#endif
+
 
 // ================= MEMBER FUNCTIONS =======================
 
@@ -36,6 +41,7 @@
 EXPORT_C CPositioner* CPositioner::NewL(
     TAny* aConstructionParameters)
     {
+    OstTraceFunctionEntry0( CPOSITIONER_NEWL_ENTRY );
     TUid implUid = reinterpret_cast<TPositionerConstructParams*>
             (aConstructionParameters)->iImplementationUid;
 
@@ -68,6 +74,7 @@ EXPORT_C CPositioner* CPositioner::NewL(
     TUid aImplementationUid,
     const CPositioner& aPositioner)
     {
+    OstTraceFunctionEntry0( DUP1_CPOSITIONER_NEWL_ENTRY );
     TPositionerConstructParams params;
 
     params.iImplementationUid = aImplementationUid;
@@ -83,8 +90,10 @@ EXPORT_C CPositioner* CPositioner::NewL(
 */
 EXPORT_C CPositioner::~CPositioner()
     {
+    OstTraceFunctionEntry1( CPOSITIONER_CPOSITIONER_ENTRY, this );
     delete iExtension;
     REComSession::DestroyedImplementation(iDtorIdKey);
+    OstTraceFunctionExit1( CPOSITIONER_CPOSITIONER_EXIT, this );
     }
 
 /**
@@ -92,6 +101,8 @@ EXPORT_C CPositioner::~CPositioner()
 */
 EXPORT_C CPositioner::CPositioner()
     {
+    OstTraceFunctionEntry1( DUP1_CPOSITIONER_CPOSITIONER_ENTRY, this );
+    OstTraceFunctionExit1( DUP1_CPOSITIONER_CPOSITIONER_EXIT, this );
     }
 
 /**
@@ -105,6 +116,7 @@ EXPORT_C CPositioner::CPositioner()
 */
 EXPORT_C void CPositioner::BaseConstructL(TAny* aConstructionParameters)
     {
+    OstTraceFunctionEntry1( CPOSITIONER_BASECONSTRUCTL_ENTRY, this );
     TPositionerConstructParams* params = 
         reinterpret_cast<TPositionerConstructParams*>(aConstructionParameters);
 
@@ -112,6 +124,7 @@ EXPORT_C void CPositioner::BaseConstructL(TAny* aConstructionParameters)
         params->iImplementationUid, 
         params->iStatusObserver,
         params->iParamObserver);
+    OstTraceFunctionExit1( CPOSITIONER_BASECONSTRUCTL_EXIT, this );
     }
 
 /**
@@ -122,6 +135,7 @@ EXPORT_C void CPositioner::BaseConstructL(TAny* aConstructionParameters)
 */
 EXPORT_C TBool CPositioner::TrackingOverridden() const
     {
+    OstTraceFunctionEntry1( CPOSITIONER_TRACKINGOVERRIDDEN_ENTRY, this );
     return EFalse;
     }
 
@@ -133,7 +147,9 @@ EXPORT_C TBool CPositioner::TrackingOverridden() const
 EXPORT_C void CPositioner::StartTrackingL(
     const TTimeIntervalMicroSeconds& /*aInterval*/)
     {
+    OstTraceFunctionEntry1( CPOSITIONER_STARTTRACKINGL_ENTRY, this );
     User::Leave(KErrNotSupported);
+    OstTraceFunctionExit1( CPOSITIONER_STARTTRACKINGL_EXIT, this );
     }
 
 /**
@@ -142,6 +158,8 @@ EXPORT_C void CPositioner::StartTrackingL(
 */
 EXPORT_C void CPositioner::StopTracking()
     {
+    OstTraceFunctionEntry1( CPOSITIONER_STOPTRACKING_ENTRY, this );
+    OstTraceFunctionExit1( CPOSITIONER_STOPTRACKING_EXIT, this );
     }
 
 /**
@@ -157,7 +175,9 @@ EXPORT_C void CPositioner::StopTracking()
 */
 EXPORT_C void CPositioner::ServiceL(RMessage2& /*aMessage*/)
     {
+    OstTraceFunctionEntry1( CPOSITIONER_SERVICEL_ENTRY, this );
     User::Leave(KErrNotSupported);
+    OstTraceFunctionExit1( CPOSITIONER_SERVICEL_EXIT, this );
     }
 
 /**
@@ -167,6 +187,7 @@ EXPORT_C void CPositioner::ServiceL(RMessage2& /*aMessage*/)
 */
 EXPORT_C TUid CPositioner::ImplementationUid() const
     {
+    OstTraceFunctionEntry1( CPOSITIONER_IMPLEMENTATIONUID_ENTRY, this );
     return iExtension->iPsyExtension->iImplementationUid;
     }
 
@@ -183,6 +204,7 @@ EXPORT_C TUid CPositioner::ImplementationUid() const
 EXPORT_C TInt CPositioner::GetRequiredPositionQuality(
     TPositionQuality& aPositionQuality) const
     {
+    OstTraceFunctionEntry1( CPOSITIONER_GETREQUIREDPOSITIONQUALITY_ENTRY, this );
     return iExtension->iParamObserver->GetRequiredPositionQuality(
         aPositionQuality);
     }
@@ -203,7 +225,9 @@ EXPORT_C TInt CPositioner::GetRequiredPositionQuality(
 */
 EXPORT_C void CPositioner::GetMaxAge(TTime& aMaxAge) const
     {
+    OstTraceFunctionEntry1( CPOSITIONER_GETMAXAGE_ENTRY, this );
     iExtension->iParamObserver->GetMaxAge(aMaxAge);
+    OstTraceFunctionExit1( CPOSITIONER_GETMAXAGE_EXIT, this );
     }
 
 /**
@@ -222,6 +246,7 @@ EXPORT_C void CPositioner::GetMaxAge(TTime& aMaxAge) const
 */
 EXPORT_C TBool CPositioner::IsPartialUpdateAllowed() const
     {
+    OstTraceFunctionEntry1( CPOSITIONER_ISPARTIALUPDATEALLOWED_ENTRY, this );
     return iExtension->iParamObserver->IsPartialUpdateAllowed();
     }
 
@@ -232,6 +257,7 @@ EXPORT_C TBool CPositioner::IsPartialUpdateAllowed() const
 */
 EXPORT_C MPositionerStatus* CPositioner::PositionerStatus()
     {
+    OstTraceFunctionEntry1( CPOSITIONER_POSITIONERSTATUS_ENTRY, this );
     return iExtension->iPsyExtension;
     }
 
@@ -247,7 +273,9 @@ EXPORT_C MPositionerStatus* CPositioner::PositionerStatus()
 
 EXPORT_C void CPositioner::CancelNotifyPositionUpdate(TInt /*aError*/)
     {
+    OstTraceFunctionEntry1( CPOSITIONER_CANCELNOTIFYPOSITIONUPDATE_ENTRY, this );
     CancelNotifyPositionUpdate();
+    OstTraceFunctionExit1( CPOSITIONER_CANCELNOTIFYPOSITIONUPDATE_EXIT, this );
     }
 
 //EXPORT_C void CPositioner::CPositioner_Reserved1()
@@ -259,6 +287,8 @@ EXPORT_C void CPositioner::CancelNotifyPositionUpdate(TInt /*aError*/)
  */
 EXPORT_C void CPositioner::CPositioner_Reserved2()
     {
+    OstTraceFunctionEntry1( CPOSITIONER_CPOSITIONER_RESERVED2_ENTRY, this );
+    OstTraceFunctionExit1( CPOSITIONER_CPOSITIONER_RESERVED2_EXIT, this );
     }
 
 /**
@@ -272,7 +302,9 @@ EXPORT_C void CPositioner::CPositioner_Reserved2()
  */
 EXPORT_C void CPositioner::GetUpdateTimeOut(TTimeIntervalMicroSeconds& aUpdateTimeOut) const
 	{
+	OstTraceFunctionEntry1( CPOSITIONER_GETUPDATETIMEOUT_ENTRY, this );
 	iExtension->iParamObserver->GetUpdateTimeOut(aUpdateTimeOut);
+	OstTraceFunctionExit1( CPOSITIONER_GETUPDATETIMEOUT_EXIT, this );
 	}
 
 /**
@@ -287,7 +319,9 @@ EXPORT_C void CPositioner::GetUpdateTimeOut(TTimeIntervalMicroSeconds& aUpdateTi
  */
 EXPORT_C void CPositioner::SetPsyDefaultUpdateTimeOut(const TTimeIntervalMicroSeconds& aUpdateTimeOut)
 	{
+	OstTraceFunctionEntry1( CPOSITIONER_SETPSYDEFAULTUPDATETIMEOUT_ENTRY, this );
 	iExtension->iParamObserver->SetPsyDefaultUpdateTimeOut(aUpdateTimeOut);
+	OstTraceFunctionExit1( CPOSITIONER_SETPSYDEFAULTUPDATETIMEOUT_EXIT, this );
 	}
 
 /**
@@ -302,7 +336,9 @@ EXPORT_C void CPositioner::SetPsyDefaultUpdateTimeOut(const TTimeIntervalMicroSe
  */
 EXPORT_C void CPositioner::ExtendUpdateTimeOut(const TTimeIntervalMicroSeconds& aAdditionalTime)
 	{
+	OstTraceFunctionEntry1( CPOSITIONER_EXTENDUPDATETIMEOUT_ENTRY, this );
 	iExtension->iParamObserver->ExtendUpdateTimeOut(aAdditionalTime);
+	OstTraceFunctionExit1( CPOSITIONER_EXTENDUPDATETIMEOUT_EXIT, this );
 	}
 
 

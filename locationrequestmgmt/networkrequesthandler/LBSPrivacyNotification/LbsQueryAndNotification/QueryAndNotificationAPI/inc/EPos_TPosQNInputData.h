@@ -29,13 +29,14 @@
 
 //  INCLUDES
 #include <e32base.h>
-#include <lbs/epos_cposprivacynotifier.h>
+
 
 // FORWARD DECLARATIONS
 
 // CLASS DECLARATION
 
 const TInt KPosQNInputDataClassSize = 36;
+typedef TInt32 TPosQNRequestId;
 
 /**
 * Data sent in Query/Notification communication.

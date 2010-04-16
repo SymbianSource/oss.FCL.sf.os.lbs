@@ -18,11 +18,14 @@
 #ifndef __NILE_LBS_PLUGIN_IBY__
 #define __NILE_LBS_PLUGIN_IBY__
 
-#ifdef _DEBUG
-ECOM_PLUGIN_UDEB(lcfnotifier.dll, lcfnotifier.rsc)
-#else
-ECOM_PLUGIN(lcfnotifier.dll, lcfnotifier.rsc)
-#endif
+
+/* Wont build without QNN
+* #ifdef _DEBUG
+* ECOM_PLUGIN_UDEB(lcfnotifier.dll, lcfnotifier.rsc)
+* #else
+* ECOM_PLUGIN(lcfnotifier.dll, lcfnotifier.rsc)
+* #endif
+*/
 
 file=ABI_DIR\DEBUG_DIR\LcfPluginCtrl.dll		System\libs\LcfPluginCtrl.dll
 

@@ -74,7 +74,15 @@ CLbsSystemStateListener::CLbsSystemStateListener(MLbsStartupObserver& aObserver)
 void CLbsSystemStateListener::ConstructL()
 	{
 #ifdef SYMBIAN_SYSTEM_STATE_MANAGEMENT
-	User::LeaveIfError( iStateAwareSession.Connect( KSM2GenMiddlewareDomain3 ) );
+	TInt err = iStateAwareSession.Connect( KSM2GenMiddlewareDomain3 );
+	if (err != KErrNone)
+        {
+        iSystemStateManagerAvailable = EFalse;
+        }
+    else
+        {
+        iSystemStateManagerAvailable = ETrue;
+        }
 #else
 	User::LeaveIfError( iStartupObserver.Attach( KPSUidStartup, 
 	                                                 KPSGlobalSystemState, EOwnerThread ) );    
@@ -102,15 +110,23 @@ void CLbsSystemStateListener::StartToListenL()
 	{
 // Listen to global system state changes
 #ifdef SYMBIAN_SYSTEM_STATE_MANAGEMENT // From 9.2 onwards
-    TSsmState ssmState = iStateAwareSession.State();
-    if( ssmState.MainState() != ESsmNormal )
+	if (!iSystemStateManagerAvailable)
         {
-        iStateAwareSession.RequestStateNotification( iStatus );
-        SetActive();
-        }
-    else{
         iObserver.HandleStartupCompletionL();
         }
+	else
+		{
+		TSsmState ssmState = iStateAwareSession.State();
+		if( ssmState.MainState() != ESsmNormal )
+			{
+			iStateAwareSession.RequestStateNotification( iStatus );
+			SetActive();
+			}
+		else
+			{
+			iObserver.HandleStartupCompletionL();
+			}
+		}
 #else // Prior to 9.2
     TInt systemStatus = 0;
         User::LeaveIfError( iStartupObserver.Get( systemStatus ) );

@@ -67,6 +67,7 @@ USERINCLUDE		../../../locationmgmt/locmonitor/lbslocmonitorserver/inc
 USERINCLUDE		../../../locationmgmt/locationcore/LbsLocCommon/ServerFramework/inc 
 USERINCLUDE		../../../locationmgmt/locationcore/LbsNetRegStatusInt/inc
 USERINCLUDE		../../../locationmgmt/locationcore/inc 
+USERINCLUDE         ../traces
 
 OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 

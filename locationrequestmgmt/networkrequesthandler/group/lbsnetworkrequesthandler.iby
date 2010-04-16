@@ -26,7 +26,6 @@ file=ABI_DIR\DEBUG_DIR\lbsnetworkrequesthandler.exe	sys\bin\lbsnetworkrequesthan
 #include "lbsprivacyexnotifiers.iby"
 #ifdef SYMBIAN_INCLUDE_LOCATION_ADVANCED_DIALOG
 	#include "lbsprivacydatatypes.iby"
-	#include "lbsqueryandnotification.iby"
 #endif //SYMBIAN_INCLUDE_LOCATION_ADVANCED_DIALOG
 
 #endif // SYMBIAN_EXCLUDE_LOCATION

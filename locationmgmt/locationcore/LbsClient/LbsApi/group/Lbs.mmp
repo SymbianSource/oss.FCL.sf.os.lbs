@@ -42,6 +42,7 @@ SOURCE            lbsextendedsatellite.cpp
 
 USERINCLUDE       ../inc
 USERINCLUDE       ../src
+USERINCLUDE       ../traces
 
 OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 

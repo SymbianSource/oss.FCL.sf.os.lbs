@@ -75,7 +75,7 @@ const TInt KSessionConnectedTimerEvent = 0x300;
 /** KSessionConnectedTimerDurationInSec
 Timer duration for when connection confirmation expected from Connection Manager
 */
-const TInt KSessionConnectedTimerDurationInSec = 10;
+const TInt KSessionConnectedTimerDurationInSec = 15;
 
 
 /** SUPL State Machine observer mixin definition.

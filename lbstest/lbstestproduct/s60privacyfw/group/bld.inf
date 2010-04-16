@@ -15,7 +15,7 @@
 
 
 #include "../LcfFIPrivacyNotifier_1_0_ECom/Controller/group/Bld.inf"
-#include "../LcfFIPrivacyNotifier_1_0_ECom/Notifier/group/Bld.inf"
+//#include "../LcfFIPrivacyNotifier_1_0_ECom/Notifier/group/Bld.inf"
 #include "../Td_PrivFW_TEF/group/Bld.inf"
 
 PRJ_TESTEXPORTS

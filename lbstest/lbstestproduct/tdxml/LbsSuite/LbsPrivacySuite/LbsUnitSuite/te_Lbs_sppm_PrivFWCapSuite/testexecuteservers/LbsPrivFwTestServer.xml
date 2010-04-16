@@ -11,12 +11,12 @@
 
 
 	<dependencies>
-		<build type="test">
+		<!-- build type="test">
 			<hostPath>lbsprivfwnotifier.dll</hostPath>
 	 	  	<devicePath>c:\sys\bin\lbsprivfwnotifier.dll</devicePath>
 			<mmpFile>lbsprivfwnotifier.mmp</mmpFile>
 			<bldInfPath>lbstest\lbstestproduct\lbsprivacyfw\lbsprivfwnotifier\group\bld.inf</bldInfPath>
-		</build>
+		</build -->
 
 		<data>
 			<hostPath>\epoc32\data\Z\resource\plugins\lbsprivfwnotifier.rsc</hostPath>

@@ -23,6 +23,8 @@ DEFAULT
 PRJ_EXPORTS
 ./101fe999.cre      z:/private/10202be9/101fe999.cre
 
+../data/Nla_btgpspsy.loc 					OS_LAYER_LOC_EXPORT_PATH(Nla_btgpspsy.loc)
+
 ../inc/Settings/BtGpsPsyPrivateCRKeys.h     SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(lbs/btgpspsyprivatecrkeys.h)
 ../inc/Settings/BtGpsPsyPrivatePSKeys.h     SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(lbs/btgpspsyprivatepskeys.h)
 

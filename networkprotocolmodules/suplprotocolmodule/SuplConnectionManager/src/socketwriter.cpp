@@ -32,7 +32,7 @@
 #include <commdbconnpref.h>
 
 // Timeout timer
-const TInt KTimeoutTime = 10; // Seconds, will convert to TTimeIntervalSeconds.
+const TInt KTimeoutTime = 15; // Seconds, will convert to TTimeIntervalSeconds.
 
 CSocketWriterBase::CSocketWriterBase(const TLbsHostSettingsId& aSlpId,
 									 TInt aCallbackIndex,

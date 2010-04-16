@@ -94,11 +94,13 @@ void CBTGPSDeviceSelector::ConstructL()
     //Set UUID
     selectionFilter().SetUUID(KSerialPortServiceClass);
 
-
-    TBTDeviceClass selectionDeviceClass(
-        EMajorServicePositioning,
-        EMajorDeviceUnclassified,
-        0); //Minor device class unspecified 
+	//Apply No filter: To support BC - Some older Nokia (or other) devices do not specify
+	//one or other Class causing filter out if filtered for Positioning
+	//Major Service Class, Major Device Class and Minor device class unspecified
+	TBTDeviceClass selectionDeviceClass(
+        0,
+        0,
+        0); 
 
     //Set device class
     selectionFilter().SetDeviceClass(selectionDeviceClass);

@@ -549,6 +549,15 @@ void CSuplProxyProtocol::RequestNetworkLocation(
         const TLbsNetPosRequestOptionsBase& aOptions)
     {
     LBSLOG(ELogP1, "CSuplProxyProtocol::RequestNetworkLocation() Begin\n");
+	
+	if(!iSuplTiApiWrapper)
+    	{
+		//Error, TI Plugin not available.  Complete the request with error
+		LBSLOG_ERR(ELogP1, "Error, TI Plugin not available, not able to complete request");
+		LBSLOG2(ELogP1, "-->ProcessSessionComplete(0x%x)\n", aSessionId.SessionNum());
+		iObserver.ProcessSessionComplete(aSessionId, KErrNotReady);
+		return;
+    	}
 
 	const TLbsNetPosRequestOptions reqParams =
 			static_cast<const TLbsNetPosRequestOptions&> (aOptions);
@@ -642,6 +651,13 @@ void CSuplProxyProtocol::RequestSelfLocation(
         LBSLOG2(ELogP1, "-->ProcessSessionComplete(0x%x)\n", aSessionId.SessionNum());
         iObserver.ProcessSessionComplete(aSessionId, KErrNone);
         }
+	 else if(!iSuplTiApiWrapper)
+		{
+		//Error, TI Plugin not available.  Complete the request with error
+		LBSLOG_ERR(ELogP1, "Error, TI Plugin not available, not able to complete request");
+		LBSLOG2(ELogP1, "-->ProcessSessionComplete(0x%x)\n", aSessionId.SessionNum());
+		iObserver.ProcessSessionComplete(aSessionId, KErrNotReady);
+		}
     else
         {
 
@@ -857,6 +873,7 @@ Second stage private constructor.
 void CSuplProxyProtocol::ConstructL()
 	{
 	LBSLOG(ELogP1, "CSuplProxyProtocol::ConstructL() Begin\n");
+	TInt err = KErrNone;
 
     CRepository* cenRep = CRepository::NewLC(KLbsSuplProxyProtocolModuleCenRepUid);
 	TInt refLocSourceId(KErrNone);
@@ -876,14 +893,18 @@ void CSuplProxyProtocol::ConstructL()
 
     LBSLOG(ELogP9, "->A   CLbsSuplTiApi::NewL() SUPL-FW\n");
     LBSLOG2(ELogP9, " > Uid = 0x%08X\n", suplTiPluginImplUid);
-    iSuplTiApiWrapper = CLbsSuplTiApi::NewL(*this, TUid::Uid(suplTiPluginImplUid));
+    TRAP(err, iSuplTiApiWrapper = CLbsSuplTiApi::NewL(*this, TUid::Uid(suplTiPluginImplUid)));
+    if(err != KErrNone)
+    	{
+		LBSLOG_ERR2(ELogP1, "Failed to load the Terminal Initiation API Plugin (error: %d)", err);
+    	}
 
 	CLbsAdmin* admin = CLbsAdmin::NewL();
 	CleanupStack::PushL(admin);
 		
 	// Read admin setting for maximum number of external locate requests
 	TUint maxExternalLocateRequests = KLbsDefaultMaximumExternalLocateRequests;
-	TInt err = admin->Get(KLbsSettingMaximumExternalLocateRequests, maxExternalLocateRequests);
+	err = admin->Get(KLbsSettingMaximumExternalLocateRequests, maxExternalLocateRequests);
 	if (err != KErrNone)
 		{
 		LBSLOG_ERR2(ELogP4, "Failed to get KLbsSettingMaximumExternalLocateRequests (err %d)", err);
@@ -1523,7 +1544,7 @@ void CSuplProxyProtocol::RequestComplete(TInt aReason,
         const TLbsNetSessionId& aSessionId)
     {
 	LBSLOG(ELogP1, "CSuplProxyProtocol::RequestComplete() Begin\n");
-
+	
     TInt index = iLbsNetSessions.Find(aSessionId,
             CLbsNetSession::IsSessionMatch);
 
