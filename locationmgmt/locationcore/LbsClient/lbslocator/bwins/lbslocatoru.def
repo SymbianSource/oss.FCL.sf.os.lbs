@@ -1,0 +1,47 @@
+EXPORTS
+	??0TLbsLocation@@QAE@XZ @ 1 NONAME ; TLbsLocation::TLbsLocation(void)
+	??0TLbsLocatorClassTypeBase@@IAE@XZ @ 2 NONAME ; TLbsLocatorClassTypeBase::TLbsLocatorClassTypeBase(void)
+	??0TLbsMovementEvent@@QAE@XZ @ 3 NONAME ; TLbsMovementEvent::TLbsMovementEvent(void)
+	??1CLbsLocator@@UAE@XZ @ 4 NONAME ; CLbsLocator::~CLbsLocator(void)
+	?Accuracy@TLbsLocation@@QBEMXZ @ 5 NONAME ; float TLbsLocation::Accuracy(void) const
+	?AddLocationObserverL@CLbsLocator@@QAEXAAVMLbsLocationObserver@@@Z @ 6 NONAME ; void CLbsLocator::AddLocationObserverL(class MLbsLocationObserver &)
+	?AddMovementObserverL@CLbsLocator@@QAEXAAVMLbsMovementObserver@@@Z @ 7 NONAME ; void CLbsLocator::AddMovementObserverL(class MLbsMovementObserver &)
+	?Altitude@TLbsLocation@@QBEMXZ @ 8 NONAME ; float TLbsLocation::Altitude(void) const
+	?AltitudeAccuracy@TLbsLocation@@QBEMXZ @ 9 NONAME ; float TLbsLocation::AltitudeAccuracy(void) const
+	?Course@TLbsLocation@@QBEMXZ @ 10 NONAME ; float TLbsLocation::Course(void) const
+	?CourseAccuracy@TLbsLocation@@QBEMXZ @ 11 NONAME ; float TLbsLocation::CourseAccuracy(void) const
+	?GetBearingTo@TLbsLocation@@QBEHABV1@AAM@Z @ 12 NONAME ; int TLbsLocation::GetBearingTo(class TLbsLocation const &, float &) const
+	?GetDistance@TLbsLocation@@QBEHABV1@AAM@Z @ 13 NONAME ; int TLbsLocation::GetDistance(class TLbsLocation const &, float &) const
+	?GetLocatorOption@CLbsLocator@@QBEHW4TLbsLocatorOption@1@AAH@Z @ 14 NONAME ; int CLbsLocator::GetLocatorOption(enum CLbsLocator::TLbsLocatorOption, int &) const
+	?GetMeanSpeed@TLbsLocation@@QBEHABV1@AAM@Z @ 15 NONAME ; int TLbsLocation::GetMeanSpeed(class TLbsLocation const &, float &) const
+	?IsAltitudeValid@TLbsLocation@@QBEHXZ @ 16 NONAME ; int TLbsLocation::IsAltitudeValid(void) const
+	?IsCourseValid@TLbsLocation@@QBEHXZ @ 17 NONAME ; int TLbsLocation::IsCourseValid(void) const
+	?IsLatLongValid@TLbsLocation@@QBEHXZ @ 18 NONAME ; int TLbsLocation::IsLatLongValid(void) const
+	?IsSpeedValid@TLbsLocation@@QBEHXZ @ 19 NONAME ; int TLbsLocation::IsSpeedValid(void) const
+	?Latitude@TLbsLocation@@QBENXZ @ 20 NONAME ; double TLbsLocation::Latitude(void) const
+	?LocatorClassSize@TLbsLocatorClassTypeBase@@QBEIXZ @ 21 NONAME ; unsigned int TLbsLocatorClassTypeBase::LocatorClassSize(void) const
+	?LocatorClassType@TLbsLocatorClassTypeBase@@QBEKXZ @ 22 NONAME ; unsigned long TLbsLocatorClassTypeBase::LocatorClassType(void) const
+	?LocatorProfile@CLbsLocator@@QBE?AVTUid@@XZ @ 23 NONAME ; class TUid CLbsLocator::LocatorProfile(void) const
+	?Longitude@TLbsLocation@@QBENXZ @ 24 NONAME ; double TLbsLocation::Longitude(void) const
+	?Move@TLbsLocation@@QAEHMM@Z @ 25 NONAME ; int TLbsLocation::Move(float, float)
+	?MovementEvent@TLbsMovementEvent@@QBE?AW4TLbsMovementEventType@1@XZ @ 26 NONAME ; enum TLbsMovementEvent::TLbsMovementEventType TLbsMovementEvent::MovementEvent(void) const
+	?NewL@CLbsLocator@@SAPAV1@AAVMLbsLocationObserver@@@Z @ 27 NONAME ; class CLbsLocator * CLbsLocator::NewL(class MLbsLocationObserver &)
+	?NewL@CLbsLocator@@SAPAV1@XZ @ 28 NONAME ; class CLbsLocator * CLbsLocator::NewL(void)
+	?RemoveLocationObserver@CLbsLocator@@QAEHAAVMLbsLocationObserver@@@Z @ 29 NONAME ; int CLbsLocator::RemoveLocationObserver(class MLbsLocationObserver &)
+	?RemoveMovementObserver@CLbsLocator@@QAEHAAVMLbsMovementObserver@@@Z @ 30 NONAME ; int CLbsLocator::RemoveMovementObserver(class MLbsMovementObserver &)
+	?SetAltitude@TLbsLocation@@QAEHMM@Z @ 31 NONAME ; int TLbsLocation::SetAltitude(float, float)
+	?SetCourse@TLbsLocation@@QAEHMM@Z @ 32 NONAME ; int TLbsLocation::SetCourse(float, float)
+	?SetLocation@TLbsLocation@@QAEHNNM@Z @ 33 NONAME ; int TLbsLocation::SetLocation(double, double, float)
+	?SetLocatorOption@CLbsLocator@@QAEHW4TLbsLocatorOption@1@H@Z @ 34 NONAME ; int CLbsLocator::SetLocatorOption(enum CLbsLocator::TLbsLocatorOption, int)
+	?SetLocatorProfile@CLbsLocator@@QAEHVTUid@@@Z @ 35 NONAME ; int CLbsLocator::SetLocatorProfile(class TUid)
+	?SetMovementEvent@TLbsMovementEvent@@QAEXW4TLbsMovementEventType@1@@Z @ 36 NONAME ; void TLbsMovementEvent::SetMovementEvent(enum TLbsMovementEvent::TLbsMovementEventType)
+	?SetSpeed@TLbsLocation@@QAEHMM@Z @ 37 NONAME ; int TLbsLocation::SetSpeed(float, float)
+	?SetSystemTimeStamp@TLbsLocation@@QAEHVTTime@@@Z @ 38 NONAME ; int TLbsLocation::SetSystemTimeStamp(class TTime)
+	?SetSystemTimeStamp@TLbsMovementEvent@@QAEHVTTime@@@Z @ 39 NONAME ; int TLbsMovementEvent::SetSystemTimeStamp(class TTime)
+	?Speed@TLbsLocation@@QBEMXZ @ 40 NONAME ; float TLbsLocation::Speed(void) const
+	?SpeedAccuracy@TLbsLocation@@QBEMXZ @ 41 NONAME ; float TLbsLocation::SpeedAccuracy(void) const
+	?StartUpdatesL@CLbsLocator@@QAEXXZ @ 42 NONAME ; void CLbsLocator::StartUpdatesL(void)
+	?StopUpdates@CLbsLocator@@QAEXXZ @ 43 NONAME ; void CLbsLocator::StopUpdates(void)
+	?SystemTimeStamp@TLbsLocation@@QBE?AVTTime@@XZ @ 44 NONAME ; class TTime TLbsLocation::SystemTimeStamp(void) const
+	?SystemTimeStamp@TLbsMovementEvent@@QBE?AVTTime@@XZ @ 45 NONAME ; class TTime TLbsMovementEvent::SystemTimeStamp(void) const
+

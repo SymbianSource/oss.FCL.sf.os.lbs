@@ -1,0 +1,58 @@
+EXPORTS
+	_ZN11CLbsLocator11StopUpdatesEv @ 1 NONAME
+	_ZN11CLbsLocator13StartUpdatesLEv @ 2 NONAME
+	_ZN11CLbsLocator16SetLocatorOptionENS_17TLbsLocatorOptionEi @ 3 NONAME
+	_ZN11CLbsLocator17SetLocatorProfileE4TUid @ 4 NONAME
+	_ZN11CLbsLocator20AddLocationObserverLER20MLbsLocationObserver @ 5 NONAME
+	_ZN11CLbsLocator20AddMovementObserverLER20MLbsMovementObserver @ 6 NONAME
+	_ZN11CLbsLocator22RemoveLocationObserverER20MLbsLocationObserver @ 7 NONAME
+	_ZN11CLbsLocator22RemoveMovementObserverER20MLbsMovementObserver @ 8 NONAME
+	_ZN11CLbsLocator4NewLER20MLbsLocationObserver @ 9 NONAME
+	_ZN11CLbsLocator4NewLEv @ 10 NONAME
+	_ZN11CLbsLocatorD0Ev @ 11 NONAME
+	_ZN11CLbsLocatorD1Ev @ 12 NONAME
+	_ZN11CLbsLocatorD2Ev @ 13 NONAME
+	_ZN12TLbsLocation11SetAltitudeEff @ 14 NONAME
+	_ZN12TLbsLocation11SetLocationEddf @ 15 NONAME
+	_ZN12TLbsLocation18SetSystemTimeStampE5TTime @ 16 NONAME
+	_ZN12TLbsLocation4MoveEff @ 17 NONAME
+	_ZN12TLbsLocation8SetSpeedEff @ 18 NONAME
+	_ZN12TLbsLocation9SetCourseEff @ 19 NONAME
+	_ZN12TLbsLocationC1Ev @ 20 NONAME
+	_ZN12TLbsLocationC2Ev @ 21 NONAME
+	_ZN17TLbsMovementEvent16SetMovementEventENS_21TLbsMovementEventTypeE @ 22 NONAME
+	_ZN17TLbsMovementEvent18SetSystemTimeStampE5TTime @ 23 NONAME
+	_ZN17TLbsMovementEventC1Ev @ 24 NONAME
+	_ZN17TLbsMovementEventC2Ev @ 25 NONAME
+	_ZN24TLbsLocatorClassTypeBaseC1Ev @ 26 NONAME
+	_ZN24TLbsLocatorClassTypeBaseC2Ev @ 27 NONAME
+	_ZNK11CLbsLocator14LocatorProfileEv @ 28 NONAME
+	_ZNK11CLbsLocator16GetLocatorOptionENS_17TLbsLocatorOptionERi @ 29 NONAME
+	_ZNK12TLbsLocation11GetDistanceERKS_Rf @ 30 NONAME
+	_ZNK12TLbsLocation12GetBearingToERKS_Rf @ 31 NONAME
+	_ZNK12TLbsLocation12GetMeanSpeedERKS_Rf @ 32 NONAME
+	_ZNK12TLbsLocation12IsSpeedValidEv @ 33 NONAME
+	_ZNK12TLbsLocation13IsCourseValidEv @ 34 NONAME
+	_ZNK12TLbsLocation13SpeedAccuracyEv @ 35 NONAME
+	_ZNK12TLbsLocation14CourseAccuracyEv @ 36 NONAME
+	_ZNK12TLbsLocation14IsLatLongValidEv @ 37 NONAME
+	_ZNK12TLbsLocation15IsAltitudeValidEv @ 38 NONAME
+	_ZNK12TLbsLocation15SystemTimeStampEv @ 39 NONAME
+	_ZNK12TLbsLocation16AltitudeAccuracyEv @ 40 NONAME
+	_ZNK12TLbsLocation5SpeedEv @ 41 NONAME
+	_ZNK12TLbsLocation6CourseEv @ 42 NONAME
+	_ZNK12TLbsLocation8AccuracyEv @ 43 NONAME
+	_ZNK12TLbsLocation8AltitudeEv @ 44 NONAME
+	_ZNK12TLbsLocation8LatitudeEv @ 45 NONAME
+	_ZNK12TLbsLocation9LongitudeEv @ 46 NONAME
+	_ZNK17TLbsMovementEvent13MovementEventEv @ 47 NONAME
+	_ZNK17TLbsMovementEvent15SystemTimeStampEv @ 48 NONAME
+	_ZNK24TLbsLocatorClassTypeBase16LocatorClassSizeEv @ 49 NONAME
+	_ZNK24TLbsLocatorClassTypeBase16LocatorClassTypeEv @ 50 NONAME
+	_ZTI11CLbsLocator @ 51 NONAME ; #<TI>#
+	_ZTI20MLbsLocationObserver @ 52 NONAME ; #<TI>#
+	_ZTI20MLbsMovementObserver @ 53 NONAME ; #<TI>#
+	_ZTV11CLbsLocator @ 54 NONAME ; #<VT>#
+	_ZTV20MLbsLocationObserver @ 55 NONAME ; #<VT>#
+	_ZTV20MLbsMovementObserver @ 56 NONAME ; #<VT>#
+

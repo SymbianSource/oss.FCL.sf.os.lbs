@@ -1,0 +1,29 @@
+/*
+* Copyright (c) 2005-2010 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  The common build file.
+*
+*/
+
+// Main projects, in build order
+PRJ_EXPORTS
+../inc/lbslocatorclasstypes.h	lbslocatorclasstypes.h
+../inc/lbslocator.h				lbslocator.h
+../inc/lbslocation.h			lbslocation.h
+../inc/lbsmovementevent.h		lbsmovementevent.h
+../inc/lbslocationobserver.h 	lbslocationobserver.h
+../inc/lbsmovementobserver.h 	lbsmovementobserver.h
+
+PRJ_MMPFILES
+lbslocator.mmp
+

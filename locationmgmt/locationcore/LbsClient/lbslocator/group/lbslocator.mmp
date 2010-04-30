@@ -1,0 +1,40 @@
+// Copyright (c) 2005-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+// NOTE: ***** TEST UID BELOW*****
+TARGET		lbslocator.dll
+TARGETTYPE	DLL
+UID 0x1000007A 0xE36F1DC6
+
+
+CAPABILITY Location  
+
+
+SOURCEPATH	../src
+SOURCE		lbslocatorclasstypes.cpp
+SOURCE		lbslocator.cpp
+SOURCE		lbslocation.cpp
+SOURCE		lbsmovementevent.cpp
+SOURCE		lbslocationobserver.cpp
+SOURCE		lbsmovementobserver.cpp 
+
+USERINCLUDE	    ../inc
+
+SYSTEMINCLUDE   ../inc 
+SYSTEMINCLUDE	/epoc32/include
+
+LIBRARY		euser.lib
+LIBRARY		lbs.lib
+
