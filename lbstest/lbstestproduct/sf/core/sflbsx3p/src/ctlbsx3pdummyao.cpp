@@ -33,7 +33,7 @@ CT_LbsX3PDummyAO* CT_LbsX3PDummyAO::NewL(MT_LbsX3PDummyObserver* aObserver)
 	}
 
 
-CT_LbsX3PDummyAO::CT_LbsX3PDummyAO(MT_LbsX3PDummyObserver* aObserver) : iObserver(aObserver), CActive(EPriorityStandard)
+CT_LbsX3PDummyAO::CT_LbsX3PDummyAO(MT_LbsX3PDummyObserver* aObserver) : CActive(EPriorityStandard), iObserver(aObserver)
 /**
  * 	Constructor - will not leave
  */

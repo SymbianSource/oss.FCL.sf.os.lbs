@@ -32,8 +32,6 @@
 
 // constant definitions
 _LIT(KLbsClientStepLastKnownPosAreaSources, "LbsClientStepLastKnownPosAreaSources");
-const TInt KSimTsyTransitionDelay = 4000000; // Currently it seems to take the SimTsy 3 seconds to change cell
-
 
 /**
  * Destructor

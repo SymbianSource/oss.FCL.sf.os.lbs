@@ -208,7 +208,7 @@ static const CPosIntGpsHwStatus::TIntGpsHwStatus KResultStatusTable[8] =
 	CPosIntGpsHwStatus::EStatusActive	// EDeviceActive 		-> EStatusActive
 	};
 
-void Cman0Step::OnStatusUpdateEvent(CPosIntGpsHwStatus::TIntGpsHwStatus aStatus, TInt aError)
+void Cman0Step::OnStatusUpdateEvent(CPosIntGpsHwStatus::TIntGpsHwStatus aStatus, TInt /*aError*/)
 {
  	INFO_PRINTF3(_L("Received TIntGpsHwStatus %d and expected %d"), aStatus , KResultStatusTable[iStepCount]);  
  

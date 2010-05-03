@@ -192,11 +192,9 @@ void CTestMolrSessionSequence::OnGetLastKnownPosition(TInt32 aErr, const TPositi
 
 /** MPosServerObserver callback when NotifyPositionUpdate is called
  */
-void CTestMolrSessionSequence::OnNotifyPositionUpdate(TInt32 aErr, const TPositionInfoBase& aPosInfo)
+void CTestMolrSessionSequence::OnNotifyPositionUpdate(TInt32 aErr, const TPositionInfoBase& /*aPosInfo*/)
 	{
 	LogTestStatement(_L("-> NotifyPositionUpdate(%d) [5000] Sq: %d"), 2, aErr, iSequenceId);
-	
-	const TPositionInfo posInfo = static_cast<const TPositionInfo&>(aPosInfo);
 	
 	//Check to see whether this was required in the current sequence
 	if(iStateSequence[iCurrentPosition] == ENotifyPositionUpdate)

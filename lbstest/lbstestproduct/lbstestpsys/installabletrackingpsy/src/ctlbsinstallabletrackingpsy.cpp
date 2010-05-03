@@ -90,7 +90,7 @@ void CT_LbsInstallableTrackingPsy::NotifyPositionUpdate(
         // Set this position when tracking is enabled (on-going)
         TCoordinate coor(65.0, 65.0, 65.0);
         TLocality loc (coor, 1.0, 1.0);
-        TPosition pos (loc, TTime());
+        TPosition pos (loc, TTime(0));
         position -> SetPosition(pos);
         }
     else
@@ -98,7 +98,7 @@ void CT_LbsInstallableTrackingPsy::NotifyPositionUpdate(
 	    // Set a dummy position
         TCoordinate coor(30.0, 30.0, 30.0);
         TLocality loc (coor, 1.0, 1.0);
-        TPosition pos (loc, TTime());
+        TPosition pos (loc, TTime(0));
         position -> SetPosition(pos);
 
         User::RequestComplete(iStatus, KErrNone);

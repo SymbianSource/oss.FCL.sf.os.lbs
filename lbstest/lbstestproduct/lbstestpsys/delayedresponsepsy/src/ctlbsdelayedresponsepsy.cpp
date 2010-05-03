@@ -23,7 +23,6 @@
 #include "epos_mpositionerstatus.h"
 
 // CONSTANTS
-const TInt KMinimumUpdateInterval = 100000;
 
 
 // ================= MEMBER FUNCTIONS =======================
@@ -86,7 +85,7 @@ void CT_LbsDelayedResponsePsy::NotifyPositionUpdate(
 	// Set the position 
 	TCoordinate coor(65.0, 65.0, 65.0);
 	TLocality loc (coor, 1.0, 1.0);
-	TPosition pos (loc, TTime());
+	TPosition pos (loc, TTime(0));
 	position -> SetPosition(pos);
 
 	if(iDelay)

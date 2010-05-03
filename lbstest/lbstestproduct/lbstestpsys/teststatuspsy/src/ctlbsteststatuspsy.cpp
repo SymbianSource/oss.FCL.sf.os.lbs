@@ -212,7 +212,7 @@ void CT_LbsTestStatusPsy::NotifyPositionUpdate(
 	// Set a dummy position
 	TCoordinate coor(20.0, 20.0, 20.0);
 	TLocality loc (coor, 1.0, 1.0);
-	TPosition pos (loc, TTime());
+	TPosition pos (loc, TTime(0));
 	position -> SetPosition(pos);
 
 	User::RequestComplete(status, KErrNone);

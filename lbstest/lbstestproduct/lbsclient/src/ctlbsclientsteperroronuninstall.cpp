@@ -109,7 +109,7 @@ void CT_LbsClientStepErrorOnUninstall::StartL()
 	err = positioner.SetUpdateOptions(posOption);
 	_LIT(KUpdateErr, "Error when setting update interval,  %d");
 	AssertTrueL(err == KErrNone, KUpdateErr, err);	
-	INFO_PRINTF2(_L("Update Interval set to %d\n"), interval);
+	INFO_PRINTF2(_L("Update Interval set to %d\n"), interval.Int64());
 	
 	TPositionInfo positionInfo; // = TPositionInfo();	
 	TRequestStatus status;
@@ -119,7 +119,7 @@ void CT_LbsClientStepErrorOnUninstall::StartL()
     
     if(status != KErrNone)
     	{
-    	INFO_PRINTF2(_L("Failing: NotifyPositionUpdate returned %d\n"), status);
+    	INFO_PRINTF2(_L("Failing: NotifyPositionUpdate returned %d\n"), status.Int());
     	}
 	////////////////////////////////////
     	
@@ -145,7 +145,7 @@ void CT_LbsClientStepErrorOnUninstall::StartL()
 	INFO_PRINTF1(_L("Wait for second NotifyPositionUpdate() request to complete\n"));	
     User::WaitForRequest(status);   
 	
-    INFO_PRINTF2(_L("NotifyPositionUpdate() request completed with %d\n"), status);  
+    INFO_PRINTF2(_L("NotifyPositionUpdate() request completed with %d\n"), status.Int());  
     
 #ifdef	__WINSCW__
 	if(status != KErrNone)

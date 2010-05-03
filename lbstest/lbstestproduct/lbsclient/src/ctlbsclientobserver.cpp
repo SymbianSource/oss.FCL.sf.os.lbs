@@ -52,7 +52,7 @@ void EPosShutdownWaitCleanupItem(TAny*)
 //
 void CT_LbsClientObserver::EPosShutdownWaitPushL()
     {
-    CleanupStack::PushL(TCleanupItem(EPosShutdownWaitCleanupItem));
+    CleanupStack::PushL(TCleanupItem(EPosShutdownWaitCleanupItem, NULL)); 
     }
 
 // ---------------------------------------------------------
@@ -90,7 +90,7 @@ void PrivacyServerShutdownWaitCleanupItem(TAny*)
 //
 void CT_LbsClientObserver::PrivacyServerShutdownWaitPushL()
     {
-    CleanupStack::PushL(TCleanupItem(PrivacyServerShutdownWaitCleanupItem));
+    CleanupStack::PushL(TCleanupItem (PrivacyServerShutdownWaitCleanupItem, NULL));
     }
 
 // ---------------------------------------------------------

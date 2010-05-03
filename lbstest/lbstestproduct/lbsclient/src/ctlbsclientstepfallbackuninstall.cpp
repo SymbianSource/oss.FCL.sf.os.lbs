@@ -117,7 +117,7 @@ void CT_LbsClientStepFallbackUninstall::StartL()
 	err = positioner.SetUpdateOptions(posOption);
 	_LIT(KUpdateErr, "Error when setting update interval,  %d");
 	AssertTrueL(err == KErrNone, KUpdateErr, err);	
-	INFO_PRINTF2(_L("Update Interval set to %d\n"), interval);
+	INFO_PRINTF2(_L("Update Interval set to %d\n"), interval.Int64());
 	
 	TPositionInfo positionInfo; 	
 	TRequestStatus status;
@@ -129,7 +129,7 @@ void CT_LbsClientStepFallbackUninstall::StartL()
     
     if(status != KErrNone)
     	{
-    	INFO_PRINTF2(_L("Failing: NotifyPositionUpdate returned %d\n"), status);
+    	INFO_PRINTF2(_L("Failing: NotifyPositionUpdate returned %d\n"), status.Int());
     	}
 	////////////////////////////////////
     	
@@ -156,7 +156,7 @@ void CT_LbsClientStepFallbackUninstall::StartL()
 	INFO_PRINTF1(_L("Wait for second NotifyPositionUpdate() request to complete\n"));	
     User::WaitForRequest(status);   
 	
-    INFO_PRINTF2(_L("NotifyPositionUpdate() request completed with %d\n"), status);  
+    INFO_PRINTF2(_L("NotifyPositionUpdate() request completed with %d\n"), status.Int());  
     
 	if(status != KErrNone)
 		{

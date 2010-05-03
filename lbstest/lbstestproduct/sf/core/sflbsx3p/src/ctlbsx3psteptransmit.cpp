@@ -1266,7 +1266,7 @@ void CT_LbsX3PStep_Transmit::MT_LbsX3PDoRefPosCallback(const TRequestStatus& aSt
     			{
    				// NOTE: Due to a race condition in test framework that can occur on H4, it is a possibility 
    				// that we will not see the KErrDisconnected, but instead KErrNone. Therefore we cant fail the test for this.
-   				INFO_PRINTF2(_L("<FONT><B> should have returned KErrDisconnected or KErrNone, recevied %d instead</B></FONT>"),aStatus);
+   				INFO_PRINTF2(_L("<FONT><B> should have returned KErrDisconnected or KErrNone, recevied %d instead</B></FONT>"),aStatus.Int());
 
 				SetTestStepResult(EFail);
 				}

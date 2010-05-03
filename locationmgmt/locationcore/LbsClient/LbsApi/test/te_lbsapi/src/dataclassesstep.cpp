@@ -1131,7 +1131,7 @@ void CDataClassesStep::SatelliteClasses_PropertiesL()
            
     // all max values for UTran/Fdd 
     const TInt dumGpsTocMs  = (TInt) 16383;
-    const TUint dumGpsTocLs = (TUint) 4294967295;
+    const TUint dumGpsTocLs = (TUint) 4294967295UL;
     const TInt dumRefId     = (TInt) 511;
     const TInt dumSfn       = (TInt) 4095;
    
@@ -1334,7 +1334,7 @@ void CDataClassesStep::GpsMeasurementClasses_PropertiesL()
      
      // all max values for UTran/Fdd 
      const TInt dumGpsTocMs  = (TInt) 16383;
-     const TUint dumGpsTocLs = (TUint) 4294967295;
+     const TUint dumGpsTocLs = (TUint) 4294967295UL; 
      const TInt dumRefId     = (TInt) 511;
      const TInt dumSfn       = (TInt) 4095;
      

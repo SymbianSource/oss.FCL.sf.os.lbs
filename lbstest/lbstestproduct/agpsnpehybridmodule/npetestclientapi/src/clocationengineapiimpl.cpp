@@ -59,7 +59,7 @@ const TInt KLbsModuleNumOfUpdates = 3;  // Can't be greater than 16
 #define COURSE_ACCURACY                 4.0
 //TGpsTimingMeasurementData
 #define GPS_TIMING_OF_CELL_MsPart       16383                          
-#define GPS_TIMING_OF_CELL_LsPart       4294967295 
+#define GPS_TIMING_OF_CELL_LsPart       4294967295UL
 #define REFERENCE_IDENTITY              511
 #define SFN                             4095
 //TDetailedErrorReport

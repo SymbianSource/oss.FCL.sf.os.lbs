@@ -693,7 +693,7 @@ void CLbsNrhStateTestBaseStep::AgpsManager_SendGpsMeasurementUpdateL()
 
 	}
 
-void CLbsNrhStateTestBaseStep::AgpsManager_WaitLocationRequestOrRequestAndStatusL(TInt aMode0, TInt aMode1, TInt aHorAccuracy, TInt aMaxFixTime, TInt aExpectedPowerAdvice)
+void CLbsNrhStateTestBaseStep::AgpsManager_WaitLocationRequestOrRequestAndStatusL(TInt /*aMode0*/, TInt /*aMode1*/, TInt /*aHorAccuracy*/, TInt /*aMaxFixTime*/, TInt /*aExpectedPowerAdvice*/)
 	{
 	INFO_PRINTF1(_L("AgpsManager_WaitLocationRequestOrStatusL()"));
 	iAgpsChannel->WaitForRequestL(KDefaultTimeout);

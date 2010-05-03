@@ -38,8 +38,7 @@ void CLbsLocMonitorDbEngine::ConstructL()
 	{
 	LBSLOG(ELogP1,"->CLbsLocMonitorDbEngine::ConstructL");
 	InitDbL();
-	iPeriodic = CPeriodic::NewL(EPriorityStandard);
-	iPeriodic->Start(KInitialPeriod, KFlushPeriod, TCallBack(FlushTimerCallback, this));
+	iDbTimer = CLbsLocMonitorDbTimer::NewL(*this);
 	}		
 
 
@@ -89,11 +88,9 @@ CLbsLocMonitorDbEngine::~CLbsLocMonitorDbEngine()
 	{
 	LBSLOG(ELogP1,"->CLbsLocMonitorDbEngine::~CLbsLocMonitorDbEngine");
 	Cancel();
-	if(iPeriodic)
-		{
-		iPeriodic->Cancel();
-		delete iPeriodic;
-		}
+	
+	delete iDbTimer;
+
 	if(iDBInitialised)
 		{
 		iSqlSaveStatement.Close();
@@ -118,6 +115,13 @@ TInt CLbsLocMonitorDbEngine::SavePosition(TUint aMcc, TUint aMnc, TUint aLac, TU
 		}		
 	iClientStatus = &aStatus;
 	*iClientStatus = KRequestPending;
+	
+	// If the db flush timer is not running, start it
+	if(!iDbTimer->IsRunning())
+	    {
+        iDbTimer->StartTimer(KFlushPeriod);
+	    }
+	
 	// If the cache does not contain a cell, this cell goes in the cache
 	if (!iIsLastValid)
 		{
@@ -378,15 +382,10 @@ void CLbsLocMonitorDbEngine::Flush(TBool aShutdown)
 	}
 
 
-TInt CLbsLocMonitorDbEngine::FlushTimerCallback(TAny* aPtr)
+void CLbsLocMonitorDbEngine::FlushTimerCallback()
 	{
 	LBSLOG(ELogP1,"->CLbsLocMonitorDbEngine::FlushTimerCallback");
-	CLbsLocMonitorDbEngine* DbEngine = static_cast<CLbsLocMonitorDbEngine*>(aPtr);
-	if (DbEngine)
-		{
-		DbEngine->Flush(EFalse);
-		}
-	return KErrNone;
+	Flush(EFalse);
 	}
 
 

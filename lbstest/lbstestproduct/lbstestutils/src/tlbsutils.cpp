@@ -1141,7 +1141,7 @@ TInt T_LbsUtils::GetModIdByTechnology(RPositionServer& aServer, TPositionModuleI
 /**
  * Method for comparing base class member variables in Logevent types
  */
-TBool T_LbsUtils::Compare_LogBase(const CLbsLogEvent& aLogEventSideA, const CLbsLogEvent& aLogEventSideB)
+EXPORT_C TBool T_LbsUtils::Compare_LogBase(const CLbsLogEvent& aLogEventSideA, const CLbsLogEvent& aLogEventSideB)
 {
 	if(aLogEventSideA.Direction() != aLogEventSideB.Direction())
 		return EFalse;
