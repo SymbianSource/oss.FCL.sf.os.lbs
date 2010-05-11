@@ -20,7 +20,7 @@ PRJ_EXPORTS
 
 
 // File needs to be exported to allow UI layer to access it. Otherwise code duplication/differentiation will occur.
-..\inc\EPos_TPosQNInputData.h      SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(lbs/EPos_TPosQNInputData.h)
+../inc/EPos_TPosQNInputData.h      SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(lbs/epos_tposqninputdata.h)
 
 
 // End of file

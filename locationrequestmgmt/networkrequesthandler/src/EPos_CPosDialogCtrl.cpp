@@ -78,8 +78,6 @@ CPosDialogCtrl::~CPosDialogCtrl()
     for (TInt i = 0; i < count; i++)
         {
         DoCompleteRequest(0, KErrServerTerminated);
-        // Delete the pointer items
-        delete iRequestQueue[i].iRequestInfo;
         }
 
     iNotifier.Close();
@@ -279,8 +277,16 @@ void CPosDialogCtrl::DoCompleteRequest(
     TInt aIndex,
     TInt aCompletionCode)
     {
-    TRequestStatus* status = iRequestQueue[aIndex].iStatus;
-    User::RequestComplete(status, aCompletionCode);
+    TRequest request = iRequestQueue[aIndex];
+    if (request.iType == TPosQNInputData::ENotification)
+        {
+        delete request.iRequestInfo;
+        }
+    else
+        {
+        TRequestStatus* status = request.iStatus;
+        User::RequestComplete(status, aCompletionCode);
+        }
     iRequestQueue.Remove(aIndex);
     iRequestQueue.Compress();
     }
@@ -365,22 +371,10 @@ TInt CPosDialogCtrl::StartNotifierRequest()
         delete reqStackBuf;
         reqStackBuf = NULL;
 
-        if (data.iType == TPosQNInputData::ENotification) // We dont expect a resonse from a notfication
-            {
-            iNotifier.StartNotifier(KNotifierUid, nullPtr, nullPtr);
-            
-            // As we wont be getting a response remove from the notification list
-            delete iRequestQueue[0].iRequestInfo;
-            iRequestQueue.Remove(0);
-            iRequestQueue.Compress();
-            }
-        else
-            {
-            iNotifier.StartNotifierAndGetResponse(
-                    iStatus, KNotifierUid, nullPtr, nullPtr);
-            SetActive();
-            }
-        
+        iNotifier.StartNotifierAndGetResponse(
+            iStatus, KNotifierUid, nullPtr, nullPtr);
+        SetActive();
+
         err = iNotifier.UpdateNotifier(KNotifierUid, *buffer, nullPtr);
         if (err != KErrNone)
             {

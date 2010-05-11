@@ -52,9 +52,7 @@ void CLbsLocMonitorRequestHandler::ConstructL()
 	// Allocate space for 1 pointer to area info source object (Global Cell Id)
 	iCurrentAreaInfo.ReserveL(ELastAreaInfoType);
 	TLbsLocMonitorAreaInfoGci* locMonitorAreaInfoGci = new(ELeave) TLbsLocMonitorAreaInfoGci;
-	CleanupStack::PushL(locMonitorAreaInfoGci);
 	iCurrentAreaInfo.Insert(static_cast<TLbsLocMonitorAreaInfoBase*>(locMonitorAreaInfoGci), EGlobalCellIdType);
-	CleanupStack::Pop(locMonitorAreaInfoGci);
 	
 	iDb.OpenL();
 	}
