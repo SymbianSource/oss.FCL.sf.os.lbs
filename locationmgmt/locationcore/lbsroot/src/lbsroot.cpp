@@ -51,6 +51,7 @@
 #include "LbsExtendModuleInfo.h"
 #include "lbsqualityprofile.h"
 #include "lbssuplpushprops.h"
+#include "lbspositioningstatusprops.h"
 #if defined(_DEBUG)
 #include "LbsOomTest.h"
 #endif
@@ -449,6 +450,12 @@ void CLbsSystem::DefineLbsPropertiesL()
 	
 	
 	LbsSuplPushProps::InitializeL();
+
+	// Initialize the NI-LR Positioning Status Property.
+	// Note the MO-LR Positioning Status Property is initialized by the
+	// location server
+	LbsPositioningStatusProps::InitializeNiPropertyL();
+
 #if defined(_DEBUG)   
 	//Initialize the OOM Test property.
 	ROomRequest::InitializeL();

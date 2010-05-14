@@ -90,5 +90,8 @@ const TUint32 KOomTestKey							= 0x0000A001;
 // SUPL Push API 
 const TUint32 KSuplPushAPIKey						= 0x0000B000;
 
+// Positioning Status API 
+const TUint32 KNiPositioningStatusAPIKey			= 0x0000C000;
+const TUint32 KMoPositioningStatusAPIKey			= 0x0000C001;
 
 #endif // LBSROOTCENREPDEFS_H

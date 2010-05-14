@@ -47,6 +47,7 @@ SOURCE		ctlbsmtlrgpsoptions.cpp
 SOURCE		ctlbsmtlrresetassistance.cpp
 SOURCE		ctlbsnetworkinducedmtlr.cpp 
 SOURCE      ctlbsoom.cpp
+SOURCE		ctlbshybridueassistedmtlrposstatus.cpp
 
 // LBS libraries.
 LIBRARY	lbs.lib
@@ -61,6 +62,7 @@ LIBRARY	lbslocdatasource.lib
 LIBRARY lbsinternalapi.lib
 LIBRARY	lbspartnercommon.lib
 LIBRARY	lbsdebug.lib
+LIBRARY lbspositioningstatus.lib
 // LBS test libraries.
 LIBRARY lbstestutils.lib
 LIBRARY lbstestclient.lib

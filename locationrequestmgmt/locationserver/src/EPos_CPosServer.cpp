@@ -41,6 +41,7 @@
 #include "EPos_CPosLocMonitorReqHandlerHub.h"
 
 #include "EPos_Global.h"
+#include "lbspositioningstatusprops.h"
 
 // CONSTANTS
 _LIT(KPosResourceFile, "\\private\\101F97B2\\eposserver.rsc");
@@ -180,10 +181,11 @@ void CPosServer::ConstructL()
     DEBUG_TRACE("Setting Location Settings observer...", __LINE__)
     iModuleSettings->AddListenerL(*this);
 
+    // Define the MO Positioning Status property
+	LbsPositioningStatusProps::InitializeMoPropertyL();	
+   
     DEBUG_TRACE("Starting server active object...", __LINE__)
     StartL(KPositionServerName);
-    
-   
     }
 
 /**
@@ -203,7 +205,6 @@ CPosServer* CPosServer::NewL()
  */
 CPosServer::~CPosServer()
     {
-    
     delete iLocMonitorReqHandlerHub;
     
     delete iShutdown;
@@ -211,7 +212,7 @@ CPosServer::~CPosServer()
     delete iModuleSettings;
     delete iBackupListener;
    
-
+    
     // This is needed because CPositioner might have used ECom (PSYs)
     REComSession::FinalClose();
     }

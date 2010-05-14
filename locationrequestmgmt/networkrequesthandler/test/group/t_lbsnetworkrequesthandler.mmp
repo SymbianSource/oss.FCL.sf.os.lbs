@@ -99,6 +99,7 @@ SOURCE tstartparamsbase.cpp
 
 USERINCLUDE   ../../inc
 USERINCLUDE   ../../../../locationmgmt/locationcore/LbsCommonInternalDataTypes/inc
+USERINCLUDE	  ../../../../locationmgmt/locationcore/lbsroot/inc		
 USERINCLUDE   ../../../../locationmgmt/locationcore/lbsrootapi/inc
 USERINCLUDE   ../../../../locationmgmt/locationcore/LbsInternalApi/inc
 USERINCLUDE   ../../../../locationmgmt/locationcore/LbsNetInternalApi/inc
@@ -119,6 +120,7 @@ OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 LIBRARY       euser.lib
 LIBRARY       estor.lib
+LIBRARY		  centralrepository.lib
 LIBRARY		  lbs.lib
 LIBRARY       lbsloccommon.lib
 LIBRARY	  	  lbsx3p.lib

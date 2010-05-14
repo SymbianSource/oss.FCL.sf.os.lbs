@@ -44,6 +44,8 @@
 #include "../../locmonitor/lbslocmonitorclient/group/bld.inf"
 #include "../LbsRefLocDataSource/group/bld.inf"
 
+#include "../lbspositioningstatus/group/bld.inf"
+
 
 // Test code
 #include "../test/group/bld.inf"

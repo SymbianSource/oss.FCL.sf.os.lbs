@@ -45,6 +45,7 @@
 		<suite>tsuplasn1suite</suite>
  		<suite>te_suplproxypmsuite</suite>
  		<suite>te_npeintegrationmodulesuite</suite>
+		<suite>te_lbspositioningstatussuite</suite>
     </testItems>
     
     <dependencies>

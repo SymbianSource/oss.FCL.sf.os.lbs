@@ -141,6 +141,7 @@ class CPositionRequest : public CActive
 //        CPosLocMonitorReqHandlerHub&    iLastPositionHandler;
         CPosLocMonitorReqHandlerHub&    iLocMonitorReqHandler;
         CPosModuleSettings&         	iModuleSettings;
+        TUid	                        iPosStatusCategory;
     };  
 
 #endif  // CPOSITIONREQUEST_H

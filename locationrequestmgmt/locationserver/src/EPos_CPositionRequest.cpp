@@ -21,6 +21,7 @@
 #include <lbs/epos_cpositioner.h>
 #include <lbs/epos_cposmodules.h>
 #include <lbs/epos_mposmodulesobserver.h>
+#include <centralrepository.h>
 #include "lbsdevloggermacros.h"
 #include "EPos_ServerPanic.h"
 #include "EPos_Global.h"
@@ -34,6 +35,8 @@
 #ifdef OST_TRACE_COMPILER_IN_USE
 #include "EPos_CPositionRequestTraces.h"
 #endif
+#include "lbsrootcenrepdefs.h"
+#include "lbspositioningstatusprops.h"
 
 
 
@@ -102,6 +105,14 @@ void CPositionRequest::ConstructL()
         User::Leave(KErrNotFound);
         }
 
+    // Get the CategoryUid from the cenrep file owned by LbsRoot.
+    CRepository* rep = CRepository::NewLC(KLbsCenRepUid);
+    TInt posStatusCategory;
+    TInt err = rep->Get(KMoPositioningStatusAPIKey, posStatusCategory);
+    User::LeaveIfError(err);
+    CleanupStack::PopAndDestroy(rep);
+    iPosStatusCategory = TUid::Uid(posStatusCategory);
+    
     LoadPositionerL();
     }
 
@@ -166,6 +177,21 @@ void CPositionRequest::MakeRequestL(const RMessage2& aMessage)
         }
 
     __ASSERT_DEBUG(iPositioner, DebugPanic(EPosServerPanicPositionerNotInitialized));
+    
+    //Increment the StatusKeyValue for Positioning Indicator clients
+    if(iTrackingState == EPosNoTracking || iTrackingState == EPosFirstTrackingRequest)
+        {
+        TInt     count, err;     
+        err = RProperty::Get(iPosStatusCategory, KLbsMoPositioningStatusKey, count);
+        if(err == KErrNone)
+            {
+            err = RProperty::Set(iPosStatusCategory, KLbsMoPositioningStatusKey, count+1);
+            }
+        if(err != KErrNone)
+            {
+            DEBUG_TRACE("CPositionRequest::MakeRequestL() - Error in setting or getting Positioning Status", __LINE__)
+            }
+        }
 
     iMessage = aMessage; // Store parameter here in case of leave.
 
@@ -505,6 +531,25 @@ void CPositionRequest::CompleteClient(TInt aReason)
 		LBS_RDEBUG_ARGINT("LBS","Client", "RunL", aReason);
         iMessage.Complete(aReason);
         }
+    //Decrement the StatusKeyValue for Positioning Indicator clients
+    if(iTrackingState == EPosNoTracking)
+        {
+        TInt     count, err;     
+        err = RProperty::Get(iPosStatusCategory, KLbsMoPositioningStatusKey, count);
+        if(err == KErrNone && count > 0)
+            {
+            err = RProperty::Set(iPosStatusCategory, KLbsMoPositioningStatusKey, count-1);
+            }
+
+        if(err != KErrNone)
+            {
+            DEBUG_TRACE("CPositionRequest::StopTracking() - error in getting or setting Positioning Status", __LINE__)            
+            }
+        else if (count <=0)
+            {
+            DEBUG_TRACE("CPositionRequest::StopTracking() - Incorrect Positioning Status tracking count", __LINE__)            
+            }
+        }
     }
 
 void CPositionRequest::CompleteRequest(TInt aReason)
@@ -704,6 +749,23 @@ void CPositionRequest::StopTracking()
     iTrackingState = EPosNoTracking;
 
     StopPsyTracking();
+    
+    //Set PositionIndicator Off
+    TInt     count, err;     
+    err = RProperty::Get(iPosStatusCategory, KLbsMoPositioningStatusKey, count);
+    if(err == KErrNone && count > 0)
+        {
+        err = RProperty::Set(iPosStatusCategory, KLbsMoPositioningStatusKey, count-1);
+        }
+    
+    if(err != KErrNone)
+        {
+        DEBUG_TRACE("CPositionRequest::StopTracking() - error in getting or setting Positioning Status", __LINE__)            
+        }
+    else if (count <=0)
+        {
+        DEBUG_TRACE("CPositionRequest::StopTracking() - Incorrect Positioning Status tracking count", __LINE__)            
+        }
     }
 
 void CPositionRequest::StopPsyTracking()

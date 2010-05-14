@@ -26,6 +26,7 @@ PRJ_TESTEXPORTS
 ../scripts/mtlr_reset_assistance.script				c:/testdata/scripts/mtlr_reset_assistance.script
 ../scripts/mtlr_network_induced.script				c:/testdata/scripts/mtlr_network_induced.script
 ../scripts/lbs_oom.script			            	c:/testdata/scripts/lbs_oom.script
+../scripts/hybrid_ueassisted_mtlr_posstatus.script		c:/testdata/scripts/hybrid_ueassisted_mtlr_posstatus.script
 
 ../testdata/lbs_mtlr.ini							c:/testdata/configs/lbs_mtlr.ini
 

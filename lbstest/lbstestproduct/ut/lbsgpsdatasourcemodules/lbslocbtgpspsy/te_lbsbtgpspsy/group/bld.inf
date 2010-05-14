@@ -27,7 +27,10 @@ PRJ_TESTEXPORTS
 
 
 ../testdata/te_lbsbtgpspsy.ini		c:/testdata/configs/te_lbsbtgpspsy.ini
-../testdata/featuredatabase.xml		/epoc32/rom/include/featuredatabase.xml
+
+//comment out: default featuredatabase.xml file does want we want..i.e includes the by psy.
+//../testdata/featuredatabase.xml		/epoc32/rom/include/featuredatabase.xml
+
 ./te_lbsbtgpspsy.iby   				/epoc32/rom/include/te_lbsbtgpspsy.iby
 
 

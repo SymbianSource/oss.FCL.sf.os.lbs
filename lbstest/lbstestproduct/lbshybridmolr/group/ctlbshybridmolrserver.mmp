@@ -65,6 +65,9 @@ SOURCE		ctlbsmolrerrorassistance.cpp
 // Supl tests
 SOURCE		ctlbssuplmolrtbfutilesp.cpp
 
+//Positioning Indicator test files
+SOURCE		ctlbshybridueassistednpudposstatus.cpp
+
 // LBS libraries.
 LIBRARY	lbs.lib
 LIBRARY	lbsloccommon.lib
@@ -78,6 +81,7 @@ LIBRARY	lbslocdatasource.lib
 LIBRARY lbsnetinternalapi.lib
 LIBRARY lbsinternalapi.lib
 LIBRARY	lbspartnercommon.lib
+LIBRARY lbspositioningstatus.lib
 
 // LBS test libraries.
 LIBRARY lbstestutils.lib
