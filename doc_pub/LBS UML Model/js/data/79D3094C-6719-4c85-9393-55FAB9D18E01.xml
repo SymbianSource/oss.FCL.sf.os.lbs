@@ -1,0 +1,2 @@
+tocTab[tocTab.length] = new Array("3.1.1.1.1.5.1", "1", "Generic - MOLR - Get Last Known Location Area - Different network information", "EARoot/EA3/EA1/EA1/EA1/EA1/EA5/EA410.htm", "4.png", "", "", "{B0489C0E-4569-41e4-89B4-E9CE89A0C66C}", "Package");
+tocTab[tocTab.length] = new Array("3.1.1.1.1.5.2", "1", "Generic - MOLR - Get Last Known Location Area - Same network information", "EARoot/EA3/EA1/EA1/EA1/EA1/EA5/EA411.htm", "4.png", "", "", "{4C4721C5-28E2-4df1-B4B8-5BB5AEA07A9B}", "Package");

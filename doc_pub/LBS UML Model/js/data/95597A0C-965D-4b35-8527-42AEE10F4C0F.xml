@@ -1,0 +1,2 @@
+tocTab[tocTab.length] = new Array("3.2.2.2.1.1", "1", "Generic - MOLR - Get Last Known Position Area ", "EARoot/EA3/EA2/EA2/EA2/EA1/EA2831.htm", "4.png", "", "", "{88FA1848-7EAA-41e8-9A5C-98D057BDF20D}", "Package");
+tocTab[tocTab.length] = new Array("3.2.2.2.1.2", "1", "Generic - MOLR - Get Last Known Position Area  - PSY", "EARoot/EA3/EA2/EA2/EA2/EA1/EA2832.htm", "4.png", "", "", "{A2244F6F-1936-4821-85A8-9C7660819F27}", "Package");

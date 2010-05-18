@@ -1,0 +1,5 @@
+tocTab[tocTab.length] = new Array("3.1.1.1.3.1:1", "", "Generic - X3P - TAP", "EARoot/EA3/EA1/EA1/EA1/EA3/EA1/EA773.htm", "185.png", "256", "0", "", "Sequence diagram0","{F9269E58-8267-4fee-A8CD-136E845A3C4B}");
+tocTab[tocTab.length] = new Array("3.1.1.1.3.1:2", "", "«Ecom plug-in» : Protocol Module", "EARoot/EA3/EA1/EA1/EA1/EA3/EA1/EA775.htm", "10.png", "7686", "0", "", "Component0","{4FBD429F-EB5E-4e79-A8AD-1B95ACB91616}");
+tocTab[tocTab.length] = new Array("3.1.1.1.3.1:3", "", "«Ecom plug-in» : AGPS Module", "EARoot/EA3/EA1/EA1/EA1/EA3/EA1/EA776.htm", "10.png", "7685", "0", "", "Component0","{59B78C54-88F0-4151-BA05-F473EB04EF3D}");
+tocTab[tocTab.length] = new Array("3.1.1.1.3.1:4", "", "«subsystem» : LBS", "EARoot/EA3/EA1/EA1/EA1/EA3/EA1/EA777.htm", "10.png", "7684", "0", "", "Component0","{B65ADB7B-F951-4a3b-9939-87C3281CFD43}");
+tocTab[tocTab.length] = new Array("3.1.1.1.3.1:5", "", "LBS - Last Know Location P&S: LBS - Last Know Location P&S", "EARoot/EA3/EA1/EA1/EA1/EA3/EA1/EA779.htm", "95.png", "7911", "7684", "", "Port0","{364F5584-3FA7-40a9-BC30-170552123EF5}");
