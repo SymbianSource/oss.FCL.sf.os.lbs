@@ -1,0 +1,3 @@
+tocTab[tocTab.length] = new Array("3.1.1.1.3.1", "1", "Generic - X3P - TAP", "EARoot/EA3/EA1/EA1/EA1/EA3/EA770.htm", "4.png", "", "", "{B2B8D33F-7FB9-4576-B979-00026BB1DB1C}", "Package");
+tocTab[tocTab.length] = new Array("3.1.1.1.3.2", "1", "Generic - X3P - Early Session Complete", "EARoot/EA3/EA1/EA1/EA1/EA3/EA771.htm", "4.png", "", "", "{51C7E85C-7D5B-410b-8604-B094975093E3}", "Package");
+tocTab[tocTab.length] = new Array("3.1.1.1.3.3", "1", "Generic - X3P - Cancel", "EARoot/EA3/EA1/EA1/EA1/EA3/EA772.htm", "4.png", "", "", "{DD84712C-F955-4fd2-B1D7-14C954CF987A}", "Package");

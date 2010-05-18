@@ -1,0 +1,5 @@
+tocTab[tocTab.length] = new Array("3.1.1.1.1.1", "1", "Generic - MOLR - No accuracy check", "EARoot/EA3/EA1/EA1/EA1/EA1/EA36.htm", "4.png", "", "", "{F910D690-7DD8-44c0-93F0-D5A57F95D114}", "Package");
+tocTab[tocTab.length] = new Array("3.1.1.1.1.2", "1", "Generic - MOLR - Simple - Accurate GPS Result", "EARoot/EA3/EA1/EA1/EA1/EA1/EA37.htm", "4.png", "", "", "{2E1AF352-6083-4a25-ACA7-E4B50C09755B}", "Package");
+tocTab[tocTab.length] = new Array("3.1.1.1.1.3", "1", "Generic - MOLR - Simple - Hybrid Alpha2 Cancel", "EARoot/EA3/EA1/EA1/EA1/EA1/EA38.htm", "4.png", "", "", "{9E08C639-6CC9-4ad4-86A0-95314ACD5F80}", "Package");
+tocTab[tocTab.length] = new Array("3.1.1.1.1.4", "1", "Generic - MOLR - TAP", "EARoot/EA3/EA1/EA1/EA1/EA1/EA39.htm", "4.png", "", "", "{9ABD1C96-4EC5-4e76-8366-294292592068}", "Package");
+tocTab[tocTab.length] = new Array("3.1.1.1.1.5", "1", "Generic - MOLR - Get Last Known Location Area", "EARoot/EA3/EA1/EA1/EA1/EA1/EA40.htm", "4.png", "", "", "{79D3094C-6719-4c85-9393-55FAB9D18E01}", "Package");
