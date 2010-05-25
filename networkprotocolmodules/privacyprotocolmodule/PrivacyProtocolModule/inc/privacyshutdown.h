@@ -58,6 +58,7 @@ private:
 private:
 	
 	TShutdownState iState;
+	TTimeIntervalMicroSeconds32 iTimerCount;
 	};
 	
 #endif // __PRIVACYSHUTDOWN_H__

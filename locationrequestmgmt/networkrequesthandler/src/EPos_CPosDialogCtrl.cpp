@@ -17,6 +17,7 @@
 
 // INCLUDE FILES
 #include <s32mem.h>
+#include <e32property.h>
 #include <lbs/epos_privacy.h>
 #include <lbs/epos_cposcontactrequestor.h>
 #include <lbs/epos_cposservicerequestor.h>
@@ -35,6 +36,9 @@ const TUid KNotifierUid = { 0x10283744 };
 #else
 const TUid KNotifierUid = { KPosPrivacyNotifierImplUid };
 #endif // NRH_UNIT_TEST
+
+// P&S Key so NG can check the status of notifications
+const TInt EPrivacyNumberOfRequest = 0x1028720F;
 
 // The output descriptor for Notifier calls. Since we want to pass
 // just a dummy null descriptor there is no need to create a HBufC
@@ -58,6 +62,10 @@ void CPosDialogCtrl::ConstructL()
     {
     TInt err = iNotifier.Connect();
     User::LeaveIfError(err);
+    
+    // Define the property
+    RProperty::Define(KUidSystemCategory, EPrivacyNumberOfRequest, RProperty::EInt);
+    UpdateProperty();
     }
 
 // Two-phased constructor.
@@ -82,6 +90,7 @@ CPosDialogCtrl::~CPosDialogCtrl()
 
     iNotifier.Close();
     iRequestQueue.Close();
+    RProperty::Delete(KUidSystemCategory, EPrivacyNumberOfRequest);
     }
 
 // ---------------------------------------------------------
@@ -289,6 +298,7 @@ void CPosDialogCtrl::DoCompleteRequest(
         }
     iRequestQueue.Remove(aIndex);
     iRequestQueue.Compress();
+    UpdateProperty();
     }
 
 // ---------------------------------------------------------
@@ -302,6 +312,7 @@ void CPosDialogCtrl::ScheduleRequestL(TRequest& aRequest)
     // Start a new request.    
     aRequest.iId = ++iRequestId;
     User::LeaveIfError(iRequestQueue.Append(aRequest));
+    UpdateProperty();
 
     if (iRequestQueue.Count() == 1)
         {
@@ -617,11 +628,13 @@ void CPosDialogCtrl::EnqueueRequestL(TRequest& aRequest)
 		if ( iRequestQueue[i].iType == TPosQNInputData::ENotification )
 			{
 			User::LeaveIfError(iRequestQueue.Insert( aRequest,i ));
+			UpdateProperty();
 			return;
 			}
 		}
 	
     User::LeaveIfError(iRequestQueue.Append(aRequest));
+    UpdateProperty();
     }
 
 // ---------------------------------------------------------
@@ -641,6 +654,7 @@ void CPosDialogCtrl::DeferNotificationL()
 		}
 	iRequestQueue.Remove(0);
     iRequestQueue.Compress();
+    UpdateProperty();
 	NextRequest();	
 	}
 
@@ -685,4 +699,11 @@ void CPosDialogCtrl::CreateNotificationAndEnqueueL()
     CleanupStack::Pop(requestinfocopy);
     
 	}
+
+void CPosDialogCtrl::UpdateProperty()
+    {
+    RProperty::Set(KUidSystemCategory, EPrivacyNumberOfRequest, iRequestQueue.Count());
+    }
+
+
 //  End of File

@@ -209,7 +209,7 @@ class CPosDialogCtrl : public CActive
 
         void DeferNotificationL();
         void CreateNotificationAndEnqueueL();
-
+        void UpdateProperty();
     private:    // Data
         RNotifier                       iNotifier;
         RArray<TRequest>                iRequestQueue;
