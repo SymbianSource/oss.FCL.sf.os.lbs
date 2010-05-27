@@ -1,3 +1,0 @@
-EXPORTS
-	?NewL@CLbsLocationSourceGps@@SAPAVCLbsLocationSourceGpsBase@@AAVMLbsLocationSourceGpsObserver@@@Z @ 1 NONAME ; class CLbsLocationSourceGpsBase * CLbsLocationSourceGps::NewL(class MLbsLocationSourceGpsObserver &)
-
