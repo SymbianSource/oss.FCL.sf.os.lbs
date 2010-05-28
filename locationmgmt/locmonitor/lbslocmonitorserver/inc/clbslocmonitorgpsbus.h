@@ -71,7 +71,7 @@ The Mixin observer interface for the location data bus object.
 class MLbsLocMonitorGpsBusObserver
 	{
 public:
-	virtual void GpsPositionAvailable(const TPosition& aPosition) = 0;
+	virtual void GpsPositionAvailableL(const TPosition& aPosition) = 0;
 	};
 
 #endif // CLBSLOCMONITORGPSBUS_H

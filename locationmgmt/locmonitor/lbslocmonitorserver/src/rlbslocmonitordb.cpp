@@ -56,13 +56,13 @@ void RLbsLocMonitorDb::Close()
 	}
 
 
-TInt RLbsLocMonitorDb::SavePosition(const TPosition& aPosition, const RPointerArray<TLbsLocMonitorAreaInfoBase>& aAreaInfo, TRequestStatus& aStatus)
+TInt RLbsLocMonitorDb::SavePosition(const TPosition& aPosition, const RPointerArray<TLbsLocMonitorAreaInfoBase>& aAreaInfo, TBool aUserPosition, TRequestStatus& aStatus)
 	{
 	LBSLOG(ELogP1, "RLbsLocMonitorDb::SavePosition()");
 	if(iDbEngine)
 		{
 		const TLbsLocMonitorAreaInfoGci* areaGci = static_cast<const TLbsLocMonitorAreaInfoGci*>(aAreaInfo[0]);
-		return iDbEngine->SavePosition(areaGci->iMcc, areaGci->iMnc, areaGci->iLac, areaGci->iCid, aPosition, aStatus);
+		return iDbEngine->SavePosition(areaGci->iMcc, areaGci->iMnc, areaGci->iLac, areaGci->iCid, aPosition, aUserPosition, aStatus);
 		}
 	return KErrNotFound;
 	}

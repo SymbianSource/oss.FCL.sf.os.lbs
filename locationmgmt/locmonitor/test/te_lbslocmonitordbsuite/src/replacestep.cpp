@@ -84,7 +84,7 @@ TVerdict CReplaceStep::doTestStepL()
 		in1.iCid = 3000;
 		RPointerArray<TLbsLocMonitorAreaInfoBase> in1Array;
 		in1Array.Append(&in1);
-		locMonitorDb.SavePosition(dummyPos1,in1Array,iWaiter->iStatus);
+		locMonitorDb.SavePosition(dummyPos1,in1Array,ETrue,iWaiter->iStatus);
 		iWaiter->StartAndWait();
 		
 		// Check first cell position was correctly stored
@@ -114,7 +114,7 @@ TVerdict CReplaceStep::doTestStepL()
 		dummyPos2.SetHorizontalAccuracy(200);
 		dummyPos2.SetVerticalAccuracy(2000);		
 		INFO_PRINTF1(_L("Saving second position"));
-		locMonitorDb.SavePosition(dummyPos2,in1Array,iWaiter->iStatus);
+		locMonitorDb.SavePosition(dummyPos2,in1Array,ETrue,iWaiter->iStatus);
 		iWaiter->StartAndWait();
 		in1Array.Reset();
 		

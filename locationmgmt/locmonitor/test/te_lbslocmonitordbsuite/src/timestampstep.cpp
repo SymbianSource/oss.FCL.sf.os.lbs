@@ -85,7 +85,7 @@ TVerdict CTimeStampStep::doTestStepL()
 		in1.iCid = 2;
 		RPointerArray<TLbsLocMonitorAreaInfoBase> arrayIn1;
 		arrayIn1.Append(&in1);
-		locMonitorDb.SavePosition(dummy1,arrayIn1,iWaiter->iStatus);
+		locMonitorDb.SavePosition(dummy1,arrayIn1,ETrue,iWaiter->iStatus);
 		iWaiter->StartAndWait();
 		arrayIn1.Reset();
 		
@@ -97,7 +97,7 @@ TVerdict CTimeStampStep::doTestStepL()
 		in2.iCid = 3;
 		RPointerArray<TLbsLocMonitorAreaInfoBase> arrayIn2;
 		arrayIn2.Append(&in2);
-		locMonitorDb.SavePosition(dummy2,arrayIn2,iWaiter->iStatus);
+		locMonitorDb.SavePosition(dummy2,arrayIn2,ETrue,iWaiter->iStatus);
 		iWaiter->StartAndWait();
 		arrayIn2.Reset();
 		
@@ -109,7 +109,7 @@ TVerdict CTimeStampStep::doTestStepL()
 		in3.iCid = 2;
 		RPointerArray<TLbsLocMonitorAreaInfoBase> arrayIn3;
 		arrayIn3.Append(&in3);
-		locMonitorDb.SavePosition(dummy1,arrayIn3,iWaiter->iStatus);
+		locMonitorDb.SavePosition(dummy1,arrayIn3,ETrue,iWaiter->iStatus);
 		iWaiter->StartAndWait();
 		arrayIn3.Reset();
 		

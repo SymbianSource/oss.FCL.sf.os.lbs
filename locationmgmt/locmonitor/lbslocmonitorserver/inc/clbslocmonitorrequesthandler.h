@@ -126,7 +126,7 @@ public:
 	as a consequence of a new position being observed
 	on an internal position bus.
 	*/
-	void PositionAvailable(const TPosition& aPosition);
+	void PositionAvailableL(const TPosition& aPosition);
 	
 private:
 

@@ -22,28 +22,30 @@
 
 //-------------------------------------------------------------------------------
 #include <e32base.h>
-#include <SqlDb.h> 
-#include <LbsPositionInfo.h> 
+#include <sqldb.h> 
+#include <lbspositioninfo.h> 
 #include <e32capability.h>
-//TODO remove
 #include "rlbslocmonitordb.h"
+#include "clbslocmonitordbtimer.h"
 
 //-------------------------------------------------------------------------------
 /** 
 */
-class CLbsLocMonitorDbEngine : public CActive
+class CLbsLocMonitorDbEngine : public CActive, MLocMonitorDBCallback
 	{
 
 public:		
 	static CLbsLocMonitorDbEngine* NewL();
 	virtual ~CLbsLocMonitorDbEngine();
 	TInt SavePosition(TUint aMcc, TUint aMnc, TUint aLac, 
-			TUint aCid, const TPosition& aPosition, TRequestStatus& aStatus);
+			TUint aCid, const TPosition& aPosition, TBool aUserPosition, TRequestStatus& aStatus);
 	TInt GetPosition(TUint aMcc, TUint aMnc, TUint aLac, 
 			TUint aCid, TPosition& aPosition, TPositionAreaExtendedInfo& aMatchingAreaInfo, TRequestStatus& aStatus);
 	TInt GetPosition(TPosition& aPosition, TRequestStatus& aStatus);
 	TInt ClearDatabase();
-	static TInt FlushTimerCallback(TAny* aPtr);
+	
+   // from CLbsLocMonitorDbTimer
+    void FlushTimerCallback();
 
 
 private:
@@ -63,17 +65,20 @@ private:
 	
 private:
 	RSqlDatabase iDatabase;
-	CPeriodic* iPeriodic;
 	TTimeIntervalMicroSeconds32 iFlushInterval;
 	TInt iCount;
 	RSqlStatement iSqlSaveStatement;
 	TRequestStatus* iClientStatus;
+	CLbsLocMonitorDbTimer* iDbTimer;
 	
+	TBool iSaveLastPos;
+	TBool iDBInitialised;
 	TInt iLastMcc;
 	TInt iLastMnc;
 	TInt iLastLac;
 	TInt iLastCid;
 	TPosition iLastPosition;
+	TPosition iLastKnownPosition;
 	TTime iLastTime;
 	TBool iIsLastValid;
 	};

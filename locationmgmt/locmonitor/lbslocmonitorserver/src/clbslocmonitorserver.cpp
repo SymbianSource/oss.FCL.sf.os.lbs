@@ -18,19 +18,15 @@
 #include "clbslocmonitorserver.h"
 #include "lbslocmonitorserverdata.h"
 #include "lbsdevloggermacros.h"
-
+#ifdef SYMBIAN_FEATURE_MANAGER
+    #include <featdiscovery.h>
+    #include <featureuids.h>
+#endif
 
 // -------------------------------------------------------------------------------
 // --------------------  Server's security policy  -------------------------------
 // -------------------------------------------------------------------------------
 
-// SID of the EPOS Location Server (needed for security check)
-#ifdef UNIT_TEST_LOCMONITOR
-const TInt KLocationServerSID=0x102869E3;
-#else
-const TInt KLocationServerSID=0x101f97b2;
-#endif
-const TInt KNetworkGatewaySID=0x10281D46;
 
 const TInt KShutDownDelay = 10000000; // 10 seconds
 
@@ -72,40 +68,20 @@ const TUint8 locMonitorServerPolicyElementsIndex[locMonitorServerPolicyRangeCoun
 //Package all the above together into a policy
 const CPolicyServer::TPolicy locMonitorServerPolicy =
     {
-    CPolicyServer::ECustomCheck,            // onConnect...only certain processes are allowed to connect
+    CPolicyServer::ECustomCheck,            
     locMonitorServerPolicyRangeCount,	    // number of ranges                                   
     locMonitorServerPolicyRanges,	        // ranges array
     locMonitorServerPolicyElementsIndex,	// elements<->ranges index
     locMonitorServerPolicyElements,		    // array of elements
     };
 
-/**
- * From CPolicyServer
- * This method checks the SID of the message sender.
- * The check of SID has been done this way (instead of using a TPolicyElement)
- * to allow more SIDs (e.g, from NRH, NG, etc) to be checked 
- * in the future.
- * The check fails if the message hasn't been sent from a client with an authorized SID.
- * Default action (FailClient) will take place if the check fails.
- */
-CPolicyServer::TCustomResult CLbsLocMonitorServer::CustomSecurityCheckL(const RMessage2& aMsg, TInt& /*aAction*/,TSecurityInfo& /*aMissing*/)
+
+CPolicyServer::TCustomResult CLbsLocMonitorServer::CustomSecurityCheckL(const RMessage2& /*aMsg*/, TInt& /*aAction*/,TSecurityInfo& /*aMissing*/)
     {
     LBSLOG(ELogP1,"CLbsLocMonitorServer::CustomSecurityCheckL");
 
 	CPolicyServer::TCustomResult result = CPolicyServer::EPass;
 
-	// Check if the message source is one on the allowed processes
-    static _LIT_SECURITY_POLICY_S0(allowEposLocServerPolicy, KLocationServerSID);
-    TBool isEposLocServer = allowEposLocServerPolicy().CheckPolicy(aMsg);
-    
-    static _LIT_SECURITY_POLICY_S0(allowNetworkGatewayPolicy, KNetworkGatewaySID);
-    TBool isNetworkGateway = allowNetworkGatewayPolicy().CheckPolicy(aMsg); 
-	
-    // Fail the check if none of the allowed processes has sent the message
-	if (!isEposLocServer && !isNetworkGateway)
-		{
-		result = CPolicyServer::EFail;
-		}
     return result;
     }
 
@@ -153,16 +129,22 @@ void CLbsLocMonitorServer::ConstructL(const TDesC& aServerName)
 	// Passing EFalse means the Location Monitor would be a
 	// permanent process only terminated from root.
 	//
-	if (FindRootProcess())
-		{
-		BaseConstructL(EFalse);	
-		}
-	else
-		{
-		BaseConstructL(ETrue);
-		//Set timer to two seconds
-		SetShutdownDelay(KShutDownDelay);
-		}
+	
+    #ifdef SYMBIAN_FEATURE_MANAGER
+        TBool locationManagementSupported = CFeatureDiscovery::IsFeatureSupportedL(NFeature::KLocationManagement);
+    #else
+        TBool locationManagementSupported(ETrue);
+    #endif
+        if(locationManagementSupported)
+            {
+            BaseConstructL(EFalse);	
+            }
+        else
+            {
+            BaseConstructL(ETrue);
+            //Set timer to two seconds
+            SetShutdownDelay(KShutDownDelay);
+            }
 
     // Create the monitor which detects a closedown signal from
     // the LBS Root Process.
@@ -185,6 +167,9 @@ void CLbsLocMonitorServer::ConstructL(const TDesC& aServerName)
 	
 	// Initiate monitoring of network information
 	static_cast<CLbsLocMonitorNetworkInfoFinder*>(iAreaInfoFinders[ENetworkInfoFinder])->StartGettingNetworkInfoL();
+	
+	// Initiate plugin resolver.
+	iPluginResolver = CLbsLocMonitorPluginResolver::NewL();
 	}
 
 CLbsLocMonitorServer::~CLbsLocMonitorServer()
@@ -202,6 +187,8 @@ CLbsLocMonitorServer::~CLbsLocMonitorServer()
 	delete iPosListener;
 	iAreaInfoFinders.ResetAndDestroy();
 	delete iCloseDownRequestDetector;
+	iConversionHandlerArray.ResetAndDestroy();
+	delete iPluginResolver;
 	}
 
 CSession2* CLbsLocMonitorServer::DoNewSessionL(const TVersion& /*aVersion*/, const RMessage2& /*aMessage*/) const
@@ -222,6 +209,56 @@ CLbsLocMonitorRequestHandler& CLbsLocMonitorServer::ReadRequestHandler() const
 	return (*iRequestHandler);
 	}
 
+CLbsLocMonitorConversionHandler* CLbsLocMonitorServer::ConversionHandlerL( 
+                                              TUid aConversionPluginId )
+    {
+    LBSLOG(ELogP1,"CLbsLocMonitorServer::ConversionHandlerL()");
+    
+    // Iterate through the conversion handler array and check whether 
+    // there is already a handler that has loaded user specified 
+    // plugin
+    for( TInt i=0;i<iConversionHandlerArray.Count();i++ )
+        {
+        if( iConversionHandlerArray[i]->ConversionPluginUid() == 
+            aConversionPluginId )
+            {
+            return iConversionHandlerArray[i];
+            }
+        }
+    
+    CLbsLocMonitorServer* monitorServer = const_cast<CLbsLocMonitorServer*>
+                                                  ( this );
+    CLbsLocMonitorConversionHandler* conversionHandler = 
+                                    CLbsLocMonitorConversionHandler::NewL( *monitorServer,
+                                                                            aConversionPluginId );
+    
+    iConversionHandlerArray.AppendL( conversionHandler );
+    return conversionHandler;
+    }
+
+CLbsLocMonitorConversionHandler* CLbsLocMonitorServer::ConversionHandler( 
+                                                              const RMessage2& aMessage )
+    {
+    LBSLOG(ELogP1,"CLbsLocMonitorServer::ConversionHandler()");
+    
+    // Iterate through the conversion handler array and check whether 
+    // there is already a handler that has loaded user specified 
+    // plugin
+    for( TInt i=0;i<iConversionHandlerArray.Count();i++ )
+        {
+        if( iConversionHandlerArray[i]->IsMessagePresent( aMessage ) )
+            {
+            return iConversionHandlerArray[i];
+            }
+        }
+    return NULL;
+    }
+
+CLbsLocMonitorPluginResolver* CLbsLocMonitorServer::PluginResolver()
+    {
+    LBSLOG(ELogP1,"CLbsLocMonitorServer::PluginResolver()");
+    return iPluginResolver;
+    }
 
 /* Intended for use by subsessions
    Called to register as an observer
@@ -255,7 +292,23 @@ void CLbsLocMonitorServer::OnProcessCloseDown()
     LBSLOG(ELogP1,"CLbsLocMonitorServer::OnProcessCloseDown()");
     CActiveScheduler::Stop();
     }
-    
+ 
+/**
+ * This method is called by CLbsLocMonitorConversionHandler after it completes 
+ * all the requests
+ */
+void CLbsLocMonitorServer::HandleConversionComplete( CLbsLocMonitorConversionHandler*
+                                                     aConversionHandler )
+    {
+    LBSLOG(ELogP1,"CLbsLocMonitorServer::HandleConversionComplete()");
+    // Remove the conversion handler object from the array and delete it.
+    TInt index = iConversionHandlerArray.Find( aConversionHandler );
+    if( index != KErrNotFound )
+        {
+        iConversionHandlerArray.Remove(index);
+        }
+    delete aConversionHandler;
+    }
     
 TBool CLbsLocMonitorServer::FindRootProcess()
 	{

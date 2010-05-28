@@ -70,7 +70,7 @@ TVerdict CNegativeStep::doTestStepL()
 		TLbsLocMonitorAreaInfoGci dummyArea;
 		RPointerArray<TLbsLocMonitorAreaInfoBase> dummyArray;
 		dummyArray.Append(&dummyArea);
-		TInt result = locMonitorDb.SavePosition(dummyIn,dummyArray,unused);
+		TInt result = locMonitorDb.SavePosition(dummyIn,dummyArray,ETrue,unused);
 		dummyArray.Reset();
 		TEST(result == KErrNotFound);
 		// GetPosition() should return KErrNotFound if db has not been Open()ed
@@ -107,7 +107,7 @@ TVerdict CNegativeStep::doTestStepL()
 						in.iLac = y;
 						in.iCid = z;
 						inArray.Append(&in);
-						result = locMonitorDb.SavePosition(dummyIn,inArray,iWaiter->iStatus);
+						result = locMonitorDb.SavePosition(dummyIn,inArray,ETrue,iWaiter->iStatus);
 						if(w >= 0 && x >= 0 && y >= 0 && z >= 0)
 							{
 							iWaiter->StartAndWait();

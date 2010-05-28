@@ -26,23 +26,26 @@
 #include <lbspositioninfo.h> 
 #include <e32capability.h>
 #include "rlbslocmonitordb.h"
+#include "clbslocmonitordbtimer.h"
 
 //-------------------------------------------------------------------------------
 /** 
 */
-class CLbsLocMonitorDbEngine : public CActive
+class CLbsLocMonitorDbEngine : public CActive, MLocMonitorDBCallback
 	{
 
 public:		
 	static CLbsLocMonitorDbEngine* NewL();
 	virtual ~CLbsLocMonitorDbEngine();
 	TInt SavePosition(TUint aMcc, TUint aMnc, TUint aLac, 
-			TUint aCid, const TPosition& aPosition, TRequestStatus& aStatus);
+			TUint aCid, const TPosition& aPosition, TBool aUserPosition, TRequestStatus& aStatus);
 	TInt GetPosition(TUint aMcc, TUint aMnc, TUint aLac, 
 			TUint aCid, TPosition& aPosition, TPositionAreaExtendedInfo& aMatchingAreaInfo, TRequestStatus& aStatus);
 	TInt GetPosition(TPosition& aPosition, TRequestStatus& aStatus);
 	TInt ClearDatabase();
-	static TInt FlushTimerCallback(TAny* aPtr);
+	
+   // from CLbsLocMonitorDbTimer
+    void FlushTimerCallback();
 
 
 private:
@@ -62,17 +65,20 @@ private:
 	
 private:
 	RSqlDatabase iDatabase;
-	CPeriodic* iPeriodic;
 	TTimeIntervalMicroSeconds32 iFlushInterval;
 	TInt iCount;
 	RSqlStatement iSqlSaveStatement;
 	TRequestStatus* iClientStatus;
+	CLbsLocMonitorDbTimer* iDbTimer;
 	
+	TBool iDBInitialised;
+	TBool iSaveLastPos;
 	TInt iLastMcc;
 	TInt iLastMnc;
 	TInt iLastLac;
 	TInt iLastCid;
 	TPosition iLastPosition;
+	TPosition iLastKnownPosition;
 	TTime iLastTime;
 	TBool iIsLastValid;
 	};
