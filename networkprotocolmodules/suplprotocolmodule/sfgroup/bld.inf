@@ -21,10 +21,10 @@ lbssupl.iby	/epoc32/rom/include/lbssupl.iby
 ../conf/suplprotocolmodule_10285AA8.crml       OS_LAYER_EXPORTS_CRML(suplprotocolmodule_10285AA8.crml)
 
 // Main projects, in build order
-#include "../SuplDevLogger/group/bld.inf"
+// MISSING (Bug 2680) #include "../SuplDevLogger/group/bld.inf"
 #include "../HostSettingsApi/group/BLD.INF"
-#include "../SuplRrlpAsn1/group/bld.inf"
-#include "../SuplRrlpProtocol/group/bld.inf"
+// MISSING (Bug 2680) #include "../SuplRrlpAsn1/group/bld.inf"
+// MISSING (Bug 2680) #include "../SuplRrlpProtocol/group/bld.inf"
 #include "../SuplConnectionManager/group/bld.inf"
 #include "../SuplProtocol/group/bld.inf"
 
