@@ -1,0 +1,4 @@
+tocTab[tocTab.length] = new Array("3.2.1.4.1.1.3:1", "", "Standalone Prv - Prv. Verification - Cancel (Net. Privacy API -&gt; Prv. Con. API)", "EARoot/EA3/EA2/EA1/EA4/EA1/EA1/EA3/EA1666.htm", "185.png", "7", "0", "", "Sequence diagram0","{AA4E8C9E-539F-46eb-B6E6-5D1EF1C9AFE4}");
+tocTab[tocTab.length] = new Array("3.2.1.4.1.1.3:2", "", "Normal", "EARoot/EA3/EA2/EA1/EA4/EA1/EA1/EA3/EA1669.htm", "101.png", "1232", "0", "", "InteractionFragment0","{88D6E718-C28E-4a8b-BF2E-40F9B0C8F3D2}");
+tocTab[tocTab.length] = new Array("3.2.1.4.1.1.3:3", "", "Race between user response and cancel message.", "EARoot/EA3/EA2/EA1/EA4/EA1/EA1/EA3/EA1672.htm", "101.png", "1235", "0", "", "InteractionFragment0","{B2AF36A4-2791-417d-931D-E136EDC165D4}");
+tocTab[tocTab.length] = new Array("3.2.1.4.1.1.3:4", "", "Session is complete. Message terminated.", "EARoot/EA3/EA2/EA1/EA4/EA1/EA1/EA3/EA1673.htm", "100.png", "1233", "0", "", "MessageEndpoint0","{47B16901-0EC4-4dfe-8A75-C6BA7360AF3F}");

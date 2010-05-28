@@ -1,0 +1,2 @@
+tocTab[tocTab.length] = new Array("3.2.1.2.1", "1", "Full ROM Configuration", "EARoot/EA3/EA2/EA1/EA2/EA1162.htm", "4.png", "", "", "{6E486699-4B90-4534-A6B0-5907B7BD551B}", "Package");
+tocTab[tocTab.length] = new Array("3.2.1.2.2", "1", "Standalone Privacy ROM Configuration ", "EARoot/EA3/EA2/EA1/EA2/EA1163.htm", "4.png", "", "", "{2D8BF2D4-F981-4b58-AFC4-EEFDD2CA4860}", "Package");

@@ -1,0 +1,4 @@
+tocTab[tocTab.length] = new Array("3.1.1.2.1.3.1", "1", "RRC-MOLR-GPS Futile - LBS - UE-Based - Autonomous", "EARoot/EA3/EA1/EA1/EA2/EA1/EA3/EA871.htm", "4.png", "", "", "{AB7A8CD0-B2D6-4f03-A04B-8DC5347384B8}", "Package");
+tocTab[tocTab.length] = new Array("3.1.1.2.1.3.2", "1", "RRC-MOLR-GPS Futile - LBS - UE-Based", "EARoot/EA3/EA1/EA1/EA2/EA1/EA3/EA872.htm", "4.png", "", "", "{4428CC12-E5DB-47b5-80DA-66028F312C63}", "Package");
+tocTab[tocTab.length] = new Array("3.1.1.2.1.3.3", "1", "RRC-MOLR-GPS Futile - LBS - UE-Assisted", "EARoot/EA3/EA1/EA1/EA2/EA1/EA3/EA873.htm", "4.png", "", "", "{FB60A581-1A97-4cfa-BFBA-34F9CBD1CB52}", "Package");
+tocTab[tocTab.length] = new Array("3.1.1.2.1.3.4", "1", "RRC-MOLR-GPS Futile - LBS - UE-Assisted - Early Termination", "EARoot/EA3/EA1/EA1/EA2/EA1/EA3/EA874.htm", "4.png", "", "", "{260E4327-0FEA-4185-9777-8CEA5F03F94B}", "Package");
