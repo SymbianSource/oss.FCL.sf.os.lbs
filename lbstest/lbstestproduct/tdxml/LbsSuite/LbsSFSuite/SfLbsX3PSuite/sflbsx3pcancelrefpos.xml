@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE testExecuteTest SYSTEM "c:\program files\common files\symbian\testExecuteTest.dtd" [ ]>
+
+<testExecuteTest>
+
+	<name>Sflbsx3pcancelrefpos</name>
+	<timeout>900</timeout>
+	<testScripts>
+		<script>
+			<hostPath>lbstest\lbstestproduct\sf\core\sflbsx3p\scripts\sflbsx3pcancelrefpos.script</hostPath>
+			<devicePath>c:\testdata\scripts\sflbsx3pcancelrefpos.script</devicePath>
+		</script>
+	</testScripts>
+	<testServers>
+		<server>SfLbsX3PTestServer</server>
+	</testServers>
+	<dependencies>
+		<data>
+			<hostPath>lbstest\lbstestproduct\sf\core\sflbsx3p\testdata\sflbsx3pcancelrefpos.ini</hostPath>
+			<devicePath>c:\testdata\configs\sflbsx3pcancelrefpos.ini</devicePath>
+		</data>
+	</dependencies>
+</testExecuteTest>

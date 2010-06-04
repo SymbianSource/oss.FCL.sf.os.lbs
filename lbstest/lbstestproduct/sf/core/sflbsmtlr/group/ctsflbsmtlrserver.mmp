@@ -1,0 +1,53 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// @file ctsflbsmtlrserver.mmp
+// 
+//
+
+TARGET		sflbsmtlrtestserver.exe
+TARGETTYPE	exe
+UID			0x1000007A 0x1028720A
+VENDORID 	0x70000001
+CAPABILITY	ProtServ LocalServices WriteDeviceData ReadDeviceData Location
+//CAPABILITY ALL -TCB
+
+#include 	"../../../../common/group/ctlbscommon.mmp"
+
+USERINCLUDE		../inc
+
+// Lbs Data Source framework code.
+SOURCEPATH	../src
+SOURCE	ctlbsmtlrprivcntrlstepmain.cpp
+SOURCE	ctlbsmtlrserver.cpp
+SOURCE	ctlbsmtlrshareddata.cpp
+SOURCE	ctlbsmtlrstep.cpp
+
+
+// Lbs MTLR test step code.
+
+// LBS libraries.
+LIBRARY	lbs.lib
+LIBRARY	lbsloccommon.lib
+LIBRARY	lbsadmin.lib
+LIBRARY lbsrootapi.lib
+LIBRARY lbsassistancedata.lib
+LIBRARY lbsnetprotocol.lib
+LIBRARY lbsprivacycontroller.lib
+
+// LBS test libraries.
+LIBRARY lbstestutils.lib
+LIBRARY lbsnetsim.lib
+LIBRARY lbstestclient.lib
+
+SMPSAFE

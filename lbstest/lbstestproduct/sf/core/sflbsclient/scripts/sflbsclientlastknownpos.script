@@ -1,0 +1,364 @@
+//! @File
+//! @SYMTestSuiteName	SF-LBS-CLIENT-LASTKNOWNPOS
+//! @SYMScriptTestEnvironment TEF
+
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+// Delete old log file
+RUN_UTILS DeleteFile c:\private\101f401d\Logdbu.dat
+
+LOAD_SUITE SfLbsClientTestServer -SharedData
+
+PRINT Run SfLbsClientTestServer
+PRINT
+
+//Before we start LBS, select the test A-GPS integration module and network reg status txt file to use.
+PREFIX RUN_UTILS
+	MkDir c:\private\10282253\
+	MkDir c:\private\10282253\lbs\
+	MkDir c:\private\10282253\lbs\locmods\
+	CopyFile c:\testdata\configs\xtestmodule.ini c:\private\10282253\lbs\locmods\agpsintegmodule.ini
+    CopyFile c:\testdata\configs\lbstestconfig.txt c:\config.txt
+ 	DeleteFile c:\private\10202be9\1028224b.cre
+  	DeleteFile c:\private\10202be9\persists\1028224b.cre
+ 	DeleteFile c:\private\10282253\lbs\lbsprofile.ini
+REMOVE_PREFIX
+
+RUN_TEST_STEP 010 SfLbsClientTestServer LbsStep_ResetDefaultAdmin
+RUN_TEST_STEP 030 SfLbsClientTestServer LbsStep_StartLbs
+RUN_TEST_STEP 020 SfLbsClientTestServer LbsStep_SetAutonomousMode
+
+
+START_TESTCASE SFLBS-Client-LastKnownPos-0001
+
+//!@SYMTestCaseID			SFLBS-Client-LastKnownPos-0001
+//!@SYMTestCaseDesc			Get Last Known Position when it is in cache
+//!
+//!@SYMTestActions			1. Request a location update (passing in a TPositionInfo) and
+//!						wait for it to complete. Read the timestamp on this location.
+//!					2. Request last known Location (should now be in cache).
+//!					3. Wait for location request to complete.
+//!					4. Verify the return status of the request is KErrNone.
+//!					5. Verify that position data is received and that it contains
+//!						a timestamp that matches the one from the last request. 
+//!					6. Use GetPosition() to get the lat/long/altitude and verify that
+//!						they are within the appropriate range.
+//!					7. Verify that the location request has been logged.
+//!
+//!@SYMTestExpectedResults	Location Information is received and is correct. Log contains summary info.
+//!
+//!
+//!@SYMTestType				CIT
+//!@SYMTestPriority			Critical
+//!@SYMTestStatus			3. Released
+
+RUN_TEST_STEP 010 SfLbsClientTestServer LbsStep_InstallScheduler
+RUN_TEST_STEP 020 SfLbsClientTestServer LbsStep_SetUpPsy c:\testdata\configs\SfLbsClientLastKnownPos.ini SFLBS-LastKnownPos
+
+RUN_TEST_STEP 010 SfLbsClientTestServer LbsStep_ClearLog
+RUN_TEST_STEP 020 SfLbsClientTestServer LbsStep_CreateVerifyPosInfos c:\testdata\configs\SfLbsClientLastKnownPos.ini SFLBS-LastKnownPos-0001
+RUN_TEST_STEP 120 SfLbsClientTestServer LbsClientStep_LastKnownPos c:\testdata\configs\SfLbsClientLastKnownPos.ini SFLBS-LastKnownPos-0001
+RUN_TEST_STEP 010 SfLbsClientTestServer LbsStep_VerifyPosInfos
+
+END_TESTCASE SFLBS-Client-LastKnownPos-0001
+
+
+START_TESTCASE SFLBS-Client-LastKnownPos-0003
+
+//!@SYMTestCaseID			SFLBS-Client-LastKnownPos-0003
+//!@SYMTestCaseDesc			Request Last Known Position with unsupported aPosInfo type passed in.
+//!
+//!@SYMTestActions			1.Open a sub-session with the network module (specify moduleid)
+//!					2.Request Last Known Location, passing in unsupported aPosInfo (TPositionSatelliteInfo, say)
+//!					4.Verify that request status received is KErrArgument
+//!
+//!@SYMTestExpectedResults	Request fails with KErrArgument
+//!
+//!
+//!@SYMTestType				CIT
+//!@SYMTestPriority			Medium
+//!@SYMTestStatus			3. Released
+
+RUN_TEST_STEP 010 SfLbsClientTestServer LbsStep_InstallScheduler
+RUN_TEST_STEP 020 SfLbsClientTestServer LbsStep_SetUpPsy c:\testdata\configs\SfLbsClientLastKnownPos.ini SFLBS-LastKnownPosNetwork
+
+RUN_TEST_STEP 020 SfLbsClientTestServer LbsStep_CreateVerifyPosInfos c:\testdata\configs\SfLbsClientLastKnownPos.ini SFLBS-LastKnownPos-0004
+RUN_TEST_STEP 120 SfLbsClientTestServer LbsClientStep_LastKnownPos c:\testdata\configs\SfLbsClientLastKnownPos.ini SFLBS-LastKnownPos-0004
+
+END_TESTCASE SFLBS-Client-LastKnownPos-0003
+
+START_TESTCASE SFLBS-Client-LastKnownPos-0005
+
+//!@SYMTestCaseID			SFLBS-Client-LastKnownPos-0005
+//!@SYMTestCaseDesc			Cancel Last Known Position request before receiving response
+//!
+//!@SYMTestActions			1.Request Last Known Location.
+//!							2.Cancel Last Known Location request
+//!							3.Wait for location request to complete.
+//!
+//!@SYMTestExpectedResults	Sync Cancel() call returns either KErrNone or KErrNotFound. 
+//!							If it returns KErrNone, then the original request may complete with KErrCancel. 
+//!
+//!
+//!@SYMTestType				CIT
+//!@SYMTestPriority			High
+//!@SYMTestStatus			3. Released
+
+RUN_TEST_STEP 010 SfLbsClientTestServer LbsStep_InstallScheduler
+RUN_TEST_STEP 020 SfLbsClientTestServer LbsStep_SetUpPsy c:\testdata\configs\SfLbsClientLastKnownPos.ini SFLBS-LastKnownPos
+
+RUN_TEST_STEP 020 SfLbsClientTestServer LbsStep_SetUpPsy c:\testdata\configs\SfLbsClientLastKnownPos.ini SFLBS-LastKnownPos
+
+
+END_TESTCASE SFLBS-Client-LastKnownPos-0005
+
+
+START_TESTCASE SFLBS-Client-LastKnownPos-0006
+
+//!@SYMTestCaseID			SFLBS-Client-LastKnownPos-0006
+//!@SYMTestCaseDesc			Cancel a non-existent request
+//!
+//!@SYMTestActions			1.Note: do not request Last Known Location.
+//!							2.Cancel Last Known Location request.
+//!
+//!@SYMTestExpectedResults	Cancel fails with KErrNotFound
+//!
+//!
+//!@SYMTestType				CIT
+//!@SYMTestPriority			High
+//!@SYMTestStatus			3. Released
+RUN_TEST_STEP 010 SfLbsClientTestServer LbsStep_InstallScheduler
+RUN_TEST_STEP 020 SfLbsClientTestServer LbsStep_SetUpPsy c:\testdata\configs\SfLbsClientLastKnownPos.ini SFLBS-LastKnownPos
+
+RUN_TEST_STEP 120 SfLbsClientTestServer LbsClientStep_LastKnownPos c:\testdata\configs\SfLbsClientLastKnownPos.ini SFLBS-LastKnownPos-0008
+
+
+END_TESTCASE SFLBS-Client-LastKnownPos-0006
+
+
+START_TESTCASE SFLBS-Client-LastKnownPos-0008
+
+//!@SYMTestCaseID			SFLBS-Client-LastKnownPos-0008
+//!@SYMTestCaseDesc			Request multiples LKPs from different sub-sessions 
+//!
+//!@SYMTestActions			1.Open multiple sub-sessions and request LKPs on each
+//!					2.Wait for requests to complete
+//!
+//!@SYMTestExpectedResults		All requests are completed successfully, positions are published and summaries logged.
+//!
+//!
+//!@SYMTestType				CIT
+//!@SYMTestPriority			Critical
+//!@SYMTestStatus			3. Released
+
+RUN_TEST_STEP 010 SfLbsClientTestServer LbsStep_InstallScheduler
+RUN_TEST_STEP 020 SfLbsClientTestServer LbsStep_SetUpPsy c:\testdata\configs\SfLbsClientLastKnownPos.ini SFLBS-LastKnownPos
+
+RUN_TEST_STEP 020 SfLbsClientTestServer LbsStep_CreateVerifyPosInfos c:\testdata\configs\SfLbsClientLastKnownPos.ini SFLBS-LastKnownPos-0015
+RUN_TEST_STEP 120 SfLbsClientTestServer LbsClientStep_LastKnownPos c:\testdata\configs\SfLbsClientLastKnownPos.ini SFLBS-LastKnownPos-0015
+RUN_TEST_STEP 010 SfLbsClientTestServer LbsStep_VerifyPosInfos
+
+
+END_TESTCASE SFLBS-Client-LastKnownPos-0008
+
+
+START_TESTCASE SFLBS-Client-LastKnownPos-0009
+
+//!@SYMTestCaseID			SFLBS-Client-LastKnownPos-0009
+//!@SYMTestCaseDesc			Request multiples LKPs from same sub-session sequentially
+//!
+//!@SYMTestActions			1.Open a sub-session and request LKP
+//!					2.Wait for request to complete
+//!					3.Request another LKP
+//!					4.Wait for request to complete
+//!
+//!@SYMTestExpectedResults		All requests are completed successfully, positions are published and summaries logged.
+//!
+//!
+//!@SYMTestType				CIT
+//!@SYMTestPriority			Critical
+//!@SYMTestStatus			3. Released
+
+RUN_TEST_STEP 010 SfLbsClientTestServer LbsStep_InstallScheduler
+RUN_TEST_STEP 020 SfLbsClientTestServer LbsStep_SetUpPsy c:\testdata\configs\SfLbsClientLastKnownPos.ini SFLBS-LastKnownPos
+
+RUN_TEST_STEP 020 SfLbsClientTestServer LbsStep_CreateVerifyPosInfos c:\testdata\configs\SfLbsClientLastKnownPos.ini SFLBS-LastKnownPos-0016
+RUN_TEST_STEP 120 SfLbsClientTestServer LbsClientStep_LastKnownPos c:\testdata\configs\SfLbsClientLastKnownPos.ini SFLBS-LastKnownPos-0016
+RUN_TEST_STEP 010 SfLbsClientTestServer LbsStep_VerifyPosInfos
+
+
+END_TESTCASE SFLBS-Client-LastKnownPos-0009
+
+
+// Selecting the default admin values will ensure the AGPS module requests assistance data.
+RUN_TEST_STEP 020 SfLbsClientTestServer LbsStep_ResetDefaultAdmin
+
+START_TESTCASE SFLBS-Client-LastKnownPos-0010
+
+//!@SYMTestCaseID			SFLBS-Client-LastKnownPos-0010
+//!@SYMTestCaseDesc			Get Last Known Position when it is in cache
+//!
+//!@SYMTestActions			1. Request a location update (passing in a TPositionInfo) and
+//!								wait for it to complete. Read the timestamp on this location.
+//!							2. Request last known Location (should now be in cache).
+//!							3. Wait for location request to complete.
+//!							4. Verify the return status of the request is KErrNone.
+//!							5. Verify that position data is received and that it contains
+//!								a timestamp that matches the one from the last request. 
+//!							6. Use GetPosition() to get the lat/long/altitude and verify that
+//!								they are within the appropriate range.
+//!							7. Verify that the location request has been logged.
+//!
+//!@SYMTestExpectedResults	Location Information is received and is correct. Log contains summary info.
+//!
+//!
+//!@SYMTestType				CIT
+//!@SYMTestPriority			Critical
+//!@SYMTestStatus			3. Released
+
+RUN_TEST_STEP 010 SfLbsClientTestServer LbsStep_InstallScheduler
+RUN_TEST_STEP 020 SfLbsClientTestServer LbsStep_SetUpPsy c:\testdata\configs\SfLbsClientLastKnownPos.ini SFLBS-LastKnownPos
+
+RUN_TEST_STEP 020 SfLbsClientTestServer LbsStep_CreateVerifyPosInfos c:\testdata\configs\SfLbsClientLastKnownPos.ini SFLBS-LastKnownPos-0101
+RUN_TEST_STEP 120 SfLbsClientTestServer LbsClientStep_LastKnownPos c:\testdata\configs\SfLbsClientLastKnownPos.ini SFLBS-LastKnownPos-0101
+RUN_TEST_STEP 010 SfLbsClientTestServer LbsStep_VerifyPosInfos
+
+
+END_TESTCASE SFLBS-Client-LastKnownPos-0010
+
+
+START_TESTCASE SFLBS-Client-LastKnownPos-0011
+
+//!@SYMTestCaseID			SFLBS-Client-LastKnownPos-0011
+//!@SYMTestCaseDesc			Get Last Known Position when it is in cache passed by Open a sub-session with the network module.
+//!
+//!@SYMTestActions			1. Open a sub-session with the network module (specify moduleid)
+//!                                     2. Request a location update (passing in a TPositionInfo) and
+//!                                        wait for it to complete. Read the timestamp on this location.
+//!                                     3. Request last known Location (should now be in cache).
+//!                                     4. Wait for location request to complete.
+//!                                     5. Verify the return status of the request is KErrNone.
+//!                                     6. Verify that position data is received and that it contains
+//!                                        a timestamp that matches the one from the last request. 
+//!                                     7. Use GetPosition() to get the lat/long/altitude and verify that
+//!                                        they are within the appropriate range.
+//!                                     8. Verify that the location request has been logged.
+//!
+//!
+//!@SYMTestExpectedResults	Location Information is received and is correct. Log contains summary info.
+//!
+//!
+//!@SYMTestType				CIT
+//!@SYMTestPriority			Medium
+//!@SYMTestStatus			3. Released
+
+RUN_TEST_STEP 010 SfLbsClientTestServer LbsStep_InstallScheduler
+RUN_TEST_STEP 020 SfLbsClientTestServer LbsStep_SetUpPsy c:\testdata\configs\SfLbsClientLastKnownPos.ini SFLBS-LastKnownPosNetwork
+RUN_TEST_STEP 020 SfLbsClientTestServer LbsStep_CreateVerifyPosInfos c:\testdata\configs\SfLbsClientLastKnownPos.ini SFLBS-LastKnownPos-0105
+RUN_TEST_STEP 120 SfLbsClientTestServer LbsClientStep_LastKnownPos c:\testdata\configs\SfLbsClientLastKnownPos.ini SFLBS-LastKnownPos-0105
+RUN_TEST_STEP 010 SfLbsClientTestServer LbsStep_VerifyPosInfos
+
+
+END_TESTCASE SFLBS-Client-LastKnownPos-0011
+
+
+START_TESTCASE SFLBS-Client-LastKnownPos-0012
+
+//!@SYMTestCaseID			SFLBS-Client-LastKnownPos-0012
+//!@SYMTestCaseDesc			Cancel Last Known Position request before receiving response
+//!
+//!@SYMTestActions			1.Request Last Known Location.
+//!					2.Cancel Last Known Location request
+//!					3.Wait for location request to complete.
+//!
+//!@SYMTestExpectedResults	Sync Cancel() call returns either KErrNone or KErrNotFound. 
+//!							If it returns KErrNone, then the original request may complete with KErrCancel. Either way, it is logged.
+//!
+//!
+//!@SYMTestType				CIT
+//!@SYMTestPriority			High
+//!@SYMTestStatus			3. Released
+
+RUN_TEST_STEP 010 SfLbsClientTestServer LbsStep_InstallScheduler
+RUN_TEST_STEP 020 SfLbsClientTestServer LbsStep_SetUpPsy c:\testdata\configs\SfLbsClientLastKnownPos.ini SFLBS-LastKnownPos
+
+RUN_TEST_STEP 020 SfLbsClientTestServer LbsStep_CreateVerifyPosInfos c:\testdata\configs\SfLbsClientLastKnownPos.ini SFLBS-LastKnownPos-0102
+RUN_TEST_STEP 120 SfLbsClientTestServer LbsClientStep_LastKnownPos c:\testdata\configs\SfLbsClientLastKnownPos.ini SFLBS-LastKnownPos-0102
+
+
+END_TESTCASE SFLBS-Client-LastKnownPos-0012
+
+START_TESTCASE SFLBS-Client-LastKnownPos-0013
+
+//!@SYMTestCaseID			SFLBS-Client-LastKnownPos-0013
+//!@SYMTestCaseDesc			Request multiples LKPs from different sub-sessions 
+//!
+//!@SYMTestActions			1.Open multiple sub-sessions and request LKPs on each
+//!					2.Wait for requests to complete
+//!
+//!@SYMTestExpectedResults		All requests are completed successfully, positions are published and summaries logged.
+//!
+//!
+//!@SYMTestType				CIT
+//!@SYMTestPriority			Critical
+//!@SYMTestStatus			3. Released
+
+RUN_TEST_STEP 010 SfLbsClientTestServer LbsStep_InstallScheduler
+RUN_TEST_STEP 020 SfLbsClientTestServer LbsStep_SetUpPsy c:\testdata\configs\SfLbsClientLastKnownPos.ini SFLBS-LastKnownPos
+
+RUN_TEST_STEP 020 SfLbsClientTestServer LbsStep_CreateVerifyPosInfos c:\testdata\configs\SfLbsClientLastKnownPos.ini SFLBS-LastKnownPos-0103
+RUN_TEST_STEP 120 SfLbsClientTestServer LbsClientStep_LastKnownPos c:\testdata\configs\SfLbsClientLastKnownPos.ini SFLBS-LastKnownPos-0103
+RUN_TEST_STEP 010 SfLbsClientTestServer LbsStep_VerifyPosInfos
+
+END_TESTCASE SFLBS-Client-LastKnownPos-0013
+
+START_TESTCASE SFLBS-Client-LastKnownPos-0014
+
+//!@SYMTestCaseID			SFLBS-Client-LastKnownPos-0014
+//!@SYMTestCaseDesc			Request multiples LKPs from same sub-session sequentially
+//!
+//!@SYMTestActions			1.Open a sub-session and request LKP
+//!					2.Wait for request to complete
+//!					3.Request another LKP
+//!					4.Wait for request to complete
+//!
+//!@SYMTestExpectedResults		All requests are completed successfully, positions are published and summaries logged.
+//!
+//!
+//!@SYMTestType				CIT
+//!@SYMTestPriority			Critical
+//!@SYMTestStatus			3. Released
+
+RUN_TEST_STEP 010 SfLbsClientTestServer LbsStep_InstallScheduler
+RUN_TEST_STEP 020 SfLbsClientTestServer LbsStep_SetUpPsy c:\testdata\configs\SfLbsClientLastKnownPos.ini SFLBS-LastKnownPos
+
+RUN_TEST_STEP 020 SfLbsClientTestServer LbsStep_CreateVerifyPosInfos c:\testdata\configs\SfLbsClientLastKnownPos.ini SFLBS-LastKnownPos-0104
+RUN_TEST_STEP 120 SfLbsClientTestServer LbsClientStep_LastKnownPos c:\testdata\configs\SfLbsClientLastKnownPos.ini SFLBS-LastKnownPos-0104
+RUN_TEST_STEP 010 SfLbsClientTestServer LbsStep_VerifyPosInfos
+
+END_TESTCASE SFLBS-Client-LastKnownPos-0014
+
+
+
+
+PRINT Stop LBS
+RUN_TEST_STEP 020 SfLbsClientTestServer LbsStep_StopLbs
+
+// Re-select the real A-GPS integration module.
+RUN_UTILS DeleteFile c:\private\10282253\lbs\locmods\agpsintegmodule.ini
+
+// Delete network registration status text file
+RUN_UTILS DeleteFile c:\config.txt

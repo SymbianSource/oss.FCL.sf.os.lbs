@@ -1,0 +1,64 @@
+//! @File
+//! @SYMTestSuiteName	SF-LBS-HYBRIDMTLR-UEBASED
+//! @SYMScriptTestEnvironment TEF
+
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+LOAD_SUITE SfLbsHybridMTLRTestServer -SharedData
+
+PRINT Run SfLbsHybridMTLRTestServer
+
+
+// Before we start LBS, select the test A-GPS integration module to use.
+PREFIX RUN_UTILS
+	MkDir c:\private\10282253\
+	MkDir c:\private\10282253\lbs\
+	MkDir c:\private\10282253\lbs\locmods\
+//	CopyFile c:\testdata\configs\xtestmodule.ini c:\private\10282253\lbs\locmods\agpsintegmodule.ini
+        CopyFile c:\testdata\configs\ctagpshybridmoduledatasource.ini  c:\private\10282253\lbs\locmods\agpsintegmodule.ini
+	CopyFile c:\testdata\configs\lbstestconfig.txt c:\config.txt
+REMOVE_PREFIX
+
+// Reset admin (reset will give us the EGpsPreferTerminalBased).
+RUN_TEST_STEP 010 SfLbsHybridMTLRTestServer LbsStep_ResetDefaultAdmin
+
+// Select MTLR privacy controller.
+RUN_TEST_STEP 010 SfLbsHybridMTLRTestServer LbsStep_SetPrivacyHandler c:\testdata\configs\sf_lbs_mtlr.ini PrivHandler
+
+// Use hybrid protocol module
+RUN_TEST_STEP 010 SfLbsHybridMTLRTestServer LbsStep_SetupProtocolStub
+
+RUN_TEST_STEP 030 SfLbsHybridMTLRTestServer LbsStep_StartLbs
+
+START_TESTCASE SFLBS-HybridMTLR-0001
+//!@SYMTestCaseID SFLBS-HybridMTLR-0001
+//!@SYMTestCaseDesc	MTLR Request received
+//!			GPS Module generates an accurate position in UE Based Mode
+//!			See: lbshybridmtlr/documentation/mtlr.htm#HybridUEBasedMTLR
+//!@SYMTestActions	See test step Sequence inline comments
+//!@SYMTestExpectedResults	Sequence as per specified by FSM and UML Seq diagram is Followed
+//!@SYMTestType				CIT
+//!@SYMTestPriority			Critical
+//!@SYMTestStatus			3. Released
+RUN_TEST_STEP 010 SfLbsHybridMTLRTestServer LbsStep_InstallScheduler
+// Configure Hybrid AGps module options
+RUN_TEST_STEP 120 SfLbsHybridMTLRTestServer LbsStep_ConfigHybridModule c:\testdata\configs\sf_lbs_mtlr.ini UEBasedMTLR
+RUN_TEST_STEP 120 SfLbsHybridMTLRTestServer LbsUEBasedMtlr
+END_TESTCASE SFLBS-HybridMTLR-0001
+
+RUN_TEST_STEP 020 SfLbsHybridMTLRTestServer LbsStep_StopLbs
+
+RUN_UTILS DeleteFile c:\private\10282253\lbs\locmods\agpsintegmodule.ini

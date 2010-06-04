@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE testExecuteTest SYSTEM "c:\program files\common files\symbian\testExecuteTest.dtd" [ ]>
+
+<testExecuteTest>
+  <name>te_npeintegrationmoduletest</name>
+  <timeout>600</timeout>
+  <testScripts>
+    <script>
+      <hostPath>datasourcemodules\npeintegmodule\npeplugin\test\te_npeintegrationmodule\scripts\te_npeintegrationmodule.script</hostPath>
+      <devicePath>c:\testdata\scripts\te_npeintegrationmodule.script</devicePath>
+    </script>
+  </testScripts>
+  <testServers>
+    <server>te_npeintegrationmodule</server>
+  </testServers>
+  <dependencies>
+    <data>
+      <hostPath>datasourcemodules\npeintegmodule\npeplugin\test\te_npeintegrationmodule\testdata\te_npeintegrationmodule.ini</hostPath>
+      <devicePath>c:\testdata\configs\te_npeintegrationmodule.ini</devicePath>
+    </data>
+  </dependencies>
+</testExecuteTest>

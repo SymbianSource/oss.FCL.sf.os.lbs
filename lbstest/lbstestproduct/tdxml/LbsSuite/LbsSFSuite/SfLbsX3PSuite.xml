@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE testSuite SYSTEM "file:///c:/program files/common files/symbian/testSuite.dtd" [ ]>
+
+<testSuite>
+	<name>SfLbsX3PSuite</name>
+	<testItems>
+		<test>sflbsx3popenclose</test>
+		<test>sflbsx3ptransmit</test>
+		<test>sflbsx3ptransmitrefpos</test>
+		<test>sflbsx3ptransmitconcurrent</test>
+		<test>sflbsx3ptransmitconcurrentrefpos</test>
+		<test>sflbsx3pcancel</test>
+		<test>sflbsx3pcancelrefpos</test>
+	</testItems>
+	<testExecuteServers>
+		<server>SfLbsX3PTestServer</server>
+	</testExecuteServers>
+</testSuite>
+

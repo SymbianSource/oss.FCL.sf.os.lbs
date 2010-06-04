@@ -1,0 +1,42 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+//
+PRINT Run all te_LbsNetProtocolProxyUnitTest Suite Tests
+
+//
+LOAD_SUITE te_LbsNetProtocolProxyUnitTestSuite
+
+RUN_UTILS MkDir c:\logs\lbs
+
+
+CONCURRENT
+RUN_PROGRAM -1 lbsnetprotocolstubtest
+
+START_TESTCASE LBS-HybridProtocol-NetProtocolProxy-Call-0001
+//!@SYMTestCaseID	LBS-HybridProtocol-NetProtocolProxy-Call-0001
+RUN_TEST_STEP 100 te_LbsNetProtocolProxyUnitTestSuite TCallStep c:\testdata\configs\te_LbsNetProtocolProxyUnitTestSuite.ini Section0
+END_TESTCASE LBS-HybridProtocol-NetProtocolProxy-Call-0001
+
+
+START_TESTCASE LBS-HybridProtocol-NetProtocolProxy-GetArgs-0001
+//!@SYMTestCaseID	LBS-HybridProtocol-NetProtocolProxy-GetArgs-0001
+RUN_TEST_STEP 100 te_LbsNetProtocolProxyUnitTestSuite TGetArgsStep c:\testdata\configs\te_LbsNetProtocolProxyUnitTestSuite.ini Section1
+END_TESTCASE LBS-HybridProtocol-NetProtocolProxy-GetArgs-0001
+
+//RUN_TEST_STEP 100 te_LbsNetProtocolProxyUnitTestSuite TWaitForResponseStep c:\testdata\configs\te_LbsNetProtocolProxyUnitTestSuite.ini Section2
+//RUN_TEST_STEP 100 te_LbsNetProtocolProxyUnitTestSuite TExampleSequenceStep c:\testdata\configs\te_LbsNetProtocolProxyUnitTestSuite.ini Section3
+
+PRINT Complate_te_LbsNetProtocolProxyUnitTest_Tests

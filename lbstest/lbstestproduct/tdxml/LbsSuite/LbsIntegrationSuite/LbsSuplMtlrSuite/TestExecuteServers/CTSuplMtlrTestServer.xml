@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<!DOCTYPE testExecuteServer SYSTEM "c:\program files\common files\symbian\testExecuteServer.dtd" [ ]>
+
+<testExecuteServer>
+
+	<name>CTSuplMtlrTestServer</name>
+
+	<mmpFile>suplmtlrtestserver.mmp</mmpFile>
+
+	<bldInfPath>lbstest\lbstestproduct\supl\mtlr\simulation\group\bld.inf</bldInfPath>
+
+	<dependencies>
+
+		<build type="test">
+	   		<hostPath>getafixutils.dll</hostPath>
+      		<devicePath>c:\system\libs\getafixutils.dll</devicePath>
+   			<mmpFile>getafixutils.mmp</mmpFile>
+   			<bldInfPath>lbstest\lbstestproduct\hybridprotocolmodule\group\bld.inf</bldInfPath>
+   		</build>
+
+		<build type="test">
+	   		<hostPath>agpsnpetestintegmodule.dll</hostPath>
+      		<devicePath>c:\system\libs\agpsnpetestintegmodule.dll</devicePath>
+   			<mmpFile>agpsnpetestintegmodule.mmp</mmpFile>
+   			<bldInfPath>lbstest\lbstestproduct\agpsnpehybridmodule\npetestintegmodule\group\bld.inf</bldInfPath>
+   		</build>
+
+		<data>
+			<hostPath>\epoc32\data\Z\resource\plugins\agpsnpetestintegmodule.rsc</hostPath>
+			<devicePath>c:\resource\plugins\agpsnpetestintegmodule.rsc</devicePath>
+		</data>
+		
+		<data>
+			<hostPath>lbstest\lbstestproduct\agpsnpehybridmodule\npetestintegmodule\testdata\ctagpsnpetestmoduledatasource.ini</hostPath>
+			<devicePath>c:\testdata\configs\ctagpsnpetestmoduledatasource.ini</devicePath>
+		</data>
+		
+		<data>
+			<hostPath>lbstest\lbstestproduct\agpsnpehybridmodule\npetestintegmodule\testdata\ctagpsnpetestmoduledatasource_tb.ini</hostPath>
+			<devicePath>c:\testdata\configs\ctagpsnpetestmoduledatasource_tb.ini</devicePath>
+		</data>
+		
+		<data>
+			<hostPath>lbstest\lbstestproduct\agpsnpehybridmodule\npetestintegmodule\testdata\ctagpsnpetestmoduledatasource_ta.ini</hostPath>
+			<devicePath>c:\testdata\configs\ctagpsnpetestmoduledatasource_ta.ini</devicePath>
+		</data>
+		
+		<data>
+			<hostPath>lbstest\lbstestproduct\agpsnpehybridmodule\npetestintegmodule\testdata\ctagpsnpetestmoduledatasource_exclusive.ini</hostPath>
+			<devicePath>c:\testdata\configs\ctagpsnpetestmoduledatasource_exclusive.ini</devicePath>
+		</data>
+		
+		<build type="test">
+	   		<hostPath>npetestclientapi.dll</hostPath>
+      		<devicePath>c:\system\libs\npetestclientapi.dll</devicePath>
+   			<mmpFile>npetestclientapi.mmp</mmpFile>
+   			<bldInfPath>lbstest\lbstestproduct\agpsnpehybridmodule\npetestclientapi\group\bld.inf</bldInfPath>
+   		</build>
+			
+		<data>  
+			<hostPath>lbstest\lbstestproduct\common\testdata\lbssupltestconfig.txt</hostPath>
+			<devicePath>c:\testdata\configs\lbssupltestconfig.txt</devicePath>
+		</data>
+
+		<data>
+			<hostPath>lbstest\lbstestproduct\supl\mtlr\simulation\testdata\suplmtlrtest.ini</hostPath>
+			<devicePath>c:\testdata\configs\suplmtlrtest.ini</devicePath>
+		</data>
+
+  	</dependencies>
+
+</testExecuteServer>

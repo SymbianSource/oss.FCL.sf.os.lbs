@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE testExecuteTest SYSTEM "c:\program files\common files\symbian\testExecuteTest.dtd" [ ]>
+
+<testExecuteTest>
+
+	<name>Sflbshybridx3p_ueassisted_accurate_gps</name>
+	<timeout>600</timeout>
+	<testScripts>
+		<script>
+			<hostPath>lbstest\lbstestproduct\sf\core\sflbshybridx3p\scripts\sf_hybrid_ueassisted_x3p_accurate_gps.script</hostPath>
+			<devicePath>c:\testdata\scripts\sf_hybrid_ueassisted_x3p_accurate_gps.script</devicePath>
+		</script>
+	</testScripts>
+	<testServers>
+		<server>SfLbsHybridX3PTestServer</server>
+	</testServers>
+	<dependencies>
+		<data>
+			<hostPath>lbstest\lbstestproduct\sf\core\sflbshybridx3p\testdata\sf_lbs_x3p.ini</hostPath>
+			<devicePath>c:\testdata\configs\sf_lbs_x3p.ini</devicePath>
+		</data>
+	</dependencies>
+</testExecuteTest>

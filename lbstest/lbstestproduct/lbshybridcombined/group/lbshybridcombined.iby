@@ -1,0 +1,40 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+
+#ifndef __LBS_HYBRID_COMBINED__
+#define __LBS_HYBRID_COMBINED__
+
+#include <testexecute.iby>
+#include <lbs.iby>
+#include <lbsnetworklocationmanager.iby>
+#include <lbstestserver.iby>
+#include <lbstestutils.iby>
+#include <lbstestchannel.iby>
+#include <agpsnpetestintegmodule.iby>
+#include <ctlbsclockplugin.iby>
+#include <hybridprotocolmodule.iby>
+
+data=EPOCROOT##epoc32\data\C\testdata\configs\lbstestconfig.txt	  testdata\configs\lbstestconfig.txt
+data=EPOCROOT##epoc32\data\C\testdata\configs\ctagpsnpetestmoduledatasource.ini	  testdata\configs\ctagpsnpetestmoduledatasource.ini
+
+file=ABI_DIR\DEBUG_DIR\LbsHybridMOLRTestServer.exe sys\bin\LbsHybridMOLRTestServer.exe
+data=EPOCROOT##epoc32\data\C\testdata\configs\lbs_combined.ini	  testdata\configs\lbs_combined.ini
+data=EPOCROOT##epoc32\data\C\testdata\scripts\hybrid_combined_sequential.script	  testdata\scripts\hybrid_combined_sequential.script
+data=EPOCROOT##epoc32\data\C\testdata\scripts\hybrid_combined_concurrent.script	  testdata\scripts\hybrid_combined_concurrent.script
+data=EPOCROOT##epoc32\data\C\testdata\scripts\hybrid_combined_tracking.script	  testdata\scripts\hybrid_combined_tracking.script
+
+#endif
