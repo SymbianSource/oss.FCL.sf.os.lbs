@@ -22,7 +22,34 @@ PRINT Run all te_locsrv Suite Tests
 LOAD_SUITE te_locsrvsuite
 
 PREFIX RUN_UTILS
+DeleteFile c:\config.txt
 CopyFile c:\testdata\configs\te_locsrv_testconfig.txt c:\config.txt
+CopyFile c:\testdata\configs\03138005.cre c:\private\10202be9\03138005.cre
+CopyFile c:\testdata\configs\03138005.cre c:\private\10202be9\persists\03138005.cre
+CopyFile c:\testdata\configs\03138007.cre c:\private\10202be9\03138007.cre
+CopyFile c:\testdata\configs\03138007.cre c:\private\10202be9\persists\03138007.cre
+CopyFile c:\testdata\configs\03138001.cre c:\private\10202be9\03138001.cre
+CopyFile c:\testdata\configs\03138001.cre c:\private\10202be9\persists\03138001.cre
+CopyFile c:\testdata\configs\03138003.cre c:\private\10202be9\03138003.cre
+CopyFile c:\testdata\configs\03138003.cre c:\private\10202be9\persists\03138003.cre
+CopyFile c:\testdata\configs\03138009.cre c:\private\10202be9\03138009.cre
+CopyFile c:\testdata\configs\03138009.cre c:\private\10202be9\persists\03138009.cre
+CopyFile c:\testdata\configs\0313800b.cre c:\private\10202be9\0313800b.cre
+CopyFile c:\testdata\configs\0313800b.cre c:\private\10202be9\persists\0313800b.cre
+CopyFile c:\testdata\configs\03133002.cre c:\private\10202be9\03133002.cre
+CopyFile c:\testdata\configs\03133002.cre c:\private\10202be9\persists\03133002.cre
+CopyFile c:\testdata\configs\03133004.cre c:\private\10202be9\03133004.cre
+CopyFile c:\testdata\configs\03133004.cre c:\private\10202be9\persists\03133004.cre
+CopyFile c:\testdata\configs\03133006.cre c:\private\10202be9\03133006.cre
+CopyFile c:\testdata\configs\03133006.cre c:\private\10202be9\persists\03133006.cre
+CopyFile c:\testdata\configs\0313300C.cre c:\private\10202be9\0313300C.cre
+CopyFile c:\testdata\configs\0313300C.cre c:\private\10202be9\persists\0313300C.cre
+CopyFile c:\testdata\configs\03133026.cre c:\private\10202be9\03133026.cre
+CopyFile c:\testdata\configs\03133026.cre c:\private\10202be9\persists\03133026.cre
+CopyFile c:\testdata\configs\03133028.cre c:\private\10202be9\03133028.cre
+CopyFile c:\testdata\configs\03133028.cre c:\private\10202be9\persists\03133028.cre
+CopyFile c:\testdata\configs\0313302A.cre c:\private\10202be9\0313302A.cre
+CopyFile c:\testdata\configs\0313302A.cre c:\private\10202be9\persists\0313302A.cre
 REMOVE_PREFIX
 
 
