@@ -23,6 +23,14 @@
 
 #define __ASSERT_ALIGNED_2BYTE(aPtr) __ASSERT_DEBUG(!(TUint(aPtr)&1),User::Panic(KPositionInternalFault, EBadAlignment))
 #define __ASSERT_ALIGNED_4BYTE(aPtr) __ASSERT_DEBUG(!(TUint(aPtr)&3),User::Panic(KPositionInternalFault, EBadAlignment))
+
+// Fix for GCCE 4.x : bug #1708 - GCC-E compilation error in lbs 
+#if defined(_FOFF)
+#undef _FOFF
+#endif // defined(_FOFF)
+#define _FOFF(c,f)			(((TInt)&(((c *)0x1000)->f))-0x1000)
+// End of fix for GCCE 4.x
+
 #define __DATA_OFFSET_INTO_HPOS(aOffset) \
 		(_FOFF(HPositionGenericInfo, iBuffer[(aOffset+iInfo.iDataStartPoint)]))
 
@@ -75,13 +83,13 @@ TInt TPositionFieldSetter::FieldLength(TInt aFieldIndexId) const
 		case PositionFieldManager::ETDesC16:
 			{
 			const TUint8* address = &(iInfo.iBuffer[fieldIndex.FieldStartPos()]);
-			TUint lengthOfString = reinterpret_cast<const SPackedTDesC16*>(address)->iLength;
+			const TUint lengthOfString = reinterpret_cast<const SPackedTDesC16*>(address)->iLength;
 			return _FOFF(SPackedTDesC16, iBuf[lengthOfString]); 
 			}
 		case PositionFieldManager::ETDesC8:
 			{
 			const TUint8* address = &(iInfo.iBuffer[fieldIndex.FieldStartPos()]);
-			TUint lengthOfString = reinterpret_cast<const SPackedTDesC8*>(address)->iLength;
+			const TUint lengthOfString = reinterpret_cast<const SPackedTDesC8*>(address)->iLength;
 			return _FOFF(SPackedTDesC8, iBuf[lengthOfString]);
 			}
 		default:
@@ -861,7 +869,7 @@ EXPORT_C TInt PositionFieldManager::SetValue(TPositionFieldId aFieldId,
                                              const TDesC16& aValue,
                                              HPositionGenericInfo& aInfo)
 	{
-	const TDataWrapperC wrapper(ETDesC16, _FOFF(SPackedTDesC16, iBuf[aValue.Length()]), &aValue, CopyFromTDesC16);
+	const TDataWrapperC wrapper(ETDesC16, (_FOFF(SPackedTDesC16, iBuf[aValue.Length()])), &aValue, CopyFromTDesC16);
 	TPositionFieldSetter fieldSetter(aInfo);
 	return fieldSetter.DoSetValue(aFieldId, wrapper);
 	}

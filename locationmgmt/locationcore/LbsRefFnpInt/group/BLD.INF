@@ -25,5 +25,5 @@ lbsreffnpint.mmp
 
 PRJ_TESTMMPFILES
 
-#include "../test/group/BLD.INF"
+#include "../test/group/bld.inf"
 

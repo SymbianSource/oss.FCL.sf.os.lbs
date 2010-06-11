@@ -14,7 +14,7 @@
 //
 
 // Main projects, in build order
-#include "../btgpsconfig/group/BLD.INF"
+#include "../btgpsconfig/group/bld.inf"
 #include "../btgpspsy/group/bld.inf"
 
 PRJ_EXPORTS

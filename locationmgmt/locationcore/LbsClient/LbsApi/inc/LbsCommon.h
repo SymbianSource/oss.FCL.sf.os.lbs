@@ -21,7 +21,6 @@
 #include <lbsrequestor.h>
 #include <lbsclasstypes.h>
 #include <lbserrors.h>
-#include <lbsvariant.h>
 
 /** 
 @publishedAll
@@ -40,9 +39,8 @@
 @released
 
 Maximum characters in module name.
-If __S60_ is defined in lbsvariant.h the constant is 64 otherwise it is 20
 */
-const TInt KPositionMaxModuleName = __LBS_MAX_MODULE_NAME;
+const TInt KPositionMaxModuleName = 64;
 
 /** 
 @publishedAll

@@ -22,16 +22,15 @@
 
 //-------------------------------------------------------------------------------
 #include <e32base.h>
-#include <sqldb.h> 
-#include <lbspositioninfo.h> 
+#include <SqlDb.h> 
+#include <LbsPositionInfo.h> 
 #include <e32capability.h>
 #include "rlbslocmonitordb.h"
-#include "clbslocmonitordbtimer.h"
 
 //-------------------------------------------------------------------------------
 /** 
 */
-class CLbsLocMonitorDbEngine : public CActive, MLocMonitorDBCallback
+class CLbsLocMonitorDbEngine : public CActive
 	{
 
 public:		
@@ -43,9 +42,7 @@ public:
 			TUint aCid, TPosition& aPosition, TPositionAreaExtendedInfo& aMatchingAreaInfo, TRequestStatus& aStatus);
 	TInt GetPosition(TPosition& aPosition, TRequestStatus& aStatus);
 	TInt ClearDatabase();
-	
-   // from CLbsLocMonitorDbTimer
-    void FlushTimerCallback();
+	static TInt FlushTimerCallback(TAny* aPtr);
 
 
 private:
@@ -65,13 +62,12 @@ private:
 	
 private:
 	RSqlDatabase iDatabase;
+	CPeriodic* iPeriodic;
 	TTimeIntervalMicroSeconds32 iFlushInterval;
 	TInt iCount;
 	RSqlStatement iSqlSaveStatement;
 	TRequestStatus* iClientStatus;
-	CLbsLocMonitorDbTimer* iDbTimer;
 	
-	TBool iDBInitialised;
 	TInt iLastMcc;
 	TInt iLastMnc;
 	TInt iLastLac;

@@ -13,4 +13,4 @@
 // Description:
 //
 
-#include "../GpsSetClock/group/BLD.INF"
+#include "../GpsSetClock/group/bld.inf"

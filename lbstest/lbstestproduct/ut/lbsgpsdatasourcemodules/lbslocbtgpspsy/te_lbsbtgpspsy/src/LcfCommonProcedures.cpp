@@ -139,7 +139,7 @@ TInt CLcfCommonProcedures::GetHeapUsageL(TInt& aHeapSize)
     TInt tmp;
 
 
-    RHeap heap = User::Heap();
+    RHeap& heap = User::Heap();
     
     if (!heap.Base())
         {

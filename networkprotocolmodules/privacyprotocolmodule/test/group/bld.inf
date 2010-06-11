@@ -14,5 +14,5 @@
 //
 
 #include "../te_lbsnetworkprivacy/group/bld.inf"
-#include "../te_dummynetgateway/group/BLD.INF"
-#include "../te_lbsprivfwcap/group/BLD.INF"
+#include "../te_dummynetgateway/group/bld.inf"
+#include "../te_lbsprivfwcap/group/bld.inf"

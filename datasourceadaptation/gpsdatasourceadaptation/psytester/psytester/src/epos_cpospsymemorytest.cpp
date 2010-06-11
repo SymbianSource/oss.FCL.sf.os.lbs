@@ -223,7 +223,7 @@ void CPosPSYMemoryTest::GetMemoryFootPrint(
     TInt& aStackSize)
     {
 	TInt tmp;
-	RHeap heap = User::Heap();
+	RHeap& heap = User::Heap();
 	RThread thread;
 	TThreadStackInfo info;
 	thread.StackInfo(info);

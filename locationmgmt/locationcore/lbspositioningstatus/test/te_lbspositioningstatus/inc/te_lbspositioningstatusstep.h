@@ -22,7 +22,7 @@
 #ifndef TE_LBSPOSITIONINGSTATUSSTEPBASE_H
 #define TE_LBSPOSITIONINGSTATUSSTEPBASE_H
 
-#include <platform/test/testexecuteserverbase.h>
+#include <test/testexecuteserverbase.h>
 
 _LIT(KStatusStep,"StatusStep");
 

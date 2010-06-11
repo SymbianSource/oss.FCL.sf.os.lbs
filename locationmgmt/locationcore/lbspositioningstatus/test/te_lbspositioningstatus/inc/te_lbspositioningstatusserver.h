@@ -24,7 +24,7 @@
 #ifndef TE_LBSPOSITIONINGSTATUSSERVER_H
 #define TE_LBSPOSITIONINGSTATUSSERVER_H
 
-#include <platform/test/testexecuteserverbase.h>
+#include <test/testexecuteserverbase.h>
 
 
 class CTe_LbsPositioningStatusServer : public CTestServer

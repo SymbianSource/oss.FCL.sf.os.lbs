@@ -52,9 +52,7 @@ void CLbsLocMonitorRequestHandler::ConstructL()
 	// Allocate space for 1 pointer to area info source object (Global Cell Id)
 	iCurrentAreaInfo.ReserveL(ELastAreaInfoType);
 	TLbsLocMonitorAreaInfoGci* locMonitorAreaInfoGci = new(ELeave) TLbsLocMonitorAreaInfoGci;
-	CleanupStack::PushL(locMonitorAreaInfoGci);
 	iCurrentAreaInfo.Insert(static_cast<TLbsLocMonitorAreaInfoBase*>(locMonitorAreaInfoGci), EGlobalCellIdType);
-	CleanupStack::Pop(locMonitorAreaInfoGci);
 	
 	iDb.OpenL();
 	}
@@ -128,12 +126,12 @@ stored in the database. This method is called
 as a consequence of a new position being observed
 on an internal position bus.
 */
-void CLbsLocMonitorRequestHandler::PositionAvailable(const TPosition& aPosition)
+void CLbsLocMonitorRequestHandler::PositionAvailableL(const TPosition& aPosition)
 	{
-	LBSLOG(ELogP1,"->CLbsLocMonitorRequestHandler::PositionAvailable");
+	LBSLOG(ELogP1,"->CLbsLocMonitorRequestHandler::PositionAvailableL");
 	if(iPositionsQueue.Count() < KLbsLocMonitorMaxWriteArraySize)
 		{
-		iPositionsQueue.Append(aPosition);
+		iPositionsQueue.AppendL(aPosition);
 		}
 	else
 		{

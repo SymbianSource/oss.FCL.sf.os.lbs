@@ -14,7 +14,7 @@
 //
 
 PRJ_TESTEXPORTS
-../scripts/te_suplrrlpSuite.script		c:/testdata/scripts/te_suplrrlpSuite.script
+../scripts/te_suplrrlpsuite.script		c:/testdata/scripts/te_suplrrlpsuite.script
 ../testdata/te_suplrrlpsuite.ini		c:/testdata/configs/te_suplrrlpsuite.ini
 te_suplrrlpsuite.iby 	  				/epoc32/rom/include/te_suplrrlpsuite.iby
 

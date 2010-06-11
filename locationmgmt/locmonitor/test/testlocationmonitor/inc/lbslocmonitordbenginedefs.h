@@ -25,11 +25,13 @@ const TInt KMaxDbSize = 1000;
 const TTimeIntervalMicroSeconds32 KInitialPeriod = 200000000;
 const TTimeIntervalMicroSeconds32 KFlushPeriod = 30000000;
 
-// Secure database name MUST contain UID of process that owns it 
-#ifndef LBS_LOCMONITORDB_TEST
+
+#if defined (LBS_LOCMONITORDB_TEST) && defined (__WINS__)  // Unit test emulator
+_LIT(KSecureLocMonDB, "C:\\lastknownlocarea.db");
+#elif defined (LBS_LOCMONITORDB_TEST) && !defined (__WINSCW__) // Unit test hw
+_LIT(KSecureLocMonDB, "E:\\lastknownlocarea.db");
+#else // production code
 _LIT(KSecureLocMonDB, "[102869DF]lastknownlocarea.db");
-#else
-_LIT(KSecureLocMonDB, "[102869E2]lastknownlocarea.db");
 #endif
 
 _LIT(KCreateTable, "CREATE TABLE monitorstore (mcc INTEGER, mnc INTEGER, lac INTEGER, cid INTEGER, date INTEGER, data TEXT);");
