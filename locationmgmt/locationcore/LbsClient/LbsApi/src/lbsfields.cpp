@@ -24,7 +24,7 @@
 #define __ASSERT_ALIGNED_2BYTE(aPtr) __ASSERT_DEBUG(!(TUint(aPtr)&1),User::Panic(KPositionInternalFault, EBadAlignment))
 #define __ASSERT_ALIGNED_4BYTE(aPtr) __ASSERT_DEBUG(!(TUint(aPtr)&3),User::Panic(KPositionInternalFault, EBadAlignment))
 #define __DATA_OFFSET_INTO_HPOS(aOffset) \
-		(_FOFF(HPositionGenericInfo, iBuffer[(aOffset+iInfo.iDataStartPoint)]))
+		(_FOFF_DYNAMIC(HPositionGenericInfo, iBuffer[(aOffset+iInfo.iDataStartPoint)]))
 
 const TInt KSizeOfTInt8 = sizeof(TInt8);
 const TInt KSizeOfTInt16 = sizeof(TInt16);
@@ -42,7 +42,7 @@ const TInt KSizeOfTInt64 = sizeof(TInt64);
  *
  * @param aFieldIndex Field index for the object whos size we're interested in
  *
- * @return The size of the field pointed at by aFieldIndex. The size is the number of 8-bit 
+ * @return The size of the field pointed at by aFieldIndex. The size is the number of 8-bit
  * quantities occupied by the object.
  */
 TInt TPositionFieldSetter::FieldLength(TInt aFieldIndexId) const
@@ -76,13 +76,13 @@ TInt TPositionFieldSetter::FieldLength(TInt aFieldIndexId) const
 			{
 			const TUint8* address = &(iInfo.iBuffer[fieldIndex.FieldStartPos()]);
 			TUint lengthOfString = reinterpret_cast<const SPackedTDesC16*>(address)->iLength;
-			return _FOFF(SPackedTDesC16, iBuf[lengthOfString]); 
+			return _FOFF_DYNAMIC(SPackedTDesC16, iBuf[lengthOfString]);
 			}
 		case PositionFieldManager::ETDesC8:
 			{
 			const TUint8* address = &(iInfo.iBuffer[fieldIndex.FieldStartPos()]);
 			TUint lengthOfString = reinterpret_cast<const SPackedTDesC8*>(address)->iLength;
-			return _FOFF(SPackedTDesC8, iBuf[lengthOfString]);
+			return _FOFF_DYNAMIC(SPackedTDesC8, iBuf[lengthOfString]);
 			}
 		default:
 			User::Panic(KPositionInternalFault, EUnknownDataType);
@@ -92,7 +92,7 @@ TInt TPositionFieldSetter::FieldLength(TInt aFieldIndexId) const
 
 /**
  * This function rounds up aOffset so that HPositionGenericInfo::iBuffer[aOffset] will
- * be suitable aligned for data of aFieldType, such that the copy operator for this 
+ * be suitable aligned for data of aFieldType, such that the copy operator for this
  * data type will be able to be used at &HPositionGenericInfo::iBuffer[aOffset].
  *
  * @param aOffset Offset to be rounded up for alignment reasons.
@@ -134,16 +134,16 @@ void TPositionFieldSetter::AlignOffset(TInt& aOffset,
  * the buffer as the contents of the buffer can only be accessed via the index anyway.
  * Then we find a empty slot in the index. This will be the first field in the index marked
  * with the field type PositionFieldManager::EUndefined. Then we look at where the previous
- * field ended and pretend we're going to stick this new field onto the end of that. If it 
- * fits then we do the copy. If it doesn't fit then we try compressing the contents of the 
+ * field ended and pretend we're going to stick this new field onto the end of that. If it
+ * fits then we do the copy. If it doesn't fit then we try compressing the contents of the
  * buffer and seeing if we can get the field to fit then. If we still can't get it to fit
  * we return an error. Otherwise we copy the data into the buffer.
  *
  * @param aFieldId Id of the field to be copied into the buffer.
- * @param aData a wrapper round the object to be copied into the buffer. It contains 
+ * @param aData a wrapper round the object to be copied into the buffer. It contains
  * information about the data type/size and a pointer to a copy method.
  * @return KErrNone if the operation was successful.
- * @return KErrPositionBufferOverflow if aData will not fit in the HPositionGenericInfo 
+ * @return KErrPositionBufferOverflow if aData will not fit in the HPositionGenericInfo
  * object's buffer.
  * @return KErrOverflow if there are already KPositionMaxReturnableFields set in the
  * HPositionGenericInfo object.
@@ -167,7 +167,7 @@ TInt TPositionFieldSetter::DoSetValue(TPositionFieldId aFieldId,
 		{
 		return err;
 		}
-	
+
 	TInt offsetOfNewData;
 
 	TPositionFieldIndex* const fieldIndex = iInfo.FieldIndexPtr();
@@ -184,7 +184,7 @@ TInt TPositionFieldSetter::DoSetValue(TPositionFieldId aFieldId,
 		}
 
 	AlignOffset(offsetOfNewData, aData.Type());
-	
+
 	TBool enoughSpace = EFalse;
 	if(offsetOfNewData+aData.Size() <= iInfo.iTotalBufferSize)	//bounds check
 		{
@@ -202,7 +202,7 @@ TInt TPositionFieldSetter::DoSetValue(TPositionFieldId aFieldId,
 							+ FieldLength(indexToInsertAt-1);
 
 			AlignOffset(offsetOfNewData, aData.Type());
-		
+
 			if(offsetOfNewData+aData.Size() <= iInfo.iTotalBufferSize)	//bounds check
 				{
 				enoughSpace = ETrue;
@@ -243,7 +243,7 @@ TInt TPositionFieldSetter::DoSetValue(TPositionFieldId aFieldId,
  * @return KErrNone is the operation was successful.
  * @return KErrNotFound if an object with aFieldId cannot be found in aInfo.
  * @return KErrArgument if aFieldId is EPositionFieldNone.
- * @panic "LocationClient EHPositionGenericInfoMismatchDataType(0)" if aFieldId's data type 
+ * @panic "LocationClient EHPositionGenericInfoMismatchDataType(0)" if aFieldId's data type
  * doesn't match that pointed at by aData.
  */
 TInt TPositionFieldGetter::DoGetValue(TPositionFieldId aFieldId,
@@ -417,7 +417,7 @@ TInt CopyTInt64(TAny* aCopyTo, const TAny* aCopyFrom)
  * @param aInfo The HPositionGenericInfo object to copy the data into.
  *
  * @return KErrArgument if aFieldId is EPositionFieldNone.
- * @return KErrPositionBufferOverflow if aValue will not fit in the HPositionGenericInfo 
+ * @return KErrPositionBufferOverflow if aValue will not fit in the HPositionGenericInfo
  * object.
  * @return KErrOverflow if there are already KPositionMaxReturnableFields set in the
  * HPositionGenericInfo object.
@@ -459,7 +459,7 @@ EXPORT_C TInt PositionFieldManager::GetValue(TPositionFieldId aFieldId,
  * @param aInfo The HPositionGenericInfo object to copy the data into.
  *
  * @return KErrArgument if aFieldId is EPositionFieldNone.
- * @return KErrPositionBufferOverflow if aValue will not fit in the HPositionGenericInfo 
+ * @return KErrPositionBufferOverflow if aValue will not fit in the HPositionGenericInfo
  * object.
  * @return KErrOverflow if there are already KPositionMaxReturnableFields set in the
  * HPositionGenericInfo object.
@@ -501,7 +501,7 @@ EXPORT_C TInt PositionFieldManager::GetValue(TPositionFieldId aFieldId,
  * @param aInfo The HPositionGenericInfo object to copy the data into.
  *
  * @return KErrArgument if aFieldId is EPositionFieldNone.
- * @return KErrPositionBufferOverflow if aValue will not fit in the HPositionGenericInfo 
+ * @return KErrPositionBufferOverflow if aValue will not fit in the HPositionGenericInfo
  * object.
  * @return KErrOverflow if there are already KPositionMaxReturnableFields set in the
  * HPositionGenericInfo object.
@@ -543,7 +543,7 @@ EXPORT_C TInt PositionFieldManager::GetValue(TPositionFieldId aFieldId,
  * @param aInfo The HPositionGenericInfo object to copy the data into.
  *
  * @return KErrArgument if aFieldId is EPositionFieldNone.
- * @return KErrPositionBufferOverflow if aValue will not fit in the HPositionGenericInfo 
+ * @return KErrPositionBufferOverflow if aValue will not fit in the HPositionGenericInfo
  * object.
  * @return KErrOverflow if there are already KPositionMaxReturnableFields set in the
  * HPositionGenericInfo object.
@@ -587,7 +587,7 @@ EXPORT_C TInt PositionFieldManager::GetValue(TPositionFieldId aFieldId,
  * @param aInfo The HPositionGenericInfo object to copy the data into.
  *
  * @return KErrArgument if aFieldId is EPositionFieldNone.
- * @return KErrPositionBufferOverflow if aValue will not fit in the HPositionGenericInfo 
+ * @return KErrPositionBufferOverflow if aValue will not fit in the HPositionGenericInfo
  * object.
  * @return KErrOverflow if there are already KPositionMaxReturnableFields set in the
  * HPositionGenericInfo object.
@@ -631,7 +631,7 @@ EXPORT_C TInt PositionFieldManager::GetValue(TPositionFieldId aFieldId,
  * @param aInfo The HPositionGenericInfo object to copy the data into.
  *
  * @return KErrArgument if aFieldId is EPositionFieldNone.
- * @return KErrPositionBufferOverflow if aValue will not fit in the HPositionGenericInfo 
+ * @return KErrPositionBufferOverflow if aValue will not fit in the HPositionGenericInfo
  * object.
  * @return KErrOverflow if there are already KPositionMaxReturnableFields set in the
  * HPositionGenericInfo object.
@@ -675,7 +675,7 @@ EXPORT_C TInt PositionFieldManager::GetValue(TPositionFieldId aFieldId,
  * @param aInfo The HPositionGenericInfo object to copy the data into.
  *
  * @return KErrArgument if aFieldId is EPositionFieldNone.
- * @return KErrPositionBufferOverflow if aValue will not fit in the HPositionGenericInfo 
+ * @return KErrPositionBufferOverflow if aValue will not fit in the HPositionGenericInfo
  * object.
  * @return KErrOverflow if there are already KPositionMaxReturnableFields set in the
  * HPositionGenericInfo object.
@@ -719,7 +719,7 @@ EXPORT_C TInt PositionFieldManager::GetValue(TPositionFieldId aFieldId,
  * @param aInfo The HPositionGenericInfo object to copy the data into.
  *
  * @return KErrArgument if aFieldId is EPositionFieldNone.
- * @return KErrPositionBufferOverflow if aValue will not fit in the HPositionGenericInfo 
+ * @return KErrPositionBufferOverflow if aValue will not fit in the HPositionGenericInfo
  * object.
  * @return KErrOverflow if there are already KPositionMaxReturnableFields set in the
  * HPositionGenericInfo object.
@@ -763,7 +763,7 @@ EXPORT_C TInt PositionFieldManager::GetValue(TPositionFieldId aFieldId,
  * @param aInfo The HPositionGenericInfo object to copy the data into.
  *
  * @return KErrArgument if aFieldId is EPositionFieldNone.
- * @return KErrPositionBufferOverflow if aValue will not fit in the HPositionGenericInfo 
+ * @return KErrPositionBufferOverflow if aValue will not fit in the HPositionGenericInfo
  * object.
  * @return KErrOverflow if there are already KPositionMaxReturnableFields set in the
  * HPositionGenericInfo object.
@@ -808,7 +808,7 @@ EXPORT_C TInt PositionFieldManager::GetValue(TPositionFieldId aFieldId,
  * @param aInfo The HPositionGenericInfo object to copy the data into.
  *
  * @return KErrArgument if aFieldId is EPositionFieldNone.
- * @return KErrPositionBufferOverflow if aValue will not fit in the HPositionGenericInfo 
+ * @return KErrPositionBufferOverflow if aValue will not fit in the HPositionGenericInfo
  * object.
  * @return KErrOverflow if there are already KPositionMaxReturnableFields set in the
  * HPositionGenericInfo object.
@@ -817,8 +817,8 @@ EXPORT_C TInt PositionFieldManager::GetValue(TPositionFieldId aFieldId,
 EXPORT_C TInt PositionFieldManager::SetValue(TPositionFieldId aFieldId,
                                              const TDesC8& aValue,
                                              HPositionGenericInfo& aInfo)
-	{	
-	const TDataWrapperC wrapper(ETDesC8, _FOFF(SPackedTDesC8, iBuf[aValue.Length()]), &aValue, CopyFromTDesC8);
+	{
+	const TDataWrapperC wrapper(ETDesC8, _FOFF_DYNAMIC(SPackedTDesC8, iBuf[aValue.Length()]), &aValue, CopyFromTDesC8);
 	TPositionFieldSetter fieldSetter(aInfo);
 	return fieldSetter.DoSetValue(aFieldId, wrapper);
 	}
@@ -851,7 +851,7 @@ EXPORT_C TInt PositionFieldManager::GetValue(TPositionFieldId aFieldId,
  * @param aInfo The HPositionGenericInfo object to copy the data into.
  *
  * @return KErrArgument if aFieldId is EPositionFieldNone.
- * @return KErrPositionBufferOverflow if aValue will not fit in the HPositionGenericInfo 
+ * @return KErrPositionBufferOverflow if aValue will not fit in the HPositionGenericInfo
  * object.
  * @return KErrOverflow if there are already KPositionMaxReturnableFields set in the
  * HPositionGenericInfo object.
@@ -861,7 +861,7 @@ EXPORT_C TInt PositionFieldManager::SetValue(TPositionFieldId aFieldId,
                                              const TDesC16& aValue,
                                              HPositionGenericInfo& aInfo)
 	{
-	const TDataWrapperC wrapper(ETDesC16, _FOFF(SPackedTDesC16, iBuf[aValue.Length()]), &aValue, CopyFromTDesC16);
+	const TDataWrapperC wrapper(ETDesC16, _FOFF_DYNAMIC(SPackedTDesC16, iBuf[aValue.Length()]), &aValue, CopyFromTDesC16);
 	TPositionFieldSetter fieldSetter(aInfo);
 	return fieldSetter.DoSetValue(aFieldId, wrapper);
 	}
@@ -932,7 +932,7 @@ EXPORT_C TInt PositionFieldManager::GetValue(TPositionFieldId aFieldId,
  * @param aInfo The HPositionGenericInfo object to copy the data into.
  *
  * @return KErrArgument if aFieldId is EPositionFieldNone.
- * @return KErrPositionBufferOverflow if aValue will not fit in the HPositionGenericInfo 
+ * @return KErrPositionBufferOverflow if aValue will not fit in the HPositionGenericInfo
  * object.
  * @return KErrOverflow if there are already KPositionMaxReturnableFields set in the
  * HPositionGenericInfo object.
@@ -976,7 +976,7 @@ EXPORT_C TInt PositionFieldManager::GetValue(TPositionFieldId aFieldId,
  * @param aInfo The HPositionGenericInfo object to copy the data into.
  *
  * @return KErrArgument if aFieldId is EPositionFieldNone.
- * @return KErrPositionBufferOverflow if aValue will not fit in the HPositionGenericInfo 
+ * @return KErrPositionBufferOverflow if aValue will not fit in the HPositionGenericInfo
  * object.
  * @return KErrOverflow if there are already KPositionMaxReturnableFields set in the
  * HPositionGenericInfo object.

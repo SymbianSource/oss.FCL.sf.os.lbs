@@ -110,12 +110,12 @@ see TPositionModuleInfo::TTechnologyType
 EXPORT_C TPositionModeReason TPositionInfoBase::PositionModeReason() const
 /**
 @return Returns why the positioning mode used to calculate the position fix was different
-from the prefered mode. For example, this could indicate that the phone is out of 
-network coverage. 
+from the prefered mode. For example, this could indicate that the phone is out of
+network coverage.
 
 see PositionMode
 see _TPositionModeReason
- 
+
 @return The method returns a bit mask the reasons why the position module was unable
 calculate the position in the prefered mode.
 @return EPositionModeReasonNone is returned if the mode used was the preferred.
@@ -149,7 +149,7 @@ Default constructor. Sets the class type and class size in the base class (TPosi
 
 EXPORT_C void TPositionInfo::SetPosition(const TPosition& aPosition)
 /**
-Sets the TPosition stored in this class 
+Sets the TPosition stored in this class
 @param aPosition The TPosition stored in this class is set to aPosition
  */
 	{
@@ -182,7 +182,7 @@ Default constructor. Sets the class type and class size in the base class (TPosi
 
 EXPORT_C void TPositionCourseInfo::GetCourse(TCourse& aCourse) const
 /**
-Gets the TCourse stored in this class 
+Gets the TCourse stored in this class
 @param aCourse The TCourse stored in this class is copied into aCourse.
  */
 	{
@@ -191,7 +191,7 @@ Gets the TCourse stored in this class
 
 EXPORT_C void TPositionCourseInfo::SetCourse(const TCourse& aCourse)
 /**
-Sets the TCourse stored in this class 
+Sets the TCourse stored in this class
 @param aCourse The TCourse stored in this class is set to aCourse.
  */
 	{
@@ -205,7 +205,7 @@ Sets the TCourse stored in this class
 EXPORT_C HPositionGenericInfo* HPositionGenericInfo::NewLC(TInt aBufferSize,
 														   TInt aMaxFields)
 /**
-Leaving constructor that allocs a HPositionGenericInfo on the heap and leaves a 
+Leaving constructor that allocs a HPositionGenericInfo on the heap and leaves a
 pointer to the object on the cleanup stack.
 @param aBufferSize Sets the size of the buffer that the HPositionGenericInfo will have.
 @param aMaxFields Sets the maximum number of fields that the HPositionGenericInfo will have.
@@ -249,24 +249,24 @@ Non-leaving constructor that allocs a HPositionGenericInfo on the heap.
 	__ASSERT_ALWAYS(aMaxFields>0, User::Panic(KPosClientFault, EPositionGenericInfoZeroMaxFields));
 
 	TUint fieldIndexStartPos = aMaxFields*sizeof(TPositionFieldId);
-	if(_FOFF(HPositionGenericInfo, iBuffer[fieldIndexStartPos])&3)
+	if(_FOFF_DYNAMIC(HPositionGenericInfo, iBuffer[fieldIndexStartPos])&3)
 		{//Adjust fieldIndexStartPos such that iBuffer[fieldIndexStartPos] is 4-byte aligned.
-		fieldIndexStartPos += 4 - (_FOFF(HPositionGenericInfo, iBuffer[fieldIndexStartPos])&3);
+		fieldIndexStartPos += 4 - (_FOFF_DYNAMIC(HPositionGenericInfo, iBuffer[fieldIndexStartPos])&3);
 		}
 
 	TUint dataStartPos = fieldIndexStartPos+aMaxFields*sizeof(TPositionFieldIndex);
-	
+
 	//iBuffer[0] must be 2 byte aligned since it is to be cast to a TPositionFieldId
 	//array
-	__ASSERT_DEBUG(!(_FOFF(HPositionGenericInfo, iBuffer[0])&1), 
+	__ASSERT_DEBUG(!(_FOFF(HPositionGenericInfo, iBuffer[0])&1),
 		User::Panic(KPositionInternalFault, EBufferPosNotAligned));
 
-	//Since fieldIndexStartPos will be 4-byte aligned into iBuffer, and 
+	//Since fieldIndexStartPos will be 4-byte aligned into iBuffer, and
 	//sizeof(TPositionFieldIndex)==8, dataStartPos should be 4-byte aligned.
-	__ASSERT_DEBUG(!(_FOFF(HPositionGenericInfo, iBuffer[dataStartPos])&3), 
+	__ASSERT_DEBUG(!(_FOFF_DYNAMIC(HPositionGenericInfo, iBuffer[dataStartPos])&3),
 		User::Panic(KPositionInternalFault, EBufferPosNotAligned));
 
-	return new(User::Alloc(_FOFF(HPositionGenericInfo, iBuffer[aDataBufferSize+dataStartPos])))
+	return new(User::Alloc(_FOFF_DYNAMIC(HPositionGenericInfo, iBuffer[aDataBufferSize+dataStartPos])))
 		HPositionGenericInfo(aDataBufferSize, aMaxFields, fieldIndexStartPos, dataStartPos, ETrue);
 	}
 
@@ -278,12 +278,12 @@ HPositionGenericInfo::HPositionGenericInfo(TInt aDataBufferSize, TInt aMaxFields
 	iDataStartPoint(aDataStartPoint),
 	iTotalBufferSize(aDataBufferSize+aDataStartPoint)
 /**
-private constructor. To be used within the class 
+private constructor. To be used within the class
  */
 	{
-	iPosClassSize = _FOFF(HPositionGenericInfo, iBuffer[iTotalBufferSize]);
-	iPosClassType |= EPositionGenericInfoClass; 
-	
+	iPosClassSize = _FOFF_DYNAMIC(HPositionGenericInfo, iBuffer[iTotalBufferSize]);
+	iPosClassType |= EPositionGenericInfoClass;
+
 	if(aResetRequestedFields)
 		{
 		ClearRequestedFields();
@@ -369,7 +369,7 @@ Method sets a field as requested.
 EXPORT_C TInt HPositionGenericInfo::SetRequestedFields(const TPositionFieldIdList aFieldIdList)
 /**
 Sets multiple TPositionFieldId objects as requested.
-@param aFieldIdList List of field Id's to be set as requested. The list is terminated 
+@param aFieldIdList List of field Id's to be set as requested. The list is terminated
 with a ::EPositionFieldNone entry.
 @return a symbian OS error code.
 @return KErrNone if all Field Ids were successfully set as requested.
@@ -423,7 +423,7 @@ Looks through the list of requested fields for the lowest valued field Id.
 
 EXPORT_C TPositionFieldId HPositionGenericInfo::NextRequestedFieldId(TPositionFieldId aFieldId) const
 /**
-Looks for the next field Id in the list greater than aFieldId. 
+Looks for the next field Id in the list greater than aFieldId.
 @param aFieldId Function will return next field Id in the list greater than this Id.
 @return Next field Id in the list greater than aFieldId.
 @return ::EPositionFieldNone if there are no field Id's in the list greater than aFieldId
@@ -469,7 +469,7 @@ Looks through the available fields and returns whether aFieldId is in the list.
 
 TInt HPositionGenericInfo::FindEmptyRequestedFieldOffset(TInt& aEmptyFieldOffset) const
 /**
-Helper method. For internal usage only 
+Helper method. For internal usage only
  */
 	{
 	TInt err = KErrOverflow;
