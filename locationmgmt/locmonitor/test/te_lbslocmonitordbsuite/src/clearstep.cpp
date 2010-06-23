@@ -88,7 +88,7 @@ TVerdict CClearStep::doTestStepL()
 			in.iCid = i+3000;
 			RPointerArray<TLbsLocMonitorAreaInfoBase> inArray;
 			inArray.Append(&in);
-			locMonitorDb.SavePosition(dummyPosition,inArray,iWaiter->iStatus);
+			locMonitorDb.SavePosition(dummyPosition,inArray,ETrue,iWaiter->iStatus);
 			iWaiter->StartAndWait();
 			inArray.Reset();
 			}

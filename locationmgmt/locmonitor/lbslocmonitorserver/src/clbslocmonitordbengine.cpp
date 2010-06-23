@@ -64,6 +64,7 @@ void CLbsLocMonitorDbEngine::InitDbL()
 		User::LeaveIfError(iDatabase.Exec(KCreateTable));
 		User::LeaveIfError(iDatabase.Exec(KCreateIndex4));
 		User::LeaveIfError(iDatabase.Exec(KCreateIndex3));
+		User::LeaveIfError(iDatabase.Exec(KCreateLastPosTable));
 		}
 	else
 		{
@@ -72,12 +73,14 @@ void CLbsLocMonitorDbEngine::InitDbL()
 		}
 	User::LeaveIfError(iDatabase.Exec(KCreateTempTable));
 	User::LeaveIfError(iDatabase.Exec(KCreateTempIndex4));
+	User::LeaveIfError(iDatabase.Exec(KCreateLastPosTempTable));
 	}
 
 
 CLbsLocMonitorDbEngine::CLbsLocMonitorDbEngine():
 CActive(EPriorityStandard),
-iDBInitialised(EFalse)
+iDBInitialised(EFalse),
+iSaveLastPos(EFalse)
 	{
 	LBSLOG(ELogP1,"->CLbsLocMonitorDbEngine::CLbsLocMonitorDbEngine");
 	CActiveScheduler::Add(this);
@@ -106,8 +109,9 @@ CLbsLocMonitorDbEngine::~CLbsLocMonitorDbEngine()
 	}
 
 
-TInt CLbsLocMonitorDbEngine::SavePosition(TUint aMcc, TUint aMnc, TUint aLac, TUint aCid, const TPosition& aPosition, TRequestStatus& aStatus)
+TInt CLbsLocMonitorDbEngine::SavePosition(TUint aMcc, TUint aMnc, TUint aLac, TUint aCid, const TPosition& aPosition, TBool aUserPosition, TRequestStatus& aStatus)
 	{
+    iSaveLastPos = aUserPosition;
 	LBSLOG(ELogP1,"->CLbsLocMonitorDbEngine::SavePosition");
 	if(aMcc > KMaxTInt || aMnc > KMaxTInt || aLac > KMaxTInt || aCid > KMaxTInt)
 		{
@@ -131,6 +135,10 @@ TInt CLbsLocMonitorDbEngine::SavePosition(TUint aMcc, TUint aMnc, TUint aLac, TU
 		iLastCid = aCid;
 		iLastTime.UniversalTime();
 		iLastPosition = aPosition;
+		if(iSaveLastPos)
+		    {
+            iLastKnownPosition = aPosition;
+		    }
 		iIsLastValid = ETrue;
 		User::RequestComplete(iClientStatus, KErrNone);
 		return KErrNone;
@@ -140,6 +148,10 @@ TInt CLbsLocMonitorDbEngine::SavePosition(TUint aMcc, TUint aMnc, TUint aLac, TU
 	else if(CacheMatchLevel(aMcc, aMnc, aLac, aCid).CellIdMatch())
 		{
 		iLastPosition = aPosition;
+	    if(iSaveLastPos)
+            {
+            iLastKnownPosition = aPosition;
+            }
 		iLastTime.UniversalTime();
 		User::RequestComplete(iClientStatus, KErrNone);
 		return KErrNone;
@@ -190,6 +202,21 @@ TInt CLbsLocMonitorDbEngine::Insert(TBool aShutdown)
 			{
 			iSqlSaveStatement.Exec();
 			iSqlSaveStatement.Close();
+			if(iSaveLastPos)
+			    {
+                error = iSqlSaveStatement.Prepare(iDatabase, KUpsertLastPosRow);
+                if(KErrNone == error)
+                    {
+                    TPckg<TPosition> positionDes(iLastKnownPosition);
+                    TInt indexStamp = iSqlSaveStatement.ParameterIndex(KStamp);
+                    TInt indexData = iSqlSaveStatement.ParameterIndex(KData);
+                    iSqlSaveStatement.BindInt64(indexStamp, iLastTime.Int64());
+                    iSqlSaveStatement.BindBinary(indexData, positionDes);
+                    
+                    iSqlSaveStatement.Exec();
+                    iSqlSaveStatement.Close();
+                    }
+			    }
 			}
 		else
 			{
@@ -289,7 +316,7 @@ TInt CLbsLocMonitorDbEngine::GetPosition(TPosition& aPosition, TRequestStatus& a
 		aPosition = iLastPosition;
 		result = KErrNone;
 		}
-	else if(Select(aPosition, TPtrC(KSelectRowLatest)) || Select(aPosition, TPtrC(KSelectRowLatest)))
+	else if(Select(aPosition, TPtrC(KSelectTempRowLatest)) || Select(aPosition, TPtrC(KSelectRowLatest)))
 		{
 		result = KErrNone;
 		}
@@ -304,6 +331,7 @@ TInt CLbsLocMonitorDbEngine::ClearDatabase()
 	LBSLOG(ELogP1,"->CLbsLocMonitorDbEngine::ClearDatabase");	
 	iIsLastValid = EFalse;
 	iDatabase.Exec(KClear);
+	iDatabase.Exec(KLastPosClear);
 	iDatabase.Close();
 	TInt del = iDatabase.Delete(KSecureLocMonDB);
 	TRAPD(init, InitDbL());
@@ -372,6 +400,8 @@ void CLbsLocMonitorDbEngine::Flush(TBool aShutdown)
 		iDatabase.Exec(KBegin);
 		iDatabase.Exec(KCopy);	
 		iDatabase.Exec(KClear);
+		iDatabase.Exec(KLastPosCopy);
+		iDatabase.Exec(KLastPosClear);
 		if((!aShutdown) && (DbSize() > KMaxDbSize))
 			{
 			// Delete 2000 oldest records
@@ -438,10 +468,44 @@ TPositionAreaExtendedInfo CLbsLocMonitorDbEngine::CacheMatchLevel(TInt aMcc, TIn
 
 void CLbsLocMonitorDbEngine::RunL()
 	{
+    // Now then
+    // we set a member variable when asked to save a pos we have seen ourselves
+    // we also want to save this position into the last pos table
+    
 	LBSLOG(ELogP1,"->CLbsLocMonitorDbEngine::RunL");
-	User::RequestComplete(iClientStatus, KErrNone);
-	iSqlSaveStatement.Close();
-	CheckFlush();
+	
+	if(!iSaveLastPos)
+	    {
+        // fully done, either we had no last pos to save, or we just did that
+        User::RequestComplete(iClientStatus, KErrNone);
+        iSqlSaveStatement.Close();
+        CheckFlush();
+	    }
+	else
+	    {
+        iSaveLastPos = EFalse;
+        // first close the statement, we can now reuse it
+        iSqlSaveStatement.Close();
+        
+        TInt error = iSqlSaveStatement.Prepare(iDatabase, KUpsertLastPosRow);
+
+        if(KErrNone == error)
+            {
+            TPckg<TPosition> positionDes(iLastKnownPosition);
+            TInt indexStamp = iSqlSaveStatement.ParameterIndex(KStamp);
+            TInt indexData = iSqlSaveStatement.ParameterIndex(KData);
+            iSqlSaveStatement.BindInt64(indexStamp, iLastTime.Int64());
+            iSqlSaveStatement.BindBinary(indexData, positionDes);
+            
+            // Statement is closed in RunL, once asynchrnous insert has taken place
+            iStatus = KRequestPending;
+            iSqlSaveStatement.Exec(iStatus);
+            SetActive();      
+            iLastKnownPosition = iLastPosition;
+            }
+
+	    }
+
 	}
 
 

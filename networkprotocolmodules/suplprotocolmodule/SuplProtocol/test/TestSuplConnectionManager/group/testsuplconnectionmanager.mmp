@@ -26,7 +26,7 @@ SOURCEPATH	../src
 SOURCE		suplconnectionmanager.cpp
 
 USERINCLUDE	../inc
-USERINCLUDE	../../../../../suplcontrolplaneprotocols/common/test/suplrrlptestmessages/rrlp/inc
+USERINCLUDE	../../../../../networkpmasn1_plat/test/suplrrlptestmessages/rrlp/inc
 USERINCLUDE	../../../inc
 USERINCLUDE ../../../../HostSettingsApi/inc
 USERINCLUDE ../../src

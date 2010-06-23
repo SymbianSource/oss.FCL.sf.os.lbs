@@ -148,7 +148,8 @@ void CPrivacyAdvancedNotifierHandler::ProcessNetworkLocationRequest(TLbsNetSessi
 	// Record the highest session Id so far.
 	// We need this in case we need to check if a new request
 	// is actually a repeat of an old request.
-	if (aSessionId.SessionNum() > iHighestSessionId.SessionNum())
+	if ((aSessionId.SessionNum() > iHighestSessionId.SessionNum()) &&
+	    (aNetPosRequestPrivacy.RequestAdvice() == TLbsNetPosRequestPrivacyInt::ERequestAdviceVerify))
 		{
 		iHighestSessionId = aSessionId;
 		}
@@ -593,9 +594,10 @@ TInt CPrivacyAdvancedNotifierHandler::BufferPrivacyRequest(
 				// NotifyVerificationTimeout() on the Network Privacy API.)
 				// We should use a different notification reason for these
 				// types of request.
-				if (request->SessionId().SessionNum() < iHighestSessionId.SessionNum())
+				if (request->SessionId().SessionNum() <= iHighestSessionId.SessionNum())
 					{
 					data.iNotificationReason = EPosVerificationTimeout;
+					data.iRequestDecision = (aRequestPrivacy.RequestAction() == TLbsNetPosRequestPrivacyInt::ERequestActionAllow) ? EPosDecisionAccepted : EPosDecisionRejected;
 					}
 				else
 					{

@@ -23,7 +23,7 @@ PRJ_TESTEXPORTS
 ../scripts/lbsfullromsuite.script					c:/testdata/scripts/lbsfullromsuite.script
 
 ./lbsromspecificsuite.iby   						/epoc32/rom/include/lbsromspecificsuite.iby
-./lbsromspecificsuitevariant2.iby   				/epoc32/rom/include/lbsromspecificsuitevariant2.iby
+
 
 ../testdata/lbsromspecificsuite.ini			c:/testdata/configs/lbsromspecificsuite.ini
                         

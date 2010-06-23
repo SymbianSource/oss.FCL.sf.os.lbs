@@ -881,7 +881,7 @@ TBool CLbsLocMonitorConversionHandler::CacheSaveL()
                     TTime now;
                     now.HomeTime();
                     TPosition pos(locality, now);
-                    TInt ret = iCache.SavePosition(pos, areaArray, iStatus);
+                    TInt ret = iCache.SavePosition(pos, areaArray, EFalse, iStatus);
                     if(ret != KErrNone)
                         {
                         saveRequested = EFalse;

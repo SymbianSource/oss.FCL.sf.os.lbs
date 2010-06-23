@@ -444,13 +444,13 @@ void CLbsLocMonitorRequestHandler::ProcessNextRequest()
 			{
 			iLastKnownPositionAvailable = EFalse;
 			iOperationInProgress = ELocMonDbSaveLastPos;
-			iDb.SavePosition(iLastKnownPosition, iCurrentAreaInfo, iStatus);
+			iDb.SavePosition(iLastKnownPosition, iCurrentAreaInfo, ETrue, iStatus);
 			SetActive();
 			}
 		else if (iPositionsQueue.Count() > 0)
 			{
 			iOperationInProgress = ELocMonDbSavePos;
-			iDb.SavePosition(iPositionsQueue[0],iCurrentAreaInfo,iStatus);
+			iDb.SavePosition(iPositionsQueue[0], iCurrentAreaInfo, ETrue, iStatus);
 			SetActive();
 			}	
 		}

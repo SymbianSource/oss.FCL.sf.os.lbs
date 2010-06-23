@@ -18,7 +18,10 @@
 #include "clbslocmonitorserver.h"
 #include "lbslocmonitorserverdata.h"
 #include "lbsdevloggermacros.h"
-
+#ifdef SYMBIAN_FEATURE_MANAGER
+    #include <featdiscovery.h>
+    #include <featureuids.h>
+#endif
 
 // -------------------------------------------------------------------------------
 // --------------------  Server's security policy  -------------------------------
@@ -126,16 +129,22 @@ void CLbsLocMonitorServer::ConstructL(const TDesC& aServerName)
 	// Passing EFalse means the Location Monitor would be a
 	// permanent process only terminated from root.
 	//
-	if (FindRootProcess())
-		{
-		BaseConstructL(EFalse);	
-		}
-	else
-		{
-		BaseConstructL(ETrue);
-		//Set timer to two seconds
-		SetShutdownDelay(KShutDownDelay);
-		}
+	
+    #ifdef SYMBIAN_FEATURE_MANAGER
+        TBool locationManagementSupported = CFeatureDiscovery::IsFeatureSupportedL(NFeature::KLocationManagement);
+    #else
+        TBool locationManagementSupported(ETrue);
+    #endif
+        if(locationManagementSupported)
+            {
+            BaseConstructL(EFalse);	
+            }
+        else
+            {
+            BaseConstructL(ETrue);
+            //Set timer to two seconds
+            SetShutdownDelay(KShutDownDelay);
+            }
 
     // Create the monitor which detects a closedown signal from
     // the LBS Root Process.
