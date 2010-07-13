@@ -1,0 +1,4 @@
+tocTab[tocTab.length] = new Array("1:1", "", "LBS Simplified Architecture", "EARoot/EA1/EA4.htm", "178.png", "2", "0", "", "Component diagram0","{448147FD-2708-49ae-8C7B-1C6CD37087A9}");
+tocTab[tocTab.length] = new Array("1:2", "", "Component Name", "EARoot/EA1/EA9.htm", "10.png", "6488", "0", "", "Component0","{318835F4-141E-487d-A1DC-48B36AFA9522}");
+tocTab[tocTab.length] = new Array("1:3", "", "«published All» Published All Interface", "EARoot/EA1/EA20.htm", "112.png", "6489", "6488", "", "ProvidedInterface0","{7F2E962F-0CBD-4fd7-9157-062013A88DDE}");
+tocTab[tocTab.length] = new Array("1:4", "", "«Published Partner» Published Partner Interface", "EARoot/EA1/EA21.htm", "112.png", "6490", "6488", "", "ProvidedInterface0","{7220A655-FF1F-49a3-97C5-537B4AA81ED8}");

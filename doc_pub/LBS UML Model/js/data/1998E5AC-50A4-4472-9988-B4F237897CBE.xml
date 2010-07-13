@@ -1,0 +1,4 @@
+tocTab[tocTab.length] = new Array("3.1.1.1.2.3.1", "1", "Generic - MTLR - Privacy - External Off, No Notify", "EARoot/EA3/EA1/EA1/EA1/EA2/EA3/EA501.htm", "4.png", "", "", "{286E2AAD-3614-4f3e-836C-AC2ADB05D149}", "Package");
+tocTab[tocTab.length] = new Array("3.1.1.1.2.3.2", "1", "Generic - MTLR - Privacy - External Off, Notify", "EARoot/EA3/EA1/EA1/EA1/EA2/EA3/EA502.htm", "4.png", "", "", "{903D7D4D-1DE1-49d1-A6CE-D2BEAAC11D4D}", "Package");
+tocTab[tocTab.length] = new Array("3.1.1.1.2.3.3", "1", "Generic - MTLR - Privacy - External On, User Reject", "EARoot/EA3/EA1/EA1/EA1/EA2/EA3/EA503.htm", "4.png", "", "", "{53CC2848-5A83-4ac9-85E1-B6028B777C6A}", "Package");
+tocTab[tocTab.length] = new Array("3.1.1.1.2.3.4", "1", "Generic - MTLR - Cancel", "EARoot/EA3/EA1/EA1/EA1/EA2/EA3/EA504.htm", "4.png", "", "", "{2D9BA4F8-334E-4364-8A12-CAF0E614C48A}", "Package");

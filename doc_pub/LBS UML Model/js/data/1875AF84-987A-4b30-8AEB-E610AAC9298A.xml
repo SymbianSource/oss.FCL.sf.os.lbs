@@ -1,0 +1,3 @@
+tocTab[tocTab.length] = new Array("3:1", "", "template", "EARoot/EA3/EA25.htm", "185.png", "407", "0", "", "Sequence diagram0","{81953A51-4414-4968-8884-978B4C0BE405}");
+tocTab[tocTab.length] = new Array("3.1", "1", "Simplified", "EARoot/EA3/EA28.htm", "4.png", "", "", "{AE43EC1B-2F43-4599-BF17-4C217A4C9B40}", "Package");
+tocTab[tocTab.length] = new Array("3.2", "1", "Detailed", "EARoot/EA3/EA29.htm", "4.png", "", "", "{523F7D48-5D97-4eee-848C-AF499D83E857}", "Package");

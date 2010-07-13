@@ -1,0 +1,2 @@
+tocTab[tocTab.length] = new Array("3.1.1.2.3.3.1", "1", "RRC-MTLR-GPS Futile - UE Assisted", "EARoot/EA3/EA1/EA1/EA2/EA3/EA3/EA1011.htm", "4.png", "", "", "{1233D2F4-FFC5-487f-9B9A-CB8EC1BACFE0}", "Package");
+tocTab[tocTab.length] = new Array("3.1.1.2.3.3.2", "1", "RRC-MTLR-GPS Futile - UE Based", "EARoot/EA3/EA1/EA1/EA2/EA3/EA3/EA1012.htm", "4.png", "", "", "{33993314-5833-4b6d-840E-F6B6D22DD833}", "Package");
