@@ -23,7 +23,7 @@
 //  INCLUDES
 #include <e32base.h>
 #include <lbs.h>
-#include <lbsSuplPsyAdaptation.h>
+#include <lbssuplpsyadaptation.h>
 
 /**
 * Network Positioning Configuration API CenRep UID.
@@ -38,6 +38,14 @@ const TUid KCRUidSuplPsy = { 0x20026FB7 };
 *
 */
 const TUint32 KPSYTimeToNextFix = 0x00000005;
+
+/*
+* PM UID
+* 
+* Name of key which holds the protocol module UID
+*/
+const TUint32 KPSYPmUid = 0x00000013;
+
 
 // FORWARD DECLARATIONS
 class MLbsSuplPsyAdaptationObserver;
@@ -154,6 +162,8 @@ class CSuplPsyRequestor : public CBase , public MLbsSuplPsyAdaptationObserver
         TUint iRequestId;
 
         TUint iRequestIdCount;
+        
+        TInt iPmUid;
     };
 
 #endif      // SUPLPSYREQUESTOR_H   

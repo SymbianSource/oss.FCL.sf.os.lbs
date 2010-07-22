@@ -17,7 +17,6 @@
 #define __LBSERRORS_H__
 
 #include <e32def.h>
-#include <lbsvariant.h>
 
 /**
 LBS Panic string
@@ -133,7 +132,7 @@ Lbs specific error codes.
 
 If __S60_ is defined in lbsvariant.h the constant is -30371 otherwise it is -17350
  */
-const TInt KPositionErrBase = __LBS_TDEFAULT_ERROR_BASE;
+const TInt KPositionErrBase = -30371;
 
 /**
 BufferOverflow error

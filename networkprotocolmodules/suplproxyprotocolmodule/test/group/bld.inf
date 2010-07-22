@@ -15,8 +15,8 @@
 
 
 #include "../te_lbs_sppm_networkprivacy/group/bld.inf"
-#include "../te_sppm_dummynetgateway/group/BLD.INF"
-#include "../te_lbs_sppm_privfwcap/group/BLD.INF"
+#include "../te_sppm_dummynetgateway/group/bld.inf"
+#include "../te_lbs_sppm_privfwcap/group/bld.inf"
 #include "../te_terminalplugin/group/bld.inf"
 #include "../te_suplproxyprotocolmodule/group/bld.inf"
 #include "../te_sppm_reflocplugin/group/bld.inf"

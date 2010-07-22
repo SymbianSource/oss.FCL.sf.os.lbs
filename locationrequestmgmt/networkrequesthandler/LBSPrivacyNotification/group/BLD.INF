@@ -13,8 +13,8 @@
 // Description:
 //
 
-#include "../LbsPrivacyController/group/BLD.INF"
-#include "../LbsPrivacyExtNotifiers/group/BLD.INF"
+#include "../LbsPrivacyController/group/bld.inf"
+#include "../LbsPrivacyExtNotifiers/group/bld.inf"
 #ifdef SYMBIAN_LOCATION_PRIVACY_V2
-	#include "../LbsQueryAndNotification/group/BLD.INF"
+	#include "../LbsQueryAndNotification/group/bld.inf"
 #endif

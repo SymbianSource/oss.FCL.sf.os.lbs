@@ -31,7 +31,8 @@
 		<suite>te_lbslocationmonitordbsuite</suite>
 		<suite>te_lbslocationmonitordbsuite2</suite>
 		<suite>te_locmonitorsuite</suite>
-        <suite>te_lbsnetgatewaySuite</suite>
+		<suite>te_geolocmonitorsuite</suite>
+        	<suite>te_lbsnetgatewaySuite</suite>
 		<suite>te_testprotocolmodulesuite</suite>
 		<suite>te_lbsnetsimtestSuite</suite>
 		<suite>te_lbssupltestmoduleSuite</suite>
@@ -45,6 +46,7 @@
 		<suite>tsuplasn1suite</suite>
  		<suite>te_suplproxypmsuite</suite>
  		<suite>te_npeintegrationmodulesuite</suite>
+ 		<suite>te_lbslocationinfoconvertersuite</suite>
 		<suite>te_lbspositioningstatussuite</suite>
     </testItems>
     
@@ -133,8 +135,6 @@
       			<mmpFile>networkpsy2.mmp</mmpFile>
       			<bldInfPath>locationrequestmgmt\locationserver\lbstestpsys\networkpsy2\group\bld.inf</bldInfPath>
 			</buildable>
-    		
-  		
 
 	</dependencies>
 

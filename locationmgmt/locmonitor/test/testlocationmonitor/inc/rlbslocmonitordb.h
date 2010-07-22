@@ -42,8 +42,8 @@ public: // Real interface methods
 	IMPORT_C ~RLbsLocMonitorDb();
 	IMPORT_C void OpenL();
 	IMPORT_C void Close();
-	IMPORT_C TInt SavePosition(const TPosition& aPosition, const RPointerArray<TLbsLocMonitorAreaInfoBase>& aAreaInfo, TRequestStatus& aStatus);
-	IMPORT_C TInt GetPosition(TPosition& aPosition, const RPointerArray<TLbsLocMonitorAreaInfoBase>& aAreaInfo, TPositionAreaExtendedInfo& aMatchingAreaInfo, TRequestStatus& aStatus);
+	IMPORT_C TInt SavePosition(const TPosition& aPosition, const RPointerArray<TLbsLocMonitorAreaInfoBase>& aAreaInfo, TBool aUserPosition, TRequestStatus& aStatus);
+	IMPORT_C TInt GetPosition(TPosition& aPosition, const RPointerArray<TLbsLocMonitorAreaInfoBase>& aAreaInfo, TPositionAreaExtendedInfo& aMatchingAreaInfo,TRequestStatus& aStatus);
 	IMPORT_C TInt CancelSavePosition();
 	IMPORT_C TInt CancelGetPosition();
 	IMPORT_C TInt GetLastStoredPosition(TPosition& aPosition, TRequestStatus& aStatus);

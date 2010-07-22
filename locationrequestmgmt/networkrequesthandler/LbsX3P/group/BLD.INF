@@ -14,5 +14,5 @@
 //
 
 // Main projects, in build order
-#include "../LbsX3PApi/group/BLD.INF"
+#include "../LbsX3PApi/group/bld.inf"
 

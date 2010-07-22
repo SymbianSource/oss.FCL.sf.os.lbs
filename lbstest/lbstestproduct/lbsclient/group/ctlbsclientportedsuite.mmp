@@ -101,7 +101,6 @@ LIBRARY 	lbs.lib
 LIBRARY		lbsnetsim.lib
 LIBRARY 	cone.lib
 LIBRARY 	eikcore.lib
-LIBRARY 	cntmodel.lib
 LIBRARY 	estor.lib 
 LIBRARY 	ecom.lib 
 LIBRARY 	apgrfx.lib 

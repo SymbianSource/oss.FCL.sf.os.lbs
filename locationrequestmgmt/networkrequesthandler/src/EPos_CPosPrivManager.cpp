@@ -287,7 +287,6 @@ void CPosPrivManager::RunL()
             {
             iRequestData.iNotificationReason = EPosDecisionByRequestSource;
             iDlgCtrl->NotifyL(*iRequestInfo, iRequestData);
-            delete iRequestInfo;
             iRequestInfo = NULL;
             iRequestInfo = new (ELeave) TLbsExternalRequestInfo2;
             }
@@ -396,7 +395,6 @@ void CPosPrivManager::NotifyPluginL()
     iRequestData.iCancelReason = EPosCancelReasonNotAvailable;
 
     iDlgCtrl->NotifyL(*iRequestInfo, iRequestData);
-    delete iRequestInfo;
     iRequestInfo = NULL;
     iRequestInfo = new (ELeave) TLbsExternalRequestInfo2;
     }

@@ -46,20 +46,20 @@ class CLbsLocMonitorServer;
   This subsession is also used by clients to supply an 
   accurate position (e.g, a position obtained with GPS) so
   that the position is kept in a database together with 
-  area information. 
+  area information.	
 */
 class CLbsAreaPositionerSubsession : public CBase, public MSubSessionImpl, public MLocMonServerDestructObserver
 	{
 
 public:
-    static CLbsAreaPositionerSubsession* NewL();
+	static CLbsAreaPositionerSubsession* NewL();
     ~CLbsAreaPositionerSubsession();
     
-    // From MSubSessionImpl
-    virtual void DispatchL(const RMessage2& aMessage);
-    virtual void DispatchError(const RMessage2& aMessage, TInt aError);
-    virtual void CreateSubSessionL(const RMessage2& aMessage, const CSecureServerBase* aServer);
-    virtual void CloseSubSession();
+	// From MSubSessionImpl
+	virtual void DispatchL(const RMessage2& aMessage);
+	virtual void DispatchError(const RMessage2& aMessage, TInt aError);
+	virtual void CreateSubSessionL(const RMessage2& aMessage, const CSecureServerBase* aServer);
+	virtual void CloseSubSession();
 
 	// via MSubSessionImpl::MRelease	
 	void VirtualRelease();
@@ -67,22 +67,22 @@ public:
 	void LocMonServerDestructed();
 protected:
 
-    CLbsAreaPositionerSubsession();
-    void ConstructL();
+	CLbsAreaPositionerSubsession();
+	void ConstructL();
 
-    //
-    // action methods.
-    //
-    void GetPositionL(const RMessage2& aMessage);
-    void CancelGetPositionL(const RMessage2& aMessage);
-    void SetLastKnownPositionL(const RMessage2& aMessage);
-    
+	//
+	// action methods.
+	//
+	void GetPositionL(const RMessage2& aMessage);
+	void CancelGetPositionL(const RMessage2& aMessage);
+	void SetLastKnownPositionL(const RMessage2& aMessage);
+	
 private:
 
-    const CLbsLocMonitorServer* iLocMonitorServer;
+	const CLbsLocMonitorServer* iLocMonitorServer;
 
-    // Unique ID of this subsession
-    CLbsLocMonitorUtils::sessionAndSubSessionId iSubsessionId;
-    };
+	// Unique ID of this subsession
+	CLbsLocMonitorUtils::sessionAndSubSessionId iSubsessionId;
+	};
 
 #endif //CLBSLOCMONITORPOSITIONERSUBSESSION_H

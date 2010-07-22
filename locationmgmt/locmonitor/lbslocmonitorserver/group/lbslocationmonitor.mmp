@@ -22,7 +22,8 @@ TARGETTYPE    exe
 UID           0x1000007A 0x102869DF
 VENDORID	0x70000001
 
-CAPABILITY ReadDeviceData ProtServ Location
+CAPABILITY ReadDeviceData ProtServ Location NetworkServices  WriteDeviceData ReadUserData
+           
 
 MACRO ENABLE_LBS_DEV_LOGGER
 
@@ -39,11 +40,13 @@ SOURCE clbslocmonitorposlistener.cpp
 SOURCE clbslocmonitorutils.cpp
 SOURCE lbslocmonitorareainfodefs.cpp
 SOURCE clbslocmonitorrequesthandler.cpp
-SOURCE	rlbslocmonitordb.cpp
-SOURCE	clbslocmonitordbengine.cpp
+SOURCE rlbslocmonitordb.cpp
+SOURCE clbslocmonitordbengine.cpp
+SOURCE clbsconversionpositionersubsession.cpp
+SOURCE clbslocmonitorconversionhandler.cpp
+SOURCE clbslocmonitorpluginresolver.cpp
 SOURCE	clbslocmonitordbtimer.cpp
-
-
+ 
 SOURCEPATH		../../../locationcore/LbsLocCommon/ServerFramework/src
 
 //
@@ -61,6 +64,7 @@ SOURCE tstartparamsbase.cpp
 
 
 USERINCLUDE   ../inc
+USERINCLUDE   ../../lbslocmonitorapis/CommonClientServerApi/inc
 USERINCLUDE   ../../../locationcore/inc
 USERINCLUDE	  ../../../locationcore/lbsroot/inc
 USERINCLUDE	  ../../../locationcore/LbsCommonInternalDataTypes/inc
@@ -72,7 +76,6 @@ USERINCLUDE   ../../../locationcore/LbsPartnerCommon/inc
 USERINCLUDE   ../../../locationcore/LbsLocCommon/ServerFramework/inc
 USERINCLUDE   ../../../locationcore/LbsDebug/inc
 USERINCLUDE	  ../../../locationcore/LbsLogging/inc
-
 
 OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
@@ -87,11 +90,16 @@ LIBRARY		etel.lib
 LIBRARY		etelmm.lib
 LIBRARY		sqldb.lib 
 LIBRARY		commsdat.lib
+LIBRARY     ecom.lib
+LIBRARY     centralrepository.lib  
 
+#ifdef SYMBIAN_FEATURE_MANAGER
+LIBRARY		featdiscovery.lib
+#endif
 
 LIBRARY		lbsinternalapi.lib
-LIBRARY		lbsnetinternalapi.lib
-
+LIBRARY         lbslocationinfoconverterplugin.lib
+LIBRARY         lbslocationinfodatatypes.lib 
 //
 // For interface with LBS Root process
 //

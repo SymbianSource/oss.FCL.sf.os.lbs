@@ -208,5 +208,27 @@ enum TNetProtocolApiPanic
 	longer supported by an extended version of the interface.*/
 	ENetProtocolApiExtendedInterfaceMisuse = 0,
 	};
+	
+//-------------------------------------------------------------------------------
+// Location monitor server
+//-------------------------------------------------------------------------------	
+/**
+Panic string for the Location monitor client API
+@publishedPartner
+@released
+*/
+_LIT(KLocationMonitorFault,"LocationMonitorClient");
 
+/**
+Panic codes for the Location monitor client API
+@publishedPartner
+@released
+*/
+enum TLocationMonitorClientPanic
+	{
+	/** 
+   * A client has called an asynchronous request while it is still outstanding.
+   */
+  ELocMonitorDuplicateRequest = 0,
+	};
 #endif // LBSLOCERRORS_H

@@ -22,7 +22,7 @@ NAME btgp
 //  INCLUDES
 #include <ecom/registryinfo.rh>
 #include "btgpspsy.hrh"
-#include "Nla_btgpspsy.loc"
+#include "nla_btgpspsy.loc"
 
 //  RESOURCE DEFINITIONS 
 RESOURCE REGISTRY_INFO r_btpsy_reginfo

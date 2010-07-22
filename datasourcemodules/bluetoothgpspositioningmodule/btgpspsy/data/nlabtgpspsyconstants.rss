@@ -22,7 +22,7 @@ NAME BTRS
 //  INCLUDES
 #include <uikon.rh>
 #include <badef.rh>
-#include "Nla_btgpspsy.loc"
+#include "nla_btgpspsy.loc"
 
 //  RESOURCE SIGNATURE
 

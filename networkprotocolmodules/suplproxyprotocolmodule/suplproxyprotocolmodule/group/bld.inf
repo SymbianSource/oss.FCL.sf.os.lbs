@@ -19,8 +19,8 @@ lbssuplproxyprotocolmodule.mmp
 
 PRJ_EXPORTS
 lbssuplproxyprotocolmodule.iby    	/epoc32/rom/include/lbssuplproxyprotocolmodule.iby
-102871ED.cre z:/private/10202be9/102871ED.cre
+102871ed.cre z:/private/10202be9/102871ed.cre
 
 // ConfML files
 ../conf/suplproxyprotocolmodule.confml              OS_LAYER_EXPORTS_CONFML(suplproxyprotocolmodule.confml)
-../conf/suplproxyprotocolmodule_102871ED.crml       OS_LAYER_EXPORTS_CRML(suplproxyprotocolmodule_102871ED.crml)
+../conf/suplproxyprotocolmodule_102871ed.crml       OS_LAYER_EXPORTS_CRML(suplproxyprotocolmodule_102871ed.crml)

@@ -93,7 +93,7 @@ void CLbsLocMonitorGpsBus::RunL()
 			{
 			TPosition position;
 			positionInfo.GetPosition(position);
-			iObserver.GpsPositionAvailable(position);
+			iObserver.GpsPositionAvailableL(position);
 			}
 		else
 			{
