@@ -38,10 +38,14 @@ public:
 	virtual const RLbsPositionUpdateRequests::TChannelIdentifer& UpdateReqChanId() const;
 	virtual TUint CountPositioner();
 	virtual CTestExecuteLogger& Logger() const;
-	
+
 protected:
 	void ConstructL();
-	
+
+private:
+	void InitializeQualityProfileInfoL();
+	void GetQualityProfileInfoL(RFs& aFs, RArray<TQualityProfile>& aQualityArray,
+	                                      const TDesC& aFileName);
 private:
 	CTestStep* CreateTestStepL(const TDesC& aStepName);
 	

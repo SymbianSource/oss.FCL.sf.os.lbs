@@ -393,11 +393,15 @@ void CLbsSystem::DefineLbsPropertiesL()
      */
     RLbsProcessSupervisor::InitializeL();
 
+#if defined __WINSCW__ && defined SYMBIAN_CELLMO_CENTRIC
+	TBool locationManagementSupported(EFalse);
+#else
 #ifdef SYMBIAN_FEATURE_MANAGER
 	TBool locationManagementSupported = CFeatureDiscovery::IsFeatureSupportedL(NFeature::KLocationManagement);
 #else
 	TBool locationManagementSupported(ETrue);
-#endif
+#endif //SYMBIAN_FEATURE_MANAGER
+#endif // __WINSCW__ && defined SYMBIAN_CELLMO_CENTRIC
 
 	/*
 	 * Define the properties used by the Lbs Internal API

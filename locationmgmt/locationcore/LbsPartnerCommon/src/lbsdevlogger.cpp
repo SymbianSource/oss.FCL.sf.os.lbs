@@ -428,6 +428,8 @@ EXPORT_C void LbsDevLogger::GetMessageProcessName(const RMessage2& aMessage, TFi
 	aName = vars.localProcess.FileName();
 	vars.pos = aName.LocateReverse('\\') + 1;
 	aName = aName.Mid(vars.pos);
+	vars.localProcess.Close();
+	vars.localThread.Close();
 	}
 
 EXPORT_C void LbsDevLogger::OverWrite(const TDesC8& aFmt)

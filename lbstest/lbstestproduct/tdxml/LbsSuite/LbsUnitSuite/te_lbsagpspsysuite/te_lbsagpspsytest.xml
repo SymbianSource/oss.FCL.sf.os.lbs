@@ -22,21 +22,29 @@
         <devicePath>c:\testdata\configs\te_lbsagpspsy.ini</devicePath>
 	</data>
 	<data>
-	<hostPath>datasourcemodules\gpspositioningmodule\lbsagpspsy\test\testdata\te_lbsagpspsy_devicecaps_exclusive.ini</hostPath>
-	<devicePath>c:\testdata\configs\te_lbsagpspsy_devicecaps_exclusive.ini</devicePath>
+		<hostPath>datasourcemodules\gpspositioningmodule\lbsagpspsy\test\testdata\te_lbsagpspsy_devicecaps_exclusive.ini</hostPath>
+		<devicePath>c:\testdata\configs\te_lbsagpspsy_devicecaps_exclusive.ini</devicePath>
 	</data>
 	<data>
-	<hostPath>datasourcemodules\gpspositioningmodule\lbsagpspsy\test\testdata\te_lbsagpspsy_devicecaps_simultaneous.ini</hostPath>
-	<devicePath>c:\testdata\configs\te_lbsagpspsy_devicecaps_simultaneous.ini</devicePath>
+		<hostPath>datasourcemodules\gpspositioningmodule\lbsagpspsy\test\testdata\te_lbsagpspsy_devicecaps_simultaneous.ini</hostPath>
+		<devicePath>c:\testdata\configs\te_lbsagpspsy_devicecaps_simultaneous.ini</devicePath>
 	</data>
 	<data>
-	<hostPath>datasourcemodules\gpspositioningmodule\lbsagpspsy\test\testdata\te_lbsagpspsy_devicecaps_ta.ini</hostPath>
-	<devicePath>c:\testdata\configs\te_lbsagpspsy_devicecaps_ta.ini</devicePath>
+		<hostPath>datasourcemodules\gpspositioningmodule\lbsagpspsy\test\testdata\te_lbsagpspsy_devicecaps_ta.ini</hostPath>
+		<devicePath>c:\testdata\configs\te_lbsagpspsy_devicecaps_ta.ini</devicePath>
 	</data>
 	<data>
-	<hostPath>datasourcemodules\gpspositioningmodule\lbsagpspsy\test\testdata\te_lbsagpspsy_devicecaps_tb.ini</hostPath>
-	<devicePath>c:\testdata\configs\te_lbsagpspsy_devicecaps_tb.ini</devicePath>
-        </data>
+		<hostPath>datasourcemodules\gpspositioningmodule\lbsagpspsy\test\testdata\te_lbsagpspsy_devicecaps_tb.ini</hostPath>
+		<devicePath>c:\testdata\configs\te_lbsagpspsy_devicecaps_tb.ini</devicePath>
+    </data>
+	<data>
+		<hostPath>datasourcemodules\gpspositioningmodule\lbsagpspsy\test\testdata\te_lbsagpspsy_lbsprofile.ini</hostPath>
+		<devicePath>c:\testdata\configs\te_lbsagpspsy_lbsprofile.ini</devicePath>
+    </data>
+	<data>
+		<hostPath>datasourcemodules\gpspositioningmodule\lbsagpspsy\test\testdata\te_lbsagpspsy_agpsintegmodule.ini</hostPath>
+		<devicePath>c:\testdata\configs\te_lbsagpspsy_agpsintegmodule.ini</devicePath>
+    </data>
   </dependencies>
 
 </testExecuteTest>

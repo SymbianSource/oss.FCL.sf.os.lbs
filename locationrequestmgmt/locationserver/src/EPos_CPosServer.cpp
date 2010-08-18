@@ -135,17 +135,50 @@ CPosServer::CPosServer(TInt aPriority, const TPolicy &aPolicy, TServerType aServ
  */
 void CPosServer::ConstructL() 
     {
-    TBool LocationManagementSupported = EFalse;
+#if defined __WINSCW__ && defined SYMBIAN_CELLMO_CENTRIC
+	TBool LocationManagementSupported = EFalse;
+#else
 #ifdef SYMBIAN_FEATURE_MANAGER
-	LocationManagementSupported = CFeatureDiscovery::IsFeatureSupportedL(NFeature::KLocationManagement);
+	TBool LocationManagementSupported = CFeatureDiscovery::IsFeatureSupportedL(NFeature::KLocationManagement);
 #else
 	__ASSERT_ALWAYS(EFalse, User::Invariant());	// Would happen on older versions of symbian OS if this code ever backported
-#endif      
-    // make sure that root process is running 
-    if(LocationManagementSupported && !FindRootProcess())
-    	{
-    	User::Leave(KErrNotReady);
-    	}
+#endif // SYMBIAN_FEATURE_MANAGER
+#endif // __WINSCW__ && defined SYMBIAN_CELLMO_CENTRIC
+
+	
+#if defined __WINSCW__	
+	if(LocationManagementSupported && !FindRootProcess())
+		{
+        _LIT(KLbsRootFileName, "\\sys\\bin\\lbsroot.exe");
+	    _LIT(KLbsRootProcessName, "lbsroot.exe");
+	    _LIT(KLbsCommandLine, "");
+        RProcess process;
+        TInt r=process.Create(KLbsRootProcessName,KLbsCommandLine);
+        if (r!=KErrNone)
+            {
+            User::Leave(r);
+            }
+        TRequestStatus stat;
+        process.Rendezvous(stat);
+        if (stat!=KRequestPending)
+            {
+            process.Kill(0);
+            }
+        else
+            {
+            process.Resume();
+            }
+        User::WaitForRequest(stat);
+        r=(process.ExitType()==EExitPanic) ? KErrGeneral : stat.Int();
+        
+        process.Close();
+        if (r!=KErrNone)
+            {
+            User::Leave(r);
+            }
+		}
+#endif // WINSCW
+
     // Backup listener
     DEBUG_TRACE("Checking for backup or restore...", __LINE__)
     iBackupListener = CPosBackupListener::NewL();

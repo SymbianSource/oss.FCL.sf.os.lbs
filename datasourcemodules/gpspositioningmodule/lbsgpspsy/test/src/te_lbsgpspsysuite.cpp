@@ -34,7 +34,7 @@
 _LIT(KServerName, "te_lbsgpspsysuite");
 
 /** The UID of the unit test suite*/
-const TUid  KServerUid = {0x102869C5};
+//const TUid  KServerUid = {0x102869C5};
 
 // TODO - put this somewhere that the gps and agps test suites can share it?
 const RLbsPositionUpdateRequests::TChannelIdentifer KChannelIdentifierLS2GpsLocManager = 
@@ -70,16 +70,12 @@ void CTe_LbsGpsPsySuite::ConstructL()
 	//ConstructL of the base class
 	CTestServer::ConstructL(KServerName);
 	
-	CTe_SystemStarter starter(KServerUid);
-	
-	starter.RestartLbs_RootOnlyL(iFirstExe);
+	CTe_SystemStarter::DefineLbsPropertiesL();
 	}
 
 CTe_LbsGpsPsySuite::~CTe_LbsGpsPsySuite()
 	{
-	CTe_SystemStarter starter(KServerUid);
-	
-	TRAP_IGNORE(starter.RestartLbs_NormalL(iFirstExe));
+    TRAP_IGNORE(CTe_SystemStarter::DeleteLbsPropertiesL());
 	}
 
 /**

@@ -173,12 +173,16 @@ void CPrivacyAndLocationHandler::ConstructL(CLbsAdmin* aLbsAdmin)
 		}
 	LBSLOG2(ELogP3, "Using KLbsSpecialFeatureIntermediateFutileUpdate = %d", specialFeature);
 	iSpecialFeatureIntermediateFutileUpdate = (specialFeature == CLbsAdmin::ESpecialFeatureOn) ? ETrue : EFalse;
-	
+
+#if defined __WINSCW__ && defined SYMBIAN_CELLMO_CENTRIC
+	iLocationManagementSupported = EFalse;
+#else
 #ifdef SYMBIAN_FEATURE_MANAGER
     iLocationManagementSupported = CFeatureDiscovery::IsFeatureSupportedL(NFeature::KLocationManagement);
 #else
     __ASSERT_ALWAYS(EFalse, User::Invariant()); // Would happen on older versions of symbian OS if this code ever backported
-#endif    
+#endif // SYMBIAN_FEATURE_MANAGER
+#endif // __WINSCW__ && defined SYMBIAN_CELLMO_CENTRIC
     
     // Get the CategoryUid from the cenrep file owned by LbsRoot for accessing Positioning Status P&S Keys
     CRepository* rep = CRepository::NewLC(KLbsCenRepUid);

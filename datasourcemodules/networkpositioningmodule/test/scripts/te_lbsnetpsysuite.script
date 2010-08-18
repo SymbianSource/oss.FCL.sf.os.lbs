@@ -19,12 +19,21 @@
 //! @SYMTestSuiteName         LBS-NetPsySuite
 //! @SYMScriptTestEnvironment TestExecute using te_lbsnetpsysuite.script
 
-//While loading the suite, we shutdown the whole LBS leaving the root process only.
+//The quality profile and the internalapi buses are directly initialized from the test
+//without starting lbsroot [so lbsprofile.ini & agpsintegmodule.ini have to be copied to the private folder of the test process]
+PREFIX RUN_UTILS
+MkDir c:\private\102869c3
+MkDir c:\private\102869c3\lbs
+MkDir c:\private\102869c3\lbs\locmods
+DeleteFile c:\private\102869c3\lbs\lbsprofile.ini
+DeleteFile c:\private\102869c3\lbs\locmods\agpsintegmodule.ini
+CopyFile c:\testdata\configs\te_lbsnetpsy_lbsprofile.ini c:\private\102869c3\lbs\lbsprofile.ini
+CopyFile c:\testdata\configs\te_lbsnetpsy_agpsintegmodule.ini c:\private\102869c3\lbs\locmods\agpsintegmodule.ini
+REMOVE_PREFIX
+
 LOAD_SUITE te_lbsnetpsysuite
 
-
 PRINT RUN ALL te_lbsnetpsysuite TESTS
-
 
 START_TESTCASE                	LBS-NetPsySuite-NotifyPositionUpdate-Section0
 //! @SYMTestCaseID              LBS-NetPsySuite-NotifyPositionUpdate-Section0
@@ -356,7 +365,8 @@ START_TESTCASE                	LBS-NetPsySuite-NotifyPositionUpdateErr-Section2
 RUN_TEST_STEP 300 te_lbsnetpsysuite NotifyPositionUpdateErr c:\testdata\configs\te_lbsnetpsy.ini Section2
 END_TESTCASE                  	LBS-NetPsySuite-NotifyPositionUpdateErr-Section2
 
-
+RUN_UTILS DeleteFile c:\private\102869c3\lbs\lbsprofile.ini
+RUN_UTILS DeleteFile c:\private\102869c3\lbs\locmods\agpsintegmodule.ini
 
 PRINT COMPLETE ALL te_lbsnetpsysuite TESTS
 

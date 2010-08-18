@@ -92,12 +92,17 @@ void CLbsNetworkRequestHandler::ConstructL()
     													iNetRegStatus);
 
     iNrhServer->SetPrivacyServerObserver(iPrivLocHandler->PrivacyHandler());
-    
+
+#if defined __WINSCW__ && defined SYMBIAN_CELLMO_CENTRIC
+	TBool locationManagementSupported(EFalse);
+#else
 #ifdef SYMBIAN_FEATURE_MANAGER
 	TBool locationManagementSupported = CFeatureDiscovery::IsFeatureSupportedL(NFeature::KLocationManagement);
 #else
 	TBool locationManagementSupported(ETrue);
-#endif
+#endif // SYMBIAN_FEATURE_MANAGER
+#endif // __WINSCW__ && defined SYMBIAN_CELLMO_CENTRIC
+	
 	if(locationManagementSupported)
 		{
 		iX3pHandler = CX3pHandler::NewL(*iNgMessageSwitch, iPrivLocHandler->X3pStatusHandler(), *iAdmin);

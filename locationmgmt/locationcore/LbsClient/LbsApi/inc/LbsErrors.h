@@ -124,6 +124,16 @@ shown by the data mask.
  */
 const TInt KPositionAssistanceDataReset = 5;
 
+
+/**
+Code indicating that a position is not currently available. The status code is used 
+as part of the status notification of the LbsLocator API.
+
+@publishedAll
+@released
+ */
+const TInt KPositionNotAvailable = 6;
+
 /**
 Lbs specific error codes.
 

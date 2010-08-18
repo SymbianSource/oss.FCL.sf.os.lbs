@@ -21,6 +21,14 @@
         <hostPath>datasourcemodules\networkpositioningmodule\test\testdata\te_lbsnetpsy.ini</hostPath>
         <devicePath>c:\testdata\configs\te_lbsnetpsy.ini</devicePath>
         </data>
+       	<data>
+        <hostPath>datasourcemodules\networkpositioningmodule\test\testdata\te_lbsnetpsy_lbsprofile.ini</hostPath>
+        <devicePath>c:\testdata\configs\te_lbsnetpsy_lbsprofile.ini</devicePath>
+        </data>
+       	<data>
+        <hostPath>datasourcemodules\networkpositioningmodule\test\testdata\te_lbsnetpsy_agpsintegmodule.ini</hostPath>
+        <devicePath>c:\testdata\configs\te_lbsnetpsy_agpsintegmodule.ini</devicePath>
+        </data>
   </dependencies>
 
 </testExecuteTest>

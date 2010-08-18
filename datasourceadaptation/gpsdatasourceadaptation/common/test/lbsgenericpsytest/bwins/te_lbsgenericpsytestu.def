@@ -55,4 +55,6 @@ EXPORTS
 	?ReallyDoTestStepImpL@CTe_LbsPsyPowerAdviceStep@@MAEXXZ @ 54 NONAME ; void CTe_LbsPsyPowerAdviceStep::ReallyDoTestStepImpL(void)
 	?ExpectDefaultStatusRequest@CTe_PsyRequest@@QAEXXZ @ 55 NONAME ; void CTe_PsyRequest::ExpectDefaultStatusRequest(void)
 	?NotifyPsyRequest@CTe_PsyRequest@@QAEXXZ @ 56 NONAME ; void CTe_PsyRequest::NotifyPsyRequest(void)
+	?DefineLbsPropertiesL@CTe_SystemStarter@@SAXXZ @ 57 NONAME ; void CTe_SystemStarter::DefineLbsPropertiesL(void)
+	?DeleteLbsPropertiesL@CTe_SystemStarter@@SAXXZ @ 58 NONAME ; void CTe_SystemStarter::DeleteLbsPropertiesL(void)
 

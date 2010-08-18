@@ -72,8 +72,10 @@ void CTe_PsyPositioner::ConstructL(const TUid& aUid)
 
 CTe_PsyPositioner::~CTe_PsyPositioner()
 	{
+    INFO_PRINTF1(_L("CTe_PsyPositioner::~CTe_PsyPositioner()"));
 	Cancel();
 	delete iGenericInfo;
+    INFO_PRINTF1(_L("->CPositioner::~CPositioner()"));
 	delete iPositioner; 
 	}
 		
@@ -90,8 +92,16 @@ EXPORT_C void CTe_PsyPositioner::CancelNotifyPositionUpdate()
 
 void CTe_PsyPositioner::RunL()
 	{
-	CTe_Active::RunL();
-	iPosUpdateReceived = ETrue;
+    CTe_Active::RunL();
+    iPosUpdateReceived = ETrue; // Note this just means the the original request got completed and not necessarily a valid pos update has been received.
+    if (iStatus.Int() == KErrNone)
+        {
+        INFO_PRINTF2(_L("A position update has been received successfully for positioner %d"),iPositionerId);
+        }
+    else
+        {
+        INFO_PRINTF3(_L("The position update request for positioner %d has been completed with the error %d"), iPositionerId, iStatus.Int());
+        }
 	}
 
 void CTe_PsyPositioner::DoCancel()
@@ -153,13 +163,21 @@ EXPORT_C void CTe_PsyPositioner::CheckPosUpdateReceivedL(const CTe_PsyResponse& 
 		}
 	iPosUpdateReceived = EFalse;
 	
-	if(!aLbsResponse.Compare(PosInfo()))
-		{
-		ERR_PRINTF2(_L("The position update received is not equal to the sent one for positioner"), 
-				iPositionerId);
-		User::Leave(EFail);
-		}
-	INFO_PRINTF2(_L("The expected position update is received for positioner %d"), iPositionerId);
+    if ( (iStatus.Int() == KErrNone) || (iStatus.Int() == KPositionPartialUpdate) )
+        {
+        if (!aLbsResponse.Compare(PosInfo()))
+            {
+            ERR_PRINTF2(_L("The position update received is not equal to the sent one for positioner"),
+                    iPositionerId);
+            User::Leave(EFail);
+            }
+        INFO_PRINTF2(_L("The expected position update is received for positioner %d"), iPositionerId);
+        }
+    else
+        {
+        ERR_PRINTF3(_L("The position update request for positioner %d has been completed with error %d"), iPositionerId, iStatus.Int());
+        User::Leave(EFail);
+        }
 	}
 
 EXPORT_C void CTe_PsyPositioner::CheckPosUpdateNotReceivedL()
