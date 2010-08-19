@@ -109,7 +109,7 @@
 		<feature name="LocationAPIVariant2" statusflags="0x00000001" uid="0x10285D69">
 			<hrhmacro include="SYMBIAN_INCLUDE_LOCATION_API_VARIANT2"/>
 		</feature>
-		<feature name="BluetoothGPSPositioningPlugin" statusflags="0x00000001" uid="0x10285D6A">
+		<feature name="BluetoothGPSPositioningPlugin" statusflags="0x00000001" uid="0x0000007A">
 			<hrhmacro include="SYMBIAN_INCLUDE_BLUETOOTH_GPS_PM"/>
 		</feature>
 		<feature name="DefaultPositioningPlugin" statusflags="0x00000001" uid="0x10285D6B">
@@ -147,6 +147,12 @@
 			<hrhmacro infeaturesetiby="no" exclude="SYMBIAN_EXCLUDE_LIBXML2_DOM_XPATH_API"/>
 		</feature>
 		<!-- PREQ 2051 - Variation Support - End -->
+		<feature name="FeatureIdFfHttpAllowUntrustedCertificates" statusflags="0x00000001" uid="0x00000153">
+			<hrhmacro exclude="SYMBIAN_EXCLUDE_HTTP_ALLOW_UNTRUSTED_CERTIFICATES"/>
+		</feature>
+		<feature name="FeatureIdFfIpsecUmaSupportEnable" statusflags="0x00000001" uid="0x0000014C">
+			<hrhmacro exclude="SYMBIAN_EXCLUDE_IPSEC_UMA_SUPPORT_ENABLE"/>
+		</feature>
 	</featureset>
 	
 	<defaultfeaturerange higheruid="0x10281805" loweruid="0x10279806"></defaultfeaturerange>

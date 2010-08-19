@@ -364,7 +364,7 @@ void CLbsSystem::InitializeQualityProfileInfoL()
 	RArray<TQualityProfile> qualityArray;
 	CleanupClosePushL(qualityArray);
 	
-	qualityArray.Reserve(5);
+	qualityArray.ReserveL(5);
 
 	// Only want to use the first file that is found.
 	// The way TFindFile::FindByDir works, it will search
@@ -392,11 +392,15 @@ void CLbsSystem::DefineLbsPropertiesL()
      */
     RLbsProcessSupervisor::InitializeL();
 
+#if defined __WINSCW__ && defined SYMBIAN_CELLMO_CENTRIC
+	TBool locationManagementSupported(EFalse);
+#else
 #ifdef SYMBIAN_FEATURE_MANAGER
 	TBool locationManagementSupported = CFeatureDiscovery::IsFeatureSupportedL(NFeature::KLocationManagement);
 #else
 	TBool locationManagementSupported(ETrue);
-#endif
+#endif //SYMBIAN_FEATURE_MANAGER
+#endif // __WINSCW__ && defined SYMBIAN_CELLMO_CENTRIC
 
 	/*
 	 * Define the properties used by the Lbs Internal API
@@ -1448,7 +1452,7 @@ void CProcessOverseer::AttachLbsProcessesL()
             finished = err != KErrNone;
 	        if(!finished)
 	            {	        	
-        	    iLbsProcess.Append(newProcess);
+        	    iLbsProcess.AppendL(newProcess);
                 ++count;
                 if (newProcess->IsRunning())
                 	{

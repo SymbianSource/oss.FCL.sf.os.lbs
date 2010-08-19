@@ -201,7 +201,13 @@ TVerdict CT_LbsClientStep_SrvConnectClose::doTestStepL()
 								CleanupStack::PopAndDestroy(&server2);
 							   }
 							   break;
-	
+							//Test case LBS-ConnectClose-0010
+							case 10:
+								{
+								// this test only valid on variant2 api:
+								INFO_PRINTF1(_L("<FONT><B>LBsroot has been started by EPosserver in this mode. </B></FONT>"));
+								}
+							break;
 						default:
 						User::Leave(KErrArgument);
 						break;

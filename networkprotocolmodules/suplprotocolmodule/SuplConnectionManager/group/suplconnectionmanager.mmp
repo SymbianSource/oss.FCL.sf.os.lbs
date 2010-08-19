@@ -30,18 +30,13 @@ SOURCE		socketwriter.cpp suplconnectionmanager.cpp socketreader.cpp
 
 
 USERINCLUDE	../inc
-USERINCLUDE ../../../common/suplrrlpasn1/inc
+USERINCLUDE ../../../suplpmcore/suplrrlpasn1/inc
 USERINCLUDE	../../SuplProtocol/inc/
 USERINCLUDE ../../../../locationmgmt/locationcore/LbsPartnerCommon/inc
-USERINCLUDE ../../../common/supldevlogger/inc
+USERINCLUDE ../../../networkpmutils/supldevlogger/inc
 
 OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 OS_LAYER_LIBC_SYSTEMINCLUDE
-
-USERINCLUDE ../../../common/asn1export/inc
-USERINCLUDE ../../../common/asn1export/inc/rtpersrc
-USERINCLUDE ../../../common/asn1export/inc/rtsrc
-USERINCLUDE ../../../common/asn1export/inc/rtxsrc
 
 
 LIBRARY		euser.lib

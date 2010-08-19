@@ -37,7 +37,7 @@ USERINCLUDE     ../../../../../datasourceadaptation/gpsdatasourceadaptation/comm
 USERINCLUDE     ../../../../../locationmgmt/locationcore/LbsPartnerCommon/inc
 USERINCLUDE     ../../../../../locationmgmt/locationcore/LbsCommonInternalDataTypes/inc
 USERINCLUDE     ../../../../../locationmgmt/locationcore/LbsRefFnpInt/inc
-
+USERINCLUDE     ../inc
 
 OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 

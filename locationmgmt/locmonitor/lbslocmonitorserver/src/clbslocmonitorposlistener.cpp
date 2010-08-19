@@ -46,9 +46,9 @@ CLbsLocMonitorPosListener::~CLbsLocMonitorPosListener()
 	delete 	iGpsBus;
 	}
 	
-void CLbsLocMonitorPosListener::GpsPositionAvailable(const TPosition& aPosition)
+void CLbsLocMonitorPosListener::GpsPositionAvailableL(const TPosition& aPosition)
 	{
-	LBSLOG(ELogP1,"->CLbsLocMonitorPosListener::GpsPositionAvailable");
+	LBSLOG(ELogP1,"->CLbsLocMonitorPosListener::GpsPositionAvailableL");
 	if (Math::IsNaN(aPosition.Latitude()) ||
         Math::IsNaN(aPosition.Longitude()))
 		{
@@ -59,7 +59,7 @@ void CLbsLocMonitorPosListener::GpsPositionAvailable(const TPosition& aPosition)
 	if ((aPosition.Latitude() != iLastGpsPosition.Latitude()) ||
 		(aPosition.Longitude() != iLastGpsPosition.Longitude()))
 		{
-		iObserver.PositionAvailable(aPosition);
+		iObserver.PositionAvailableL(aPosition);
 		iLastGpsPosition = aPosition;
 		}
 	}

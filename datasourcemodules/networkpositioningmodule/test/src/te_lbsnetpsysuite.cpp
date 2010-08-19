@@ -19,9 +19,6 @@
 #include <lbs/test/lbsnetsimtest.h> 
 #include <test/TestExecuteStepBase.h>
 
-#include "lbssystemcontroller.h"
-#include "lbsrootcenrepdefs.h"
-
 #include "te_lbspsyutils.h"
 #include "te_lbsnetpsysuite.h"
 #include "te_lbspsyposupdatestep.h"
@@ -29,11 +26,13 @@
 #include "te_lbspsyposupdateerrstep.h"
 #include "te_lbspsymodinfostep.h"
 
+#include "te_lbsinifilereader.h"
+
 /** The string name of the test suite */
 _LIT(KServerName, "te_lbsnetpsysuite");
 
 /** The UID of the unit test suite*/
-const TUid  KServerUid = {0x10285ACB};
+//const TUid  KServerUid = {0x10285ACB};
 
 const RLbsPositionUpdateRequests::TChannelIdentifer KChannelIdentifierLS2NetLocManager = 
 	{
@@ -60,24 +59,19 @@ CTe_LbsNetPsySuite* CTe_LbsNetPsySuite::NewL()
 
 /**
 2nd phase constructor. Calls the base class method passing the name of the suite.
-
+Also initializes the lbsqualityprofile and the internal buses used for position requests and updates
 @leave If a error happens, it leaves with one of the system error codes.
 */	
 void CTe_LbsNetPsySuite::ConstructL()
 	{
 	//ConstructL of the base class
 	CTestServer::ConstructL(KServerName);
-	
-	CTe_SystemStarter starter(KServerUid);
-	
-	starter.RestartLbs_RootOnlyL(iFirstExe);
+	CTe_SystemStarter::DefineLbsPropertiesL();
 	}
 
 CTe_LbsNetPsySuite::~CTe_LbsNetPsySuite()
 	{
-	CTe_SystemStarter starter(KServerUid);
-	
-	TRAP_IGNORE(starter.RestartLbs_NormalL(iFirstExe));
+    TRAP_IGNORE(CTe_SystemStarter::DeleteLbsPropertiesL());
 	}
 
 /**

@@ -82,6 +82,9 @@ void CT_LbsClientStep_LastKnownPos::ConstructL()
     
     CleanupStack::PopAndDestroy(moduleUpdate);
     CleanupStack::PopAndDestroy(db);
+    
+    iLastKnownPostionReceived = EFalse;
+    iNpudReceived = EFalse;
     }
 
 void CT_LbsClientStep_LastKnownPos::SwitchOnselfLocateAPIL()
@@ -637,7 +640,7 @@ TVerdict CT_LbsClientStep_LastKnownPos::doTestStepL()
 							INFO_PRINTF1(_L("Failed test, reference position incorrect."));
 							SetTestStepResult(EFail);
 							}	
-	                    }
+	                    } // testCaseId==104
 		
 					// Carry out a notify update to ensure last known cache is filled.
 					TPositionInfo notifyPosInfo;
@@ -672,6 +675,7 @@ TVerdict CT_LbsClientStep_LastKnownPos::doTestStepL()
 				// Test case LBS-LastKnownPos-0105	
 				case 105:
 			    	{
+			    	
 			    	T_LbsUtils utils;
 			    	TPositionModuleId networkModuleId = utils.GetNetworkModuleIdL(iServer);
 					// Open positioner.
@@ -741,8 +745,137 @@ TVerdict CT_LbsClientStep_LastKnownPos::doTestStepL()
 					CloseNetSim();
 					break;
 					}
-				
-				default:
+                // Test case LBS-LastKnownPosPnsKey-0801
+                case 801:
+                    {
+                    T_LbsUtils utils;
+                    // Open positioner.
+                    User::LeaveIfError(iPositioner.Open(iServer));
+                    CleanupClosePushL(iPositioner);
+                    
+                    // For this test an additional reference position will be returned.
+                
+                    // Setup netsim.
+                    User::LeaveIfError(OpenNetSim());
+                        
+                    // Request notify for the expected reference position.
+                    TPositionInfo actualRefPosInfo;
+                        
+                    err = DoNotifyUpdateL(actualRefPosInfo);
+                    if (err)
+                        {
+                        INFO_PRINTF2(_L("Failed test, reference position request returned err %d."), err);
+                        SetTestStepResult(EFail);                           
+                        }
+                            
+                    // Verify reference position.
+                    TPositionInfo verifyRefPosInfo;
+                        
+                    verifyRefPosInfo.SetPosition(iRefPos);
+                    if (!utils.Compare_PosInfo(verifyRefPosInfo, actualRefPosInfo))
+                        {
+                        INFO_PRINTF1(_L("Failed test, reference position incorrect."));
+                        SetTestStepResult(EFail);
+                        }   
+                    
+                    User::After(1*1000*1000);
+                    
+                    // the actual test....
+                    
+                    // Active Object for listening to the Last Known Position PnS property
+                    CT_LbsClientLastKnownPosPnsListener* pnsLKP = CT_LbsClientLastKnownPosPnsListener::NewL(this);
+                    CleanupStack::PushL(pnsLKP);
+
+                    // Active Object for obtaining a position using RPositioner API
+                    CT_LbsClientNotifyPosUpdAO* npudAO = CT_LbsClientNotifyPosUpdAO::NewL(*this);
+                    CleanupStack::PushL(npudAO);
+
+                    // Issue the NPUD
+                    TPositionInfo   posInfo;
+                    npudAO->NotifyPosUpdateL(iPositioner, posInfo);
+
+                    iError = KErrNone;
+
+                    // active scheduler will be stopped when both 
+                    //   - the NPUD request is completed
+                    //   - and the last known position P&S key has been updated.
+                    CActiveScheduler::Start();
+                    
+                    if (KErrNone != iError)
+                        {
+                        SetTestStepResult(EFail);
+                        }
+                    else
+                        {
+                        if (!utils.Compare_PosInfo(posInfo, iLastKnownPosInfo))
+                            {
+                            INFO_PRINTF1(_L("Failed test, P&S position is not the same as returned by RPositioner."));
+                            SetTestStepResult(EFail);
+                            }   
+                    
+                        // verify that the timestamp matches the original one:
+                        TPosition pos801;      // original position
+                        TTime timeStamp;    // timestamp inside original received position
+                        posInfo.GetPosition(pos801);
+                        timeStamp = pos801.Time();
+
+                        TPosition pos801b;      // PnS position
+                        TTime timeStamp_cached;     
+                        iLastKnownPosInfo.GetPosition(pos801b);  
+                        timeStamp_cached = pos801b.Time();
+                        
+                        if(timeStamp_cached != timeStamp)
+                            {
+                            INFO_PRINTF1(_L("Failed test, P&S position timestamp is not the same as returned by RPositioner."));
+                            SetTestStepResult(EFail);
+                            }
+
+                        //Store pos info for next Test
+                        iParent.iPosInfo = posInfo;
+                        }
+                    CleanupStack::PopAndDestroy(npudAO);
+                    CleanupStack::PopAndDestroy(pnsLKP);
+                    CleanupStack::PopAndDestroy(&iPositioner);
+                    CloseNetSim();
+                    break;
+                    }
+                
+                // Test case LBS-LastKnownPosPnsKey-0802
+                case 802:
+                    {
+                    T_LbsUtils utils;
+                    // LBS has been stopped and re-started.
+                    // this test checks that the LKP P&S Property has been re-populated.
+                    CT_LbsClientLastKnownPosPnsListener* pnsLKP = CT_LbsClientLastKnownPosPnsListener::NewL(this);
+                    CleanupStack::PushL(pnsLKP);
+                 
+                    // read the pos info obtained from LKP P&S
+                    TPositionInfo posInfo;
+                    pnsLKP->Result(posInfo);
+
+                    // check the position is the same as stored in the previous test step
+                    if (!utils.Compare_PosInfo(posInfo, iParent.iPosInfo))
+                        {
+                        INFO_PRINTF1(_L("Failed test, P&S position is not as expected."));
+                        SetTestStepResult(EFail);
+                        }   
+                    
+                    // and compare their timestamps
+                    TPosition pos;
+                    posInfo.GetPosition(pos);
+                    TTime Time802Lkp = pos.Time();
+                    iParent.iPosInfo.GetPosition(pos);
+                    TTime Time802Old = pos.Time();
+                    if (Time802Lkp != Time802Old)
+                        {
+                        INFO_PRINTF1(_L("Failed test, P&S position timestamp is not is not as expected."));
+                        SetTestStepResult(EFail);
+                        }
+                    CleanupStack::PopAndDestroy(pnsLKP);
+                    break;
+                    }
+
+                default:
 					{
 					User::Leave(KErrArgument);
 					}
@@ -759,3 +892,31 @@ TVerdict CT_LbsClientStep_LastKnownPos::doTestStepL()
 	return TestStepResult();
 	}
 
+
+void CT_LbsClientStep_LastKnownPos::NotifyPositionUpdateCallback(TRequestStatus& aStatus)
+    {
+    if(aStatus.Int() != KErrNone)
+        {
+        User::Invariant();
+        }
+    iError |= aStatus.Int();
+    iNpudReceived = ETrue;
+    if(iLastKnownPostionReceived)
+        {
+        CActiveScheduler::Stop();
+        }
+    }
+void CT_LbsClientStep_LastKnownPos::NotifyLastKnownPosPnsUpdate(TPositionInfo& aPositionInfo, TRequestStatus& aStatus)
+    {
+    if(aStatus.Int() != KErrNone)
+        {
+        User::Invariant();
+        }
+    iError |= aStatus.Int();
+    iLastKnownPosInfo = aPositionInfo;
+    iLastKnownPostionReceived = ETrue;
+    if(iNpudReceived)
+        {
+        CActiveScheduler::Stop();
+        }
+    }

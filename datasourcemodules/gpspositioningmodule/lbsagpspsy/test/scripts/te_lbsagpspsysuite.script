@@ -19,10 +19,19 @@
 //! @SYMTestSuiteName         LBS-AgpsPsySuite
 //! @SYMScriptTestEnvironment TestExecute using te_lbsagpspsysuite.script
 
+//The quality profile and the internalapi buses are directly initialized from the test
+//without starting lbsroot [so lbsprofile.ini & agpsintegmodule.ini have to be copied to the private folder of the test process]
+PREFIX RUN_UTILS
+MkDir c:\private\10285acb
+MkDir c:\private\10285acb\lbs
+MkDir c:\private\10285acb\lbs\locmods
+DeleteFile c:\private\10285acb\lbs\lbsprofile.ini
+DeleteFile c:\private\10285acb\lbs\locmods\agpsintegmodule.ini
+CopyFile c:\testdata\configs\te_lbsagpspsy_lbsprofile.ini c:\private\10285acb\lbs\lbsprofile.ini
+CopyFile c:\testdata\configs\te_lbsagpspsy_agpsintegmodule.ini c:\private\10285acb\lbs\locmods\agpsintegmodule.ini
+REMOVE_PREFIX
 
-//While loading the suite, we shutdown the whole LBS leaving the root process only.
 LOAD_SUITE te_lbsagpspsysuite
-
 
 PRINT RUN ALL te_lbsagpspsysuite TESTS
 
@@ -492,20 +501,10 @@ RUN_TEST_STEP 300 te_lbsagpspsysuite PowerAdvice c:\testdata\configs\te_lbsagpsp
 END_TESTCASE                  	LBS-AgpsPsySuite-PowerAdvice-Section0
 
 
-// Create dir for new device caps file in case it doesn't already exist
-RUN_UTILS MkDir c:\private\10282253\
-RUN_UTILS MkDir c:\private\10282253\lbs\
-RUN_UTILS MkDir c:\private\10282253\lbs\locmods\
-RUN_UTILS MkDir c:\private\10282253\lbs\locmods\temp
-// copy current device caps file if there is one, to replace when finished
-RUN_UTILS CopyFile c:\private\10282253\lbs\locmods\agpsintegmodule.ini c:\private\10282253\lbs\locmods\temp\sirfdatasource_original.ini
-RUN_UTILS DeleteFile c:\private\10282253\lbs\locmods\*.ini
-
-
 //------------------------------- Device Caps TB ONLY
 
 // Set up the device caps (lbs is restarted by test case so caps are re-parsed):
-RUN_UTILS CopyFile c:\testdata\configs\te_lbsagpspsy_devicecaps_TB.ini  c:\private\10282253\lbs\locmods\agpsintegmodule.ini
+RUN_UTILS CopyFile c:\testdata\configs\te_lbsagpspsy_devicecaps_TB.ini  c:\private\10285acb\lbs\locmods\agpsintegmodule.ini
 
 START_TESTCASE                	LBS-AgpsPsySuite-NPUDModeMerge-CapsTB-0-A
 //! @SYMTestCaseID              LBS-AgpsPsySuite-NPUDModeMerge-CapsTB-0-A
@@ -724,7 +723,7 @@ END_TESTCASE                  	LBS-AgpsPsySuite-NPUDModeMerge-CapsTB-TB-TA
 
 //------------------------------- Device Caps TA
 
-RUN_UTILS  CopyFile c:\testdata\configs\te_lbsagpspsy_devicecaps_ta.ini  c:\private\10282253\lbs\locmods\agpsintegmodule.ini
+RUN_UTILS CopyFile c:\testdata\configs\te_lbsagpspsy_devicecaps_ta.ini  c:\private\10285acb\lbs\locmods\agpsintegmodule.ini
 
 START_TESTCASE                	LBS-AgpsPsySuite-NPUDModeMerge-CapsTA-0-A
 //! @SYMTestCaseID              LBS-AgpsPsySuite-NPUDModeMerge-CapsTA-0-A
@@ -867,7 +866,7 @@ END_TESTCASE                  	LBS-AgpsPsySuite-NPUDModeMerge-CapsTA-TA-TA
 
 //------------------------------- Device Caps TA || TB
 
-RUN_UTILS  CopyFile c:\testdata\configs\te_lbsagpspsy_devicecaps_exclusive.ini  c:\private\10282253\lbs\locmods\agpsintegmodule.ini
+RUN_UTILS CopyFile c:\testdata\configs\te_lbsagpspsy_devicecaps_exclusive.ini  c:\private\10285acb\lbs\locmods\agpsintegmodule.ini
 
 START_TESTCASE                	LBS-AgpsPsySuite-NPUDModeMerge-CapsTAORTB-0-A
 //! @SYMTestCaseID              LBS-AgpsPsySuite-NPUDModeMerge-CapsTAORTB-0-A
@@ -1167,7 +1166,7 @@ END_TESTCASE                  	LBS-AgpsPsySuite-NPUDModeMerge-CapsTAORTB-A-TA
 
 //------------------------------- Device Caps TB && TA
 
-RUN_UTILS  CopyFile c:\testdata\configs\te_lbsagpspsy_devicecaps_simultaneous.ini  c:\private\10282253\lbs\locmods\agpsintegmodule.ini
+RUN_UTILS CopyFile c:\testdata\configs\te_lbsagpspsy_devicecaps_simultaneous.ini  c:\private\10285acb\lbs\locmods\agpsintegmodule.ini
 
 START_TESTCASE                	LBS-AgpsPsySuite-NPUDModeMerge-CapsTBANDTA-0-A
 //! @SYMTestCaseID              LBS-AgpsPsySuite-NPUDModeMerge-CapsTBANDTA-0-A
@@ -1463,10 +1462,8 @@ START_TESTCASE                	LBS-AgpsPsySuite-NPUDModeMerge-CapsTBANDTA-A-TA
 RUN_TEST_STEP 300 te_lbsagpspsysuite NotifyPositionUpdateMode c:\testdata\configs\te_lbsagpspsy.ini SectionMerge-CAPSTBANDTA-A-TA
 END_TESTCASE                  	LBS-AgpsPsySuite-NPUDModeMerge-CapsTBANDTA-A-TA
 
-
-// TidyUp:
-RUN_UTILS DeleteFile c:\private\10282253\lbs\locmods\agpsintegmodule.ini
-RUN_UTILS CopyFile c:\private\10282253\lbs\locmods\temp\sirfdatasource_original.ini c:\private\10282253\lbs\locmods\agpsintegmodule.ini
+RUN_UTILS DeleteFile c:\private\10285acb\lbs\lbsprofile.ini
+RUN_UTILS DeleteFile c:\private\10285acb\lbs\locmods\agpsintegmodule.ini
 
 PRINT COMPLETE ALL te_lbsagpspsysuite TESTS
 

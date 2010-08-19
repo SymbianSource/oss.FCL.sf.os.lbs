@@ -108,7 +108,7 @@ void CConfigManager::LoadDecisionDataL()
 					};
 				}
 
-			iDecisionTable.Append(value);
+			iDecisionTable.AppendL(value);
 			}
 		}
 

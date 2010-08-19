@@ -77,7 +77,7 @@ void RLbsLocMonitorDb::Close()
  In some testcases, the completion of the client request is delayed (this allowed the build up of requests
  in the Location Monitor or waiting for cancel requests).
 */
-TInt RLbsLocMonitorDb::SavePosition(const TPosition& aPosition, const RPointerArray<TLbsLocMonitorAreaInfoBase>& /*aAreaInfo*/, TRequestStatus& aStatus)
+TInt RLbsLocMonitorDb::SavePosition(const TPosition& aPosition, const RPointerArray<TLbsLocMonitorAreaInfoBase>& /*aAreaInfo*/, TBool /*aUserPosition*/, TRequestStatus& aStatus)
 	{
 	LBSLOG(ELogP1, "RLbsLocMonitorDb::SavePosition()");
 	

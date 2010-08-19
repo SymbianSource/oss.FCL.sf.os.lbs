@@ -127,7 +127,11 @@ EXPORT_C TInt TOMASuplNavigationModel::GetSatInfoElement(RArray<TOMASuplSatellit
     		aSatInfo.Reset();
     		for(TInt i = 0; i<noOfElems; i++)
     			{
-    			aSatInfo.Append(iSatInfo[i]);		
+    			TInt err = aSatInfo.Append(iSatInfo[i]);
+				if(err != KErrNone)
+					{
+					return err;
+					}
     			}    		
     		return KErrNone;
     		}
@@ -150,7 +154,12 @@ EXPORT_C void TOMASuplNavigationModel::SetSatInfoElement(const RArray<TOMASuplSa
 		
     	for(TInt i = 0; i<noOfElems; i++)
 			{
-				iSatInfo.Append(aSatInfo[i]);		
+				TInt err = iSatInfo.Append(aSatInfo[i]);
+				if( err != KErrNone )
+					{
+					// Nothing can be done
+					return;
+					}
 			}   
 			 	
 		iSatInfoPresent = ETrue;	
@@ -174,7 +183,7 @@ TOMASuplNavigationModel& TOMASuplNavigationModel::operator=(const TOMASuplNaviga
 		iSatInfo.Reset();
 		for(TInt i=0; i< aNaviModel.iSatInfo.Count();++i)
 			{
-				iSatInfo.Append(aNaviModel.iSatInfo[i]);
+				TRAP_IGNORE( iSatInfo.AppendL(aNaviModel.iSatInfo[i]) );
 			}
 			
 		}

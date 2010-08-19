@@ -91,4 +91,8 @@ EXPORTS
 	_ZTV34CTe_LbsNotifyPositionUpdateErrStep @ 90 NONAME
 	_ZTV37CTe_LbsNotifyPositionUpdateTimingStep @ 91 NONAME
 	_ZThn3196_N15CTe_PsyBaseStep10OnRunLCallERK10CTe_Active @ 92 NONAME
+	_ZN17CTe_SystemStarter20DefineLbsPropertiesLEv @ 93 NONAME
+	_ZN17CTe_SystemStarter20DeleteLbsPropertiesLEv @ 94 NONAME
+	_ZTI20CTe_LbsIniFileReader @ 95 NONAME
+	_ZTV20CTe_LbsIniFileReader @ 96 NONAME
 

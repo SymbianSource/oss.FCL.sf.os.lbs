@@ -189,14 +189,14 @@ void CPosPsyListHandler::GetPsyListL(
                 if ( !integratedGpsAdded )
                     {
                     TRACESTRING2( "PSY: %x", moduleInfo.ModuleId() )
-                    aPsyList.Append( moduleInfo.ModuleId() );
+                    aPsyList.AppendL( moduleInfo.ModuleId() );
                     integratedGpsAdded = ETrue;
                     }
                 }
             else
                 {
                 TRACESTRING2( "PSY: %x", moduleInfo.ModuleId() )
-                aPsyList.Append( moduleInfo.ModuleId() );
+                aPsyList.AppendL( moduleInfo.ModuleId() );
                 }
             }
         }
@@ -222,7 +222,7 @@ void CPosPsyListHandler::GetExtGpsPsyListL(
             moduleInfo.DeviceLocation() == TPositionModuleInfo::EDeviceExternal )
             {
             TRACESTRING2( "PSY: %x", moduleInfo.ModuleId() )
-            aPsyList.Append( moduleInfo.ModuleId() );
+            aPsyList.AppendL( moduleInfo.ModuleId() );
             }
         }
     }

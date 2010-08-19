@@ -33,6 +33,12 @@ USERINCLUDE     ../../../../inc
 USERINCLUDE     ../../../../../../locationmgmt/locationcore/LbsPartnerCommon/inc
 USERINCLUDE     ../../../../../../locationmgmt/locationcore/LbsCommonInternalDataTypes/inc
 USERINCLUDE     ../../../../../../locationmgmt/locationcore/Lbsreffnpint/inc
+
+
+USERINCLUDE     ../../../../../../locationmgmt/locationcore/LbsADataCache/inc
+USERINCLUDE     ../../../../../../locationmgmt/locationcore/LbsNgNlmInt/inc
+USERINCLUDE     ../../../../../../locationmgmt/locationcore/LbsRefFnpInt/inc
+USERINCLUDE     ../../../../../../locationmgmt/locationcore/LbsNetRegStatusInt/inc
 OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 SOURCEPATH   ../src
@@ -46,7 +52,8 @@ SOURCE	te_lbspsyposupdatestep.cpp
 SOURCE	te_lbspsyposupdatetimingstep.cpp
 SOURCE  te_lbspsypoweradvicestep.cpp
 SOURCE	te_lbspsystaticdata.cpp
-SOURCE	te_lbspsyutils.cpp
+SOURCE	te_lbspsyutils.cpp 
+SOURCE	te_lbsinifilereader.cpp
 
 
 
@@ -67,9 +74,18 @@ LIBRARY		lbsrootapi.lib
 LIBRARY		lbslocdatasource.lib
 LIBRARY		lbsreffnpint.lib
 LIBRARY		lbscommoninternaldatatypes.lib
+LIBRARY		efsrv.lib
+
+LIBRARY		lbsngnlmint.lib
+LIBRARY		lbsadatacache.lib
+LIBRARY		lbsnetregstatusint.lib
+LIBRARY		bafl.lib
 
 DEBUGLIBRARY flogger.lib
 
+#ifdef SYMBIAN_FEATURE_MANAGER
+LIBRARY		featdiscovery.lib
+#endif
 SMPSAFE
 
 

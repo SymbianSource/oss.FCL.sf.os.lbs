@@ -23,13 +23,4 @@ DEFAULT
 
 #include "../datasourcemodules/locationapesuplpsy/group/bld.inf" //Component - APE SUPL PSY 
 
-PRJ_EXPORTS
-../inc/lbsipc.hrh                           /epoc32/include/lbs/lbsipc.hrh
-
-../cenrep/10282266.txt                      /epoc32/data/Z/private/10202be9/10282266.txt
-../cenrep/1028224B.txt                      /epoc32/data/Z/private/10202be9/1028224B.txt
-
-../cenrep/10282266.cre                      /epoc32/winscw/c/private/10202be9/persists/10282266.cre 
-../cenrep/1028224B.cre                      /epoc32/winscw/c/private/10202be9/persists/1028224B.cre
-
 // End of File

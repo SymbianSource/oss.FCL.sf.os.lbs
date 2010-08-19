@@ -22,10 +22,13 @@
 #include "ctlbsclientstep.h"
 #include "ctlbsclientserver.h"
 
+#include "ctlbsclientnotifyposupdao.h"
+#include "ctlbsclientlastknownpospnslistener.h"
+
 // Literals used
 _LIT(KLbsClientStep_LastKnownPos, "LbsClientStep_LastKnownPos");
 
-class CT_LbsClientStep_LastKnownPos : public CT_LbsClientStep
+class CT_LbsClientStep_LastKnownPos : public CT_LbsClientStep, public MT_LastKnownPosPnsObserver, public MT_NotifyPosUpdateObserver
 	{
 public:
 	~CT_LbsClientStep_LastKnownPos();
@@ -33,11 +36,20 @@ public:
 	static CT_LbsClientStep_LastKnownPos* New(CT_LbsClientServer& aParent);
 	virtual TVerdict doTestStepL();
 	void SwitchOnselfLocateAPIL();
+
+    void NotifyPositionUpdateCallback(TRequestStatus& aStatus); 
+    void NotifyLastKnownPosPnsUpdate(TPositionInfo& aPositionInfo, TRequestStatus& aStatus);
 	
 private:
     void ConstructL();
     
 	CT_LbsClientStep_LastKnownPos(CT_LbsClientServer& aParent);
+	
+private:
+	TBool  iLastKnownPostionReceived;
+	TBool  iNpudReceived;
+	TPositionInfo  iLastKnownPosInfo;
+	TInt       iError;
 	};
 
 #endif //__CT_LBS_CLIENT_STEP_LAST_KNOWN_POS_H__

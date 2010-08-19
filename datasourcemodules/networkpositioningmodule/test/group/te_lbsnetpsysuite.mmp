@@ -25,9 +25,7 @@ CAPABILITY Location ReadUserData WriteUserData ReadDeviceData WriteDeviceData \
                     ProtServ PowerMgmt TrustedUI SurroundingsDD UserEnvironment
 
 
-
-USERINCLUDE     ../../../../locationmgmt/locationcore/lbsrootapi/inc
-USERINCLUDE     ../../../../locationmgmt/locationcore/lbsroot/inc
+USERINCLUDE     ../inc
 USERINCLUDE		../../../../datasourceadaptation/gpsdatasourceadaptation/common/test/lbsgenericpsytest/inc
 USERINCLUDE		../../../../lbstest/lbstestproduct/internal/lbstestutils/inc
 USERINCLUDE     ../../../../datasourceadaptation/gpsdatasourceadaptation/inc
@@ -44,7 +42,6 @@ SOURCE te_lbsnetpsysuite.cpp
 LIBRARY     euser.lib
 LIBRARY	    testexecuteutils.lib
 LIBRARY		centralrepository.lib 
-LIBRARY     te_lbstestutils.lib
 LIBRARY     epospluginfw.lib
 LIBRARY     lbs.lib
 LIBRARY		lbsadmin.lib
@@ -53,9 +50,11 @@ LIBRARY		lbsnetprotocol.lib
 LIBRARY     lbsassistancedata.lib
 LIBRARY		lbsinternalapi.lib
 LIBRARY		lbsnetinternalapi.lib
-LIBRARY		lbsrootapi.lib
 LIBRARY		lbslocdatasource.lib
-LIBRARY		te_lbsgenericpsytest.lib
 LIBRARY		lbscommoninternaldatatypes.lib
+LIBRARY		te_lbsgenericpsytest.lib
+LIBRARY     te_lbstestutils.lib
+LIBRARY		bafl.lib
+LIBRARY		efsrv.lib
 SMPSAFE
 
