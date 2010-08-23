@@ -1,0 +1,4 @@
+tocTab[tocTab.length] = new Array("3.2.2.3.3.1", "1", "SUPL-MTLR-Cancel", "EARoot/EA3/EA2/EA2/EA3/EA3/EA3368.htm", "4.png", "", "", "{8E42A8B5-BB62-4e67-A0C6-4504AA7CE872}", "Package");
+tocTab[tocTab.length] = new Array("3.2.2.3.3.2", "1", "SUPL-MTLR-Privacy Override", "EARoot/EA3/EA2/EA2/EA3/EA3/EA3369.htm", "4.png", "", "", "{53F8E1E7-B03C-492b-A0F2-1DD18050CE5A}", "Package");
+tocTab[tocTab.length] = new Array("3.2.2.3.3.3", "1", "SUPL-MTLR-Reject or Ignore", "EARoot/EA3/EA2/EA2/EA3/EA3/EA3370.htm", "4.png", "", "", "{004EBEE0-8545-4a9a-997A-0FC6883E3A62}", "Package");
+tocTab[tocTab.length] = new Array("3.2.2.3.3.4", "1", "SUPL-MTLR-Standard", "EARoot/EA3/EA2/EA2/EA3/EA3/EA3371.htm", "4.png", "", "", "{AC20C66A-7341-4987-BAA9-F2E6447BE8F3}", "Package");
