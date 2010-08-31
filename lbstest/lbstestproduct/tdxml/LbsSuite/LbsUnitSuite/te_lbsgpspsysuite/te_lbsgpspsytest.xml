@@ -17,15 +17,15 @@
   </testServers>
   
   <dependencies>
-  	<data>
+  		<data>
         <hostPath>datasourcemodules\gpspositioningmodule\lbsgpspsy\test\testdata\te_lbsgpspsy.ini</hostPath>
         <devicePath>c:\testdata\configs\te_lbsgpspsy.ini</devicePath>
         </data>
-  	<data>
+  		<data>
         <hostPath>datasourcemodules\gpspositioningmodule\lbsgpspsy\test\testdata\te_lbsgpspsy_agpsintegmodule.ini</hostPath>
         <devicePath>c:\testdata\configs\te_lbsgpspsy_agpsintegmodule.ini</devicePath>
         </data>
-  	<data>
+  		<data>
         <hostPath>datasourcemodules\gpspositioningmodule\lbsgpspsy\test\testdata\te_lbsgpspsy_lbsprofile.ini</hostPath>
         <devicePath>c:\testdata\configs\te_lbsgpspsy_lbsprofile.ini</devicePath>
         </data>

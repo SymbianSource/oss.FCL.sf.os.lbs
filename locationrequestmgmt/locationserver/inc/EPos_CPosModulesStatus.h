@@ -95,7 +95,8 @@ class CPosModulesStatus : public CBase,
         TInt DoTimerCallback();
         void RequestComplete(const RMessage2& aMessage, TInt aCompleteCode);
         void NotifyEventToSubscriber(TPositionModuleStatusEvent& aOccurredEvent, const CPosModulesStatus::TPosSubscriber& aSubscriber);
-
+        void NotifyPosModuleStatusToSubscriber(const TPositionModuleId& aImplementationUid, const TPositionModuleStatus& aStatus);
+        
     private:    // Data
         CPosModules&            iModules;
         RPointerArray< MPosModuleStatusListener > iListenerArray;
@@ -104,7 +105,8 @@ class CPosModulesStatus : public CBase,
         TInt                    iSequenceNo;
         CPeriodic*              iTimer;
         TTimeIntervalMicroSeconds32 iTimerInterval;
-
+        TUid                    iPosStatusCategory;
+        RArray<TPositionModuleId>   iActivePosModuleArray;
     };
 
 #endif      // CPOSMODULESSTATUS_H

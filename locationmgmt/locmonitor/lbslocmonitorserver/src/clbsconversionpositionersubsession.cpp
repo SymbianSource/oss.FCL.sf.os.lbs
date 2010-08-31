@@ -167,7 +167,7 @@ void CLbsConversionPositionerSubsession::DispatchError(const RMessage2& aMessage
 void CLbsConversionPositionerSubsession::CreateSubSessionL(const RMessage2& aMessage, 
                                                       const CSecureServerBase* aServer)
     {
-    LBSLOG(ELogP1,"CLbsAreaPositionerSubsession::CreateSubSessionL()");
+    LBSLOG(ELogP1,"CLbsConversionPositionerSubsession::CreateSubSessionL()");
     CSecureServerBase* server = const_cast<CSecureServerBase*> (aServer);
     iLocMonitorServer = reinterpret_cast<CLbsLocMonitorServer*>(server);
     iSubsessionId.iSessionPtr = static_cast<CLbsLocMonitorSession*>(aMessage.Session());

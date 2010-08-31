@@ -17,9 +17,9 @@
 //! @SYMTestSuiteName         lbsstandaloneprivacysuitevariant2.script
 //! @SYMScriptTestEnvironment
 
-PRINT Run all LbsRomSuiteTestServer Suite Tests
+PRINT Run all lbsromsuitetestserver Suite Tests
 
-LOAD_SUITE LbsRomSuiteTestServer -SharedData
+LOAD_SUITE lbsromsuitetestserver -SharedData
 
 //Before we start LBS, select the test A-GPS integration module and network reg status txt file to use.
 PREFIX RUN_UTILS
@@ -31,15 +31,15 @@ PREFIX RUN_UTILS
 REMOVE_PREFIX
 
 // Selecting the default admin values will ensure the AGPS module requests assistance data.
-//RUN_TEST_STEP 010 LbsRomSuiteTestServer LbsStep_ResetDefaultAdmin
+//RUN_TEST_STEP 010 lbsromsuitetestserver LbsStep_ResetDefaultAdmin
 
 // This step is used to configure lbs and root to be transient processes 
 // and also the processes that are startedup by root
-RUN_TEST_STEP 030 LbsRomSuiteTestServer LbsStep_SetupStandalonePrivacyMode
+RUN_TEST_STEP 030 lbsromsuitetestserver LbsStep_SetupStandalonePrivacyMode
 
 // - Instead of using a privacy request which actually starts up the LBS, we directly
 // start lbs which in turn brings up the root process [configured in the above step]
-RUN_TEST_STEP 030 LbsRomSuiteTestServer LbsStep_StartLbs
+RUN_TEST_STEP 030 lbsromsuitetestserver LbsStep_StartLbs
 
 
 
@@ -62,14 +62,14 @@ START_TESTCASE                LBS-STANDALONEPRIVACY-CHECKLOCMONITOR-0001
 //! @SYMCreationDate            31/3/2009
 //! @SYMAuthor                  arunkumarpandian
 //! @SYMTestStatus              3. Released
-RUN_TEST_STEP 100 LbsRomSuiteTestServer PositionerTestStep c:\testdata\configs\lbsromspecificsuite.ini LBS-STANDALONEPRIVACY--CHECKLOCMONITOR-0001
-END_TESTCASE                  LBS-STANDALONEPRIVACY--CHECKLOCMONITOR-0001
+RUN_TEST_STEP 100 lbsromsuitetestserver PositionerTestStep c:\testdata\configs\lbsromspecificsuite.ini LBS-STANDALONEPRIVACY-CHECKLOCMONITOR-0001
+END_TESTCASE                  LBS-STANDALONEPRIVACY-CHECKLOCMONITOR-0001
 
 
 
 DELAY 2000
 //PRINT Stop LBS
-RUN_TEST_STEP 020 LbsRomSuiteTestServer LbsStep_StopLbs
+RUN_TEST_STEP 020 lbsromsuitetestserver LbsStep_StopLbs
 
 // Re-select the real A-GPS integration module.
 RUN_UTILS DeleteFile c:\private\10282253\lbs\locmods\agpsintegmodule.ini
@@ -77,7 +77,7 @@ RUN_UTILS DeleteFile c:\private\10282253\lbs\locmods\agpsintegmodule.ini
 // Delete network registration status text file
 RUN_UTILS DeleteFile c:\config.txt
 
-PRINT LbsRomSuiteTestServer Completed
+PRINT lbsromsuitetestserver Completed
 
 
 

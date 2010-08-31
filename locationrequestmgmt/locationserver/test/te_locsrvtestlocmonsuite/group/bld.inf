@@ -20,7 +20,7 @@
 // Locserver's unit test is dependent on these test location monitor components
 // Modified Location Server that uses the test location monitor API
 #include "../../testLocMonitorApi/group/bld.inf"
-#include "../../testLocMonitorServer/group/BLD.INF"
+#include "../../testLocMonitorServer/group/bld.inf"
 #include "../../testLocServer/group/bld.inf"
 
 

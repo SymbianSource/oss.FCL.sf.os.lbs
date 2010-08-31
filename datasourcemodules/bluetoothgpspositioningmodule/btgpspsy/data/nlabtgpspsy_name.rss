@@ -21,7 +21,7 @@ NAME BTRS
 
 //  INCLUDES
 #include <badef.rh>
-#include <Nla_btgpspsy.loc>
+#include <nla_btgpspsy.loc>
 
 //  RESOURCE DEFINITIONS
 

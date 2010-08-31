@@ -132,24 +132,8 @@ TVerdict CT_LbsClientStep_LastKnownPosArea::doTestStepL()
 					TRequestStatus emptyStatus;
 					iServer.EmptyLastKnownPositionStore(emptyStatus);
 					User::WaitForRequest(emptyStatus);
-
-					TPositionInfo posInfo2;
-					TPositionAreaExtendedInfo matchLevel;
-					TPositionAreaExtendedInfo expectedMatchLevel;
-
 					TPositionInfo* posInfo = new(ELeave) TPositionInfo();
 					posInfoArr.Append(posInfo);
-
-					// Check that last known position is completed correctly with no known area and nothing in cache.
-					err = DoLastKnownPosAreaL(posInfo2, matchLevel);
-
-					// no position and database returns KErrUnknown in these circumstances.
-					if ( KErrUnknown != err)
-						{
-						ERR_PRINTF2(_L("Expected KErrUnknown, incorrect err %d returned"), err);
-						SetTestStepResult(EFail);
-						}
-
 					//1. Move to cell 234.15.1911.36464
 					err = RProperty::Set(KUidPSSimTsyCategory, KPSSimTsyTimersReduceTime, KReduceSimTsyTimers);
 					User::After(KSimTsyTransitionDelay);
@@ -161,6 +145,8 @@ TVerdict CT_LbsClientStep_LastKnownPosArea::doTestStepL()
 						SetTestStepResult(EFail);
 						}
 					//3. LastKnown Pos Area
+					TPositionInfo posInfo2;
+					TPositionAreaExtendedInfo matchLevel, expectedMatchLevel;
 					err = DoLastKnownPosAreaL(posInfo2, matchLevel);
 					if (KErrNone != err)
 						{

@@ -20,7 +20,7 @@
 // INCLUDE FILES
 #include <e32cmn.h>
 #include <centralrepository.h>
-#include <lbsSuplPsyAdaptation.h>
+#include <lbssuplpsyadaptation.h>
 #include "suplpsyrequestor.h"
 #include "suplpsygenericinfouser.h"
 #include "suplpsylogging.h"
@@ -67,6 +67,12 @@ void CSuplPsyRequestor::ConstructL()
     //TInt keyValue;
 
     TInt ret = repository->Get(KPSYTimeToNextFix, iTtnf);
+    
+    if (KErrNone != repository->Get(KPSYPmUid, iPmUid))
+        {
+        // Use default UID (SUPL Proxy PM)
+        iPmUid = 0x102871EC;
+        }
 
     delete repository;
     repository = NULL;
@@ -146,30 +152,25 @@ void CSuplPsyRequestor::OnLocationUpdate(TUint aRequestId, TPositionInfoBase& aP
         {
 		//Get position info
 		TRACESTRING( "Extracting position... " )
-        HPositionGenericInfo* posInfo = static_cast < HPositionGenericInfo*> ( &aPosition );
+		HPositionGenericInfo* posInfo = static_cast < HPositionGenericInfo*> ( &aPosition );
 										
-		if ( aReason >= KErrNone )
-		    {
 	        //Set module Id
 	        iPositionInfo->SetModuleId( TUid::Uid( KSuplPsyImplUid ) );
-									            
+									        
 	        //Set time
-		    TPosition pos;
-		    posInfo->GetPosition( pos );
-		    TTime now;
-		    now.UniversalTime();
-		    pos.SetTime( now );
-		    iPositionInfo->SetPosition( pos );
-		    iPrevFixSuccess = ETrue;
-		    //posInfo = NULL;
-		    }
-		else
-		    {
-		    //delete posInfo;
-		    //posInfo = NULL;
-		    iPrevFixSuccess = EFalse;
-		    }
+		TPosition pos;
+		posInfo->GetPosition( pos );
+		TTime now;
+		now.UniversalTime();
+		pos.SetTime( now );
+		iPositionInfo->SetPosition( pos );
+		iPrevFixSuccess = ETrue;
+
         }
+	else
+		{
+		iPrevFixSuccess = EFalse;
+		}
     iObserver.CallBack();
     TRACESTRING( "CSuplPsyRequestor::OnLocationUpdate end" )
     }
@@ -199,7 +200,7 @@ void CSuplPsyRequestor::RequestLocation()
     //Make location request
     iRequestId = GetRequestId();
 
-	const TUint KProtocolModuleUidValue = 0x102871EC;
+	const TUint KProtocolModuleUidValue = iPmUid;
     const TUid KProtocolModuleUid = { KProtocolModuleUidValue };
     iPsyAdaptation->RequestLocationUpdate(iRequestId, ETrue, KProtocolModuleUid); 
     if (iFirstReq)

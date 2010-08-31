@@ -19,6 +19,10 @@
 #include "privacyshutdown.h"
 
 
+// P&S Key we check how many outstanding requests there are
+const TInt EPrivacyNumberOfRequest = 0x1028720F;
+
+
 /**
 Static public constructor
 */
@@ -39,7 +43,8 @@ Default constructor, set the timer to standard priority by default and
 add timer to active scheduler.
 */	
 CPrivacyShutdown::CPrivacyShutdown() : CTimer(CActive::EPriorityStandard),
-	iState(EShutdownStateIdle)
+	iState(EShutdownStateIdle),
+	iTimerCount(0)
 	{
 	LBSLOG(ELogP1, "CPrivacyShutdown::CPrivacyShutdown() Begin\n");
 	CActiveScheduler::Add(this);
@@ -79,6 +84,7 @@ void CPrivacyShutdown::Start(const TTimeIntervalMicroSeconds32 aDelay)
 	{
 	LBSLOG(ELogP1, "CPrivacyShutdown::Start() Begin\n");
 	iState = EShutdownStateTimerStarted;
+	iTimerCount = aDelay;
 	After(aDelay);
 	LBSLOG(ELogP1, "CPrivacyShutdown::Start() End\n");
 	}
@@ -102,16 +108,27 @@ void CPrivacyShutdown::RunL()
 	{
 	LBSLOG(ELogP1, "CPrivacyShutdown::RunL() Begin\n");
 
-	iState = EShutdownStateShutdownRequested;
-
-	RLbsSystemController systemController;
-	RProcess process;
-	systemController.OpenL(process.SecureId());
-	CleanupClosePushL(systemController);
-	
-	systemController.RequestSystemCloseDown(ETrue);
-	
-	CleanupStack::PopAndDestroy(&systemController);
+	// Check if there are any notifications outstanding
+	TInt outstandingRequests = 0;
+    RProperty::Get(KUidSystemCategory, EPrivacyNumberOfRequest, outstandingRequests);
+    if (outstandingRequests > 0)
+        {
+        LBSLOG(ELogP1, "CPrivacyShutdown::RunL() - Restarting Timer\n")
+        Start(iTimerCount);
+        }
+    else
+        {
+        iState = EShutdownStateShutdownRequested;
+    
+        RLbsSystemController systemController;
+        RProcess process;
+        systemController.OpenL(process.SecureId());
+        CleanupClosePushL(systemController);
+        
+        systemController.RequestSystemCloseDown(ETrue);
+        
+        CleanupStack::PopAndDestroy(&systemController);
+        }
 	
 	LBSLOG(ELogP1, "CPrivacyShutdown::RunL() End\n");
 	}

@@ -35,8 +35,8 @@ USERINCLUDE	  	../../internal/lbstestutils/inc
 
 OS_LAYER_SYSTEMINCLUDE_SYMBIAN
  
- // LBS libraries.
-LIBRARY gpsclock.lib
+// LBS libraries.
+
 LIBRARY lbs.lib             // Location Client Library [EPOS LocServer]
 LIBRARY	lbsloccommon.lib
 LIBRARY	lbsadmin.lib

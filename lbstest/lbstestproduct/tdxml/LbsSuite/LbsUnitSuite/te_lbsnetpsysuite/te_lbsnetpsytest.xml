@@ -17,7 +17,7 @@
   </testServers>
   
   <dependencies>
-  	<data>
+  		<data>
         <hostPath>datasourcemodules\networkpositioningmodule\test\testdata\te_lbsnetpsy.ini</hostPath>
         <devicePath>c:\testdata\configs\te_lbsnetpsy.ini</devicePath>
         </data>

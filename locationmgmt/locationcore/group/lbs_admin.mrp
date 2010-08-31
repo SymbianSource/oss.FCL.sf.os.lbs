@@ -36,6 +36,7 @@ source \sf\os\lbs\locationmgmt\locationcore
 source \sf\os\lbs\locationmgmt\locationcore\lbslocsettings
 source \sf\os\lbs\locationmgmt\locationcore\lbsmlfwutilities
 source \sf\os\lbs\locationmgmt\locationcore\lbslocindicatorlib
+source \sf\os\lbs\locationmgmt\locationcore\lbspositioningstatus
 
 
 binary	\sf\os\lbs\locationmgmt\locationcore\group all
@@ -61,3 +62,4 @@ ipr T  \sf\os\lbs\locationmgmt\locationcore\LbsDebug\test
 ipr T  \sf\os\lbs\locationmgmt\locationcore\test
 ipr T  \sf\os\lbs\locationmgmt\locationcore\lbslocindicatorlib\test
 ipr T  \sf\os\lbs\locationmgmt\locationcore\LbsPartnerCommon\test
+ipr T  \sf\os\lbs\locationmgmt\locationcore\lbspositioningstatus\test

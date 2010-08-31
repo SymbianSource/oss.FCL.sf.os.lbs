@@ -4,6 +4,7 @@
 <testSuite>
 	<name>LbsHybridMtlrSuite</name>
 	<testItems>
+		<test>hybrid_ueassisted_mtlr_posstatus</test>
 		<test>lbshybridmtlr_uebased</test>
 		<test>lbshybridmtlr_ueassisted_gps_ok</test>
 		<test>lbshybridmtlr_ueassisted_no_gps</test>

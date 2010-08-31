@@ -106,6 +106,7 @@ void CPosSubSession::ConstructL(
 	SetPsyDefaultUpdateTimeOut(iPsyDefaultUpdateTimeOut);
 
 	iLocMonitorReqHandlerHub = &aLocMonitorReqHandlerHub;
+
 #if defined __WINSCW__ && defined SYMBIAN_CELLMO_CENTRIC
 	iLocationManagementSupported = EFalse;
 #else
@@ -115,7 +116,6 @@ void CPosSubSession::ConstructL(
 	__ASSERT_ALWAYS(EFalse, User::Invariant());	// Would happen on older versions of symbian OS if this code ever backported
 #endif // SYMBIAN_FEATURE_MANAGER
 #endif // __WINSCW__ && defined SYMBIAN_CELLMO_CENTRIC
-
 	
 	if(iLocationManagementSupported)
 		{

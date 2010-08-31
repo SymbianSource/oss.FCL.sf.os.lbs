@@ -126,6 +126,10 @@ class CLbsSystemStateListener : public CActive
 	     * 
 	     */
 	    RSsmStateAwareSession iStateAwareSession;
+		/**
+		* Used to indicate if the System State Manager is available
+		*/
+		TBool iSystemStateManagerAvailable;
 #else
 	    /**
          * Handle to the startup property object

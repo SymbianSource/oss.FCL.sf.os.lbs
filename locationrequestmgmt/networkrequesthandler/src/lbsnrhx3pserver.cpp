@@ -314,6 +314,7 @@ void CNrhX3pServerSubsession::TransmitPosition(const RMessage2& aMessage)
 			RThread client;
 			aMessage.Client(client);
 			iClientUid = client.SecureId();
+			client.Close();
 			}	
 		}
 	}

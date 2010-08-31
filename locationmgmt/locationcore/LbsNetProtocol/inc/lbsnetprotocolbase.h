@@ -156,7 +156,7 @@ public:
 
 	@param aCapabilities Returns the current capabilities of the device.
 	*/
-	virtual void GetCurrentCapabilities(
+	IMPORT_C virtual void GetCurrentCapabilities(
 										TLbsNetPosCapabilities& aCapabilities) const = 0;
 	/**
 	Provides the LBS subsystem with details of the current status of the network protocol
@@ -178,7 +178,7 @@ public:
 	from TLbsNetProtocolService. If the protocol module is idle, the parameter is set
 	to zero.
 	*/
-	virtual void ProcessStatusUpdate(
+	IMPORT_C virtual void ProcessStatusUpdate(
 										TLbsNetProtocolServiceMask aActiveServiceMask) = 0;
 
 	/**
@@ -230,7 +230,7 @@ public:
 	@see TLbsExternalRequestInfo 
 	@see TLbsLocationNotification 
 	*/
-	virtual void ProcessPrivacyRequest(
+	IMPORT_C virtual void ProcessPrivacyRequest(
 										const TLbsNetSessionId& aSessionId,
 										TBool aEmergency, 
 										const TLbsNetPosRequestPrivacy& aPrivacy,
@@ -305,7 +305,7 @@ public:
 	@see TLbsNetRequestQuality
 	@see TLbsNetRequestMode 
 	*/
-	virtual void ProcessLocationRequest(
+	IMPORT_C virtual void ProcessLocationRequest(
 										const TLbsNetSessionId& aSessionId,
 										TBool aEmergency,
 										TLbsNetProtocolService aService, 
@@ -348,7 +348,7 @@ public:
 	@param aReason Reason for the completion of the request. KErrNone if the request is succecsfully
 	       completed, or one of a range of error codes otherwise. 
 	*/
-	virtual void ProcessSessionComplete(
+	IMPORT_C virtual void ProcessSessionComplete(
 										const TLbsNetSessionId& aSessionId,
 										TInt  aReason) = 0;
 	/**
@@ -381,7 +381,7 @@ public:
 	@see CLbsNetworkProtocolBase::RequestSelfLocation() 
 	@see CLbsNetworkProtocolBase::RequestAssistanceData() 
 	*/
-	virtual void ProcessAssistanceData(
+	IMPORT_C virtual void ProcessAssistanceData(
 										TLbsAsistanceDataGroup aDataMask,
 										const RLbsAssistanceDataBuilderSet& aData,
 										TInt aReason) = 0;
@@ -413,7 +413,7 @@ public:
 	       The parameter aPosInfo is normally of type TPositionInfo.       
 
 	*/
-	virtual void ProcessLocationUpdate(
+	IMPORT_C virtual void ProcessLocationUpdate(
 										const TLbsNetSessionId& aSessionId,
 										const TPositionInfoBase& aPosInfo) = 0;
 
@@ -439,7 +439,7 @@ class MLbsNetworkProtocolObserver2 : public MLbsNetworkProtocolObserver
 public:
 	IMPORT_C virtual TVersion Version() const;
 
-	virtual void ProcessAssistanceData(
+	IMPORT_C virtual void ProcessAssistanceData(
 										TLbsAsistanceDataGroup aDataMask,
 										const RLbsAssistanceDataBuilderSet& aData,
 										TInt aReason,
@@ -450,7 +450,7 @@ protected:
 	//       they should no longer be used by protocol modules implementing the
 	//       extended CLbsNetworkProtocolBase2 version of the interface. Please 
 	//       use the extended versions as declared in the public section above.
-	virtual void ProcessAssistanceData(
+	IMPORT_C virtual void ProcessAssistanceData(
 										TLbsAsistanceDataGroup aDataMask,
 										const RLbsAssistanceDataBuilderSet& aData,
 										TInt aReason);

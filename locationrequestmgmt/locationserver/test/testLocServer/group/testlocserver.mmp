@@ -63,6 +63,9 @@ END
 USERINCLUDE			../inc
 USERINCLUDE         ../../../inc
 USERINCLUDE         ../../../resource
+USERINCLUDE	        ../../../../../locationmgmt/locationcore/lbsroot/inc		
+USERINCLUDE	        ../../../../../locationmgmt/locationcore/lbsrootapi/inc		
+USERINCLUDE	        ../../../../../locationmgmt/locationcore/LbsInternalApi/inc		// for the lbspositioningstatusprops.h
 USERINCLUDE	    	../../../../../locationmgmt/locationcore/LbsNetInternalApi/inc		// for the lbsnetinternalapi.h
 USERINCLUDE   		../../../../../locationmgmt/locationcore/LbsPartnerCommon/inc
 USERINCLUDE   		../../../../../locationmgmt/locationcore/LbsNetRegStatusInt/inc
@@ -83,6 +86,7 @@ LIBRARY             estor.lib
 LIBRARY             bafl.lib
 LIBRARY             efsrv.lib
 LIBRARY             ecom.lib
+LIBRARY             centralrepository.lib
 LIBRARY 	    	lbsadmin.lib
 LIBRARY 	    	lbsnetinternalapi.lib
 LIBRARY				lbsnetregstatusint.lib

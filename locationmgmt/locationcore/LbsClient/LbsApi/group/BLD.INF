@@ -38,7 +38,6 @@ lbs.iby				/epoc32/rom/include/lbs.iby
 ../inc/lbs.inl SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(lbs.inl)
 ../inc/LbsPositionCalc.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(lbspositioncalc.h)
 ../inc/LbsGpsMeasurement.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(lbs/lbsgpsmeasurement.h)
-../inc/lbsvariant.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(lbsvariant.h)
 ../inc/LbsAreaInfo.h  SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(lbsareainfo.h)
 
 PRJ_MMPFILES

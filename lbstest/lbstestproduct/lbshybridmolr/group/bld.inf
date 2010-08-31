@@ -47,6 +47,8 @@ PRJ_TESTEXPORTS
 ../scripts/uebased_molr_self_internal_value_test.script		c:/testdata/scripts/uebased_molr_self_internal_value_test.script
 
 ../scripts/molr_error_assistance.script		c:/testdata/scripts/molr_error_assistance.script
+../scripts/hybrid_ueassisted_molr_posstatus.script		c:/testdata/scripts/hybrid_ueassisted_molr_posstatus.script
+
 
 //ini files
 ../testdata/lbs_molr.ini			c:/testdata/configs/lbs_molr.ini

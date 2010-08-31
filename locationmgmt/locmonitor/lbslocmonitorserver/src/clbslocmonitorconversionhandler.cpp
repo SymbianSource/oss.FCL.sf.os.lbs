@@ -17,7 +17,7 @@
 
 #include <s32mem.h>
 #include <ecom/ecom.h>
-#include <ecom/ImplementationInformation.h>
+#include <ecom/implementationinformation.h>
 #include <lbs/lbslocinfoconverterpluginbase.hrh>
 #include "clbslocmonitorconversionhandler.h"
 #include "lbslocmonitorclientconsts.h"

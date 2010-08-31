@@ -655,9 +655,6 @@ TVerdict CT_LbsClientStep_ModStat::doTestStepL()
 					
 					INFO_PRINTF1(_L("Position Received"));
 					User::WaitForRequest(status);
-					
-					// short delay to allow the module status change to update.
-					User::After(1*100*1000);
 
 					//Verify that the position is EDeviceReady again
 					DoVerifyModStatus(TPositionModuleStatus::EDeviceReady,modId);

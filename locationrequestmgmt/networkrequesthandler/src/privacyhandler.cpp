@@ -971,11 +971,7 @@ void CPrivacyControllerHandler::ProcessNetworkLocationRequest(TLbsNetSessionIdIn
 		privReq->SetRequestPrivacy(aNetPosRequestPrivacy);
 		}
 	privReq->SetStartTime();
-	TInt err = iRequestBuffer.Append(privReq);
-	    if(err != KErrNone)
-	        {
-	    	LBSLOG2(ELogP4, "CPrivacyControllerHandler::ProcessNetworkLocationRequest : iRequestBuffer.Append failed with - %d error",err); 
-	        }
+	iRequestBuffer.Append(privReq);
 	iAlwaysVerify = EFalse;	
 	
 	if (iNrhServer == 0)

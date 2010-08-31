@@ -31,6 +31,7 @@ file=ABI_DIR\DEBUG_DIR\lbsadmin.dll			System\libs\lbsadmin.dll
 #include "lbsinternalapi.iby"
 #include "lbsnetprotocol.iby"
 #include "lbspartnercommon.iby"
+#include "lbspositioningstatus.iby"
 
 #include "lbsnetinternalapi.iby"
 #include "lbsadatacache.iby"

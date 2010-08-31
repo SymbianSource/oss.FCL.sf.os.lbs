@@ -18,7 +18,7 @@
 #include <s32mem.h>
 #include <lbs.h>
 #include <lbserrors.h>
-#include <LbsAreaInfo.h>
+#include <lbsareainfo.h>
 
 #include "lbslocservermessageenums.h"
 #include "LbsPtrHolder.h"

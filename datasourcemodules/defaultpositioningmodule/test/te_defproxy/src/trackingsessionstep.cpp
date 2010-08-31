@@ -75,6 +75,10 @@ TVerdict CTrackingSessionStep::doTestStepL()
     // setup : only PSY6
     ToggleModuleL(KUidLcfPsy1, EFalse);
     ToggleModuleL(KUidLcfPsy3, EFalse);
+    
+    User::After(KSecond * 7);
+        
+    InitPsyListInDefaultProxyL();
 
     // make one request to allow default proxy rebuild its database
     // this will guarantee that first request will be as fast as possible

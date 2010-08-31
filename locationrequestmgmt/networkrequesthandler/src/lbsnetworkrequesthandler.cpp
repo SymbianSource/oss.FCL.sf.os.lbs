@@ -102,8 +102,7 @@ void CLbsNetworkRequestHandler::ConstructL()
 	TBool locationManagementSupported(ETrue);
 #endif // SYMBIAN_FEATURE_MANAGER
 #endif // __WINSCW__ && defined SYMBIAN_CELLMO_CENTRIC
-    
-
+	
 	if(locationManagementSupported)
 		{
 		iX3pHandler = CX3pHandler::NewL(*iNgMessageSwitch, iPrivLocHandler->X3pStatusHandler(), *iAdmin);

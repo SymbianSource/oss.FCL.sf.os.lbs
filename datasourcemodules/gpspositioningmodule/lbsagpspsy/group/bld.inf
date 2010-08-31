@@ -24,12 +24,8 @@ PRJ_EXPORTS
 ./101fe98c.cre z:/private/10202be9/101fe98c.cre
 
 // ConfML files
-//! No longer exporting these confml files as this version of the APGS PSY is only used if APE Centric is enabled.  If not
-//! another version of the PSY is used (which has the same UID), so these confml files overwrite those of the other PSY.
-//! A build time feature flag is being raised for these to only export these if APE Centric is enabled.  For now, since
-//! APE Centric is not being used, these are not exported.  Once the feature flag is raised it can be changed to use that.
-//../conf/agpspositioningmodule.confml              OS_LAYER_EXPORTS_CONFML(agpspositioningmodule.confml)
-//../conf/agpspositioningmodule_101fe98c.crml       OS_LAYER_EXPORTS_CRML(agpspositioningmodule_101fe98c.crml)
+../conf/agpspositioningmodule.confml              OS_LAYER_EXPORTS_CONFML(agpspositioningmodule.confml)
+../conf/agpspositioningmodule_101fe98c.crml       OS_LAYER_EXPORTS_CRML(agpspositioningmodule_101fe98c.crml)
 
 PRJ_MMPFILES
 //gnumakefile createlbsagpspsyrep.mk

@@ -20,6 +20,9 @@
       <component id="npeintegmodule" name="NPE Integration Module" introduced="^3" purpose="optional" class="plugin">
         <unit bldFile="datasourcemodules/npeintegmodule/group" mrp="datasourcemodules/npeintegmodule/group/lbs_npeintegrationmodule.mrp"/>
       </component>
+      <component id="locationapesuplpsy" name="APE SUPL Positioning Module" introduced="^3" purpose="optional" class="plugin">
+        <unit bldFile="datasourcemodules/locationapesuplpsy/group" mrp="datasourcemodules/locationapesuplpsy/group/lbs_ape_supl_positioning_module.mrp"/>
+      </component>
     </collection>
     <collection id="datasourceadaptation" name="Data Source Adaptation" level="adaptation">
       <component id="gpsdatasourceadaptation" name="GPS Data Source Adaptation" introduced="^2" purpose="optional" class="plugin">

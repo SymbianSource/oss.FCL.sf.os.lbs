@@ -39,10 +39,6 @@ public :
 
 protected:
 	void ConstructL(const TDesC& aName);
-	
-public:
-	// inter-test step pos info storage.
-	TPositionInfo iPosInfo; 
 	};
 
 #endif //__CT_LBS_CLIENT_SERVER_H__

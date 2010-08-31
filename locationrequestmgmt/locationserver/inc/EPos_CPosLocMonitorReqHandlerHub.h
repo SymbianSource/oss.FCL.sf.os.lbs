@@ -90,8 +90,6 @@ class CPosLocMonitorReqHandlerHub : public CBase
         CPosLocMonitorReqHandlerHub( const CPosLocMonitorReqHandlerHub& );
         CPosLocMonitorReqHandlerHub& operator=( const CPosLocMonitorReqHandlerHub& );
         
-        void PublishPosition(const TPositionInfo& aPositionInfo);
-        
     private:    // Data
 
     	// Session with the location monitor
@@ -105,9 +103,6 @@ class CPosLocMonitorReqHandlerHub : public CBase
         CPosLastKnownPosAreaHandler* iLastKnownPosAreaHandler;
         // Empty Last Known Position Store request
         CPosEmptyLastKnownPosStoreHandler* iEmptyLastKnownPosStoreHandler;
-        
-        // P&S Property for publishing Last Known Position
-        RProperty iLastKnownPosProperty;
 
     };
 

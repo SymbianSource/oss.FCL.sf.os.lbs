@@ -205,6 +205,7 @@ TVerdict CT_LbsClientStep_SrvConnectClose::doTestStepL()
 							case 10:
 								{
 								// this test only valid on variant2 api:
+								__ASSERT_DEBUG(iExpectedApiBehaviour == EApiVariant2, User::Panic(_L("Unrecognised 'Expected Api Behaviour'"), 1));
 								INFO_PRINTF1(_L("<FONT><B>LBsroot has been started by EPosserver in this mode. </B></FONT>"));
 								}
 							break;

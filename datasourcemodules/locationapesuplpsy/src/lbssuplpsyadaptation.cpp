@@ -25,7 +25,7 @@
 #include "LbsPsyNgMsgs.h"
 #include "lbscommoninternaldatatypes.h"
 
-#include <lbsSuplPsyAdaptation.h>
+#include <lbssuplpsyadaptation.h>
 
 const TUid KSuplPsyUid = {KSuplPsyImplUid}; //KSuplPsyImplUid defined in "suplpsy.hrh"
 // -----------------------------------------------------------------------------

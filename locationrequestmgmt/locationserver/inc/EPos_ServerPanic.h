@@ -29,8 +29,7 @@ enum TPosServerDebugPanic
     EPosServerPanicSessionsCountInconsistency,
     EPosServerPanicUnexpectedEvent,
     EPosServerPanicTrackingInconsistency,
-    EPosServerPanicGeneralInconsistency,
-    EPosServerPanicLastKnownPosPnsNotDefined
+    EPosServerPanicGeneralInconsistency
     };
 
 // FUNCTION PROTOTYPES

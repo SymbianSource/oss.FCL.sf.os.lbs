@@ -13,8 +13,8 @@
 // Description:
 //
 
-#include "../LBSPrivacyNotification/group/BLD.INF"
-#include "../LbsX3P/group/BLD.INF"
+#include "../LBSPrivacyNotification/group/bld.inf"
+#include "../LbsX3P/group/bld.inf"
 
 #include "../test/group/bld.inf"
 

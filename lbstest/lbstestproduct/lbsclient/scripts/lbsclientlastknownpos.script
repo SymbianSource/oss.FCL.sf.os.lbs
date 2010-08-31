@@ -569,62 +569,7 @@ RUN_TEST_STEP 010 LbsClientTestServer LbsStep_VerifyPosInfos
 
 END_TESTCASE LBS-Client-LastKnownPos-0014
 
-START_TESTCASE LBS-Client-LastKnownPos-0801
 
-//!@SYMTestCaseID			LBS-Client-LastKnownPos-0801
-//!@SYMTestCaseDesc			Confirm Last Known Position published to P&S property
-//!
-//!@SYMTestActions			1. Request a location update (passing in a TPositionInfo) and wait for it to complete.
-//!					2. Set up Last Known Position P&S Property Listener
-//!					3. Request a location update via RPositioner, wait for it to complete and for the P&S property to be updated.
-//!					4. Comparet the content and timestamp of the position returned by RPositioner and P&S
-//!					5. Store the returned position for the next test	
-//!
-//!@SYMTestExpectedResults	Location Information received via the two APIs is identical.
-//!
-//!@SYMPREQ					PREQ786
-//!@SYMREQ 					REQ786.08
-//!@SYMREQ 					REQ786.19
-//!@SYMPREQ					PREQ89
-//!@SYMREQ 					REQ 89.03
-//!@SYMREQ 					REQ 89.07
-//!@SYMREQ 					REQ 89.09
-//!
-//!@SYMTestType				CIT
-//!@SYMTestPriority			1
-//!@SYMTestStatus			Implemented
-
-RUN_TEST_STEP 010 LbsClientTestServer LbsStep_InstallScheduler
-RUN_TEST_STEP 020 LbsClientTestServer LbsStep_SetUpPsy c:\testdata\configs\LbsClientLastKnownPos.ini LBS-LastKnownPos
-RUN_TEST_STEP 120 LbsClientTestServer LbsClientStep_LastKnownPos c:\testdata\configs\LbsClientLastKnownPos.ini LBS-LastKnownPos-0801
-
-END_TESTCASE LBS-Client-LastKnownPos-0801
-
-
-
-START_TESTCASE LBS-Client-LastKnownPos-0802
-RUN_TEST_STEP 020 LbsClientTestServer LbsStep_StopLbs
-DELAY 10
-RUN_TEST_STEP 030 LbsClientTestServer LbsStep_StartLbs
-
-//!@SYMTestCaseID			LBS-Client-LastKnownPos-0802
-//!@SYMTestCaseDesc			Confirm P&S Last Known Position available following LBS re-start
-//!
-//!@SYMTestActions			1. Following LBS restart, read Last Known Position P&S key.
-//!							2. confirm position/timestamp info is as previously stored.
-//!
-//!@SYMTestExpectedResults	Location Information is received and is correct. 
-//!
-//!
-//!@SYMTestType				CIT
-//!@SYMTestPriority			1
-//!@SYMTestStatus			Implemented
-
-RUN_TEST_STEP 010 LbsClientTestServer LbsStep_InstallScheduler
-RUN_TEST_STEP 020 LbsClientTestServer LbsStep_SetUpPsy c:\testdata\configs\LbsClientLastKnownPos.ini LBS-LastKnownPos
-RUN_TEST_STEP 120 LbsClientTestServer LbsClientStep_LastKnownPos c:\testdata\configs\LbsClientLastKnownPos.ini LBS-LastKnownPos-0802
-
-END_TESTCASE LBS-Client-LastKnownPos-0802
 
 
 PRINT Stop LBS
