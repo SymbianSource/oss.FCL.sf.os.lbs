@@ -21,7 +21,6 @@
 		<test>lbshybridmolr_uebased_values</test>
 		<test>lbshybridmolr_uebased_partial</test>
 		<test>lbshybridmolr_error_assistance</test>
-		<test>hybrid_ueassisted_molr_posstatus</test>
 	</testItems>
 	<testExecuteServers>
 		<server>LbsHybridMOLRTestServer</server>

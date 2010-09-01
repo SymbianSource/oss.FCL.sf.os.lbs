@@ -17,7 +17,7 @@
 
 
 #include <e32base.h>
-#include <lbsareainfo.h>
+#include <LbsAreaInfo.h>
 #include <lbserrors.h>
 
 

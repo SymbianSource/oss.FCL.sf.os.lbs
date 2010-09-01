@@ -26,7 +26,7 @@
 #ifndef NETWORKPRIVACYPANICDECLARATION_H
 #define NETWORKPRIVACYPANICDECLARATION_H
 
-#include <epos_networkprivacypanic.h>
+#include <EPos_NetworkPrivacyPanic.h>
 
 
 #ifdef SYMBIAN_ENABLE_SPLIT_HEADERS

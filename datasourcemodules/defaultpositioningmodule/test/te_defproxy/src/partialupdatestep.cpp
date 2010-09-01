@@ -146,43 +146,37 @@ TVerdict CPartialUpdateStep::doTestStepL()
     
     PositionRequestWithCheck(posInfo, KPositionPartialUpdate, KIntGpsPsy1);
     
-    User::After(KSecond * 55);//2s fallback, 5s PSY1 partial, 7s PSY2 fix, 10s cleanup timeout
+    User::After(KSecond * 3);//2s fallback, 5s PSY1 partial, 7s PSY2 fix, 10s cleanup timeout
 
     PositionRequestWithCheck(posInfo, KErrNone, KExtGpsPsy1);
     
     User::After(KSecond * 5);
     PositionRequestWithCheck(posInfo, KErrNone, KExtGpsPsy1);
     
-    User::After(KSecond * 12);
+    //4. If PSY2 gives a fullfix before cleanup timeout and there is location request 
+    //pending, this fix will be given to the client
+    ConfigPsyL(KIntGpsPsy1, 2,
+        KConfigLRPartial5s,
+        KConfigLRPartial5s 
+        );
+
+    ConfigPsyL(KExtGpsPsy1, 1,
+        KConfigLRNoError5s
+        );
     
+    User::After(KSecond * 7);
+    InitPsyListInDefaultProxyL();
     
-//    Unclear test, removed pending doc lookup.
-//    //4. If PSY2 gives a fullfix before cleanup timeout and there is location request 
-//    //pending, this fix will be given to the client
-//    
-//    ConfigPsyL(KIntGpsPsy1, 2,
-//        KConfigLRPartial5s,
-//        KConfigLRPartial5s 
-//        );
-//
-//    ConfigPsyL(KExtGpsPsy1, 1,
-//        KConfigLRNoError5s
-//        );
-//    
-//    //User::After(KSecond * 7);
-//    
-//    InitPsyListInDefaultProxyL();
-//    
-//    PositionRequestWithCheck(posInfo, KPositionPartialUpdate, KIntGpsPsy1);
-//    
-//    //User::After(KSecond * 1);//2s fallback, 5s PSY1 partial, 7s PSY2 fix, 10s cleanup timeout
-//
-//    SET_TIME
-//    PositionRequestWithCheck(posInfo, KErrNone, KExtGpsPsy1);
-//    CHECK_TIME(0)
-//    
-//    //User::After(KSecond * 5);
-//    //PositionRequestWithCheck(posInfo, KErrNone, KExtGpsPsy1);
+    PositionRequestWithCheck(posInfo, KPositionPartialUpdate, KIntGpsPsy1);
+    
+    User::After(KSecond * 1);//2s fallback, 5s PSY1 partial, 7s PSY2 fix, 10s cleanup timeout
+
+    SET_TIME
+    PositionRequestWithCheck(posInfo, KErrNone, KExtGpsPsy1);
+    CHECK_TIME(1)
+    
+    User::After(KSecond * 5);
+    PositionRequestWithCheck(posInfo, KErrNone, KExtGpsPsy1);
     
     // cleanup
     StandardCleanup();

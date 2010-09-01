@@ -47,7 +47,6 @@
 #include "ctlbssuplmolrtbfutilesp.h"
 #include "ctlbsuebasedmolronesl.h"
 #include "ctlbsmolrerrorassistance.h"
-#include "ctlbshybridueassistednpudposstatus.h"
 
 /**
   NewL()
@@ -280,10 +279,6 @@ CTestStep* CT_LbsHybridMOLRServer::CreateTestStep(const TDesC& aStepName)
 	else if (aStepName == KLbsMOLRErrorAssistance)
 	    {
 	    return CT_LbsMolrErrorAssistance::New(*this);
-	    }
-	else if (aStepName == KLbsHybridUEAssistedNpudPosStatus)
-	    {
-	    return CT_LbsHybridUEAssistedNpudPosStatus::New(*this);
 	    }
 		
 	// Let base class handle any common test steps - will return NULL if test step is not supported.

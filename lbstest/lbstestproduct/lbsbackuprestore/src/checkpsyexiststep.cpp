@@ -100,36 +100,28 @@ TVerdict CCheckPSYExistStep::doTestStepL()
         err = GetIntFromConfig(KPSYList, lineBuf, psyUid);
         err = idList->Find(TUid::Uid(psyUid));
         if(KErrNotFound==err)
-		{
+            {
         	INFO_PRINTF2(_L("CCheckPSYExistStep:can't find (%d) in idList "), psyUid);
-		SetTestStepResult(EFail);
-		}
+            SetTestStepResult(EFail);
+            }
         CRepository* centrepentry = CRepository::NewL(TUid::Uid(psyUid));
         err = centrepentry->Get(brandKey, scarkey);
         if(KErrNotFound!=err)
-		{
-		centrepentry->GetMeta(brandKey, metadataTag);
-		if(metadataTag >= KMetatagBackupAndRestoreValidValue)
-			{
-			if(scarkey!=KValidValue)
-				{
-	             		INFO_PRINTF3(_L("scarkey(%d)!=KValidValue(%d)"), scarkey,KValidValue);
-	                	SetTestStepResult(EFail);
-	                	}
-            		}
-		}
+            {
+            centrepentry->GetMeta(brandKey, metadataTag);
+            if(metadataTag == KMetatagBackupAndRestoreValidValue)
+            	{
+	            if(scarkey!=KValidValue)
+	                {
+	             	INFO_PRINTF3(_L("scarkey(%d)!=KValidValue(%d)"), scarkey,KValidValue);
+	                SetTestStepResult(EFail);
+	                }
+            	}
+            }
         else
         	{
-        	err = centrepentry->Set(brandKey, scarkey);
-        	if(KErrPermissionDenied == err)
-            		{
-     			INFO_PRINTF2(_L("%d is read only"), psyUid);
-            		}
-		else
-			{
-         		INFO_PRINTF1(_L("CCheckPSYExistStep:centrepentry->Get(brandKey, scarkey) NOT found"));
-        		}
-		}
+         	INFO_PRINTF1(_L("CCheckPSYExistStep:centrepentry->Get(brandKey, scarkey) NOT found"));
+        	}
         }
     
     CleanupStack::PopAndDestroy(3, modules);

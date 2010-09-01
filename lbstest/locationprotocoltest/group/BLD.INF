@@ -15,7 +15,7 @@
 
 // Main projects, in build order
 #include "../../../networkprotocolmodules/networkprotocolmodule/LbsAssistanceDataSourceInterface/group/bld.inf"
-#include "../../../networkprotocolmodules/networkprotocolmodule/LbsNetSim/group/bld.inf"
+#include "../../../networkprotocolmodules/networkprotocolmodule/LbsNetSim/group/BLD.INF"
 #include "../../../networkprotocolmodules/networkprotocolmodule/LbsProtocolModule/group/bld.inf"
 #include "../../../networkprotocolmodules/networkprotocolmodule/suplasn1/group/bld.inf"
 #include "../../../networkprotocolmodules/networkprotocolmodule/LbsSuplTestProtocol/group/bld.inf"

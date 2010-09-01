@@ -99,7 +99,6 @@ const TUint KLbsRootProcessKeyBase      		= 0x07001000;		//Base value for LBS Ro
 const TUint KLbsAssistDataApiBase       		= 0x08001000;		//Base value for Assistance Data Api keys
 const TUint KLbsQualityProfileKeyBase      		= 0x09001000;		//Base value for Quality Profile keys
 const TUint KLbsSuplPushAPIBase		      		= 0x0A001000;		//Base value for SUPL Push API keys
-const TUint KLbsPositioningStatusAPIBase   		= 0x0B001000;		//Base value for Positioning Status API keys
 
 #endif	//LBSPROPERTYKEYDEFS_H
 

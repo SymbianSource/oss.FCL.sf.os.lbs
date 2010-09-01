@@ -98,6 +98,4 @@ EXPORTS
 	?ShutDownL@RLbsSystemModuleEvent@@SAXXZ @ 97 NONAME ; void RLbsSystemModuleEvent::ShutDownL(void)
 	?OpenL@RLbsPositionUpdateRequests@@QAEXABUTChannelIdentifer@1@@Z @ 98 NONAME ; void RLbsPositionUpdateRequests::OpenL(struct RLbsPositionUpdateRequests::TChannelIdentifer const &)
 	??0TLbsPositionUpdateRequestStatus@@QAE@XZ @ 99 NONAME ; TLbsPositionUpdateRequestStatus::TLbsPositionUpdateRequestStatus(void)
-	?InitializeMoPropertyL@LbsPositioningStatusProps@@SAXXZ @ 100 NONAME ; void LbsPositioningStatusProps::InitializeMoPropertyL(void)
-	?InitializeNiPropertyL@LbsPositioningStatusProps@@SAXXZ @ 101 NONAME ; void LbsPositioningStatusProps::InitializeNiPropertyL(void)
 

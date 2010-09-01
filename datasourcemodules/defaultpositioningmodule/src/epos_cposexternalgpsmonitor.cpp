@@ -272,7 +272,7 @@ void CPosExternalGpsMonitor::ConstructExtGpsPsyArrayL()
             User::LeaveIfError( iExtGpsPsyArray.Append( requestor ) );
             
             //This function won't fail, since we have enough space already
-            iExtGpsPsyUsedArray.Append( 0 ); 
+            iExtGpsPsyUsedArray.AppendL( 0 ); 
             
             CleanupStack::Pop( requestor );
             }

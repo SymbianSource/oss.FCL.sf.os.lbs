@@ -13,5 +13,5 @@
 // Description:
 //
 
-#include "../PrivacyDataTypes/group/bld.inf"
-#include "../QueryAndNotificationAPI/group/bld.inf"
+#include "../PrivacyDataTypes/group/Bld.inf"
+#include "../QueryAndNotificationAPI/group/Bld.inf"

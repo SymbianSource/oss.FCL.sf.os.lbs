@@ -64,6 +64,5 @@ LIBRARY     lbsnetprotocol.lib
 
 LIBRARY flogger.lib
 
-SMPSAFE
 
 // End of File

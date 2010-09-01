@@ -93,9 +93,7 @@ LIBRARY		commsdat.lib
 LIBRARY     ecom.lib
 LIBRARY     centralrepository.lib  
 
-#ifdef SYMBIAN_FEATURE_MANAGER
-LIBRARY		featdiscovery.lib
-#endif
+
 
 LIBRARY		lbsinternalapi.lib
 LIBRARY         lbslocationinfoconverterplugin.lib

@@ -549,15 +549,6 @@ void CSuplProxyProtocol::RequestNetworkLocation(
         const TLbsNetPosRequestOptionsBase& aOptions)
     {
     LBSLOG(ELogP1, "CSuplProxyProtocol::RequestNetworkLocation() Begin\n");
-	
-	if(!iSuplTiApiWrapper)
-    	{
-		//Error, TI Plugin not available.  Complete the request with error
-		LBSLOG_ERR(ELogP1, "Error, TI Plugin not available, not able to complete request");
-		LBSLOG2(ELogP1, "-->ProcessSessionComplete(0x%x)\n", aSessionId.SessionNum());
-		iObserver.ProcessSessionComplete(aSessionId, KErrNotReady);
-		return;
-    	}
 
 	const TLbsNetPosRequestOptions reqParams =
 			static_cast<const TLbsNetPosRequestOptions&> (aOptions);
@@ -572,7 +563,12 @@ void CSuplProxyProtocol::RequestNetworkLocation(
 		
 		// Add this request to the queue of outstanding requests
 		LBSLOG2(ELogP1, "CSuplProxyProtocol::RequestNetworkLocation() Adding sppm session object 0x%x to array\n", aSessionId);
-		iLbsNetSessions.Append(netSession);    
+		TInt err = iLbsNetSessions.Append(netSession);
+		if(KErrNone != err)
+		    {
+		    LBSLOG(ELogP1, "CSuplProxyProtocol::RequestNetworkLocation() - iLbsNetSessions.Append failed!!\n");
+            delete netSession;
+		    }
     	}
 
     //Create the prioritised list of positioning methods
@@ -651,13 +647,6 @@ void CSuplProxyProtocol::RequestSelfLocation(
         LBSLOG2(ELogP1, "-->ProcessSessionComplete(0x%x)\n", aSessionId.SessionNum());
         iObserver.ProcessSessionComplete(aSessionId, KErrNone);
         }
-	 else if(!iSuplTiApiWrapper)
-		{
-		//Error, TI Plugin not available.  Complete the request with error
-		LBSLOG_ERR(ELogP1, "Error, TI Plugin not available, not able to complete request");
-		LBSLOG2(ELogP1, "-->ProcessSessionComplete(0x%x)\n", aSessionId.SessionNum());
-		iObserver.ProcessSessionComplete(aSessionId, KErrNotReady);
-		}
     else
         {
 
@@ -733,7 +722,13 @@ void CSuplProxyProtocol::RequestSelfLocation(
 
 	                // Add this request to the queue of outstanding requests
 					LBSLOG2(ELogP1, "CSuplProxyProtocol::RequestSelfLocation() Adding sppm session object 0x%x to array\n", aSessionId);
-	                iLbsNetSessions.Append(netSession);					
+	                TInt err = iLbsNetSessions.Append(netSession);
+	                if(KErrNone != err)
+	                    {
+		    			LBSLOG(ELogP1, "CSuplProxyProtocol::RequestSelfLocation() - iLbsNetSessions.Append failed!!\n");
+	                    delete netSession;
+	                    return;
+	                    }
                 	}
                 
                 //Inform LBS of the start of an MOLR - TB 
@@ -873,7 +868,6 @@ Second stage private constructor.
 void CSuplProxyProtocol::ConstructL()
 	{
 	LBSLOG(ELogP1, "CSuplProxyProtocol::ConstructL() Begin\n");
-	TInt err = KErrNone;
 
     CRepository* cenRep = CRepository::NewLC(KLbsSuplProxyProtocolModuleCenRepUid);
 	TInt refLocSourceId(KErrNone);
@@ -893,18 +887,14 @@ void CSuplProxyProtocol::ConstructL()
 
     LBSLOG(ELogP9, "->A   CLbsSuplTiApi::NewL() SUPL-FW\n");
     LBSLOG2(ELogP9, " > Uid = 0x%08X\n", suplTiPluginImplUid);
-    TRAP(err, iSuplTiApiWrapper = CLbsSuplTiApi::NewL(*this, TUid::Uid(suplTiPluginImplUid)));
-    if(err != KErrNone)
-    	{
-		LBSLOG_ERR2(ELogP1, "Failed to load the Terminal Initiation API Plugin (error: %d)", err);
-    	}
+    iSuplTiApiWrapper = CLbsSuplTiApi::NewL(*this, TUid::Uid(suplTiPluginImplUid));
 
 	CLbsAdmin* admin = CLbsAdmin::NewL();
 	CleanupStack::PushL(admin);
 		
 	// Read admin setting for maximum number of external locate requests
 	TUint maxExternalLocateRequests = KLbsDefaultMaximumExternalLocateRequests;
-	err = admin->Get(KLbsSettingMaximumExternalLocateRequests, maxExternalLocateRequests);
+	TInt err = admin->Get(KLbsSettingMaximumExternalLocateRequests, maxExternalLocateRequests);
 	if (err != KErrNone)
 		{
 		LBSLOG_ERR2(ELogP4, "Failed to get KLbsSettingMaximumExternalLocateRequests (err %d)", err);
@@ -990,7 +980,19 @@ void CSuplProxyProtocol::ProcessRequest(CSuplProxyPrivacyRequestInfo* aRequest)
 				{
 				netSession->SetExtRequestInfo(extReqInfo);
 				LBSLOG2(ELogP1, "CSuplProxyProtocol::ProcessRequest() Adding sppm session object 0x%x to array\n", sessionId);
-				iLbsNetSessions.Append(netSession);
+				TInt err = iLbsNetSessions.Append(netSession);
+				if (err != KErrNone)
+					{
+					// A problem occured and the request could not be added to the buffer
+					LBSLOG_WARN2(ELogP1, "CSuplProxyProtocol::ProcessRequest() - iLbsNetSessions.Append failed!! - (%d)\n", err);
+					if (aRequest->IsResponseRequired())
+						{
+						aRequest->CompleteRequest(err);
+						}
+                    delete netSession;
+					delete aRequest;
+					return;
+					}
 				}
         	}
         }
@@ -1145,7 +1147,12 @@ void CSuplProxyProtocol::NotifySubSessionOpen(MPosProtocolResponseObserver* aObs
 			netSession->SetPosSessionStarted(ETrue);
 			netSession->SetSessionStarted();
 			LBSLOG2(ELogP1, "CSuplProxyProtocol::NotifySubSessionOpen() Adding sppm session object 0x%x to array\n", sessionId);
-			iLbsNetSessions.Append(netSession);
+			TInt err = iLbsNetSessions.Append(netSession);
+            if(KErrNone != err)
+                   {
+	    		   LBSLOG(ELogP1, "CSuplProxyProtocol::NotifySubSessionOpen() - iLbsNetSessions.Append failed!!\n");
+                   delete netSession;
+                   }
         	}
         //Update LBS of the currently active services including this new session type
         StatusUpdate(MLbsNetworkProtocolObserver2::EServiceTriggeredMolr,ETrue);
@@ -1544,7 +1551,7 @@ void CSuplProxyProtocol::RequestComplete(TInt aReason,
         const TLbsNetSessionId& aSessionId)
     {
 	LBSLOG(ELogP1, "CSuplProxyProtocol::RequestComplete() Begin\n");
-	
+
     TInt index = iLbsNetSessions.Find(aSessionId,
             CLbsNetSession::IsSessionMatch);
 

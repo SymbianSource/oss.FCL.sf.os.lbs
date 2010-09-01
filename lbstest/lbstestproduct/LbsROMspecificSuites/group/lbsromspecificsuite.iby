@@ -24,7 +24,6 @@ file=ABI_DIR\DEBUG_DIR\lbsromsuitetestserver.exe		sys\bin\lbsromsuitetestserver.
 
 data=EPOCROOT##Epoc32\winscw\c\TestData\configs\lbsromspecificsuite.ini TestData\configs\lbsromspecificsuite.ini
 data=EPOCROOT##Epoc32\winscw\c\TestData\scripts\lbsfullromsuite.script 	TestData\Scripts\lbsfullromvariant2suite.Script
-data=EPOCROOT##Epoc32\winscw\c\TestData\scripts\lbsstandaloneprivacysuite.script TestData\Scripts\lbsstandaloneprivacysuite.script
 
 data=EPOCROOT##Epoc32\winscw\c\TestData\configs\xtestmodule.ini   				TestData\configs\xtestmodule.ini 
 data=EPOCROOT##Epoc32\winscw\c\TestData\configs\lbstestconfig.txt   			TestData\configs\lbstestconfig.txt

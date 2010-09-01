@@ -107,7 +107,7 @@ TVerdict CHGenericInfoStep::doTestStepL()
     CHECK_TIME(5)
     
     PositionRequestWithCheck(*genInfo, KErrNone, KIntGpsPsy1);
-    CHECK_TIME(35) //timeshift 2s + reponse time 10s - first request(5s)
+    CHECK_TIME(7) //timeshift 2s + reponse time 10s - first request(5s)
     
     //3. Check satellite info
     ConfigPsyL(KExtGpsPsy1, 3,
@@ -130,7 +130,7 @@ TVerdict CHGenericInfoStep::doTestStepL()
     CHECK_TIME(5)
     
     PositionRequestWithCheck(satInfo, KErrNone, KIntGpsPsy1);
-    CHECK_TIME(35) //timeshift 2s + reponse time 10s - first request(5s)
+    CHECK_TIME(7) //timeshift 2s + reponse time 10s - first request(5s)
     
     
     

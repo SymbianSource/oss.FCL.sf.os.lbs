@@ -29,6 +29,8 @@
 _LIT(KTraceFileName, "EPos_CPosLocMonitorReqHandlerHub.cpp");
 #endif
 
+const TInt KLocationServerSID=0x101f97b2;
+
 
 // ============================== MEMBER FUNCTIONS ===================================================
 /**
@@ -68,7 +70,23 @@ void CPosLocMonitorReqHandlerHub::ConstructL()
 	// Establish the subsession with the location monitor - As SetPositionInfoL()
 	// is likely to be called whenever we have an update from the PSYs, the subsession
 	// with the location monitor is created as a member variable instead of a local variable.
-	iLocMonSubSession.OpenL(iLocMonSession);	
+	iLocMonSubSession.OpenL(iLocMonSession);
+	
+	// Attach to the Last Known Location P&S property
+	iLastKnownPosProperty.Attach(
+        KPosLastKnownLocationCategory,
+        KPosLastKnownLocation);
+    
+    // Get the last known position from loc monitor and publish it.
+    TRequestStatus status;
+    TPositionInfo posInfo;
+    iLocMonSubSession.GetLastKnownPosition(posInfo, status);
+    User::WaitForRequest(status);
+
+    if (status.Int()==KErrNone)
+        {
+        PublishPosition(posInfo);
+        }
 	}
 
 
@@ -106,8 +124,15 @@ CPosLocMonitorReqHandlerHub::~CPosLocMonitorReqHandlerHub()
 void CPosLocMonitorReqHandlerHub::SetPositionInfo( const TPositionInfo& aPositionInfo )
 	{
 	DEBUG_TRACE("CPosLocMonitorReqHandlerHub::SetPositionInfoL", __LINE__)
-	
-	TInt errSetPos = iLocMonSubSession.SetLastKnownPosition(aPositionInfo);
+
+    // check the latest position is newer than the last published position 
+    TPosition newPos;
+    aPositionInfo.GetPosition(newPos);
+    
+    // publish the position
+    PublishPosition(aPositionInfo);
+    // pass the position to the loc monitor.
+    TInt errSetPos = iLocMonSubSession.SetLastKnownPosition(aPositionInfo);
 	}
 
 /** 
@@ -316,4 +341,29 @@ void CPosLocMonitorReqHandlerHub::NotifySessionClosed(const CSession2* aSessionP
 	}
 
 
-
+/** 
+ * PublishPosition
+ *      >> Publishes the position to the Last Known Position P&S Property
+ *       
+ */
+void CPosLocMonitorReqHandlerHub::PublishPosition(const TPositionInfo& aPositionInfo)
+    {
+    TPckg<TPositionInfo> positionDes( aPositionInfo );
+    TInt err = iLastKnownPosProperty.Set(positionDes);
+    if(err == KErrNotFound)
+        {
+        __ASSERT_DEBUG(EFalse, DebugPanic(EPosServerPanicLastKnownPosPnsNotDefined));
+        // The key is not defined. This should not happen in normal case.
+        // However, if this happens, we define the key again
+        _LIT_SECURITY_POLICY_C1(readPolicy, ECapabilityReadDeviceData);
+        _LIT_SECURITY_POLICY_S0(writePolicy, KLocationServerSID);
+        //Error code ignored
+        iLastKnownPosProperty.Define(
+            KPosLastKnownLocationCategory,
+            KPosLastKnownLocation,
+            RProperty::EText,
+            readPolicy,
+            writePolicy);
+        }
+    }
+ 

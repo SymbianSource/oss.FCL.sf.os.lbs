@@ -104,7 +104,7 @@ TVerdict CTwoPsysActiveStep::doTestStepL()
     //return KErrNone
     SET_TIME
     PositionRequestWithCheck(posInfo, KErrNone, KNetworkPsy1);
-    CHECK_TIME(31) //2s is timeshfift value min(2*TTFF(1),10)+1
+    CHECK_TIME(3) //2s is timeshfift value min(2*TTFF(1),10)+1
 
     User::After(KSecond*7); 
     
@@ -136,7 +136,7 @@ TVerdict CTwoPsysActiveStep::doTestStepL()
     //7. PSY1 does not give a fix within timeshift, PSY2 is tried. If PSY1 then 
     //give a error code, then fix from PSY2 will be used.
     PositionRequestWithCheck(posInfo, KErrNone, KNetworkPsy1);
-    CHECK_TIME(40) //Timeshift time 2s + response time 10s
+    CHECK_TIME(12) //Timeshift time 2s + response time 10s
     
     //Do everhing again when device status is Active
     
@@ -180,7 +180,7 @@ TVerdict CTwoPsysActiveStep::doTestStepL()
     //return KErrNone
     SET_TIME
     PositionRequestWithCheck(posInfo, KErrNone, KNetworkPsy1);
-    CHECK_TIME(31) //2s is timeshfift value min(2*TTFF(1),10)+1
+    CHECK_TIME(3) //2s is timeshfift value min(2*TTFF(1),10)+1
 
     User::After(KSecond*7); 
     
@@ -212,7 +212,7 @@ TVerdict CTwoPsysActiveStep::doTestStepL()
     //7. PSY1 does not give a fix within timeshift, PSY2 is tried. If PSY1 then 
     //give a error code, then fix from PSY2 will be used.
     PositionRequestWithCheck(posInfo, KErrNone, KNetworkPsy1);
-    CHECK_TIME(40) //Timeshift time 2s + response time 10s
+    CHECK_TIME(12) //Timeshift time 2s + response time 10s
     
     StandardCleanup();
     return TestStepResult();

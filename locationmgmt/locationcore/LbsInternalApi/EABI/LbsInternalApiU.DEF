@@ -110,6 +110,4 @@ EXPORTS
 	_ZNK25TLbsPositionUpdateRequest9NewClientEv @ 109 NONAME
 	_ZNK26RLbsPositionUpdateRequests24GetPositionUpdateRequestER29TLbsPositionUpdateRequestBase @ 110 NONAME
 	_ZNK31TLbsPositionUpdateRequestStatus8TrackingEv @ 111 NONAME
-	_ZN25LbsPositioningStatusProps21InitializeMoPropertyLEv @ 112 NONAME
-	_ZN25LbsPositioningStatusProps21InitializeNiPropertyLEv @ 113 NONAME
 

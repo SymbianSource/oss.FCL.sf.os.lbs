@@ -121,8 +121,6 @@ friend class CLbsPrivLocFsm;
 	TPositionModuleInfoExtended::TDeviceGpsModeCapabilities DeviceGpsModeCaps();
 	CLbsAdmin::TLbsBehaviourMode BehaviourMode();
 	RLbsNetworkRegistrationStatus& NetworkRegistrationStatus();
-	void IncrementPositioningStatus();
-	void DecrementPositioningStatus();
 
 private:
 	static TBool IsSessionIdEqual(
@@ -164,12 +162,6 @@ private:
 
 	CLbsPrivLocFsm* iMolRFsm;
 	CLbsPrivLocFsm* iX3pFsm;
-
-	// ETrue if location management is supported
-	TBool iLocationManagementSupported;
-	
-    // Category of the Positioning Status P&S Keys
-	TUid iPosStatusCategory;
 	};
 
 
@@ -445,7 +437,7 @@ protected:
 	RLbsNetworkRegistrationStatus& LbsNetworkRegistrationStatus();
 	TPositionModuleInfoExtended::TDeviceGpsModeCapabilities DeviceGpsModeCaps();
 	CLbsAdmin::TLbsBehaviourMode BehaviourMode();	
-	void IncrementPositioningStatus();
+
 
 protected:	
 	CLbsPrivLocFsm*			iFsm;
@@ -784,15 +776,8 @@ public:
 	TLbsNetSessionIdInt& LastLocReqSessionId()
 		{ return iLastLocReqSessionId; }
 	
-	TBool& WasPrivacyResponseReceivedStateExited() 
+	   TBool& WasPrivacyResponseReceivedStateExited() 
 	    { return iWasPrivacyResponseReceivedStateExited; }
-	
-	TLbsExternalRequestInfo::TRequestType& ExternalRequestType()
-	    { return iExternalRequestType; }
-	
-	TBool& WasPositioningStatusIncremented()
-        { return iPositioningStatusIncremented; }
-	   
 	
 private: // Allow access for friend classes (the states and the NRH) 
 	friend class CLbsPrivLocStateBase;
@@ -874,12 +859,6 @@ private:
 
 	// Has a privacy request been rejected?
 	TBool iWasPrivacyResponseReceivedStateExited;
-	
-	// The type of external request that has been recieved.
-	TLbsExternalRequestInfo::TRequestType iExternalRequestType;
-	
-	// Indicates if this session resulted in the positioning status being incremented.
-	TBool iPositioningStatusIncremented;
 	
 private:
 	//  the states

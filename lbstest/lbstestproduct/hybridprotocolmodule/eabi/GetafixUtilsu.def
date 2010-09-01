@@ -116,7 +116,4 @@ EXPORTS
 	_ZTV25CTLbsX3pTransmitLocWaiter @ 115 NONAME
 	_ZTVN13CPropPipeBase20CPropPipeBaseTimeOutE @ 116 NONAME
 	_ZTVN13CPropPipeBase20CPropPipeBaseWatcherE @ 117 NONAME
-	_ZN19CNotifyReadPropPipeD0Ev @ 118 NONAME
-	_ZN19CNotifyReadPropPipeD1Ev @ 119 NONAME
-	_ZN19CNotifyReadPropPipeD2Ev @ 120 NONAME
 

@@ -625,7 +625,7 @@ void CNotifyReadPropPipe::ConstructL(TUint32 aKey, TUint32 aKeyFlowCtrl, TInt32 
 	iPropWatch = CPropWatcher::NewL(KUidSystemCategoryValue, aKeyFlowCtrl, *this);
 	}
 	
-EXPORT_C CNotifyReadPropPipe::~CNotifyReadPropPipe()
+CNotifyReadPropPipe::~CNotifyReadPropPipe()
 	{
 	delete iPropWatch;
 	}

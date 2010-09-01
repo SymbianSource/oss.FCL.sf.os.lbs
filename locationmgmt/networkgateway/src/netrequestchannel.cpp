@@ -122,7 +122,11 @@ void CNetworkRequestChannel::SendNetRequestMessage(const TLbsNetInternalMsgBase&
 			if((static_cast<const TLbsNetLocationRequestMsg*>(&aMessage))->IsEmergency())
 				{
 				iEmergencyLocationRequestMsg = static_cast<const TLbsNetLocationRequestMsg&>(aMessage);
-				iEmergencyBuffer.Append(&iEmergencyLocationRequestMsg);
+				TInt err = iEmergencyBuffer.Append(&iEmergencyLocationRequestMsg);
+				if ( KErrNone != err)
+					{
+					LBSLOG(ELogP1, "LOCATION BUFFER APPEND FAILED!!");
+					}
 				emergency = ETrue;
 				}
 			}
@@ -131,7 +135,11 @@ void CNetworkRequestChannel::SendNetRequestMessage(const TLbsNetInternalMsgBase&
 			if( (static_cast<const TLbsNetMtLrRequestMsg*>(&aMessage))->IsEmergency() )
 				{
 				iEmergencyPrivacyRequestMsg = static_cast<const TLbsNetMtLrRequestMsg&>(aMessage);
-				iEmergencyBuffer.Append(&iEmergencyPrivacyRequestMsg);
+				TInt err = iEmergencyBuffer.Append(&iEmergencyPrivacyRequestMsg);
+				if ( KErrNone != err)
+					{
+					LBSLOG(ELogP1, "PRIVACY BUFFER APPEND FAILED!!");
+					}
 				emergency = ETrue;
 				}
 			}

@@ -19,12 +19,6 @@
 #include "LbsInternal.h"
 #include "lbsfieldindex.h"
 
-// Fix for GCCE 4.x : bug #1708 - GCC-E compilation error in lbs 
-#if defined(_FOFF)
-#undef _FOFF
-#endif // defined(_FOFF)
-#define _FOFF(c,f)          (((TInt)&(((c *)0x1000)->f))-0x1000)
-// End of fix for GCCE 4.x
 
 //------------------------------------------------------------------------------
 // TPositionInfoBase

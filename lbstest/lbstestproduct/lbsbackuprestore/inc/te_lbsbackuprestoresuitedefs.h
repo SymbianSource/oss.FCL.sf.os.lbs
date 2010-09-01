@@ -27,7 +27,7 @@
 #define __TE_LBSBACKUPRESTORE_SUITEDEFS_H__
 
 const TUint32 KBackupKey = 0x01234567;
-const TUint32 KMetatagBackupAndRestoreValidValue = 0x10000000;
+const TUint32 KMetatagBackupAndRestoreValidValue = 0x01000000;
 const TInt KValidValue = 0x01221122;
 const TInt KCorruptedValue = 0x01001001;
 

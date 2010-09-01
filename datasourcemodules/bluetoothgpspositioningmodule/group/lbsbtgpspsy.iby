@@ -19,7 +19,7 @@
 
 #if !defined(SYMBIAN_EXCLUDE_LOCATION)
 
-#if defined(__BLUETOOTHGPSPSY)
+#if defined(SYMBIAN_INCLUDE_BLUETOOTH_GPS_PM)
 #ifdef _DEBUG
 ECOM_PLUGIN_UDEB(nlabtgpspsy.dll, nlabtgpspsy.rsc)
 #else
@@ -33,7 +33,7 @@ data=ZRESOURCE\nlabtgpspsy_name.rsc						resource\nlabtgpspsy_name.rsc
 file=ABI_DIR\DEBUG_DIR\lbsbtgpsconfig.dll				System\libs\lbsbtgpsconfig.dll
 #endif // SYMBIAN_LOCATION_BTGPSCONFIG
 
-#endif // __BLUETOOTHGPSPSY
+#endif // SYMBIAN_INCLUDE_BLUETOOTH_GPS_PM
 
 #endif
 

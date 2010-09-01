@@ -17,6 +17,7 @@
 #define __LBSPOSITION_H__
 
 #include <e32std.h>
+#include <lbsvariant.h>
 
 /**
 @publishedAll

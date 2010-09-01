@@ -24,4 +24,4 @@ PRJ_MMPFILES
 lbsadatacache.mmp
 
 PRJ_TESTMMPFILES
-#include "../test/group/bld.inf"
+#include "../test/group/BLD.INF"

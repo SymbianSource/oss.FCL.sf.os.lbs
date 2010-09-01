@@ -9,7 +9,7 @@
 			<hostPath>te_dummynetgateway.exe</hostPath>
 			<devicePath>c:\sys\bin\te_dummynetgateway.exe</devicePath>
 			<mmpFile>te_dummynetgateway.mmp</mmpFile>
-			<bldInfPath>networkprotocolmodules\privacyprotocolmodule\test\te_dummynetgateway\group\bld.inf</bldInfPath>
+			<bldInfPath>networkprotocolmodules\privacyprotocolmodule\test\te_dummynetgateway\group\BLD.INF</bldInfPath>
 		</build>
 	</dependencies>
 </testExecuteServer>

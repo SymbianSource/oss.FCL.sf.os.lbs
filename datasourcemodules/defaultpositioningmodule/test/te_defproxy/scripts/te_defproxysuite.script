@@ -267,7 +267,7 @@ START_TESTCASE              LBS-DEFAULTPROXY-TwoPsysActiveStep-0001
 //!@SYMTestPriority		Medium
 //!@SYMTestType		        ut
 //!@SYMTestStatus		Implemented
-RUN_TEST_STEP 400 te_defproxysuite TwoPsysActiveStep c:\testdata\configs\te_defproxysuite.ini Section14
+RUN_TEST_STEP 200 te_defproxysuite TwoPsysActiveStep c:\testdata\configs\te_defproxysuite.ini Section14
 END_TESTCASE                LBS-DEFAULTPROXY-TwoPsysActiveStep-0001
 
 
@@ -447,7 +447,7 @@ START_TESTCASE              LBS-DEFAULTPROXY-HGenericInfoStep-0001
 //!@SYMTestPriority		Medium
 //!@SYMTestType		        ut
 //!@SYMTestStatus		Implemented
-RUN_TEST_STEP 200 te_defproxysuite HGenericInfoStep c:\testdata\configs\te_defproxysuite.ini Section2
+RUN_TEST_STEP 100 te_defproxysuite HGenericInfoStep c:\testdata\configs\te_defproxysuite.ini Section2
 END_TESTCASE                LBS-DEFAULTPROXY-HGenericInfoStep-0001
 
 

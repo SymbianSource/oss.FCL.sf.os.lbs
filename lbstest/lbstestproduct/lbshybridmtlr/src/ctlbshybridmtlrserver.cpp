@@ -35,8 +35,6 @@
 #include "ctlbsmtlrresetassistance.h"
 #include "ctlbsnetworkinducedmtlr.h"
 #include "ctlbsoom.h"
-#include "ctlbshybridueassistedmtlrposstatus.h"
-
 /**
   MainL()
   Description :		This is the main function which installs the 
@@ -222,11 +220,6 @@ CTestStep* CT_LbsHybridMTLRServer::CreateTestStep(const TDesC& aStepName)
 		{
 		return CT_LbsOom::New(*this);		
 		} 
-	else if (aStepName == KLbsHybridUEAssistedMTLRPosStatus)
-		{
-		return CT_LbsHybridUEAssistedMTLRPosStatus::New(*this);		
-		} 
-
 	// Let base class handle any common test steps - will return NULL if test step is not supported.
 	return CT_LbsServer::CreateTestStep(aStepName);
 	}

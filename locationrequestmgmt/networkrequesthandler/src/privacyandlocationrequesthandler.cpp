@@ -15,12 +15,6 @@
 
 #include <e32std.h>
 #include <e32property.h>
-#include <centralrepository.h>
-
-#ifdef SYMBIAN_FEATURE_MANAGER
-    #include <featdiscovery.h>
-    #include <featureuids.h>
-#endif
 
 // LBS-specific
 #include <lbs.h>
@@ -31,8 +25,6 @@
 #include "nrhpanic.h"
 #include "lbsdevloggermacros.h"
 #include "lbsqualityprofile.h"
-#include "lbsrootcenrepdefs.h"
-#include "lbspositioningstatusprops.h"
 
 #include "privacyandlocationrequesthandler.h"
 
@@ -101,10 +93,6 @@ CPrivacyAndLocationHandler::~CPrivacyAndLocationHandler()
 	
 	iFsmArray.ResetAndDestroy();
 
-    // force the count of active network initiated positioning sessions to 0
-	// this supports the pre-APE centric architecture wherein the NRH is
-	// destroyed on completion of network initiated positioning. 
-    RProperty::Set(iPosStatusCategory, KLbsNiPositioningStatusKey, 0);
 
 	delete iEmergencyFsm;
     delete iAgpsInterface;
@@ -173,24 +161,6 @@ void CPrivacyAndLocationHandler::ConstructL(CLbsAdmin* aLbsAdmin)
 		}
 	LBSLOG2(ELogP3, "Using KLbsSpecialFeatureIntermediateFutileUpdate = %d", specialFeature);
 	iSpecialFeatureIntermediateFutileUpdate = (specialFeature == CLbsAdmin::ESpecialFeatureOn) ? ETrue : EFalse;
-
-#if defined __WINSCW__ && defined SYMBIAN_CELLMO_CENTRIC
-	iLocationManagementSupported = EFalse;
-#else
-#ifdef SYMBIAN_FEATURE_MANAGER
-    iLocationManagementSupported = CFeatureDiscovery::IsFeatureSupportedL(NFeature::KLocationManagement);
-#else
-    __ASSERT_ALWAYS(EFalse, User::Invariant()); // Would happen on older versions of symbian OS if this code ever backported
-#endif // SYMBIAN_FEATURE_MANAGER
-#endif // __WINSCW__ && defined SYMBIAN_CELLMO_CENTRIC
-    
-    // Get the CategoryUid from the cenrep file owned by LbsRoot for accessing Positioning Status P&S Keys
-    CRepository* rep = CRepository::NewLC(KLbsCenRepUid);
-    TInt posStatusCategory;
-    err = rep->Get(KNiPositioningStatusAPIKey, posStatusCategory);
-    User::LeaveIfError(err);
-    CleanupStack::PopAndDestroy(rep);
-    iPosStatusCategory = TUid::Uid(posStatusCategory);
 	}
 
 
@@ -312,7 +282,12 @@ CLbsPrivLocFsm* CPrivacyAndLocationHandler::GetNewFsm(
 	if (fsm)
 		{
 		// Add the state machine to the buffer.
-		iFsmArray.Append(fsm);
+		TInt err = iFsmArray.Append(fsm);
+		if( err != KErrNone )
+			{
+			delete fsm;
+			return NULL;
+			}
 	
 		iNumActiveSessions++; // conceptually, a session starts when a Fsm is created for it
 
@@ -715,36 +690,6 @@ RLbsNetworkRegistrationStatus& CPrivacyAndLocationHandler::NetworkRegistrationSt
 	{
 	return iNetRegStatus;
 	}
-
-// increments the P&S key tracking mobile terminated positioning requests
-void CPrivacyAndLocationHandler::IncrementPositioningStatus()
-    {
-    TInt count;     
-    RProperty::Get(iPosStatusCategory, KLbsNiPositioningStatusKey, count);
-    RProperty::Set(iPosStatusCategory, KLbsNiPositioningStatusKey, count+1);
-    }
-
-// decrements the P&S key tracking mobile terminated positioning requests
-// if location management is supported. In the alternative architecture,
-// the NRH is not aware of the positioning session's progress, but is 
-// transient. Therefore the positioning status is set to zero in the 
-// class destructor.
-void CPrivacyAndLocationHandler::DecrementPositioningStatus()
-    {
-    if (iLocationManagementSupported)
-        {
-        TInt count;     
-        RProperty::Get(iPosStatusCategory, KLbsNiPositioningStatusKey, count);
-        if(count>0)
-            {
-            RProperty::Set(iPosStatusCategory, KLbsNiPositioningStatusKey, count-1);
-            }
-        else
-            {
-            LBSLOG_ERR(ELogP3, "CPrivacyAndLocationHandler::DecrementPositioningStatus() - Incorrect Positioning Status count\n");
-            }
-        }
-    }
 	
 
 /**
@@ -975,7 +920,7 @@ void CLbsPrivLocStateBase::OnSessionComplete(const TLbsNetSessionIdInt& aSession
 	if(aSessionId == iFsm->SessionId())
 		{
 		iFsm->ExitData().SetExitData(TPrivLocStateExitData::EExitSessionComplete, aReason);
-		iFsm->ChangeState(CLbsPrivLocFsm::EStateIdle, aSessionId);
+		iFsm->ChangeState(CLbsPrivLocFsm::EStateIdle, aSessionId);	            
 		}		
 	}
 
@@ -1114,17 +1059,6 @@ RLbsNetworkRegistrationStatus& CLbsPrivLocStateBase::LbsNetworkRegistrationStatu
 	return iFsm->PrivLocHandler().NetworkRegistrationStatus();
 	}
 
-/*
- * increments the network initiated positioning status count
- * and remembers that it has done
- */
-void CLbsPrivLocStateBase::IncrementPositioningStatus()
-    {
-    iFsm->PrivLocHandler().IncrementPositioningStatus();
-    iFsm->WasPositioningStatusIncremented() = ETrue;
-    }
-
-
 // ----------------------------------------------------------------------------- 
 // 
 // ----------------------- Class CLbsPrivLocIdleState --------------------
@@ -1200,7 +1134,7 @@ void CLbsPrivLocIdleState::OnNetLocRequest(
         // The request relates to a rejected privacy request
         // or a request for this session which has already been answered. 
         // In either case, it should be refused. The message is sent to the
-        // network gateway as a part of exit from the state, but we want to 
+        // network gateway as apart of exit from the state, but we want to 
         // remain in Idle state.
         iFsm->ExitData().SetExitData(TPrivLocStateExitData::EExitCancelledByPrivacyController, KErrAccessDenied);
         iFsm->ChangeState(CLbsPrivLocFsm::EStateIdle, aSessionId);
@@ -1254,7 +1188,6 @@ void CLbsPrivLocIdleState::OnMTLRRequest(const TLbsNetSessionIdInt& aSessionId,
 				const TLbsNetPosRequestPrivacyInt& aNetPosRequestPrivacy)
 	{
 	iFsm->SessionType() = aSessionType;
-	iFsm->ExternalRequestType() = aExternalRequestInfo.RequestType();
 	iFsm->ExitData().SetExitData(TPrivLocStateExitData::EExitPrivacyRequestReceived, KErrNone);
 	TPrivLocWaitPrivResponseParams privacyRequestParams(	aSessionId, 
 													aSessionType,
@@ -1364,7 +1297,7 @@ TBool CLbsPrivLocWaitPrivRespState::OnExit()
 					}
 				}		
 				
-			// For MtLrs the Protocol module should not
+			// For MtLrs the Protcol module should not
 			// send a REF position until after we have sent the Priv response to the PM 
 	            
 			// Inform network of the privacy response for normal privacy requests.
@@ -1437,13 +1370,6 @@ void CLbsPrivLocWaitPrivRespState::OnRespondNetworkLocationRequest(
 			{
 			// Tell the AGPS handler that we are going to start a location request soon.
 			AgpsInterface()->PreStartPositioning(iFsm->SessionId(), iFsm->IsEmergency());
-			
-			// Set the Positioning Status for the UI indicator.
-			// Not done for silent requests.
-			if (iFsm->ExternalRequestType() < TLbsExternalRequestInfo::ERequestSingleShotSilent)
-			    {
-                IncrementPositioningStatus();
-			    }
 			
 			if(iFsm->LocReqReceived())
 				{				
@@ -2566,8 +2492,7 @@ CLbsPrivLocFsm::CLbsPrivLocFsm(
 	iRefPosProcessed(EFalse),
 	iLocReqReceived(EFalse),
 	iReqCancelled(EFalse),
-	iWasPrivacyResponseReceivedStateExited(EFalse),
-	iPositioningStatusIncremented(EFalse)
+	iWasPrivacyResponseReceivedStateExited(EFalse)
 	{	
 	}
 	
@@ -2692,14 +2617,6 @@ void CLbsPrivLocFsm::OnSessionComplete(
 	{
 	LBSLOG3(ELogP3, "FSM(%d) OnSessionComplete reason=%d",iSessionId.SessionNum(),aReason);
 	iCurrentState->OnSessionComplete(aSessionId, aReason);
-	
-    // update the positioning status. Note this is updated only if it was previously
-    // incremented as a result of this session.
-    if (WasPositioningStatusIncremented())
-        {
-        PrivLocHandler().DecrementPositioningStatus();
-        WasPositioningStatusIncremented() = EFalse;
-        }
 	}
 
 // ----------------------------------------------------------------------------- 

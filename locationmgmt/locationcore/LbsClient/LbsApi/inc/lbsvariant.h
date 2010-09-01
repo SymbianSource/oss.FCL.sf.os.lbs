@@ -1,4 +1,4 @@
-// Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies).
+// Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
 // All rights reserved.
 // This component and the accompanying materials are made available
 // under the terms of "Eclipse Public License v1.0"
@@ -13,8 +13,16 @@
 // Description:
 //
 
-PRJ_TESTEXPORTS
-../scripts/te_lbspositioningstatus.script	c:/testdata/scripts/te_lbspositioningstatus.script
+#ifndef __LBSVARIANT_H__
+#define __LBSVARIANT_H__
 
-PRJ_TESTMMPFILES
-te_lbspositioningstatus.mmp
+/**
+@file
+@internalTechnology
+@prototype
+*/
+#define __LBS_TDEFAULT_ERROR_BASE (-30371)
+#define __LBS_TCOURSE_RESERVED_SIZE 16
+#define __LBS_MAX_MODULE_NAME 64
+
+#endif //__LBSVARIANT_H__

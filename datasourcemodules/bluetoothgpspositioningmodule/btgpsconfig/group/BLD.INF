@@ -13,7 +13,7 @@
 // Description:
 //
 
-#include "../btgpsconfigapi/group/bld.inf"
+#include "../btgpsconfigapi/group/BLD.INF"
 
 // Main projects, in build order
 PRJ_EXPORTS

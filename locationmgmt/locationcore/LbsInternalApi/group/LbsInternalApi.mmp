@@ -32,7 +32,6 @@ SOURCE		LbsExtendModuleInfo.cpp
 SOURCE		lbsqualityprofile.cpp
 SOURCE		LbsGpsMeasurementUpdates.cpp
 SOURCE		lbssuplpushprops.cpp
-SOURCE		lbspositioningstatusprops.cpp
 
 USERINCLUDE	../inc	//Todo - remove.
 USERINCLUDE	../../lbsrootapi/inc	

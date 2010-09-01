@@ -14,12 +14,15 @@
 * Description:
 *
 */
+
+
 #ifndef LBSLOCMONITORPOSLISTENER_H
 #define LBSLOCMONITORPOSLISTENER_H
 
 #include <e32base.h>
 #include "lbsnetinternalapi.h"
 #include "clbslocmonitorgpsbus.h"
+
 class MLbsLocMonitorPosListenerObserver
 	{
 public:
@@ -45,6 +48,7 @@ public:
 
 	// From MLbsLocMonitorGpsBusObserver
 	void GpsPositionAvailableL(const TPosition& aPosition);
+
 private:
 
 	CLbsLocMonitorPosListener(MLbsLocMonitorPosListenerObserver& aObserver);
@@ -54,6 +58,7 @@ private:
 
 	//Bus used to broadcast position within LBS
 	CLbsLocMonitorGpsBus*			iGpsBus;
+	
 private:
 
 	// Observer interested in knowing about newly arrived

@@ -37,6 +37,7 @@
 
 
 
+
 // CONSTANTS
 #ifdef _DEBUG
 _LIT(KTraceFileName, "EPos_CPositionRequest.cpp");
@@ -165,7 +166,7 @@ void CPositionRequest::MakeRequestL(const RMessage2& aMessage)
         }
 
     __ASSERT_DEBUG(iPositioner, DebugPanic(EPosServerPanicPositionerNotInitialized));
-    
+
     iMessage = aMessage; // Store parameter here in case of leave.
 
     // Clear previous position data

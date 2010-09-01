@@ -30,15 +30,10 @@ PRJ_EXPORTS
 
 // Conf Files...
 ../conf/ape_suplpsy.confml                    OS_LAYER_CONFML(ape_suplpsy.confml) 
-../conf/ape_suplpsy_20026fb7.crml	           OS_LAYER_CRML(ape_suplpsy_20026fb7.crml)
+../conf/ape_suplpsy_20026FB7.crml	           OS_LAYER_CRML(ape_suplpsy_20026FB7.crml)
 
-../inc/lbssuplpsyadaptation.h 	          /epoc32/include/lbssuplpsyadaptation.h
+../inc/lbssuplpsyadaptation.h 	          /epoc32/include/lbsSuplPsyAdaptation.h
 
-// Techview rom
-nla_ape_suplpsy.iby	/epoc32/rom/include/nla_ape_suplpsy.iby
-
-// Test only
-../cenrep/20026fb7.txt z:/private/10202be9/20026fb7.txt
 
 PRJ_MMPFILES
 nla_ape_suplpsy.mmp

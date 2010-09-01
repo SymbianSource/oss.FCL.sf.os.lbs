@@ -52,7 +52,9 @@ void CLbsLocMonitorRequestHandler::ConstructL()
 	// Allocate space for 1 pointer to area info source object (Global Cell Id)
 	iCurrentAreaInfo.ReserveL(ELastAreaInfoType);
 	TLbsLocMonitorAreaInfoGci* locMonitorAreaInfoGci = new(ELeave) TLbsLocMonitorAreaInfoGci;
-	iCurrentAreaInfo.Insert(static_cast<TLbsLocMonitorAreaInfoBase*>(locMonitorAreaInfoGci), EGlobalCellIdType);
+	CleanupStack::PushL(locMonitorAreaInfoGci);
+	iCurrentAreaInfo.InsertL(static_cast<TLbsLocMonitorAreaInfoBase*>(locMonitorAreaInfoGci), EGlobalCellIdType);
+	CleanupStack::Pop(locMonitorAreaInfoGci);
 	
 	iDb.OpenL();
 	}
@@ -107,7 +109,7 @@ void CLbsLocMonitorRequestHandler::PositionRequestL(const RMessage2& aMessage)
 
 	if(iRequestQueue.Count()< KLbsLocMonitorMaxReadArraySize)
 		{
-		iRequestQueue.Append(aMessage);
+		iRequestQueue.AppendL(aMessage);
 		}
 	else
 		{
@@ -131,7 +133,7 @@ void CLbsLocMonitorRequestHandler::PositionAvailableL(const TPosition& aPosition
 	LBSLOG(ELogP1,"->CLbsLocMonitorRequestHandler::PositionAvailableL");
 	if(iPositionsQueue.Count() < KLbsLocMonitorMaxWriteArraySize)
 		{
-		iPositionsQueue.AppendL(aPosition);
+		iPositionsQueue.Append(aPosition);
 		}
 	else
 		{
@@ -735,8 +737,7 @@ void CLbsLocMonitorRequestHandler::HandleDbAccessError(TInt aError)
 		case ELocMonDbGetPosArea:
 		case ELocMonDbGetLast:
 			// Check the request is still there before completing it
-			if ((iRequestQueue.Count() > 0) &&
-				(iRequestQueue[0].Function() == DbReadOperationToOpCode(iOperationInProgress)))
+			if (iRequestQueue.Count() > 0)
 				{
 				CompleteClientRequest(0, aError);
 				}

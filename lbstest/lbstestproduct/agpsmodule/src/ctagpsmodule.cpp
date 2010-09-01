@@ -119,7 +119,6 @@ void CT_AGpsModule::SetGpsOptions(const TLbsGpsOptions& aGpsOptions)
 		TInt err;
 		err = RProperty::Set(KUidSystemCategory, ELbsTestAGpsModuleOut, modDataOutBuf);
 		User::LeaveIfError(err);
-		User::After( 200 * 1000);
 		}
 	}
 

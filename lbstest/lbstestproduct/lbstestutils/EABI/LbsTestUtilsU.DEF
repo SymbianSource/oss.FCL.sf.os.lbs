@@ -92,5 +92,4 @@ EXPORTS
 	_ZN10T_LbsUtils38ResetIntegrationModulesCountOfCancelsLEv @ 91 NONAME
 	_ZN10T_LbsUtils41IncrementIntegrationModulesCountOfCancelsEv @ 92 NONAME
 	_ZN17CT_LbsAGpsHandler28SendImmediateMeasurementsMsgERKi @ 93 NONAME
-	_ZN10T_LbsUtils15Compare_LogBaseERK12CLbsLogEventS2_ @ 94 NONAME
 

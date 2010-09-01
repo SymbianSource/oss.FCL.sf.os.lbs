@@ -72,7 +72,6 @@ TVerdict CPositionerTestStep::doTestStepL()
 		TInt testIndex = KErrNotFound;
 		if(!GetIntFromConfig(ConfigSection(),KTestCaseIdInt,testIndex))
 			{
-            INFO_PRINTF1(_L("Error: could not get testindex from ini file"));
 			User::Leave(KErrNotFound);
 			}
 		_LIT(KTestName, "Call test by index");
@@ -122,24 +121,23 @@ TVerdict CPositionerTestStep::TdVariant2_StandAlonePrivacyRom_Check_LocMonitor_T
 	TFullName name;
 	err = findServer.Next(name);
 
-    if ((err==KErrNone)||(err==KErrAlreadyExists))
-        {
-        _LIT(KFailLog, "Location monitor process started by root - so test case failed");
-        ERR_PRINTF1(KFailLog);
-        SetTestStepResult(EFail);
-        }
-    else
-        {
-    
-        _LIT(KPassInfoLog, "Location Monitor NOT started by the root process");
-        INFO_PRINTF1(KPassInfoLog);
-        
-        RPositionServer server;
-        TInt retval = server.Connect();
-        INFO_PRINTF2(_L("RPositionServer.Connect() returned with value %d, should return 0"),retval);
-        CleanupClosePushL(server);
+	if ((err==KErrNone)||(err==KErrAlreadyExists))
+		{
+		_LIT(KFailLog, "Location monitor process started by root - so test case failed");
+		ERR_PRINTF1(KFailLog);
+		SetTestStepResult(EFail);
+		}
+	else
+		{
+	
+		_LIT(KPassInfoLog, "Location Monitor NOT started by the root process");
+		INFO_PRINTF1(KPassInfoLog);
+		
+		RPositionServer server;
+		User::LeaveIfError(server.Connect());
+		CleanupClosePushL(server);
 
-        User::After(100*1000);
+		User::After(100000);
 
         _LIT(KTest, "Session with epos location server opened successfully");
         INFO_PRINTF1(KTest);
@@ -147,17 +145,16 @@ TVerdict CPositionerTestStep::TdVariant2_StandAlonePrivacyRom_Check_LocMonitor_T
 		RPositioner positioner;
 		TInt err = positioner.Open(server);
 
-        if(KErrNone != err)
-            {
-            INFO_PRINTF2(_L("positioner.Open(server) returned value %d, should be 0"), err);
-            ERR_PRINTF1(KFailedOpenPositioner);
-            SetTestStepResult(EFail);
-            CleanupStack::PopAndDestroy(&server);
-            return TestStepResult();
-            }
-        
-        CleanupClosePushL(positioner);
-        _LIT(KTest2, "SubSession with epos location server opened successfully");
+		if(KErrNone != err)
+			{
+			ERR_PRINTF1(KFailedOpenPositioner);
+			SetTestStepResult(EFail);
+			CleanupStack::PopAndDestroy(&server);
+			return TestStepResult();
+			}
+		
+		CleanupClosePushL(positioner);
+		_LIT(KTest2, "SubSession with epos location server opened successfully");
         INFO_PRINTF1(KTest2);
 		
 		// Validate that the location monitor gets started up when
@@ -231,14 +228,7 @@ TVerdict CPositionerTestStep::TdVariant2_FullRom_Check_LocMonitor_PersistentL()
 		INFO_PRINTF1(KPassInfoLog);
 		
 			RPositionServer server;
-			TInt retval = server.Connect();
-			if(err != KErrNone)
-			    {
-                SetTestStepResult(EFail);
-                INFO_PRINTF2(_L("RPositionServer.Connect() returned with value %d, should return 0"),retval);
-                CleanupStack::PopAndDestroy(&server);
-                return TestStepResult();
-			    }
+			User::LeaveIfError(server.Connect());
 			CleanupClosePushL(server);
 
             _LIT(KTest, "Session with epos location server opened successfully");

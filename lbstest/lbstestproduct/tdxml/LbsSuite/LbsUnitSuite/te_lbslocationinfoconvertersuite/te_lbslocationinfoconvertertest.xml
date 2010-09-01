@@ -3,7 +3,7 @@
 
 <testExecuteTest>
   <name>te_lbslocationinfoconvertertest</name>
-  <timeout>240</timeout>
+  <timeout>1240</timeout>
   <testScripts>
     <script>
       <hostPath>locationmgmt\locmonitor\test\te_lbslocationinforconvertertef\scripts\te_LbsLocationInfoConverterSuite.script</hostPath>

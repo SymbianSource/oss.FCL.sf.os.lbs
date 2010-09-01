@@ -14,27 +14,27 @@
 //
 
 // Common admin projects
-#include "../LbsCommonInternalDataTypes/group/bld.inf"
-#include "../LbsLocCommon/group/bld.inf"
-#include "../LbsInternalApi/group/bld.inf"
-#include "../LbsClient/group/bld.inf"
+#include "../LbsCommonInternalDataTypes/group/BLD.INF"
+#include "../LbsLocCommon/group/BLD.INF"
+#include "../LbsInternalApi/group/BLD.INF"
+#include "../LbsClient/group/BLD.INF"
 #include "../LbsLogging/group/bld.inf"
-#include "../LbsAssistanceData/group/bld.inf"
+#include "../LbsAssistanceData/group/BLD.INF"
 #include "../LbsPartnerCommon/group/bld.inf"
 #include "../LbsLocDataSource/group/bld.inf"
-#include "../GPSClock/group/bld.inf"
-#include "../LbsNetProtocol/group/bld.inf"
-#include "../LbsNetRegStatusInt/group/bld.inf"
-#include "../LbsNgNlmInt/group/bld.inf"
-#include "../LbsNrhNgMsgs/group/bld.inf"
-#include "../LbsRefFnpInt/group/bld.inf"
-#include "../LbsNetInternalApi/group/bld.inf"
-#include "../LbsADataCache/group/bld.inf"
-#include "../LbsAgpsNgMsgs/group/bld.inf"
-#include "../LbsPsyNgMsgs/group/bld.inf"
+#include "../GPSClock/group/BLD.INF"
+#include "../LbsNetProtocol/group/BLD.INF"
+#include "../LbsNetRegStatusInt/group/BLD.INF"
+#include "../LbsNgNlmInt/group/BLD.INF"
+#include "../LbsNrhNgMsgs/group/BLD.INF"
+#include "../LbsRefFnpInt/group/BLD.INF"
+#include "../LbsNetInternalApi/group/BLD.INF"
+#include "../LbsADataCache/group/BLD.INF"
+#include "../LbsAgpsNgMsgs/group/BLD.INF"
+#include "../LbsPsyNgMsgs/group/BLD.INF"
 
-#include "../lbsrootapi/group/bld.inf"
-#include "../lbsroot/group/bld.inf"
+#include "../lbsrootapi/group/BLD.INF"
+#include "../lbsroot/group/BLD.INF"
 #include "../LbsDebug/group/bld.inf"
 
 #include "../LbsClient/lastknownlocapi/group/bld.inf"
@@ -43,7 +43,6 @@
 #include "../lbslocindicatorlib/group/bld.inf"
 #include "../../locmonitor/lbslocmonitorapis/group/bld.inf"
 #include "../LbsRefLocDataSource/group/bld.inf"
-#include "../lbspositioningstatus/group/bld.inf"
 
 
 // Test code
@@ -52,7 +51,7 @@
 PRJ_EXPORTS
 //HEADERS
 ../inc/LbsLocErrors.h	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(lbs/lbslocerrors.h)
-../inc/lbsmessageenums.h	SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(lbsmessageenums.h)
+../inc/lbsmessageenums.h	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(lbsmessageenums.h)
 ../inc/lbsadmin.h	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(lbs/lbsadmin.h)
 ../inc/lbsadmin.inl	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(lbs/lbsadmin.inl)
 ../inc/lbsadminclasstypes.h	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(lbsadminclasstypes.h)

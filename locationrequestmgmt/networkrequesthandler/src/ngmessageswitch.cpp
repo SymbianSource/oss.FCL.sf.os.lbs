@@ -135,7 +135,12 @@ TInt CNGMessageSendBuffer::RunError(TInt aError)
 void CNGMessageSendBuffer::BufferData(TLbsNetInternalMsgBase* aData)
 	{	
 	// Add the data to the buffer
-	iBuffer.Append(aData);
+	TInt err = iBuffer.Append(aData);
+	if( err != KErrNone )
+		{
+		LBSLOG_ERR2(ELogP3, "CNGMessageSendBuffer::BufferData Append failed: %d", err);
+		delete aData;
+		}
 	}
 
 void CNGMessageSendBuffer::BufferEmergencyData(TLbsNetInternalMsgBase* aData)
@@ -510,8 +515,11 @@ void CNGMessageSwitch::ProcessNetChannelMessage(RLbsNetChannel::TLbsNetChannelId
 					// not being saved. Note we do enure that the mobiles position
 					// does get sent out to the network - its juts means that the callback
 					// that delivers the REF pos to the privacy system does not happen!
-					iRefPosBuffer.Append(item);
-					
+					TInt err = iRefPosBuffer.Append(item);
+					if( KErrNone != err )
+						{
+						LBSLOG_ERR(ELogP3, "CNGMessageSwitch::ProcessNetChannelMessage: iRefPosBuffer.Append Failed!!");
+						}
 					for (TInt i = 0; i < count; i++)
 						{
 						iObservers[i]->OnNetLocReferenceUpdate(msg->SessionId(), positionInfo);
@@ -533,7 +541,12 @@ void CNGMessageSwitch::ProcessNetChannelMessage(RLbsNetChannel::TLbsNetChannelId
 						item->iSessionId = msg->SessionId();
 					
 						Mem::Copy(&item->iPosInfo, &positionInfo, positionInfo.PositionClassSize());
-						iFNPPosBuffer.Append(item); // here, ownership passes to pointer array!
+						TInt err = iFNPPosBuffer.Append(item); // here, ownership passes to pointer array!
+						if( KErrNone != err )
+							{
+							delete item;
+							LBSLOG_ERR(ELogP3, "CNGMessageSwitch::ProcessNetChannelMessage: iFNPPosBuffer.Append Failed!!");
+							}
 						}
 					for (TInt i = 0; i < count; i++)
 						{

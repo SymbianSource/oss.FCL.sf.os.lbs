@@ -135,6 +135,36 @@
       			<mmpFile>networkpsy2.mmp</mmpFile>
       			<bldInfPath>locationrequestmgmt\locationserver\lbstestpsys\networkpsy2\group\bld.inf</bldInfPath>
 			</buildable>
+    		
+    		<buildable type="test">
+      			<hostPath>lbstestlocmonitorapi.dll</hostPath>
+  				<devicePath>c:\system\libs\lbstestlocmonitorapi.dll</devicePath>
+  				<mmpFile>lbstestlocmonitorapi.mmp</mmpFile>
+  				<bldInfPath>locationrequestmgmt\locationserver\test\testLocMonitorApi\group\bld.inf</bldInfPath>
+			</buildable>
+  
+    		<buildable type="test">
+      			<hostPath>testlocmonitorserver.exe</hostPath>
+  				<devicePath>c:\sys\bin\testlocmonitorserver.exe</devicePath>
+  				<mmpFile>testlocmonitorserver.mmp</mmpFile>
+  				<bldInfPath>locationrequestmgmt\locationserver\test\testLocMonitorServer\group\bld.inf</bldInfPath>
+			</buildable>
+		
+			<buildable type="test">
+      			<hostPath>testlocserver.exe</hostPath>
+  				<devicePath>c:\sys\bin\testlocserver.exe</devicePath>
+  				<mmpFile>testlocserver.mmp</mmpFile>
+  				<bldInfPath>locationrequestmgmt\locationserver\test\testLocServer\group\bld.inf</bldInfPath>
+			</buildable>
+			
+			<buildable type="test">
+      			<hostPath>testlocationmonitor.exe</hostPath>
+  				<devicePath>c:\sys\bin\testlocationmonitor.exe</devicePath>
+  				<mmpFile>testlocationmonitor.mmp</mmpFile>
+  				<bldInfPath>locationmgmt\locmonitor\test\testlocationmonitor\group\bld.inf</bldInfPath>
+			</buildable>
+
+    		
 
 	</dependencies>
 

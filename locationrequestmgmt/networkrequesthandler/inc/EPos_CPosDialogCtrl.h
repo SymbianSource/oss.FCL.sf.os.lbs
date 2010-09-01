@@ -31,7 +31,7 @@
 #include <e32base.h>
 #include <lbs/epos_cposrequestor.h>
 #include <lbs/epos_rposrequestorstack.h>
-#include <lbs/epos_tposqninputdata.h>
+#include <lbs/EPos_TPosQNInputData.h>
 #include "EPos_PrivacyInternal.h"
 #include <lbs/lbsloccommon.h>
 
@@ -210,7 +210,6 @@ class CPosDialogCtrl : public CActive
         void DeferNotificationL();
         void CreateNotificationAndEnqueueL();
         void UpdateProperty();
-		
     private:    // Data
         RNotifier                       iNotifier;
         RArray<TRequest>                iRequestQueue;

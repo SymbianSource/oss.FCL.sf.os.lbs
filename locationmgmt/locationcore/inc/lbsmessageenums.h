@@ -12,13 +12,14 @@
 //
 // Description:
 // the message enums/opcodes shared between the client and the server sides
-//
-// NOTE: This file should not be modified or used by any new applications 
+// Extend the enum list as required for each server - see restrictions
+// butDO NOT rename the file
+// 
 //
 
 /**
  @file
- @publishedAll
+ @publishedPartner
  @released
 */
 

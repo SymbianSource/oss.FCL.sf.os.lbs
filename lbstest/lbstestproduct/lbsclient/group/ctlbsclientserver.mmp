@@ -59,6 +59,8 @@ SOURCE		ctlbsclientstepignoreaccurracysettingtracking.cpp
 SOURCE		ctlbsclientstep_reset_assistance.cpp
 SOURCE		ctlbsclientstepconcurrent.cpp
 
+SOURCE		ctlbsclientlastknownpospnslistener.cpp
+
 // LBS libraries.
 LIBRARY lbs.lib
 LIBRARY	lbsloccommon.lib

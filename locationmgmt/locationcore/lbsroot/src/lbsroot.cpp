@@ -51,7 +51,6 @@
 #include "LbsExtendModuleInfo.h"
 #include "lbsqualityprofile.h"
 #include "lbssuplpushprops.h"
-#include "lbspositioningstatusprops.h"
 #if defined(_DEBUG)
 #include "LbsOomTest.h"
 #endif
@@ -365,7 +364,7 @@ void CLbsSystem::InitializeQualityProfileInfoL()
 	RArray<TQualityProfile> qualityArray;
 	CleanupClosePushL(qualityArray);
 	
-	qualityArray.Reserve(5);
+	qualityArray.ReserveL(5);
 
 	// Only want to use the first file that is found.
 	// The way TFindFile::FindByDir works, it will search
@@ -454,12 +453,6 @@ void CLbsSystem::DefineLbsPropertiesL()
 	
 	
 	LbsSuplPushProps::InitializeL();
-
-	// Initialize the NI-LR Positioning Status Property.
-	// Note the MO-LR Positioning Status Property is initialized by the
-	// location server
-	LbsPositioningStatusProps::InitializeNiPropertyL();
-
 #if defined(_DEBUG)   
 	//Initialize the OOM Test property.
 	ROomRequest::InitializeL();
@@ -1459,7 +1452,7 @@ void CProcessOverseer::AttachLbsProcessesL()
             finished = err != KErrNone;
 	        if(!finished)
 	            {	        	
-        	    iLbsProcess.Append(newProcess);
+        	    iLbsProcess.AppendL(newProcess);
                 ++count;
                 if (newProcess->IsRunning())
                 	{

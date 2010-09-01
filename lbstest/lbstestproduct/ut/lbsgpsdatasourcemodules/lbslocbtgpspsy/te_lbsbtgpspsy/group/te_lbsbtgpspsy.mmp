@@ -67,6 +67,7 @@ LIBRARY		testexecutelogclient.lib
 LIBRARY	        efsrv.lib // File server
 
 LIBRARY	        lbs.lib	// Location acquisition API
+LIBRARY         cntmodel.lib // contact db
 
 LIBRARY         btextnotifiers.lib
 LIBRARY         btdevice.lib
