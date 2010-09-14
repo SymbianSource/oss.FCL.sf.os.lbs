@@ -32,6 +32,8 @@ const TInt KTimingAdvanceSaveToCacheTrue= 253;
 
 const TInt KTimingAdvanceSaveToCacheFalse= 252;
 
+const TInt KScramblingCodeWcdmaTests = 254;
+
 CStep::~CStep()
 /**
  * Destructor
@@ -422,14 +424,23 @@ TInt CStep::SetGSMCellInfo2L( TInt fntype, TInt countrycode, TInt networkcode,
 // -----------------------------------------------------------------------------
 //
 TInt CStep::SetWCDMACellInfoL(TInt fntype, TInt countrycode,
-        TInt networkcode, TInt cellid, TInt nNeignbourcells, TInt scramblingcode,  
+        TInt networkcode, TInt localAreaCode, TInt cellid, TInt nNeignbourcells, TInt scramblingcode,  
         TInt neighbourucid, TInt neighbourscode, TInt neighbourpathloss, 
         TInt neighboursignalstrength)
     {
     CLbsWcdmaCellInfo* wcdmacellinfo;    
-    if(fntype==1)
+    if(fntype==1 || fntype == 3)
         {
-        wcdmacellinfo=CLbsWcdmaCellInfo::NewL( countrycode,networkcode,cellid); 
+        if (fntype == 1)
+            {
+            wcdmacellinfo=CLbsWcdmaCellInfo::NewL( countrycode,networkcode, localAreaCode, cellid);
+            }
+        else
+            {
+            // must be fn type of 3 which means use old constructor without a LAC
+            wcdmacellinfo=CLbsWcdmaCellInfo::NewL( countrycode, networkcode, cellid);            
+            }
+            
         if(scramblingcode!=-2)
             {
             wcdmacellinfo->SetScramblingCode(scramblingcode);
@@ -474,6 +485,10 @@ TInt CStep::SetWCDMACellInfoL(TInt fntype, TInt countrycode,
             {
             wcdmacellinfo->SetMobileNetworkCode(networkcode);
             }
+		if (localAreaCode != -2)
+			{
+			wcdmacellinfo->SetLocalAreaCode(localAreaCode);
+			}
         if(cellid!=-2)
             {
             wcdmacellinfo->SetUniqueCellId(cellid);
@@ -1666,7 +1681,7 @@ void CStep::test_2698_4_1_28_1L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     
@@ -1685,7 +1700,7 @@ void CStep::test_2698_4_1_28_1_3L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 0, 0, 0);
+    err = SetWCDMACellInfoL(1, 0, 0, 0, 0);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     
@@ -1704,7 +1719,7 @@ void CStep::test_2698_4_1_28_1_4L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 999, 999, 65535);
+    err = SetWCDMACellInfoL(1, 999, 999, 10, 65535);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     
@@ -1723,7 +1738,7 @@ void CStep::test_2698_4_1_28_1_5L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, -1, 200, 300);
+    err = SetWCDMACellInfoL(1, -1, 200, 10, 300);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     
@@ -1740,7 +1755,7 @@ void CStep::test_2698_4_1_28_1_6L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, -1, 300);
+    err = SetWCDMACellInfoL(1, 100, -1, 10, 300);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     
@@ -1757,7 +1772,7 @@ void CStep::test_2698_4_1_28_1_7L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, -1);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, -1);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     
@@ -1774,7 +1789,7 @@ void CStep::test_2698_4_1_28_1_8L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 1000, 200, 300);
+    err = SetWCDMACellInfoL(1, 1000, 200, 10, 300);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     
@@ -1791,7 +1806,7 @@ void CStep::test_2698_4_1_28_1_9L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 1000, 300);
+    err = SetWCDMACellInfoL(1, 100, 1000, 10, 300);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -1808,7 +1823,7 @@ void CStep::test_2698_4_1_28_1_10L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 268435456);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 268435456);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     
@@ -1825,7 +1840,7 @@ void CStep::test_2698_4_1_28_2L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(2, 100, 200, 30);
+    err = SetWCDMACellInfoL(2, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     
@@ -1935,7 +1950,7 @@ void CStep::test_2698_4_1_34L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(2, 100, 200);
+    err = SetWCDMACellInfoL(2, 100, 200, 10);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     
@@ -1954,7 +1969,7 @@ void CStep::test_2698_4_1_35L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(2, 100, 999);
+    err = SetWCDMACellInfoL(2, 100, 999, 10);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -1973,7 +1988,7 @@ void CStep::test_2698_4_1_36L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(2, 100, 0);
+    err = SetWCDMACellInfoL(2, 100, 0, 10);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -1992,7 +2007,7 @@ void CStep::test_2698_4_1_37L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(2, 100, 1000);
+    err = SetWCDMACellInfoL(2, 100, 1000, 10);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -2026,7 +2041,7 @@ void CStep::test_2698_4_1_39L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(2, 100, 200, 65535);
+    err = SetWCDMACellInfoL(2, 100, 200, 10, 65535);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -2045,7 +2060,7 @@ void CStep::test_2698_4_1_40L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(2, 100, 200, 0);
+    err = SetWCDMACellInfoL(2, 100, 200, 10, 0);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -2064,7 +2079,7 @@ void CStep::test_2698_4_1_41L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(2, 100, 200, 268435456);
+    err = SetWCDMACellInfoL(2, 100, 200, 10, 268435456);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -2081,7 +2096,7 @@ void CStep::test_2698_4_1_42L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(2, 100, 200, -1);
+    err = SetWCDMACellInfoL(2, 100, 200, 10, -1);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -2098,7 +2113,7 @@ void CStep::test_2698_4_1_43L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(2, 100, 200, 30, 0, 511);
+    err = SetWCDMACellInfoL(2, 100, 200, 10, 30, 0, 511);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -2117,7 +2132,7 @@ void CStep::test_2698_4_1_44L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(2, 100, 200, 30, 0);
+    err = SetWCDMACellInfoL(2, 100, 200, 10, 30, 0);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -2136,7 +2151,7 @@ void CStep::test_2698_4_1_45L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(2, 100, 200, 30, 512);
+    err = SetWCDMACellInfoL(2, 100, 200, 10, 30, 512);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -2153,7 +2168,7 @@ void CStep::test_2698_4_1_46L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(2, 100, 200, 30, -1);
+    err = SetWCDMACellInfoL(2, 100, 200, 10, 30, -1);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -2221,7 +2236,7 @@ void CStep::test_2698_4_1_49_1L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 200, 30);
+    err = SetWCDMACellInfoL(1, 200, 30, 10);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -2238,7 +2253,7 @@ void CStep::test_2698_4_1_49_2L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 200, 30);
+    err = SetWCDMACellInfoL(1, 200, 30, 10);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -2255,7 +2270,7 @@ void CStep::test_2698_4_1_51L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(2, 100, 200, 30);
+    err = SetWCDMACellInfoL(2, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -2274,7 +2289,7 @@ void CStep::test_2698_4_1_52L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(2, 100, 200, 30);
+    err = SetWCDMACellInfoL(2, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -2293,7 +2308,7 @@ void CStep::test_2698_4_1_53L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(2, 100, 200, 30);
+    err = SetWCDMACellInfoL(2, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -2547,7 +2562,7 @@ void CStep::test_2698_4_2_14L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30, 1, -2, 0, 15, 46, 0);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30, 1, -2, 0, 15, 46, 0);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -2566,7 +2581,7 @@ void CStep::test_2698_4_2_15L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30, 1, 0, 268435455, 15, 47, 0);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30, 1, 0, 268435455, 15, 47, 0);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -2585,7 +2600,7 @@ void CStep::test_2698_4_2_16L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30, 2, 15, 44, 15, 46, 0);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30, 2, 15, 44, 15, 46, 0);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -2604,7 +2619,7 @@ void CStep::test_2698_4_2_17L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30, 1, -1, 15);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30, 1, -1, 15);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -2621,7 +2636,7 @@ void CStep::test_2698_4_2_18L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30, 1, 268435456, 15);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30, 1, 268435456, 15);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -2638,7 +2653,7 @@ void CStep::test_2698_4_2_19L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30, 1, 0, 0, 0, 47, 0);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30, 1, 0, 0, 0, 47, 0);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -2657,7 +2672,7 @@ void CStep::test_2698_4_2_20L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30, 1, -2, 268435455, 511, 47, 0);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30, 1, -2, 268435455, 511, 47, 0);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -2676,7 +2691,7 @@ void CStep::test_2698_4_2_21L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30, 1, 0, -1);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30, 1, 0, -1);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -2693,7 +2708,7 @@ void CStep::test_2698_4_2_22L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30, 1, 268435455, 512);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30, 1, 268435455, 512);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -3035,23 +3050,23 @@ void CStep::test_2698_5_1_2L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30, 1, -2, 268435455, 511, 47, 0);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30, 1, -2, 268435455, 511, 47, 0);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30, 1, 511, 268435455, 511, 47, 0);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30, 1, 511, 268435455, 511, 47, 0);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -3105,23 +3120,23 @@ void CStep::test_2698_5_1_4L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30, 1, 2, 268435455, 511, 47, 0);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30, 1, 2, 268435455, 511, 47, 0);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30, 1, 2, 268435455, 511, 47, 0);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30, 1, 2, 268435455, 511, 47, 0);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -3159,7 +3174,7 @@ void CStep::test_2698_5_1_6L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -3336,23 +3351,23 @@ void CStep::test_2698_5_1_13L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30, 1, -2, 268435455, 511, 47, 0);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30, 1, -2, 268435455, 511, 47, 0);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30, 1, 511, 268435455, 511, 47, 0);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30, 1, 511, 268435455, 511, 47, 0);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 1000, 200, 30);
+    err = SetWCDMACellInfoL(1, 1000, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -3369,23 +3384,23 @@ void CStep::test_2698_5_1_14L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30, 1, 268435456, 511);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30, 1, 268435456, 511);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30, 1, 511, 268435455, 511, 47, 0);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30, 1, 511, 268435455, 511, 47, 0);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -3402,23 +3417,23 @@ void CStep::test_2698_5_1_15L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30, 1, -2, 268435455, 511, 47, 0);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30, 1, -2, 268435455, 511, 47, 0);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30, 512, 1, 268435455, 511);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30, 512, 1, 268435455, 511);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -3435,19 +3450,19 @@ void CStep::test_2698_5_1_16L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30, 1, -2, 268435455, 511, 47, 0);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30, 1, -2, 268435455, 511, 47, 0);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30, 1, 511, 268435455, 511, 47, 0);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30, 1, 511, 268435455, 511, 47, 0);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -3468,15 +3483,15 @@ void CStep::test_2698_5_1_17L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30, 1, -2, 268435455, 511, 47, 0);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30, 1, -2, 268435455, 511, 47, 0);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -3608,23 +3623,23 @@ void CStep::test_2698_5_1_21L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30, 1, -2, 268435455, 511, 47, 0);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30, 1, -2, 268435455, 511, 47, 0);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30, 1, 511, 268435455, 511, 47, 0);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30, 1, 511, 268435455, 511, 47, 0);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -3643,23 +3658,23 @@ void CStep::test_2698_5_1_22L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30, 1, -2, 268435455, 511, 47, 0);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30, 1, -2, 268435455, 511, 47, 0);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30, 1, 511, 268435455, 511, 47, 0);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30, 1, 511, 268435455, 511, 47, 0);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -3678,23 +3693,23 @@ void CStep::test_2698_5_1_23L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30, 1, -2, 268435455, 511, 47, 0);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30, 1, -2, 268435455, 511, 47, 0);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30, 1, 511, 268435455, 511, 47, 0);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30, 1, 511, 268435455, 511, 47, 0);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -3713,15 +3728,15 @@ void CStep::test_2698_5_1_24L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30, 1, -2, 268435455, 511, 47, 0);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30, 1, -2, 268435455, 511, 47, 0);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -3748,15 +3763,15 @@ void CStep::test_2698_5_1_25L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30, 1, -2, 268435455, 511, 47, 0);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30, 1, -2, 268435455, 511, 47, 0);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -3783,15 +3798,15 @@ void CStep::test_2698_5_1_26L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30, 1, -2, 268435455, 511, 47, 0);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30, 1, -2, 268435455, 511, 47, 0);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -3821,15 +3836,15 @@ void CStep::test_2698_5_1_27L()
  
     err = CreateLocationInfoConverterL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30, 1, -2, 268435455, 511, 47, 0);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30, 1, -2, 268435455, 511, 47, 0);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
-    err = SetWCDMACellInfoL(1, 100, 200, 30);
+    err = SetWCDMACellInfoL(1, 100, 200, 10, 30);
     if(err != KErrNone) User::Leave(err);
     AddLocationInfoL();
     if(err != KErrNone) User::Leave(err);
@@ -4940,6 +4955,153 @@ void CStep::test_cache3L()
 			Cleanup();
 		   } // end of for loop
 };
+
+
+typedef struct 
+	{
+	TInt 	countryCode;
+	TInt 	networkCode;
+	TInt 	locationCode;
+	TInt 	cellId;
+	TBool 	fromPlugin;
+	} 
+sWcdmaInfo;
+
+
+/*
+ * Here, we test the mode where localities coming from the converter are cache.
+ * Thus the third and forth localities  should come from the cache and NOT the
+ * plugin. Additionally the fifth position should come from the plug-in because
+ * we are going to have an invalid LAC which should exclude looking in the cache. 
+ */
+const TInt KTestWcdmaCacheArraySize= 5;
+sWcdmaInfo wcdmaTestArray[KTestWcdmaCacheArraySize] = {
+		{44, 49, 16, 73652, 	ETrue },     /* 81000 */
+		{44, 50, 17, 83564, 	ETrue },
+		{44, 50, 17, 83564, 	EFalse},
+		{44, 49, 16, 73652, 	EFalse},
+		{44, 50, 17, 83564,     ETrue } 
+};
+
+const TInt invalidLacTest = 4;
+
+void CStep::test_cacheWcdmaL()
+{
+    TInt err = KErrNone;
+    iApiId =1; // use resolver
+   
+	TUint Uidinteger = 537007117;
+	TUid uid = TUid::Uid( Uidinteger );
+	   
+	for (TUint i = 0; i < KTestWcdmaCacheArraySize; i++)
+		{
+		TRAPD(leaveErr, iLbsLocationInfo = CLbsLocationInfo::NewL());
+		if (KErrNone != leaveErr )
+			{
+			INFO_PRINTF2(_L("iLbsLocationInfo = CLbsLocationInfo::NewL() LEAVES, error =%d"), leaveErr);
+			User::Leave(leaveErr);
+			}
+		
+		TRAP(leaveErr,iResolverObserver = CTeLocationResolverObserver::NewL());
+		if (KErrNone != leaveErr )
+			{
+			INFO_PRINTF2(_L("CTeLocationResolverObserver::NewL() LEAVES, error =%d"), leaveErr);
+			User::Leave(leaveErr);
+			}
+		
+		TRAP(leaveErr,iLbsLocationResolver = CLbsLocationResolver::NewL(*iResolverObserver,uid));
+		if (KErrNone != leaveErr )
+			{
+			INFO_PRINTF2(_L("iLbsLocationResolver = CLbsLocationResolver::NewL(*iResolverObserver,uid) LEAVES, error =%d"), leaveErr);
+			User::Leave(leaveErr);
+			}
+		
+		// Generate WCDMA cell info, setting scrambling code to indicate special treatment of position information
+		TRAP(leaveErr, SetWCDMACellInfoL( i == invalidLacTest ? 3 : 1, 
+                                          wcdmaTestArray[i].countryCode, 
+                                          wcdmaTestArray[i].networkCode,
+                                          wcdmaTestArray[i].locationCode, 
+                                          wcdmaTestArray[i].cellId,
+                                          0 /* zero neighbouring cells*/,
+                                          KScramblingCodeWcdmaTests
+                                        )
+			 );
+		
+		if (KErrNone != leaveErr )
+			{
+			INFO_PRINTF2(_L("SetWCDMACellInfoL LEAVES, error =%d"), leaveErr);
+			User::Leave(leaveErr);
+			}
+
+		TRAP(leaveErr, AddLocationInfoL());
+		if( KErrNone !=leaveErr) 
+			{
+			INFO_PRINTF2(_L("AddLocationInfoL() LEAVES, error =%d"), leaveErr);
+			User::Leave(leaveErr);
+			}
+	  
+		TRAP(leaveErr, ConvertLocationInfoL(1, 1, 0));
+		if( KErrNone !=leaveErr) 
+			{
+			INFO_PRINTF2(_L("ConvertLocationInfoL(1, 1, 0)) LEAVES, error =%d"), leaveErr);
+			User::Leave(leaveErr);
+			}
+	   
+		TInt err = ValidateLocationInfo();
+		if( KErrNone !=err)
+			{
+			INFO_PRINTF2(_L("ValidateLocationInfo() returns error =%d"), err);
+			User::Leave(err);
+			}
+	    
+		TLocality locality;
+		TBool fromCache = iResolverObserver->ConversionLocality(locality);
+	
+		TReal64 lat = locality.Latitude();
+		TReal64 lng = locality.Longitude();
+		TReal32 alt = locality.Altitude();
+	
+		TInt cCode = wcdmaTestArray[i].countryCode; 
+		if (cCode != (TInt)lat)
+			{
+			INFO_PRINTF3(_L("VcCode (%d) != (TInt)lat error =%d"), cCode, KErrGeneral);
+		
+			User::Leave(KErrGeneral);
+			}
+
+		TInt nCode = wcdmaTestArray[i].networkCode; 
+		if (nCode != (TInt)lng)
+			{
+			INFO_PRINTF3(_L("nCode (%d)!= (TInt)lng error =%d"), nCode, KErrGeneral);
+		
+			User::Leave(KErrGeneral);
+			}
+					
+		if (fromCache)
+			{
+			INFO_PRINTF4(_L("From Cache(lat=%Lf, lng=%Lf, alt=%f"),lat,lng,alt);
+			if (wcdmaTestArray[i].fromPlugin)
+				{
+				INFO_PRINTF1(_L("Test failed - Position got from Cache bit should have come from plugin"));
+				User::Leave(KErrGeneral);
+				}
+			}
+		else
+			{ // from plugin!
+			INFO_PRINTF4(_L("From plugin(lat=%Lf, lng=%Lf, alt=%f"),lat,lng,alt);
+			if (!wcdmaTestArray[i].fromPlugin)
+				{
+				INFO_PRINTF1(_L("Test failed - Position got from plugin but should have come from Cache"));
+				User::Leave(KErrGeneral);
+				}
+			}
+
+		Cleanup();
+
+        } // end of for loop
+
+    }
+
 void CStep::CallL(TInt aId)
 {
     switch(aId)
@@ -5108,5 +5270,6 @@ void CStep::CallL(TInt aId)
         case 156: test_cacheL(); break;
         case 157: test_cache2L(); break;
         case 158: test_cache3L(); break;
+		case 159: test_cacheWcdmaL(); break;
     };
 };

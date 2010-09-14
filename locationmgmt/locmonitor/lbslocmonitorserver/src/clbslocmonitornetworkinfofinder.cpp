@@ -29,7 +29,8 @@
 #include <commsdattypesv1_1.h>
 using namespace CommsDat;
 
-const TUint KMaxCellIdOrLac = 65535;
+const TUint KMaxGsmCellIdOrLac = 65535;
+const TUint KMaxWcdmaCellId = 0xFFFFFFF;   // maximum of 28 bits, least significant (16 bits short cell id + 12 RNC id)
 const TUint KMaxMccOrMnc = 999;
 
 
@@ -154,10 +155,8 @@ void CLbsLocMonitorNetworkInfoFinder::RunL()
 		case EStateNetInfoChangeMon:
 			{
 			TLbsLocMonitorAreaInfoGci areaInfo;
-			if(ValidateNetInfo(areaInfo))
-				{
-				NotifyObservers(areaInfo);
-				}
+			ValidateNetInfo(areaInfo);
+			NotifyObservers(areaInfo);
 
 			MonitorNetworkChange(); // Keep monitoring
 			break;				
@@ -322,6 +321,9 @@ Checks and fixes if necessary the network info
 TBool CLbsLocMonitorNetworkInfoFinder::ValidateNetInfo(TLbsLocMonitorAreaInfoGci& aAreaInfo)
 	{
 	LBSLOG(ELogP1, "CLbsLocMonitorNetworkInfoFinder::ValidateNetInfo()Begin\n");
+
+	aAreaInfo.iValidity = EFalse;
+
 	TLex lex(iNetworkInfo.iCountryCode);
 	TInt err = lex.Val(aAreaInfo.iMcc);
 	if(err!=KErrNone || aAreaInfo.iMcc > KMaxMccOrMnc)
@@ -335,17 +337,37 @@ TBool CLbsLocMonitorNetworkInfoFinder::ValidateNetInfo(TLbsLocMonitorAreaInfoGci
 		{	
 		return EFalse;
 		}
-	if (!iLocArea.iAreaKnown ||
-		(iLocArea.iLocationAreaCode > KMaxCellIdOrLac || 
-		 iLocArea.iCellId > KMaxCellIdOrLac))
-		{	
-		return EFalse;			
-		}
-	else
-		{
-		 aAreaInfo.iLac = iLocArea.iLocationAreaCode;
-		 aAreaInfo.iCid = iLocArea.iCellId;
-		}
+
+	if (!iLocArea.iAreaKnown)
+	    {
+	    return (EFalse);
+	    }
+	else 
+	    {
+	    // We only know about registration with GSM and WCDMA cells (so far!).
+	    __ASSERT_DEBUG(iNetworkInfo.iMode == RMobilePhone::ENetworkModeGsm ||
+	                   iNetworkInfo.iMode == RMobilePhone::ENetworkModeWcdma, User::Invariant());
+	    
+	    // Do some checks on the LAC and cell id (16 bits on GSM, up to 28 bits on WCDMA
+	    if(iLocArea.iLocationAreaCode > KMaxGsmCellIdOrLac || 
+		  ((iLocArea.iCellId > KMaxGsmCellIdOrLac) && (iNetworkInfo.iMode == RMobilePhone::ENetworkModeGsm)) ||
+		  (iLocArea.iCellId > KMaxWcdmaCellId))
+	        {	
+	        return EFalse;			
+	        }
+	    else
+            {
+	        // everything looks fine
+            aAreaInfo.iLac = iLocArea.iLocationAreaCode;
+            aAreaInfo.iCid = iLocArea.iCellId;
+            aAreaInfo.iIs3gNetworkMode = iNetworkInfo.iMode == RMobilePhone::ENetworkModeWcdma ? ETrue : EFalse;
+            }
+        }   // end else area is known
+
+	// Reaching the end here implies we did't find any problems.
+	aAreaInfo.iValidity = ETrue;
+
 	LBSLOG(ELogP1, "CLbsLocMonitorNetworkInfoFinder::ValidateNetInfo()End\n");
+
 	return ETrue;
 	}

@@ -38,9 +38,9 @@ public:
 	static CLbsLocMonitorDbEngine* NewL();
 	virtual ~CLbsLocMonitorDbEngine();
 	TInt SavePosition(TUint aMcc, TUint aMnc, TUint aLac, 
-			TUint aCid, const TPosition& aPosition, TBool aUserPosition, TRequestStatus& aStatus);
+			TUint aCid, TBool aIs3gMode, const TPosition& aPosition, TBool aUserPosition, TRequestStatus& aStatus);
 	TInt GetPosition(TUint aMcc, TUint aMnc, TUint aLac, 
-			TUint aCid, TPosition& aPosition, TPositionAreaExtendedInfo& aMatchingAreaInfo, TRequestStatus& aStatus);
+			TUint aCid, TBool aIs3gMode, TPosition& aPosition, TPositionAreaExtendedInfo& aMatchingAreaInfo, TRequestStatus& aStatus);
 	TInt GetPosition(TPosition& aPosition, TRequestStatus& aStatus);
 	TInt ClearDatabase();
 	
@@ -57,7 +57,7 @@ private:
 			TInt aLac = KErrNotFound, TInt aCid = KErrNotFound);
 	void CheckFlush();
 	void Flush(TBool aShutdown);
-	TPositionAreaExtendedInfo CacheMatchLevel(TInt aMcc, TInt aMnc, TInt aLac, TInt aCid);
+	TPositionAreaExtendedInfo CacheMatchLevel(TInt aMcc, TInt aMnc, TInt aLac, TInt aCid, TBool aIs3gMode);
 	TInt Insert(TBool aShutdown);
 	TInt DbSize();
 	virtual void RunL();
@@ -81,6 +81,7 @@ private:
 	TPosition iLastKnownPosition;
 	TTime iLastTime;
 	TBool iIsLastValid;
+	TBool iLastModeIs3g;
 	};
 	
 

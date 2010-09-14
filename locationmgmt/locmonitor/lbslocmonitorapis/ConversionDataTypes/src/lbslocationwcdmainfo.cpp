@@ -47,7 +47,24 @@ EXPORT_C CLbsWcdmaCellInfo* CLbsWcdmaCellInfo::NewL( const TInt aCountryCode,
     {
     CLbsWcdmaCellInfo* self = new( ELeave ) CLbsWcdmaCellInfo;
     CleanupStack::PushL( self );
-    self->ConstructL( aCountryCode, aNetworkCode, aUniqueCellId );
+    self->ConstructL( aCountryCode, aNetworkCode, (-1), aUniqueCellId );
+    CleanupStack::Pop();
+    return self;    
+    }
+
+// ---------------------------------------------------------------------------
+// CLbsWcdmaCellInfo::NewL()
+// other items were commented in the header
+// ---------------------------------------------------------------------------
+//
+EXPORT_C CLbsWcdmaCellInfo* CLbsWcdmaCellInfo::NewL( const TInt aCountryCode,
+                                               const TInt aNetworkCode,
+											   const TInt aLocalAreaCode,
+                                               const TInt aUniqueCellId )
+    {
+    CLbsWcdmaCellInfo* self = new( ELeave ) CLbsWcdmaCellInfo;
+    CleanupStack::PushL( self );
+    self->ConstructL( aCountryCode, aNetworkCode, aLocalAreaCode, aUniqueCellId );
     CleanupStack::Pop();
     return self;    
     }
@@ -55,7 +72,7 @@ EXPORT_C CLbsWcdmaCellInfo* CLbsWcdmaCellInfo::NewL( const TInt aCountryCode,
 EXPORT_C  CLbsWcdmaCellInfo* CLbsWcdmaCellInfo::NewL( const CLbsWcdmaCellInfo& aPositionInfo )
 	{
 	
-	CLbsWcdmaCellInfo* self = CLbsWcdmaCellInfo::NewL( aPositionInfo.iMCC,aPositionInfo.iMNC,aPositionInfo.iUCid);
+	CLbsWcdmaCellInfo* self = CLbsWcdmaCellInfo::NewL( aPositionInfo.iMCC,aPositionInfo.iMNC, aPositionInfo.iLAC, aPositionInfo.iUCid);
 	self->iSCode = aPositionInfo.iSCode;
 	
 	RLbsWcdmaNeighbourCellInfoArray  neighbourCellInfoArray;
@@ -123,6 +140,28 @@ EXPORT_C void CLbsWcdmaCellInfo::SetMobileNetworkCode( const TInt aNetworkCode )
 EXPORT_C TInt CLbsWcdmaCellInfo::MobileNetworkCode() const
     {
     return iMNC;
+    }
+
+
+// ---------------------------------------------------------------------------
+// CLbsWcdmaCellInfo::SetLocalAreaCode()
+// other items were commented in the header
+// ---------------------------------------------------------------------------
+//
+EXPORT_C void CLbsWcdmaCellInfo::SetLocalAreaCode( const TInt aLocalAreaCode )
+    {
+    iLAC = aLocalAreaCode;
+    iDataValidationMask |= EWcdmaLAC;
+    }
+    
+// ---------------------------------------------------------------------------
+// CLbsWcdmaCellInfo::LocalAreaCode()
+// other items were commented in the header
+// ---------------------------------------------------------------------------
+//
+EXPORT_C TInt CLbsWcdmaCellInfo::LocalAreaCode(void) const
+    {
+    return iLAC;
     }
 
 // ---------------------------------------------------------------------------
@@ -265,7 +304,9 @@ void CLbsWcdmaCellInfo::DoInternaliseL( RReadStream& aStream )
         cellInfo.SetPathloss( aStream.ReadInt16L() );
         cellInfo.SetSignalStrength( aStream.ReadInt16L() );
         iNeighbourCellInfo.Append( cellInfo );
-        }    
+        }
+    
+	iLAC = aStream.ReadInt32L();
     }
 
 // ---------------------------------------------------------------------------
@@ -290,6 +331,9 @@ void CLbsWcdmaCellInfo::DoExternaliseL( RWriteStream& aStream )const
         aStream.WriteInt16L( iNeighbourCellInfo[i].Pathloss() );
         aStream.WriteInt16L( iNeighbourCellInfo[i].SignalStrength() );
         }
+
+    aStream.WriteInt32L( iLAC );
+
     }
 
 // ---------------------------------------------------------------------------
@@ -343,6 +387,14 @@ void CLbsWcdmaCellInfo::ValidateDataL() const
             User::Leave( KErrArgument );
             }
         }
+
+	if ( iDataValidationMask & EWcdmaLAC)
+		{
+		if (iLAC > 0xffff)
+			{
+            User::Leave( KErrArgument );
+			}
+		}
     }
 
 // ---------------------------------------------------------------------------
@@ -366,6 +418,7 @@ void CLbsWcdmaCellInfo::ConstructL()
     iUCid = -1;
     iSCode = -1;
     iRssi  = -1;
+	iLAC = -1;
     iDataValidationMask = EWcdmaDataNull;
     }
 
@@ -376,11 +429,20 @@ void CLbsWcdmaCellInfo::ConstructL()
 //
 void CLbsWcdmaCellInfo::ConstructL( const TInt aCountryCode, 
                                     const TInt aNetworkCode,
+									const TInt aLocalAreaCode,
                                     const TInt aUniqueCellId )
     {
     SetMobileCountryCode( aCountryCode );
     SetMobileNetworkCode( aNetworkCode );
     SetUniqueCellId( aUniqueCellId );
+	if (aLocalAreaCode == -1)
+		{
+		iLAC = -1;
+		}
+	else
+		{
+		SetLocalAreaCode(aLocalAreaCode);
+		}
     iSCode = -1;
     iRssi  = -1;
     }

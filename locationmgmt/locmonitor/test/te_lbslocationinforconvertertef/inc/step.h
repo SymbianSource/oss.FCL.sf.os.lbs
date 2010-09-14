@@ -59,7 +59,7 @@ public:
             TInt locationcode=-2, TInt cellid=-2, TInt timingadvance=-2, TInt Rxlev=-2, TInt nNeignbourcells=0, 
             TInt arfcn=-2, TInt bsic=-2, TInt NRxlev=-2);
     virtual TInt SetWCDMACellInfoL(TInt fntype, TInt countrycode=-2,
-            TInt networkcode=-2, TInt cellid=-2, TInt nNeignbourcells=0, TInt scramblingcode=-2, 
+            TInt networkcode=-2, TInt localAreaCode =-2, TInt cellid=-2, TInt nNeignbourcells=0, TInt scramblingcode=-2, 
             TInt neighbourucid=-2, TInt neighbourscode=-2, TInt neighbourpathloss=-2, 
             TInt neighboursignalstrength=-2);
     virtual TInt SetWLanInfoL(TInt fntype=1, TInt macidint=-2,  TInt signalstrength=-2);
@@ -254,6 +254,8 @@ private:
     void test_cacheL();
     void test_cache2L();
     void test_cache3L();
+	void test_cacheWcdmaL();
+
 	};
 
 _LIT(KStep,"Step");

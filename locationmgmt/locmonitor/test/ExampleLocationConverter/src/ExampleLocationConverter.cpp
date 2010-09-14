@@ -32,6 +32,9 @@ const TInt KTimingAdvanceSaveToCacheTrue= 253;
 
 const TInt KTimingAdvanceSaveToCacheFalse= 252;
 
+const TInt KScramblingCodeWcdmaTests = 254;
+
+
 // ECOM implementation specifics
 static const TImplementationProxy implTable[] =
 	{
@@ -123,6 +126,8 @@ void CExampleLocationConverter::ConvertLocationInfoL( RLbsLocationInfoArray& aLo
     	    {
     	    case ELbsConversionOutputPosition:
     	        {
+				TBool specialTreatmentOfPos = EFalse;
+
     	        // Extract the area info provided by the client.
     	        // If client has specified only coordinate info,
     	        // return KErrNotSupported.
@@ -133,14 +138,13 @@ void CExampleLocationConverter::ConvertLocationInfoL( RLbsLocationInfoArray& aLo
                                 CLbsLocationInfo::ELbsWlanInfo;
     	        aLocationInfoArray[i]->GetAreaInfoL( areaInfoArray,areaInfoMask );
     	        TInt count = areaInfoArray.Count();
-    	        
-    	
-    	        
+    	     	        
     	        if( count == 0 )
     	            {
     	            iObserver.OnConversionComplete(KErrNotSupported);
     	            return;
     	            }
+
     	        TLocality locality;
 				if (areaInfoArray[0]->Type() == ELbsAreaGsmCellInfoClass)
 					{
@@ -155,7 +159,7 @@ void CExampleLocationConverter::ConvertLocationInfoL( RLbsLocationInfoArray& aLo
 						}
 					else
 						{
-						// for all others values ensiure that we put
+						// for all others values ensure that we put
 						// localities in cache
 						iRetainLocalityInCache = ETrue;
 						}
@@ -166,7 +170,7 @@ void CExampleLocationConverter::ConvertLocationInfoL( RLbsLocationInfoArray& aLo
 							|| (timingAdvance
 									== KTimingAdvanceSaveToCacheFalse))
 						{
-						// For all the special tests
+						// For all the special GSM tests
 						TReal64 lat = posInfo->MobileCountryCode();
 						TReal64 lng = posInfo->MobileNetworkCode();
 						TReal32 alt = posInfo->LocationAreaCode();
@@ -175,21 +179,40 @@ void CExampleLocationConverter::ConvertLocationInfoL( RLbsLocationInfoArray& aLo
 
 						locality.SetCoordinate(lat, lng, alt);
 						locality.SetAccuracy(horAcc, 11.0);
-						}
-					else
-						{
-						// and for the original tests
-						locality.SetCoordinate(62.5285, 23.9385, 1.22f);
-						locality.SetAccuracy(10.0f, 0.0);
 
+						specialTreatmentOfPos = ETrue;
 						}
 					}
-				else
+				else if (areaInfoArray[0]->Type() == ELbsAreaWcmdaCellInfoClass)
 					{
-					// and for the original tests
+					iRetainLocalityInCache = ETrue;
+					
+					CLbsWcdmaCellInfo* posInfo =
+							static_cast<CLbsWcdmaCellInfo*> (areaInfoArray[0]);
+
+					if (posInfo->ScramblingCode() == KScramblingCodeWcdmaTests )
+						{
+						// For all the special wcdma tests
+						// note we don't set the horiz accuracy to same as cell id (as in GSM tests) as this
+						// makes the accuracy too low!
+						TReal64 lat = posInfo->MobileCountryCode();
+						TReal64 lng = posInfo->MobileNetworkCode();
+						TReal32 alt = 25.6;
+
+						locality.SetCoordinate(lat, lng, alt);
+						locality.SetAccuracy(24.3, 11.0);
+
+						specialTreatmentOfPos = ETrue;
+						}
+					}
+
+				// For the original tests we stick with a set position value
+				if (!specialTreatmentOfPos)
+					{
 					locality.SetCoordinate(62.5285, 23.9385, 1.22f);
 					locality.SetAccuracy(10.0f, 0.0);
 					}
+
     	        areaInfoArray.ResetAndDestroy();
      
     	        CLbsPositionInfo* positionInfo = CLbsPositionInfo::NewL( locality );
@@ -198,6 +221,7 @@ void CExampleLocationConverter::ConvertLocationInfoL( RLbsLocationInfoArray& aLo
     	        CleanupStack::Pop( positionInfo );
     	        break;
     	        }
+
     	    case ELbsConversionOutputGsm:
     	        {
                 // Extract the area info provided by the client.

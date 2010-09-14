@@ -15,6 +15,11 @@ START_TESTCASE                LBS-Cache-Test-1
 RUN_TEST_STEP 100 te_lbslocationinfoconvertersuite Step c:\testdata\configs\LbsLocationInfoConverter.ini Cache-Test-1 
 END_TESTCASE		      LBS-Cache-Test-1
 
+START_TESTCASE                LBS-Cache-Test-WCDMA
+RUN_TEST_STEP 100 te_lbslocationinfoconvertersuite Step c:\testdata\configs\LbsLocationInfoConverter.ini Cache-Test-WCDMA
+END_TESTCASE		      LBS-Cache-Test-WCDMA
+
+
 PRINT now wait for loc monitor to teminate (which it will do after  10 seconds 
 PRINT this ensures when we try and delete the caches files they are not still in an opened state 
 

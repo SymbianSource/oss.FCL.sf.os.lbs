@@ -82,4 +82,7 @@ EXPORTS
 	?NewL@CLbsWlanInfo@@SAPAV1@ABV1@@Z @ 81 NONAME ; class CLbsWlanInfo * CLbsWlanInfo::NewL(class CLbsWlanInfo const &)
 	?SetSignalStrength@CLbsWcdmaCellInfo@@QAEXH@Z @ 82 NONAME ; void CLbsWcdmaCellInfo::SetSignalStrength(int)
 	?SignalStrength@CLbsWcdmaCellInfo@@QBEHXZ @ 83 NONAME ; int CLbsWcdmaCellInfo::SignalStrength(void) const
+	?LocalAreaCode@CLbsWcdmaCellInfo@@QBEHXZ @ 84 NONAME ; int CLbsWcdmaCellInfo::LocalAreaCode(void) const
+	?NewL@CLbsWcdmaCellInfo@@SAPAV1@HHHH@Z @ 85 NONAME ; class CLbsWcdmaCellInfo * CLbsWcdmaCellInfo::NewL(int, int, int, int)
+	?SetLocalAreaCode@CLbsWcdmaCellInfo@@QAEXH@Z @ 86 NONAME ; void CLbsWcdmaCellInfo::SetLocalAreaCode(int)
 

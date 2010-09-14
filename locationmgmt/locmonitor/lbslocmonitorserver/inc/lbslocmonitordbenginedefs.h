@@ -50,16 +50,20 @@ _LIT(KUpsertLastPosRow, "INSERT OR REPLACE INTO lastpos_temp (rowid, date, data)
 //_LIT(KUpsertLastPosRowActual, "INSERT OR REPLACE INTO lastpos (rowid, date, data) VALUES (1, :timestamp, :data);");
 
 _LIT(KSelectRow4, "SELECT data FROM monitorstore WHERE mcc = :mcc AND mnc = :mnc AND lac = :lac AND cid = :cid;");
-_LIT(KSelectRow3, "SELECT data FROM monitorstore WHERE mcc = :mcc AND mnc = :mnc AND lac = :lac ORDER BY date DESC LIMIT 1;");
+_LIT(KSelectRow3, "SELECT data FROM monitorstore WHERE mcc = :mcc AND mnc = :mnc AND lac = :lac %S ORDER BY date DESC LIMIT 1;");
 _LIT(KSelectRow2, "SELECT data FROM monitorstore WHERE mcc = :mcc AND mnc = :mnc ORDER BY date DESC LIMIT 1;");
 _LIT(KSelectRow1, "SELECT data FROM monitorstore WHERE mcc = :mcc ORDER BY date DESC LIMIT 1;");
 _LIT(KSelectRowLatest, "SELECT data FROM lastpos ORDER BY date DESC LIMIT 1;");
 
 _LIT(KSelectTempRow4, "SELECT data FROM monitorstore_temp WHERE mcc = :mcc AND mnc = :mnc AND lac = :lac AND cid = :cid;");
-_LIT(KSelectTempRow3, "SELECT data FROM monitorstore_temp WHERE mcc = :mcc AND mnc = :mnc AND lac = :lac ORDER BY date DESC LIMIT 1;");
+_LIT(KSelectTempRow3, "SELECT data FROM monitorstore_temp WHERE mcc = :mcc AND mnc = :mnc AND lac = :lac %S ORDER BY date DESC LIMIT 1;");
 _LIT(KSelectTempRow2, "SELECT data FROM monitorstore_temp WHERE mcc = :mcc AND mnc = :mnc ORDER BY date DESC LIMIT 1;");
 _LIT(KSelectTempRow1, "SELECT data FROM monitorstore_temp WHERE mcc = :mcc ORDER BY date DESC LIMIT 1;");
 _LIT(KSelectTempRowLatest, "SELECT data FROM lastpos_temp ORDER BY date DESC LIMIT 1;");
+
+_LIT(KSelectGsmCells, "AND cid < 268435456");
+_LIT(KSelectWcdmaCells, "AND cid >= 268435456");
+
 
 _LIT(KCount, "SELECT COUNT(*) FROM monitorstore;");
 _LIT(KPrune, "DELETE FROM monitorstore WHERE ROWID IN (SELECT rowid FROM monitorstore ORDER BY date LIMIT 100)");

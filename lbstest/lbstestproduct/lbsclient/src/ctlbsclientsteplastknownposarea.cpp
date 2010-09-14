@@ -98,6 +98,11 @@ void CT_LbsClientStep_LastKnownPosArea::NotifyPositionUpdateCallback(TRequestSta
  * Override of base class pure virtual
  * Our implementation only gets called if the base class doTestStepPreambleL() did
  * not leave. That being the case, the current test result value will be EPass.
+ * Here we will test the lastknownposarea call as we switch between a variety of network
+ * paremeters. All of these will be held in the config.txt file used by the Sim tsy.
+ * This file is overwritten by test steps as necessary. We set the KPSSimTsyTimersReduceTime
+ * property to initiate a change.in the network parameters.
+ * 
  */
 TVerdict CT_LbsClientStep_LastKnownPosArea::doTestStepL()
 	{
@@ -265,29 +270,70 @@ TVerdict CT_LbsClientStep_LastKnownPosArea::doTestStepL()
 				// Verify that the last position is returned if current network position is unavailable
 				case 3:
 					{
+					// The SIM config file used by this test switches between valid and non-valid area configs.
+					// If we move from a valid config to an invalid config,	GetLastKnownPositionArea should return
+					// with the last stored position (posInfo) together with area information that shows the
+                    // area accuracy to be TPositionAreaInfo::EAreaUnknown.
+
 					TPositionInfo* posInfo = new(ELeave) TPositionInfo();
 					posInfoArr.Append(posInfo);
 					TInt err = KErrNone;
 					
-					// The SIM config file used by this test contains an
-					// invalid global cell-id (LAC is zero). A transition to
-					// a new valid cell is not provoked by this test. Therefore
-					// the Location Monitor never gets to know a valid cell in this test.
+	                // Empty Database					
+                    TRequestStatus emptyStatus;
+                    iServer.EmptyLastKnownPositionStore(emptyStatus);
+                    User::WaitForRequest(emptyStatus);
+					
+					// Whilst the area is not known, request a position. This shouldn't go into the database.
+					// Therefore a subsequent getlastknownposarea will return KErrUnknown
+					INFO_PRINTF1(_L("Check invalid positions don't go into the database"));
 
-					// Request a position so that the position goes into the database
 					err = DoNotifyUpdateL(*posInfo);
 					if (KErrNone != err)
 						{
 						ERR_PRINTF2(_L("Incorrect err %d returned"), err);
 						SetTestStepResult(EFail);
 						}
-
-					// Since the Location Monitor never received a valid value of
-					// GCI, the call to GetLastKnownPositionArea should return 
-					// the last stored position (posInfo) together with area information
-					// that shows the "rough area accuracy" to be TPositionAreaInfo::EAreaUnknown.
+                    
 					TPositionInfo posInfo2;
-					TPositionAreaExtendedInfo matchLevel, expectedMatchLevel;
+					TPositionAreaExtendedInfo matchLevel;
+					err = DoLastKnownPosAreaL(posInfo2, matchLevel);
+					if (KErrUnknown != err)
+						{
+						ERR_PRINTF2(_L("Expected KErrUnknown, incorrect err %d returned"), err);
+						SetTestStepResult(EFail);
+						}
+
+					//1. Move to GSM cell 234.15.1911.36463 - all valid
+					err = RProperty::Set(KUidPSSimTsyCategory, KPSSimTsyTimersReduceTime, KReduceSimTsyTimers);
+					User::After(KSimTsyTransitionDelay);
+						
+					// Request a position so that the position goes into the database 
+					// then call GetLastKnownPosArea and check everything now matches.
+					INFO_PRINTF1(_L("Check that we get EAreaCity once a position is available"));
+					err = DoNotifyUpdateL(*posInfo);
+					if (KErrNone != err)
+						{
+						ERR_PRINTF2(_L("Incorrect err %d returned"), err);
+						SetTestStepResult(EFail);
+						}
+					err = DoLastKnownPosAreaL(posInfo2, matchLevel);
+					if (KErrNone != err)
+						{
+						ERR_PRINTF2(_L("Incorrect err %d returned"), err);
+						SetTestStepResult(EFail);
+						}
+					Validate(*posInfo, posInfo2, matchLevel, TPositionAreaInfo::EAreaCity, ETrue, ETrue, ETrue, ETrue);
+
+					// Next error condition, WCDMA network and cell id is too low...
+					INFO_PRINTF1(_L("Check that invalid current WCDMA cell id is accepted and we get EAreaCountry match"));
+
+					//1. Move to WCDMA cell 234.15.1911.36463 - the WCDMA spec expects a non-zero
+					//   RNC ID which implies the cell id should be greater than 0x10000. However,
+					//   certain networks break the rule, so check this 'illegal' cell id accepted. 
+					err = RProperty::Set(KUidPSSimTsyCategory, KPSSimTsyTimersReduceTime, KReduceSimTsyTimers);
+					User::After(KSimTsyTransitionDelay);
+
 					err = DoLastKnownPosAreaL(posInfo2, matchLevel);
 					if (KErrNone != err)
 						{
@@ -295,13 +341,44 @@ TVerdict CT_LbsClientStep_LastKnownPosArea::doTestStepL()
 						SetTestStepResult(EFail);
 						}
 						
-					// Verify that the position received in the call to GLKPA is the last known position
-					// due to the NPUD and also that the accuracy is set to TPositionAreaInfo::EAreaUnknown
-					// (in this case the rest of boolean values passed in Validate() are irrelevant).
+					// Expect EAreaCountry. The current 'broken' cell position should have been accepted
+					// and we match on country and network code (but not LAC as earlier one was GSM LAC!).
+					Validate(*posInfo, posInfo2, matchLevel, TPositionAreaInfo::EAreaCountry, ETrue, ETrue, EFalse, EFalse);
+
+					// Next error condition, GSM network with too high a cell id. In this case, the cell will
+					// have been rejected and effectively we are unregistered, so EAreaUnknown is correct.
+					INFO_PRINTF1(_L("Check that invalid GSM cell id is identified and we get EAreaUnknown returned"));
+
+					//1. Move to GSM cell 234.15.1911.90000 - 90000 is too high a cell id for GSM
+					err = RProperty::Set(KUidPSSimTsyCategory, KPSSimTsyTimersReduceTime, KReduceSimTsyTimers);
+					User::After(KSimTsyTransitionDelay);
+
+					err = DoLastKnownPosAreaL(posInfo2, matchLevel);
+					if (KErrNone != err)
+						{
+						ERR_PRINTF2(_L("Incorrect err %d returned"), err);
+						SetTestStepResult(EFail);
+						}						
+                    // As current position information is broken, expect area EAreaUknown etc.
 					Validate(*posInfo, posInfo2, matchLevel, TPositionAreaInfo::EAreaUnknown, EFalse, EFalse, EFalse, EFalse);
 					
+					// Go back to a valid cell, differing only in the cell-id, check that the 
+					//correct accuracy is returned.
+					INFO_PRINTF1(_L("Valid GSM area, only cell id varies from earlier location, so should return EAreaRegion"));
+					
+                    //1. Move to GSM cell 234.15.1911.36000 
+                    err = RProperty::Set(KUidPSSimTsyCategory, KPSSimTsyTimersReduceTime, KReduceSimTsyTimers);
+                    User::After(KSimTsyTransitionDelay);
+
+                    err = DoLastKnownPosAreaL(posInfo2, matchLevel);
+                    if (KErrNone != err)
+                        {
+                        ERR_PRINTF2(_L("Incorrect err %d returned"), err);
+                        SetTestStepResult(EFail);
+                        }                    
+                    Validate(*posInfo, posInfo2, matchLevel, TPositionAreaInfo::EAreaRegion, ETrue, ETrue, ETrue, EFalse);
+                                        
 					//7. Clear Database
-					TRequestStatus emptyStatus;
 					iServer.EmptyLastKnownPositionStore(emptyStatus);
 					User::WaitForRequest(emptyStatus);
 					break;
@@ -533,6 +610,194 @@ TVerdict CT_LbsClientStep_LastKnownPosArea::doTestStepL()
 					User::WaitForRequest(emptyStatus);
 					break;
 					}
+				case 9:
+					{
+					// Here we have both GSM and WCDMA positions in the database and we check that GetLastKnownPosArea returns the correct
+					// position and match level as we switch between GSM and WCDMA cells.
+
+					// Empty Database
+					TRequestStatus emptyStatus;
+					iServer.EmptyLastKnownPositionStore(emptyStatus);
+					User::WaitForRequest(emptyStatus);
+
+					TPositionInfo lastKnownPosInfo;
+					TPositionAreaExtendedInfo matchLevel;
+
+					//1. Get a position in the database.for a GSM cell of 234.15.1911.65535. Note that
+					//this is the highest possible GSM cell id)
+					INFO_PRINTF1(_L("Get a position in the database.for a GSM cell of 234.15.1911.65535"));
+	                TPositionInfo* gsmPosInfo = new(ELeave) TPositionInfo();
+	                posInfoArr.Append(gsmPosInfo);
+					err = RProperty::Set(KUidPSSimTsyCategory, KPSSimTsyTimersReduceTime, KReduceSimTsyTimers);
+					User::After(KSimTsyTransitionDelay);
+					if (KErrNone == err)
+						{
+						err = DoNotifyUpdateL(*gsmPosInfo);
+						}
+					if (KErrNone != err)
+						{
+						ERR_PRINTF2(_L("Incorrect err %d returned"), err);
+						SetTestStepResult(EFail);
+						}
+
+					//2. Move to WCDMA cell 234.15.1913.65536 (lowest possible WCDMA cell id) and get this in the database
+                    TPositionInfo* wcdmaPosInfo = new(ELeave) TPositionInfo();
+                    posInfoArr.Append(wcdmaPosInfo);
+					INFO_PRINTF1(_L("Move to WCDMA cell 234.15.1913.65536 and get this in the database"));
+					err = RProperty::Set(KUidPSSimTsyCategory, KPSSimTsyTimersReduceTime, KReduceSimTsyTimers);
+					User::After(KSimTsyTransitionDelay);
+
+					//2. NPUD
+					if (KErrNone == err)
+						{
+						err = DoNotifyUpdateL(*wcdmaPosInfo);
+						}
+					if (KErrNone != err)
+						{
+						ERR_PRINTF2(_L("Incorrect err %d returned"), err);
+						SetTestStepResult(EFail);
+						}
+
+					// Check that GetLastKnownPosArea returns the WCDMA position with area as TPositionAreaInfo::EAreaCity.
+                    INFO_PRINTF1(_L("check GetLastKnownPosArea returns WCDMA position - all area fields matching"));					
+					err = DoLastKnownPosAreaL(lastKnownPosInfo, matchLevel);
+					if (KErrNone != err)
+						{
+						ERR_PRINTF2(_L("Incorrect err %d returned"), err);
+						SetTestStepResult(EFail);
+						}
+					Validate(*wcdmaPosInfo, lastKnownPosInfo, matchLevel, TPositionAreaInfo::EAreaCity, ETrue, ETrue, ETrue, ETrue);
+
+
+					// Move to GSM cell 234.15.1913.32121 and check GetLastKnownPosArea returns the WCDMA 
+					// position (as it is the most recent) with area as TPositionAreaInfo::EAreaCountry
+					INFO_PRINTF1(_L("Move to GSM cell 234.15.1913.32121 and check GetLastKnownPosArea returns the WCDMA position"));
+					err = RProperty::Set(KUidPSSimTsyCategory, KPSSimTsyTimersReduceTime, KReduceSimTsyTimers);
+					User::After(KSimTsyTransitionDelay);
+
+					if (KErrNone == err)
+						{
+						err = DoLastKnownPosAreaL(lastKnownPosInfo, matchLevel);
+						}
+					if (KErrNone != err)
+						{
+						ERR_PRINTF2(_L("Incorrect err %d returned"), err);
+						SetTestStepResult(EFail);
+						}
+					Validate(*wcdmaPosInfo, lastKnownPosInfo, matchLevel, TPositionAreaInfo::EAreaCountry, ETrue, ETrue,
+							EFalse, EFalse);
+
+					// Move to WDCMA cell 234.15.1911.88880 and check GetLastKnownPosArea returns the WDCMA position
+					// (as it is the most recent) with area as TPositionAreaInfo::EAreaCountry.
+					INFO_PRINTF1(_L("Move to WDCMA cell 234.15.1911.88880 and check GetLastKnownPosArea returns the WDCMA position"));
+					err = RProperty::Set(KUidPSSimTsyCategory, KPSSimTsyTimersReduceTime, KReduceSimTsyTimers);
+					User::After(KSimTsyTransitionDelay);
+					if (KErrNone == err)
+						{
+						err = DoLastKnownPosAreaL(lastKnownPosInfo, matchLevel);
+						}
+					if (KErrNone != err)
+						{
+						ERR_PRINTF2(_L("Incorrect err %d returned"), err);
+						SetTestStepResult(EFail);
+						}
+					Validate(*wcdmaPosInfo, lastKnownPosInfo, matchLevel, TPositionAreaInfo::EAreaCountry, ETrue, ETrue,
+							EFalse, EFalse);
+
+					// Move to WDCMA cell 234.15.1913.76554 and check GetLastKnownPosArea returns the WDCMA position
+					// (since it matches with most fields) with area as TPositionAreaInfo::EAreaRegion. 
+					INFO_PRINTF1(_L("Move to WDCMA cell 234.15.1913.76554 and check GetLastKnownPosArea returns the WDCMA position"));
+					err = RProperty::Set(KUidPSSimTsyCategory, KPSSimTsyTimersReduceTime, KReduceSimTsyTimers);
+					User::After(KSimTsyTransitionDelay);
+					if (KErrNone == err)
+						{
+						err = DoLastKnownPosAreaL(lastKnownPosInfo, matchLevel);
+						}
+					if (KErrNone != err)
+						{
+						ERR_PRINTF2(_L("Incorrect err %d returned"), err);
+						SetTestStepResult(EFail);
+						}
+					Validate(*wcdmaPosInfo, lastKnownPosInfo, matchLevel, TPositionAreaInfo::EAreaRegion, ETrue, ETrue,
+							ETrue, EFalse);
+
+
+					// Move to GSM cell 234.15.1911.19980 and check GetLastKnownPosArea returns the GSM position
+					// (since it matches on most fields) with area as TPositionAreaInfo::EAreaRegion. 
+					INFO_PRINTF1(_L("Move to GSM cell 234.15.1911.19980 and check GetLastKnownPosArea returns the GSM position"));
+					err = RProperty::Set(KUidPSSimTsyCategory, KPSSimTsyTimersReduceTime, KReduceSimTsyTimers);
+					User::After(KSimTsyTransitionDelay);
+					if (KErrNone == err)
+						{
+						err = DoLastKnownPosAreaL(lastKnownPosInfo, matchLevel);
+						}
+					if (KErrNone != err)
+						{
+						ERR_PRINTF2(_L("Incorrect err %d returned"), err);
+						SetTestStepResult(EFail);
+						}
+					Validate(*gsmPosInfo, lastKnownPosInfo, matchLevel, TPositionAreaInfo::EAreaRegion, ETrue, ETrue,
+							ETrue, EFalse);
+
+					// Move to an ENetworkModeTdcdma cell 234.15.1911.66003 on a different  network and check GetLastKnownPosArea
+					// returns the WCDMA position (the most recent matching on 'Country') with area as TPositionAreaInfo::EAreaCountry. 
+					INFO_PRINTF1(_L("Move to an ENetworkModeTdcdma cell 234.15.1911.66003 on a different network"));
+					err = RProperty::Set(KUidPSSimTsyCategory, KPSSimTsyTimersReduceTime, KReduceSimTsyTimers);
+					User::After(KSimTsyTransitionDelay);
+					if (KErrNone == err)
+						{
+						err = DoLastKnownPosAreaL(lastKnownPosInfo, matchLevel);
+						}
+					if (KErrNone != err)
+						{
+						ERR_PRINTF2(_L("Incorrect err %d returned"), err);
+						SetTestStepResult(EFail);
+						}
+					Validate(*wcdmaPosInfo, lastKnownPosInfo, matchLevel, TPositionAreaInfo::EAreaCountry, ETrue, EFalse,
+							EFalse, EFalse);
+
+					//1. Now get a position in the database.for a GSM cell of 234.15.1911.100. 
+					INFO_PRINTF1(_L("Now get a position in the database.for a GSM cell of 234.15.1911.100"));
+                    TPositionInfo* gsmPosInfo2 = new(ELeave) TPositionInfo();
+                    posInfoArr.Append(gsmPosInfo2);
+
+					err = RProperty::Set(KUidPSSimTsyCategory, KPSSimTsyTimersReduceTime, KReduceSimTsyTimers);
+					User::After(KSimTsyTransitionDelay);
+					if (KErrNone == err)
+						{
+						err = DoNotifyUpdateL(*gsmPosInfo2);
+						}
+					if (KErrNone != err)
+						{
+						ERR_PRINTF2(_L("Incorrect err %d returned"), err);
+						SetTestStepResult(EFail);
+						}
+
+					// Move to WDCMA cell 234.15.1911.88880 and check GetLastKnownPosArea returns the most recent
+					// GSM position with area as TPositionAreaInfo::EAreaCountry.
+					INFO_PRINTF1(_L("Move to WDCMA cell 234.15.1911.88880, check GetLastKnownPosArea returns recent GSM position"));
+					err = RProperty::Set(KUidPSSimTsyCategory, KPSSimTsyTimersReduceTime, KReduceSimTsyTimers);
+					User::After(KSimTsyTransitionDelay);
+					if (KErrNone == err)
+						{
+						err = DoLastKnownPosAreaL(lastKnownPosInfo, matchLevel);
+						}
+					if (KErrNone != err)
+						{
+						ERR_PRINTF2(_L("Incorrect err %d returned"), err);
+						SetTestStepResult(EFail);
+						}
+					Validate(*gsmPosInfo2, lastKnownPosInfo, matchLevel, TPositionAreaInfo::EAreaCountry, ETrue, ETrue,
+							EFalse, EFalse);
+
+					//7. Clear Database
+					iServer.EmptyLastKnownPositionStore(emptyStatus);
+					User::WaitForRequest(emptyStatus);
+					break;
+
+					}
+
+
 				default:
 					User::Panic(KLbsClientStepLastKnownPosArea, KErrUnknown);					
     		    }
@@ -564,7 +829,8 @@ void CT_LbsClientStep_LastKnownPosArea::Validate(TPositionInfo& aExpectedPositio
 		{
 		if (aActualArea.Area() != TPositionAreaInfo::EAreaUnknown)
 			{
-			ERR_PRINTF1(_L("Incorrect area reported when EAreaUnknown was expected"));	
+			ERR_PRINTF2(_L("Incorrect area of %d reported when EAreaUnknown was expected"), aActualArea.Area());	
+			SetTestStepResult(EFail);
 			}
 		}
 

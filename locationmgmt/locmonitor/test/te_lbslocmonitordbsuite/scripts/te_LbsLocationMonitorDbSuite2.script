@@ -26,9 +26,11 @@ START_TESTCASE                LBS-LocMonDBPersistence-0001
 //! @SYMTestCaseDesc            Verify that the DB created in the previous step can be accessed after a reboot
 //! @SYMTestPriority            Medium
 //! @SYMTestActions             1) Wait 1 second
-//! 							2) Perform a query that matches (recored stored by previous test suite)
+//! 			        2) Perform a query that matches GSM cell (record stored by previous test suite)
+//!                             3) Perform a query that matches WCDMA cell (record stored by previous test suite)
 //!
-//! @SYMTestExpectedResults     1) Position is returned
+//! @SYMTestExpectedResults     2) GSM Position is returned
+//!                             3) WCDMA Position is returned
 //!
 //! @SYMTestType                UT
 //! @SYMCreationDate            19/01/2009

@@ -606,7 +606,7 @@ TInt CTe_LocMonitorStep5::RLbsLocInfoConverter_ConvertLocationInfo5L()
     // KErrNotSupported and KErrNotFound are allowed error codes.
     else if( !( iConversionHandler->iStatus == KErrNotSupported || iConversionHandler->iStatus == KErrNotFound ) )
         {
-        INFO_PRINTF2(_L("Expected return value KErrNotSupported or KErrNotFound, got %d)"), iConversionHandler->iStatus);
+        INFO_PRINTF2(_L("Expected return value KErrNotSupported or KErrNotFound, got %d"), iConversionHandler->iStatus);
         User::Leave( KErrArgument );
         }
     

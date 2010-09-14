@@ -131,13 +131,17 @@ on an internal position bus.
 void CLbsLocMonitorRequestHandler::PositionAvailableL(const TPosition& aPosition)
 	{
 	LBSLOG(ELogP1,"->CLbsLocMonitorRequestHandler::PositionAvailableL");
-	if(iPositionsQueue.Count() < KLbsLocMonitorMaxWriteArraySize)
+	if(iPositionsQueue.Count() < KLbsLocMonitorMaxWriteArraySize && iAreaInfoAvailable)
 		{
-		iPositionsQueue.Append(aPosition);
+		TInt err = iPositionsQueue.Append(aPosition);
+		if( err!= KErrNone )
+			{
+			LBSLOG(ELogP1,"->iPositionsQueue.Append failed!!");
+			}
 		}
 	else
 		{
-		// Unable to handle more positions.
+		// Unable to handle more positions or we don't have valid area parameters
 		// The position will be lost.
 		}
 
@@ -445,9 +449,14 @@ void CLbsLocMonitorRequestHandler::ProcessNextRequest()
 		if (iLastKnownPositionAvailable)
 			{
 			iLastKnownPositionAvailable = EFalse;
-			iOperationInProgress = ELocMonDbSaveLastPos;
-			iDb.SavePosition(iLastKnownPosition, iCurrentAreaInfo, ETrue, iStatus);
-			SetActive();
+			
+			// Check that we have valid data before trying to save to the database - ignore otherwise.
+			if (iAreaInfoAvailable)
+			    {
+			    iOperationInProgress = ELocMonDbSaveLastPos;
+			    iDb.SavePosition(iLastKnownPosition, iCurrentAreaInfo, ETrue, iStatus);
+			    SetActive();
+			    }
 			}
 		else if (iPositionsQueue.Count() > 0)
 			{
@@ -620,7 +629,7 @@ void CLbsLocMonitorRequestHandler::DoCancel()
 void CLbsLocMonitorRequestHandler::AreaInfoUpdate(const TLbsLocMonitorAreaInfoBase& aAreaUpdate)
 	{
 	LBSLOG(ELogP1,"->CLbsLocMonitorRequestHandler::AreaInfoUpdate");
-	iAreaInfoAvailable = ETrue;
+	
 	switch(aAreaUpdate.AreaInfoClassType())
 		{
 		case TLbsLocMonitorAreaInfoBase::EAreaGciClass:
@@ -628,7 +637,17 @@ void CLbsLocMonitorRequestHandler::AreaInfoUpdate(const TLbsLocMonitorAreaInfoBa
 			// GCI is pointed to from position zero of the array.
 			// Overwrite it with the new area info.
 			TLbsLocMonitorAreaInfoGci& ref = const_cast<TLbsLocMonitorAreaInfoGci&>(static_cast<const TLbsLocMonitorAreaInfoGci&>(aAreaUpdate));
-			*(static_cast<TLbsLocMonitorAreaInfoGci*>(iCurrentAreaInfo[EGlobalCellIdType])) = ref;
+
+			// check that the update is valid before updating the current position.
+			// If not, we need to mark area info as not being available.
+			if (ref.iValidity)
+				{
+				iAreaInfoAvailable = ETrue;
+				*(static_cast<TLbsLocMonitorAreaInfoGci*>(iCurrentAreaInfo[EGlobalCellIdType])) = ref;
+				}
+			else
+				iAreaInfoAvailable = EFalse;
+
 			break;	
 			}
 			

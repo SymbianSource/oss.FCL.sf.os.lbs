@@ -82,6 +82,7 @@ PRJ_TESTEXPORTS
 ../testdata/lbsclientlastknownposareacommon.txt	c:/testdata/configs/lbsclientlastknownposareacommon.txt
 ../testdata/lbsclientlastknownposarea0001.txt	c:/testdata/configs/lbsclientlastknownposarea0001.txt
 ../testdata/lbsclientlastknownposarea0003.txt	c:/testdata/configs/lbsclientlastknownposarea0003.txt
+../testdata/lbsclientlastknownposarea0009.txt	c:/testdata/configs/lbsclientlastknownposarea0009.txt
 ../testdata/lbsclientlastknownposareasources.txt	c:/testdata/configs/lbsclientlastknownposareasources.txt
 
 
