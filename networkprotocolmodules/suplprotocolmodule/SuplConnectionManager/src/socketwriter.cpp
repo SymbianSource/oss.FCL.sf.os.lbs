@@ -191,6 +191,8 @@ void CSocketWriterBase::ConnectConnection()
 	
 	if (connectionType == TLbsHostSettingsSupl::ELbsConnectionTypeInvalid)
 		{
+	    SUPLLOG(ELogP1, "connectionType is TLbsHostSettingsSupl::ELbsConnectionTypeInvalid\n");
+
 		iConnection.Start(iStatus);
 		}
 	else
@@ -198,6 +200,7 @@ void CSocketWriterBase::ConnectConnection()
 		TCommDbConnPref prefs;
 		prefs.SetIapId(ap);
 		prefs.SetDialogPreference(ECommDbDialogPrefDoNotPrompt);
+		SUPLLOG2(ELogP1, "iConnection.Start(ap=%d)\n", ap);
 		iConnection.Start(prefs, iStatus);
 		}
 
@@ -224,7 +227,7 @@ void CSocketWriterBase::RunL()
 			}
 		else
 			{
-			SUPLLOG(ELogP1, "CSocketWriterBase::RunL() Connection Error(KErrCouldNotConnect)\n");
+			SUPLLOG2(ELogP1, "CSocketWriterBase::RunL() Connection Error(KErrCouldNotConnect) iStatus = %d\n", iStatus);
 			iObserver.ConnectionError(KErrCouldNotConnect, iCallbackId, iLastSessionId, cleanup);
 			}
 		break;

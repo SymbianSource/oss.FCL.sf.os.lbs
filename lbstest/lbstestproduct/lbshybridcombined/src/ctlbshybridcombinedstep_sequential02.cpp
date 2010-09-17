@@ -136,7 +136,6 @@ TVerdict CT_LbsHybridCombinedStep_Sequential02::doTestStepL()
 	// check the Client AGPS Usage Flag is as expected at the NPE Hybrid GPS module...
 	// TODO: this test is being queried - should the flag indicate any client request,
 	//       or just AGPS client requests...
-	//TESTL(EClientNoAgps == ReadClientUsageProperty());
 	
 	// Process the response.
 	TLbsNetSessionId* 					sessionId = NULL;
@@ -172,7 +171,6 @@ TVerdict CT_LbsHybridCombinedStep_Sequential02::doTestStepL()
     TESTL(iProxy->WaitForResponse(KTimeout) == ENetMsgTimeoutExpired);
 	
 	// check the Client AGPS Usage Flag is as expected at the NPE Hybrid GPS module...
-    //TESTL(EClientNoAgps == ReadClientUsageProperty());
 	
 	// Protocol Module Send <-- ProcessSessionComplete.
 	reason = KErrNone;
@@ -251,7 +249,6 @@ TVerdict CT_LbsHybridCombinedStep_Sequential02::doTestStepL()
     CheckForObserverEventTestsL(KTimeOut, *this);
     
     // check the Client AGPS Usage Flag is as expected at the NPE Hybrid GPS module...
-    TESTL(EClientNoAgps == ReadClientUsageProperty());
     
     // >> RequestAssistanceData(0)
     TESTL(iProxy->WaitForResponse(KTimeOut) == ENetMsgRequestAssistanceData); 

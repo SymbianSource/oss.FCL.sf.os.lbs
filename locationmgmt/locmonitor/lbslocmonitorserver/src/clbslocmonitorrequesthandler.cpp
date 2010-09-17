@@ -52,7 +52,9 @@ void CLbsLocMonitorRequestHandler::ConstructL()
 	// Allocate space for 1 pointer to area info source object (Global Cell Id)
 	iCurrentAreaInfo.ReserveL(ELastAreaInfoType);
 	TLbsLocMonitorAreaInfoGci* locMonitorAreaInfoGci = new(ELeave) TLbsLocMonitorAreaInfoGci;
-	iCurrentAreaInfo.Insert(static_cast<TLbsLocMonitorAreaInfoBase*>(locMonitorAreaInfoGci), EGlobalCellIdType);
+	CleanupStack::PushL(locMonitorAreaInfoGci);
+	iCurrentAreaInfo.InsertL(static_cast<TLbsLocMonitorAreaInfoBase*>(locMonitorAreaInfoGci), EGlobalCellIdType);
+	CleanupStack::Pop(locMonitorAreaInfoGci);
 	
 	iDb.OpenL();
 	}
@@ -107,7 +109,7 @@ void CLbsLocMonitorRequestHandler::PositionRequestL(const RMessage2& aMessage)
 
 	if(iRequestQueue.Count()< KLbsLocMonitorMaxReadArraySize)
 		{
-		iRequestQueue.Append(aMessage);
+		iRequestQueue.AppendL(aMessage);
 		}
 	else
 		{
@@ -129,13 +131,17 @@ on an internal position bus.
 void CLbsLocMonitorRequestHandler::PositionAvailableL(const TPosition& aPosition)
 	{
 	LBSLOG(ELogP1,"->CLbsLocMonitorRequestHandler::PositionAvailableL");
-	if(iPositionsQueue.Count() < KLbsLocMonitorMaxWriteArraySize)
+	if(iPositionsQueue.Count() < KLbsLocMonitorMaxWriteArraySize && iAreaInfoAvailable)
 		{
-		iPositionsQueue.AppendL(aPosition);
+		TInt err = iPositionsQueue.Append(aPosition);
+		if( err!= KErrNone )
+			{
+			LBSLOG(ELogP1,"->iPositionsQueue.Append failed!!");
+			}
 		}
 	else
 		{
-		// Unable to handle more positions.
+		// Unable to handle more positions or we don't have valid area parameters
 		// The position will be lost.
 		}
 
@@ -443,9 +449,14 @@ void CLbsLocMonitorRequestHandler::ProcessNextRequest()
 		if (iLastKnownPositionAvailable)
 			{
 			iLastKnownPositionAvailable = EFalse;
-			iOperationInProgress = ELocMonDbSaveLastPos;
-			iDb.SavePosition(iLastKnownPosition, iCurrentAreaInfo, ETrue, iStatus);
-			SetActive();
+			
+			// Check that we have valid data before trying to save to the database - ignore otherwise.
+			if (iAreaInfoAvailable)
+			    {
+			    iOperationInProgress = ELocMonDbSaveLastPos;
+			    iDb.SavePosition(iLastKnownPosition, iCurrentAreaInfo, ETrue, iStatus);
+			    SetActive();
+			    }
 			}
 		else if (iPositionsQueue.Count() > 0)
 			{
@@ -618,7 +629,7 @@ void CLbsLocMonitorRequestHandler::DoCancel()
 void CLbsLocMonitorRequestHandler::AreaInfoUpdate(const TLbsLocMonitorAreaInfoBase& aAreaUpdate)
 	{
 	LBSLOG(ELogP1,"->CLbsLocMonitorRequestHandler::AreaInfoUpdate");
-	iAreaInfoAvailable = ETrue;
+	
 	switch(aAreaUpdate.AreaInfoClassType())
 		{
 		case TLbsLocMonitorAreaInfoBase::EAreaGciClass:
@@ -626,7 +637,17 @@ void CLbsLocMonitorRequestHandler::AreaInfoUpdate(const TLbsLocMonitorAreaInfoBa
 			// GCI is pointed to from position zero of the array.
 			// Overwrite it with the new area info.
 			TLbsLocMonitorAreaInfoGci& ref = const_cast<TLbsLocMonitorAreaInfoGci&>(static_cast<const TLbsLocMonitorAreaInfoGci&>(aAreaUpdate));
-			*(static_cast<TLbsLocMonitorAreaInfoGci*>(iCurrentAreaInfo[EGlobalCellIdType])) = ref;
+
+			// check that the update is valid before updating the current position.
+			// If not, we need to mark area info as not being available.
+			if (ref.iValidity)
+				{
+				iAreaInfoAvailable = ETrue;
+				*(static_cast<TLbsLocMonitorAreaInfoGci*>(iCurrentAreaInfo[EGlobalCellIdType])) = ref;
+				}
+			else
+				iAreaInfoAvailable = EFalse;
+
 			break;	
 			}
 			
@@ -735,8 +756,7 @@ void CLbsLocMonitorRequestHandler::HandleDbAccessError(TInt aError)
 		case ELocMonDbGetPosArea:
 		case ELocMonDbGetLast:
 			// Check the request is still there before completing it
-			if ((iRequestQueue.Count() > 0) &&
-				(iRequestQueue[0].Function() == DbReadOperationToOpCode(iOperationInProgress)))
+			if (iRequestQueue.Count() > 0)
 				{
 				CompleteClientRequest(0, aError);
 				}

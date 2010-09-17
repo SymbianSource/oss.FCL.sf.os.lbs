@@ -135,17 +135,7 @@ void CPosModulesStatus::ConstructL()
         User::LeaveIfError(iModuleStatusArray.Append(module));
         }
     CleanupStack::PopAndDestroy(idList);
-    iActivePosModuleArray.Reset();
 
-    // Get the CategoryUid from the cenrep file owned by LbsRoot.
-    CRepository* rep = CRepository::NewLC(KLbsCenRepUid);
-    TInt posStatusCategory;
-    DEBUG_TRACE("Opening Status API Settings...", __LINE__)
-    User::LeaveIfError(rep->Get(KMoPositioningStatusAPIKey, posStatusCategory));
-    DEBUG_TRACE("Opened Status API Settings...", __LINE__)
-    CleanupStack::PopAndDestroy(rep);
-    iPosStatusCategory = TUid::Uid(posStatusCategory);
-    
     iTimer = CPeriodic::NewL(EPriorityLow);
     }
 
@@ -461,8 +451,6 @@ void CPosModulesStatus::ReportStatus(
         return;
         }
 
-    NotifyPosModuleStatusToSubscriber(aImplementationUid, aStatus);
-
     TPosModule& storedModule = iModuleStatusArray[index];
     TPositionModuleStatus::TDeviceStatus storedDeviceStatus = 
         storedModule.iStatus.DeviceStatus();
@@ -707,44 +695,6 @@ void CPosModulesStatus::NotifyEventToSubscriber(TPositionModuleStatusEvent& aOcc
 	    RequestComplete(aSubscriber.iMsg, KErrNone);
         }
     DEBUG_TRACE("Writing event object out", __LINE__);
-    }
-
-/**
- * Notify event to subscriber
- */
-void CPosModulesStatus::NotifyPosModuleStatusToSubscriber(const TPositionModuleId& aImplementationUid, const TPositionModuleStatus& aStatus)
-    {
-    //1. Search for uid in the list of active uids
-    //2. If uid doesnt exist, and status is active - add uid in the list
-    //3. If uid exists and status is inactive - remove it from the list
-    
-    TPositionModuleStatus::TDeviceStatus devStatus = aStatus.DeviceStatus();
-    TInt item = iActivePosModuleArray.Find(aImplementationUid);
-    if(item == KErrNotFound)
-        {
-        if(devStatus == TPositionModuleStatus::EDeviceActive || devStatus == TPositionModuleStatus::EDeviceReady)
-            {
-			//Ignoring error as RArray by default creates array of Granularity 8
-            iActivePosModuleArray.Append(aImplementationUid);
-            }
-        }
-    else
-        {
-        if(!(devStatus == TPositionModuleStatus::EDeviceActive || devStatus == TPositionModuleStatus::EDeviceReady))
-            {
-            iActivePosModuleArray.Remove(item);
-            }
-        }
-
-    TInt itemCount = iActivePosModuleArray.Count();
-	if(itemCount > 0)
-		{
-		RProperty::Set(iPosStatusCategory, KLbsMoPositioningStatusKey, itemCount);
-		}
-    else
-		{
-		RProperty::Set(iPosStatusCategory, KLbsMoPositioningStatusKey, 0);
-		}
     }
 
 /**

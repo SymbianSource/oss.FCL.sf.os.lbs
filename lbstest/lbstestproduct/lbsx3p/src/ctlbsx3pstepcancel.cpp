@@ -407,7 +407,7 @@ TVerdict CT_LbsX3PStep_Cancel::doTestStepL()
 				{
 				if(KErrCancel != err)
 					{
-					INFO_PRINTF1(_L("<FONT><B>CancelTransmitPosition() should have returned KErrCancel</B></FONT>"));
+					INFO_PRINTF2(_L("<FONT><B>CancelTransmitPosition() should have returned KErrCancel, got %d</B></FONT>"), err);
 					SetTestStepResult(EFail);	
 					}
 				}
@@ -417,13 +417,14 @@ TVerdict CT_LbsX3PStep_Cancel::doTestStepL()
 				{
 				if(KErrCancel == err && !(iCallbackFlags & KLbsCallback_NetSim_Got_NotifyMeasurementReportControlFailure))
 					{
-					INFO_PRINTF1(_L("<FONT><B>Should have been completed with KErrCancel</B></FONT>"));
+					INFO_PRINTF2(_L("<FONT><B>Should have been completed with KErrCancel,  got %d</B></FONT>"), err);
 					SetTestStepResult(EFail);	
 					}
 				}
 				//not using break as want to go ahead with below check.
 				
 			case 5:
+			case 6:				
 			case 11:
 			case 12: //TBD
      			// In testcases that cancel "late" in the X3P proceudure, cancellation may arrive to NRH before
@@ -433,19 +434,18 @@ TVerdict CT_LbsX3PStep_Cancel::doTestStepL()
 				{
 				if(!(KErrCancel == err || KErrNone == err))
 					{
-					INFO_PRINTF1(_L("<FONT><B>CancelTransmitPosition() should have returned KErrCancel or KErrNone</B></FONT>"));
+					INFO_PRINTF2(_L("<FONT><B>CancelTransmitPosition() should have returned KErrCancel or KErrNone, got %d</B></FONT>"), err);
 					SetTestStepResult(EFail);	
 					}
 				}
 			break;
 			
-			case 6:
 			case 8:
 			case 9:
 				{
 				if(KErrNone != err)
 					{
-					INFO_PRINTF1(_L("<FONT><B>CancelTransmitPosition() should have returned KErrNone</B></FONT>"));
+					INFO_PRINTF2(_L("<FONT><B>CancelTransmitPosition() should have returned KErrNone, got %d</B></FONT>"), err);
 					SetTestStepResult(EFail);	
 					}
 				}

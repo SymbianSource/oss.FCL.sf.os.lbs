@@ -30,6 +30,14 @@ PREFIX RUN_UTILS
 	CopyFile c:\testdata\configs\lbstestconfig.txt c:\config.txt
 REMOVE_PREFIX
 
+// Before we start LBS, select the test A-GPS integration module to use.
+PREFIX RUN_UTILS
+MkDir c:\private\10282253\
+MkDir c:\private\10282253\lbs\
+MkDir c:\private\10282253\lbs\locmods\
+CopyFile c:\testdata\configs\ctagpshybridmoduledatasource.ini c:\private\10282253\lbs\locmods\agpsintegmodule.ini
+CopyFile c:\testdata\configs\lbstestconfig.txt c:\config.txt
+REMOVE_PREFIX
 
 PRINT START LBS 
 RUN_TEST_STEP 020 SimulationPSYTests LbsStep_StartLbs
@@ -1036,6 +1044,7 @@ START_TESTCASE                 LBS-SIMULATIONPSY-00601
 RUN_TEST_STEP 140 SimulationPSYTests TP600-1
 
 END_TESTCASE                   LBS-SIMULATIONPSY-00601
+
 
 START_TESTCASE                 LBS-SIMULATIONPSY-00602
 //!@SYMTestCaseID              LBS-SIMULATIONPSY-00602

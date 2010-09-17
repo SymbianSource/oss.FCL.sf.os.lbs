@@ -38,7 +38,6 @@ PREFIX RUN_UTILS
 REMOVE_PREFIX
 
 RUN_TEST_STEP 010 LbsClientTestServer LbsStep_ResetDefaultAdmin
-
 RUN_TEST_STEP 010 LbsClientTestServer LbsStep_StartLbs
 RUN_TEST_STEP 020 LbsClientTestServer LbsStep_SetAutonomousMode
 
@@ -466,6 +465,8 @@ RUN_TEST_STEP 010 LbsClientTestServer LbsStep_VerifyPosInfos
 //RUN_TEST_STEP 010 LbsClientTestServer LbsStep_VerifyLogInfo c:\testdata\configs\lbsclientnotifyposupdate.ini LBS-NotifyPosUpdate-0101
 END_TESTCASE                  LBS-Client-NotifyPosUpdate-0020
 
+PRINT Stop LBS
+RUN_TEST_STEP 020 LbsClientTestServer LbsStep_StopLbs
 
 // Re-select the real A-GPS integration module.
 RUN_UTILS DeleteFile c:\private\10282253\lbs\locmods\agpsintegmodule.ini

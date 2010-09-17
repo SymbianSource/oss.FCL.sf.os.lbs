@@ -13,8 +13,6 @@
 // Description:
 //
 
-#include "../test/group/bld.inf"
-
 PRJ_TESTMMPFILES
 ctagpshybridmodule.mmp
 

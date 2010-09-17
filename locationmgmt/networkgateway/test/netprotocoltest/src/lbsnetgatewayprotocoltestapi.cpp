@@ -212,7 +212,7 @@ CNetProtocolMessageTransmitter* CNetProtocolMessageTransmitter::NewL(TUid aCateg
 
 void CNetProtocolMessageTransmitter::ConstructL(TUid aCategory, TUint aTxKey)
 	{
-	LBSLOG(ELogP1, "CNetProtocolMessageTransmitter::ConstructL()");
+	LBSLOG2(ELogP1, "CNetProtocolMessageTransmitter::ConstructL(0x%x)", aTxKey);
 	__ASSERT_DEBUG(iTxProperty.Handle() == NULL, User::Invariant());
 	
 	User::LeaveIfError(iTxProperty.Attach(aCategory, aTxKey));
@@ -271,6 +271,7 @@ void CNetProtocolMessageTransmitter::SendNetProtocolMessageL(const TNetGatewayMs
 	TInt err = iTxProperty.Set(pckg);
 	if(err!=KErrNone)
 		{
+		LBSLOG2(ELogP1, "err = 0x%x", err);
 		Cancel();
 		User::Leave(err);
 		}
@@ -285,7 +286,7 @@ void CNetProtocolMessageTransmitter::SendNetProtocolMessageL(const TNetGatewayMs
 EXPORT_C RNetGatewayProtocolTestChannel::RNetGatewayProtocolTestChannel(TUint aModuleIndex) :
 iModuleIndex(aModuleIndex)
 	{
-	LBSLOG(ELogP1, "RNetGatewayProtocolTestChannel::RNetGatewayProtocolTestChannel()");
+	LBSLOG2(ELogP1, "RNetGatewayProtocolTestChannel::RNetGatewayProtocolTestChannel(0x%x)", aModuleIndex);
 	}
 
 EXPORT_C RNetGatewayProtocolTestChannel::RNetGatewayProtocolTestChannel() :
@@ -296,7 +297,7 @@ iModuleIndex(0)
 
 EXPORT_C void RNetGatewayProtocolTestChannel::InitialiseL(TUint aModuleIndex)
 	{
-	LBSLOG(ELogP1, "RNetGatewayProtocolTestChannel::InitialiseL()");
+	LBSLOG2(ELogP1, "RNetGatewayProtocolTestChannel::InitialiseL(0x%x)", aModuleIndex);
 	__ASSERT_DEBUG(KLbsNetGatewayUid  == RProcess().SecureId(), User::Invariant());
 	
 	TSecurityPolicy readPolicy(ECapabilityLocation);

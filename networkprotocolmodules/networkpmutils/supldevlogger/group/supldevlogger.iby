@@ -18,8 +18,8 @@
 #ifndef __SUPL_DEV_LOGGER_IBY__
 #define __SUPL_DEV_LOGGER_IBY__
 
-#ifdef _DEBUG
-file=ABI_DIR\DEBUG_DIR\supldevlogger.dll		System\libs\supldevlogger.dll
-#endif
 
-#endif
+file=ABI_DIR\DEBUG_DIR\supldevlogger.dll		System\libs\supldevlogger.dll
+
+
+#endif //__SUPL_DEV_LOGGER_IBY__ 

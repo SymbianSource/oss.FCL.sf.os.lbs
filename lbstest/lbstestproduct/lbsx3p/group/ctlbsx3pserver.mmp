@@ -42,6 +42,10 @@ SOURCE		ctlbsx3pdotransmitpos.cpp
 SOURCE		ctlbsx3pstepnegative.cpp
 SOURCE		ctlbsx3psteptransmitconcurrent.cpp
 
+//  Test Execute libraries.
+LIBRARY	testexecuteutils.lib 
+LIBRARY	testexecutelogclient.lib
+
 // LBS libraries.
 LIBRARY	lbs.lib
 LIBRARY	lbsloccommon.lib

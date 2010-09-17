@@ -39,9 +39,6 @@
 #include "../hybridprotocolmodule/group/bld.inf"
 #include "../agpshybridmodule/group/bld.inf"
 
-//NPE support
-#include "../agpsnpehybridmodule/group/bld.inf"
-
 // Extended Protocol Moulde
 #include "../extendedprotocolmodule/group/bld.inf"
 
@@ -63,5 +60,3 @@
 //Features tests
 #include "../lbsfeatures/group/bld.inf"
 
-// Symbian Foundation Core Tests
-#include "../sf/group/bld.inf"

@@ -26,6 +26,10 @@ VENDORID	0x70000001
 OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 USERINCLUDE		../lbsnetprotocolstub/inc
+
+
+USERINCLUDE	    ../../../../locationmgmt/locationcore/LbsPartnerCommon/inc
+
 SOURCEPATH		../lbsnetprotocolstub/src
 SOURCE			lbsnetprotocolstub.cpp
 

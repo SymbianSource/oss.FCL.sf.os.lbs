@@ -20,12 +20,6 @@ PRINT
 
 //Before we start LBS, select the network reg status txt file to use.
 RUN_UTILS CopyFile c:\testdata\configs\lbstestconfig.txt c:\config.txt
-PREFIX RUN_UTILS
-MkDir c:\private\10282253\
-MkDir c:\private\10282253\lbs\
-MkDir c:\private\10282253\lbs\locmods\
-CopyFile z:\testdata\configs\sirfdatasource.ini c:\private\10282253\lbs\locmods\agpsintegmodule.ini
-REMOVE_PREFIX
 // Re-select the profile ini
 RUN_UTILS DeleteFile c:\private\10282253\lbs\lbsprofile.ini
 

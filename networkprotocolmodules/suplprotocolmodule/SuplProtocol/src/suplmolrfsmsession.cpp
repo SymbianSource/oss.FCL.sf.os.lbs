@@ -142,9 +142,24 @@ TInt CSuplMolrFsmSession::GetHostId(TLbsHostSettingsId& aHostId)
 		TLbsHostSettingsSupl slpSettings;
 		TLbsHostSettingsId 	settingsId;
 		// Get the default SLP if one exists
+		// jcm
 		err = iSlpSettingsStore->GetDefaultHostSettings(slpSettings, settingsId);
 		if (KErrNone == err)
 			{
+		    TLbsHostNameAddress hostNameAddress;
+		    slpSettings.GetHostNameAddress(hostNameAddress);
+		    //TBuf<128> name;
+		    //name.Copy(hostNameAddress);
+		    SUPLLOG2_L8(ELogP1, "Host name address = %S\n", &hostNameAddress);
+	                   
+		    TLbsHostName hostName;
+		    slpSettings.GetName(hostName);
+	        //name.Copy(hostName);
+		    SUPLLOG2_L8(ELogP1, "Host name  = %S\n", &hostName);
+		    
+		    SUPLLOG2(ELogP1, "SettingsId=%d\n",settingsId.iUid );
+
+	        
 			aHostId = settingsId;
 			hostFound = ETrue;
 			}

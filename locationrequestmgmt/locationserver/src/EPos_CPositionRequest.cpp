@@ -21,6 +21,7 @@
 #include <lbs/epos_cpositioner.h>
 #include <lbs/epos_cposmodules.h>
 #include <lbs/epos_mposmodulesobserver.h>
+#include <centralrepository.h>
 #include "lbsdevloggermacros.h"
 #include "EPos_ServerPanic.h"
 #include "EPos_Global.h"
@@ -28,12 +29,16 @@
 #include "EPos_CPositionRequest.h"
 #include "epos_cposmodulessettings.h"
 
+
 //TODO Verify
 #include "EPos_CPosLocMonitorReqHandlerHub.h"
 #include "OstTraceDefinitions.h"
 #ifdef OST_TRACE_COMPILER_IN_USE
 #include "EPos_CPositionRequestTraces.h"
 #endif
+#include "lbsrootcenrepdefs.h"
+#include "lbspositioningstatusprops.h"
+
 
 
 
@@ -43,6 +48,7 @@ _LIT(KTraceFileName, "EPos_CPositionRequest.cpp");
 #endif
 
 const TInt KParamPositionInfo = 0;
+const TTimeIntervalMicroSeconds KIndFlickerTresholdTracking = 30000000; 
 
 // ================= LOCAL FUNCTIONS ========================
 
@@ -78,7 +84,8 @@ CPositionRequest::CPositionRequest(
     iPositionerParams(aPositionerParams),
     iHasProxyPositioner(aIsProxy),
     iLocMonitorReqHandler(aLocMonitorReqHandlerHub),
-    iModuleSettings(aModuleSettings)
+    iModuleSettings(aModuleSettings),
+    iPositioningActive( EFalse )
     {
     CActiveScheduler::Add(this);
     }
@@ -101,6 +108,14 @@ void CPositionRequest::ConstructL()
         User::Leave(KErrNotFound);
         }
 
+    // Get the CategoryUid from the cenrep file owned by LbsRoot.
+    CRepository* rep = CRepository::NewLC(KLbsCenRepUid);
+    TInt posStatusCategory;
+    TInt err = rep->Get(KMoPositioningStatusAPIKey, posStatusCategory);
+    User::LeaveIfError(err);
+    CleanupStack::PopAndDestroy(rep);
+    iPosStatusCategory = TUid::Uid(posStatusCategory);
+    
     LoadPositionerL();
     }
 
@@ -150,6 +165,9 @@ CPositionRequest::~CPositionRequest()
     delete iPositionBuffer;
     delete iTimeoutTimer;
     delete iPositioner;
+    
+    // Deactivate the positioning status when the object dies.
+    DeActivatePositioningStatusIfNeeded();
     }
 
 /**
@@ -161,11 +179,15 @@ void CPositionRequest::MakeRequestL(const RMessage2& aMessage)
     {
     if (!iModuleInfo.IsAvailable())
         {
+        // Deactivate positioning status if there are PSY's not found.
+        DeActivatePositioningStatusIfNeeded();
         User::Leave(KErrNotFound);
         }
 
     __ASSERT_DEBUG(iPositioner, DebugPanic(EPosServerPanicPositionerNotInitialized));
     
+    
+
     iMessage = aMessage; // Store parameter here in case of leave.
 
     // Clear previous position data
@@ -188,10 +210,14 @@ void CPositionRequest::MakeRequestL(const RMessage2& aMessage)
         User::Leave(KErrArgument);
         }
 
+ 
+
     // Set ModuleId to KNullId to be able to verify that Id is set by PSY.
     infoBase.SetModuleId(KNullUid);
 
     CleanupStack::PushL(TCleanupItem(CancelTimerCleanup, iTimeoutTimer));
+
+		ActivatePositioningStatusIfNeeded();
 
     // Start timer if necessary
     if (iTimeOut.Int64() > 0)
@@ -324,7 +350,7 @@ void CPositionRequest::HandleSettingsChangeL(TPosModulesEvent aEvent)
         {
         return;
         }
-
+	
     switch (aEvent.iType)
         {
         case EPosModulesEventAvailabilityChanged:
@@ -339,9 +365,11 @@ void CPositionRequest::HandleSettingsChangeL(TPosModulesEvent aEvent)
         default:
             return;
         }
-
-    if (!iModuleInfo.IsAvailable())
+		if (!iModuleInfo.IsAvailable())
         {
+        // Deactivate positioning status if there are PSY's not found.
+        DeActivatePositioningStatusIfNeeded();	
+        
         if (IsActive())
             {
             CompleteClient(KErrNotFound);
@@ -467,6 +495,9 @@ void CPositionRequest::DoCancel()
         	DEBUG_TRACE("CPositionRequest::DoCancel() panicing", __LINE__)
             DebugPanic(EPosServerPanicRequestInconsistency);
         }
+    
+    // Deactive positioning status after cancellation.
+    DeActivatePositioningStatusIfNeeded();
 
     TInt err;
     if (iRequestTimedOut)
@@ -487,6 +518,7 @@ void CPositionRequest::DoCancel()
         }
 
     iRequestPhase = EPosReqInactive;
+    
     OstTraceFunctionExit1( CPOSITIONREQUEST_DOCANCEL_EXIT, this );
     }
 
@@ -525,6 +557,17 @@ void CPositionRequest::CompleteRequest(TInt aReason)
     else
         {
         CompleteClient(aReason);
+        }
+    
+    // If the request is not tracking mode, deactivate the indicator
+    // Tracking mode check and the last check for the error scenarios other than
+    // KErrNone and KPositionPartialUpdate.
+    if( ( ( iTrackingState == EPosFirstTrackingRequest || iTrackingState == EPosTracking ) &&
+    	     iTrackingUpdateInterval >  KIndFlickerTresholdTracking ) ||
+          iTrackingUpdateInterval == TTimeIntervalMicroSeconds ( 0 ) ||
+          !( aReason == KErrNone || aReason == KPositionPartialUpdate ) )
+        {
+        DeActivatePositioningStatusIfNeeded();
         }
     }
 
@@ -733,4 +776,61 @@ void CPositionRequest::ExtendUpdateTimeOut(const TTimeIntervalMicroSeconds& aAdd
 	iTimeoutTimer->ExtendTimeout(aAdditionalTime);
 	}
 
+void CPositionRequest::ActivatePositioningStatusIfNeeded()
+    {
+    // Check for the positioning status, If it has been activated from this object,
+    // there is no need to increment the count again.
+    if( !iPositioningActive )
+        {
+        TInt count, err;     
+        err = RProperty::Get(iPosStatusCategory, KLbsMoPositioningStatusKey, count);
+
+        if(err == KErrNone)
+            {
+            err = RProperty::Set(iPosStatusCategory, KLbsMoPositioningStatusKey, count+1);
+            if(err == KErrNone)
+                {
+                iPositioningActive = ETrue; 
+                }
+            else
+                {
+                DEBUG_TRACE("CPositionRequest::ActivatePositioningStatusIfNeeded() - Error in  setting Positioning Status", __LINE__)
+                }
+            }
+        else 
+            {
+            DEBUG_TRACE("CPositionRequest::ActivatePositioningStatusIfNeeded() - Error in  getting Positioning Status", __LINE__)
+			
+            }
+        }
+    }
+
+void CPositionRequest::DeActivatePositioningStatusIfNeeded()
+    {
+    // If the positioning status is activated by this object, deactivate it
+    if( iPositioningActive )
+        {
+        TInt  count, err;     
+        err = RProperty::Get(iPosStatusCategory, KLbsMoPositioningStatusKey, count);
+        
+        if(err == KErrNone)
+        	{
+            __ASSERT_DEBUG(count > 0, DebugPanic(EPosServerPanicIndDeactivationFailed));
+        	
+            err = RProperty::Set(iPosStatusCategory, KLbsMoPositioningStatusKey, count-1);
+            if(err == KErrNone)
+                {
+                iPositioningActive = EFalse;
+                }
+            else
+                {
+                DEBUG_TRACE("CPositionRequest::DeActivatePositioningStatusIfNeeded() - error in setting Positioning Status", __LINE__)	
+                }		
+        	}
+        else
+        	{
+        	DEBUG_TRACE("CPositionRequest::DeActivatePositioningStatusIfNeeded() - error in getting Positioning Status", __LINE__)            	
+        	}	
+        }
+    }
 //  End of File

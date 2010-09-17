@@ -34,48 +34,42 @@
    		</build>
 
 		<data>
-			<hostPath>\epoc32\data\Z\resource\plugins\lbsnetprotocolstub.rsc</hostPath>
+			<hostPath>\epoc32\data\z\resource\plugins\lbsnetprotocolstub.rsc</hostPath>
 			<devicePath>c:\resource\plugins\lbsnetprotocolstub.rsc</devicePath>
 		</data>
 
 		<build type="test">
-	   		<hostPath>agpsnpetestintegmodule.dll</hostPath>
-      		<devicePath>c:\system\libs\agpsnpetestintegmodule.dll</devicePath>
-   			<mmpFile>agpsnpetestintegmodule.mmp</mmpFile>
-   			<bldInfPath>lbstest\lbstestproduct\agpsnpehybridmodule\npetestintegmodule\group\bld.inf</bldInfPath>
+	   		<hostPath>ctagpshybridmodule.dll</hostPath>
+      		<devicePath>c:\system\libs\ctagpshybridmodule.dll</devicePath>
+   			<mmpFile>ctagpshybridmodule.mmp</mmpFile>
+   			<bldInfPath>lbstest\lbstestproduct\agpshybridmodule\group\bld.inf</bldInfPath>
    		</build>
 
 		<data>
-			<hostPath>\epoc32\data\Z\resource\plugins\agpsnpetestintegmodule.rsc</hostPath>
-			<devicePath>c:\resource\plugins\agpsnpetestintegmodule.rsc</devicePath>
+			<hostPath>\epoc32\data\z\resource\plugins\ctagpshybridmodule.rsc</hostPath>
+			<devicePath>c:\resource\plugins\ctagpshybridmodule.rsc</devicePath>
 		</data>
 		
 		<data>
-			<hostPath>lbstest\lbstestproduct\agpsnpehybridmodule\npetestintegmodule\testdata\ctagpsnpetestmoduledatasource.ini</hostPath>
-			<devicePath>c:\testdata\configs\ctagpsnpetestmoduledatasource.ini</devicePath>
+			<hostPath>lbstest\lbstestproduct\agpshybridmodule\testdata\ctagpshybridmoduledatasource.ini</hostPath>
+			<devicePath>c:\testdata\configs\ctagpshybridmoduledatasource.ini</devicePath>
 		</data>
 
 		<data>
-			<hostPath>lbstest\lbstestproduct\agpsnpehybridmodule\npetestintegmodule\testdata\ctagpsnpetestmoduledatasource_tb.ini</hostPath>
-			<devicePath>c:\testdata\configs\ctagpsnpetestmoduledatasource_tb.ini</devicePath>
+			<hostPath>lbstest\lbstestproduct\agpshybridmodule\testdata\ctagpshybridmoduledatasource_tb.ini</hostPath>
+			<devicePath>c:\testdata\configs\ctagpshybridmoduledatasource_tb.ini</devicePath>
 		</data>
 
 		<data>
-			<hostPath>lbstest\lbstestproduct\agpsnpehybridmodule\npetestintegmodule\testdata\ctagpsnpetestmoduledatasource_ta.ini</hostPath>
-			<devicePath>c:\testdata\configs\ctagpsnpetestmoduledatasource_ta.ini</devicePath>
+			<hostPath>lbstest\lbstestproduct\agpshybridmodule\testdata\ctagpshybridmoduledatasource_ta.ini</hostPath>
+			<devicePath>c:\testdata\configs\ctagpshybridmoduledatasource_ta.ini</devicePath>
 		</data>
 
 		<data>
-			<hostPath>lbstest\lbstestproduct\agpsnpehybridmodule\npetestintegmodule\testdata\ctagpsnpetestmoduledatasource_exclusive.ini</hostPath>
-			<devicePath>c:\testdata\configs\ctagpsnpetestmoduledatasource_exclusive.ini</devicePath>
+			<hostPath>lbstest\lbstestproduct\agpshybridmodule\testdata\ctagpshybridmoduledatasource_exclusive.ini</hostPath>
+			<devicePath>c:\testdata\configs\ctagpshybridmoduledatasource_exclusive.ini</devicePath>
 		</data>
 		
-		<build type="test">
-	   		<hostPath>npetestclientapi.dll</hostPath>
-      		<devicePath>c:\system\libs\npetestclientapi.dll</devicePath>
-   			<mmpFile>npetestclientapi.mmp</mmpFile>
-   			<bldInfPath>lbstest\lbstestproduct\agpsnpehybridmodule\npetestclientapi\group\bld.inf</bldInfPath>
-   		</build>
 		
 		<data>  
 			<hostPath>lbstest\lbstestproduct\common\testdata\lbstestprofile.ini</hostPath>

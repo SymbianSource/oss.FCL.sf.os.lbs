@@ -24,7 +24,7 @@
 
 #include "supldevlogger.h"
 
-#if defined(ENABLE_SUPL_DEV_LOGGER) && (defined(_DEBUG)||defined(__WINS__))
+#if defined(ENABLE_SUPL_DEV_LOGGER)&& (defined(_DEBUG)||defined(__WINS__))
 /**
  -----------------------
  Standard Logging Macros 

@@ -20,12 +20,7 @@ PRINT Run LbsClientTestServer and CTSuplMolrRealTestServer
 PRINT
 
 RUN_UTILS DeleteFile c:\private\10282253\lbs\locmods\agpsintegmodule.ini
-PREFIX RUN_UTILS
-MkDir c:\private\10282253\
-MkDir c:\private\10282253\lbs\
-MkDir c:\private\10282253\lbs\locmods\
-CopyFile z:\testdata\configs\sirfdatasource.ini c:\private\10282253\lbs\locmods\agpsintegmodule.ini
-REMOVE_PREFIX
+
 // Re-select the profile ini
 RUN_UTILS DeleteFile c:\private\10282253\lbs\lbsprofile.ini
 RUN_UTILS CopyFile c:\testdata\configs\lbssupltestconfig.txt c:\config.txt

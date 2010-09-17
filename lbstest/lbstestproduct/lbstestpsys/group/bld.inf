@@ -50,7 +50,8 @@ DEFAULT
 
 #include "../installpsytp273/group/bld.inf"
 
-#include "../installabletrackingpsy/group/bld.inf"
+// removed as won't build. Graham thinks the tests are more trouble than they're worth, so may be removed permanently
+// #include "../installabletrackingpsy/group/bld.inf"
  
 #include "../delayedresponsepsy/group/bld.inf"
 

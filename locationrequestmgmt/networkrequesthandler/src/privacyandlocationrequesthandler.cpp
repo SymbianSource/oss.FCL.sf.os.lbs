@@ -312,7 +312,12 @@ CLbsPrivLocFsm* CPrivacyAndLocationHandler::GetNewFsm(
 	if (fsm)
 		{
 		// Add the state machine to the buffer.
-		iFsmArray.Append(fsm);
+		TInt err = iFsmArray.Append(fsm);
+		if( err != KErrNone )
+			{
+			delete fsm;
+			return NULL;
+			}
 	
 		iNumActiveSessions++; // conceptually, a session starts when a Fsm is created for it
 

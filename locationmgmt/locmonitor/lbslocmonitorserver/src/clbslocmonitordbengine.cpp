@@ -21,7 +21,7 @@
 #include "lbslocmonitordbenginedefs.h"
 #include "lbsdevloggermacros.h"
 
-
+const TInt KMaskInBit28 = 0x10000000;
 
 CLbsLocMonitorDbEngine* CLbsLocMonitorDbEngine::NewL()
 	{
@@ -109,15 +109,18 @@ CLbsLocMonitorDbEngine::~CLbsLocMonitorDbEngine()
 	}
 
 
-TInt CLbsLocMonitorDbEngine::SavePosition(TUint aMcc, TUint aMnc, TUint aLac, TUint aCid, const TPosition& aPosition, TBool aUserPosition, TRequestStatus& aStatus)
+TInt CLbsLocMonitorDbEngine::SavePosition(TUint aMcc, TUint aMnc, TUint aLac, TUint aCid, TBool aIs3gMode, const TPosition& aPosition, TBool aUserPosition, TRequestStatus& aStatus)
 	{
-    iSaveLastPos = aUserPosition;
 	LBSLOG(ELogP1,"->CLbsLocMonitorDbEngine::SavePosition");
+
+	iSaveLastPos = aUserPosition;
+
 	if(aMcc > KMaxTInt || aMnc > KMaxTInt || aLac > KMaxTInt || aCid > KMaxTInt)
 		{
 		return KErrArgument;
 		}		
-	iClientStatus = &aStatus;
+
+    iClientStatus = &aStatus;
 	*iClientStatus = KRequestPending;
 	
 	// If the db flush timer is not running, start it
@@ -133,6 +136,7 @@ TInt CLbsLocMonitorDbEngine::SavePosition(TUint aMcc, TUint aMnc, TUint aLac, TU
 		iLastMnc = aMnc;
 		iLastLac = aLac;
 		iLastCid = aCid;
+		iLastModeIs3g = aIs3gMode;
 		iLastTime.UniversalTime();
 		iLastPosition = aPosition;
 		if(iSaveLastPos)
@@ -145,7 +149,7 @@ TInt CLbsLocMonitorDbEngine::SavePosition(TUint aMcc, TUint aMnc, TUint aLac, TU
 		} 
 	// If this cell is the same as the the cache, update the cache's position and timestamp
 	
-	else if(CacheMatchLevel(aMcc, aMnc, aLac, aCid).CellIdMatch())
+	else if(CacheMatchLevel(aMcc, aMnc, aLac, aCid, aIs3gMode).CellIdMatch())
 		{
 		iLastPosition = aPosition;
 	    if(iSaveLastPos)
@@ -153,6 +157,7 @@ TInt CLbsLocMonitorDbEngine::SavePosition(TUint aMcc, TUint aMnc, TUint aLac, TU
             iLastKnownPosition = aPosition;
             }
 		iLastTime.UniversalTime();
+		iLastModeIs3g = aIs3gMode;
 		User::RequestComplete(iClientStatus, KErrNone);
 		return KErrNone;
 		}
@@ -168,6 +173,7 @@ TInt CLbsLocMonitorDbEngine::SavePosition(TUint aMcc, TUint aMnc, TUint aLac, TU
 			iLastCid = aCid;
 			iLastTime.UniversalTime();
 			iLastPosition = aPosition;
+			iLastModeIs3g = aIs3gMode;
 			iIsLastValid = ETrue;
 			}
 		return result;
@@ -190,10 +196,17 @@ TInt CLbsLocMonitorDbEngine::Insert(TBool aShutdown)
 		TInt indexStamp = iSqlSaveStatement.ParameterIndex(KStamp);
 		TInt indexData = iSqlSaveStatement.ParameterIndex(KData);
 		
+
 		iSqlSaveStatement.BindInt(indexMcc, iLastMcc);
 		iSqlSaveStatement.BindInt(indexMnc, iLastMnc);
 		iSqlSaveStatement.BindInt(indexLac, iLastLac);
-		iSqlSaveStatement.BindInt(indexCid, iLastCid);
+		// Set bit 28 if 3g to distinguish from 2g equivalent...
+		TInt effectiveCid = iLastCid;
+		if (iLastModeIs3g)
+			{
+			effectiveCid |= KMaskInBit28;
+			}
+		iSqlSaveStatement.BindInt(indexCid, effectiveCid);
 		iSqlSaveStatement.BindInt64(indexStamp, iLastTime.Int64());
 		iSqlSaveStatement.BindBinary(indexData, positionDes);
 		
@@ -230,7 +243,7 @@ TInt CLbsLocMonitorDbEngine::Insert(TBool aShutdown)
 	}
 
 
-TInt CLbsLocMonitorDbEngine::GetPosition(TUint aMcc, TUint aMnc, TUint aLac, TUint aCid, TPosition& aPosition, TPositionAreaExtendedInfo& aMatchingAreaInfo, TRequestStatus& aStatus)
+TInt CLbsLocMonitorDbEngine::GetPosition(TUint aMcc, TUint aMnc, TUint aLac, TUint aCid, TBool aIs3gMode, TPosition& aPosition, TPositionAreaExtendedInfo& aMatchingAreaInfo, TRequestStatus& aStatus)
 	{
 	LBSLOG(ELogP1,"->CLbsLocMonitorDbEngine::GetPosition");
 	if(aMcc > KMaxTInt || aMnc > KMaxTInt || aLac > KMaxTInt || aCid > KMaxTInt)
@@ -245,8 +258,15 @@ TInt CLbsLocMonitorDbEngine::GetPosition(TUint aMcc, TUint aMnc, TUint aLac, TUi
 	aMatchingAreaInfo.SetLocationAreaCodeMatch(EFalse);
 	aMatchingAreaInfo.SetCellIdMatch(EFalse);
 	aMatchingAreaInfo.SetArea(TPositionAreaExtendedInfo::EAreaUnknown);
-	TPositionAreaExtendedInfo cacheMatch = CacheMatchLevel(aMcc, aMnc, aLac, aCid);
-	if(cacheMatch.CellIdMatch() || Select(aPosition, TPtrC(KSelectTempRow4), aMcc, aMnc, aLac, aCid) || Select(aPosition, TPtrC(KSelectRow4), aMcc, aMnc, aLac, aCid))
+
+	TUint effectiveCid = aCid;
+	if (aIs3gMode)
+		{
+		effectiveCid |= KMaskInBit28;
+		}
+
+	TPositionAreaExtendedInfo cacheMatch = CacheMatchLevel(aMcc, aMnc, aLac, aCid, aIs3gMode);
+	if(cacheMatch.CellIdMatch() || Select(aPosition, TPtrC(KSelectTempRow4), aMcc, aMnc, aLac, effectiveCid) || Select(aPosition, TPtrC(KSelectRow4), aMcc, aMnc, aLac, effectiveCid))
 		{		
 		if(cacheMatch.CellIdMatch())
 			{
@@ -258,47 +278,86 @@ TInt CLbsLocMonitorDbEngine::GetPosition(TUint aMcc, TUint aMnc, TUint aLac, TUi
 		aMatchingAreaInfo.SetCellIdMatch(ETrue);
 		aMatchingAreaInfo.SetArea(TPositionAreaExtendedInfo::EAreaCity);
 		}
-	else if(cacheMatch.LocationAreaCodeMatch() || Select(aPosition, TPtrC(KSelectTempRow3), aMcc, aMnc, aLac) || Select(aPosition, TPtrC(KSelectRow3), aMcc, aMnc, aLac))
-		{
-		if(cacheMatch.LocationAreaCodeMatch())
+	else 
+		{	
+		TBool matchLac = cacheMatch.LocationAreaCodeMatch();
+		if(matchLac)
 			{
 			aPosition = iLastPosition;
 			}
-		aMatchingAreaInfo.SetMobileCountryCodeMatch(ETrue);
-		aMatchingAreaInfo.SetMobileNetworkCodeMatch(ETrue);
-		aMatchingAreaInfo.SetLocationAreaCodeMatch(ETrue);
-		aMatchingAreaInfo.SetArea(TPositionAreaExtendedInfo::EAreaRegion);
-		}
-	else if(cacheMatch.MobileNetworkCodeMatch() || Select(aPosition, TPtrC(KSelectTempRow2), aMcc, aMnc) || Select(aPosition, TPtrC(KSelectRow2), aMcc, aMnc))
-		{
-		if(cacheMatch.MobileNetworkCodeMatch())
+		else
 			{
-			aPosition = iLastPosition;
+			TBuf<30>gsmOrWcdmaCells;
+			if (aIs3gMode)
+				{
+				gsmOrWcdmaCells = KSelectWcdmaCells;
+				}
+			else
+				{
+				gsmOrWcdmaCells = KSelectGsmCells;
+				}
+				
+			TBuf<256> selectStatement;
+			selectStatement.Format(KSelectTempRow3, &gsmOrWcdmaCells);
+
+			if (Select(aPosition, TPtrC(selectStatement), aMcc, aMnc, aLac))
+				{
+				matchLac = ETrue;
+				}
+			else
+				{
+				selectStatement.Format(KSelectRow3,&gsmOrWcdmaCells);
+				if (Select(aPosition, TPtrC(selectStatement), aMcc, aMnc, aLac))
+					{
+					matchLac = ETrue;
+					}
+				}
 			}
-		aMatchingAreaInfo.SetMobileCountryCodeMatch(ETrue);
-		aMatchingAreaInfo.SetMobileNetworkCodeMatch(ETrue);
-		aMatchingAreaInfo.SetArea(TPositionAreaExtendedInfo::EAreaCountry);
-		}
-	else if(cacheMatch.MobileCountryCodeMatch() || Select(aPosition, TPtrC(KSelectTempRow1), aMcc) || Select(aPosition, TPtrC(KSelectRow1), aMcc))
-		{
-		if(cacheMatch.MobileCountryCodeMatch())
+				
+		if (matchLac)
 			{
-			aPosition = iLastPosition;
+			aMatchingAreaInfo.SetMobileCountryCodeMatch(ETrue);
+			aMatchingAreaInfo.SetMobileNetworkCodeMatch(ETrue);
+			aMatchingAreaInfo.SetLocationAreaCodeMatch(ETrue);
+			aMatchingAreaInfo.SetArea(TPositionAreaExtendedInfo::EAreaRegion);
 			}
-		aMatchingAreaInfo.SetMobileCountryCodeMatch(ETrue);
-		aMatchingAreaInfo.SetArea(TPositionAreaExtendedInfo::EAreaCountry);
-		}
-	else if(iIsLastValid || Select(aPosition, TPtrC(KSelectTempRowLatest)) || Select(aPosition, TPtrC(KSelectRowLatest)) || iIsLastValid)
-		{
-		if(iIsLastValid)
+		else
 			{
-			aPosition = iLastPosition;
-			}
-		}
-	else
-		{
-		result = KErrNotFound;
-		}
+			if(cacheMatch.MobileNetworkCodeMatch() || Select(aPosition, TPtrC(KSelectTempRow2), aMcc, aMnc) || Select(aPosition, TPtrC(KSelectRow2), aMcc, aMnc))
+				{
+				if(cacheMatch.MobileNetworkCodeMatch())
+					{
+					aPosition = iLastPosition;
+					}
+				aMatchingAreaInfo.SetMobileCountryCodeMatch(ETrue);
+				aMatchingAreaInfo.SetMobileNetworkCodeMatch(ETrue);
+				aMatchingAreaInfo.SetArea(TPositionAreaExtendedInfo::EAreaCountry);
+				}
+			else if(cacheMatch.MobileCountryCodeMatch() || Select(aPosition, TPtrC(KSelectTempRow1), aMcc) || Select(aPosition, TPtrC(KSelectRow1), aMcc))
+				{
+				if(cacheMatch.MobileCountryCodeMatch())
+					{
+					aPosition = iLastPosition;
+					}
+				aMatchingAreaInfo.SetMobileCountryCodeMatch(ETrue);
+				aMatchingAreaInfo.SetArea(TPositionAreaExtendedInfo::EAreaCountry);
+				}
+			else if(iIsLastValid || Select(aPosition, TPtrC(KSelectTempRowLatest)) || Select(aPosition, TPtrC(KSelectRowLatest)) || iIsLastValid)
+				{
+				if(iIsLastValid)
+					{
+					aPosition = iLastPosition;
+					}
+				}
+			else
+				{
+				result = KErrNotFound;
+				}
+
+			} // end else no match on LAC
+
+		} // end else no match on cell id
+
 	TRequestStatus* status = &aStatus;
 	*status = KRequestPending;
 	User::RequestComplete(status, result);
@@ -436,7 +495,7 @@ TInt CLbsLocMonitorDbEngine::DbSize()
 	}
 
 
-TPositionAreaExtendedInfo CLbsLocMonitorDbEngine::CacheMatchLevel(TInt aMcc, TInt aMnc, TInt aLac, TInt aCid)
+TPositionAreaExtendedInfo CLbsLocMonitorDbEngine::CacheMatchLevel(TInt aMcc, TInt aMnc, TInt aLac, TInt aCid, TBool aIs3gMode)
 	{
 	LBSLOG(ELogP1,"->CLbsLocMonitorDbEngine::CacheMatchLevel");
 	TPositionAreaExtendedInfo areaInfo;
@@ -447,7 +506,7 @@ TPositionAreaExtendedInfo CLbsLocMonitorDbEngine::CacheMatchLevel(TInt aMcc, TIn
 			{
 			if(aMnc == iLastMnc)
 				{
-				if(aLac == iLastLac)
+				if(aLac == iLastLac && aIs3gMode == iLastModeIs3g) 
 					{
 					if(aCid == iLastCid)
 						{

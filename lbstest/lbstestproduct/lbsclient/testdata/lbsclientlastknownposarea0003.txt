@@ -5,13 +5,16 @@
 // sim.tsy config used for simulating only the network registration
 // status
 //
-//! @SYMTestActions             1. Move to cell 234.15.1911.36464
+//! @SYMTestActions             1. Set up SIM TSY so that the cell area is unknown
 //!                             2. NPUD
-//!                             3. Move to cell 234.15.1911.47622
-//!                             4. NPUD
-//!                             5. Move to cell unknown
-//!                             6. LastKnown Pos Area
-//!                             7. Clear Database
+//!                             3. LastKnown Pos Area
+//!                             4. Move to GSM cell 234.15.1911.36463 (all valid) and do a NPUD
+//!                             5. Do LastKnownPosArea and check match level
+//!                             6. Move to 'invalid' WCDMA cell 234.15.1911.36463 and do lastknown pos area
+//!                             7. Move to invalid GSM cell of 234.15.1911.90000 and do lastknown pos area
+//!                             8. Move to valid GSM cell of 234.15.1911.36000 and do lastknown pos area 
+//!                             9. Clear Database
+//!
 // Original name file: lbsclientlastknownposarea0003.txt
 
 [TEST0]
@@ -25,11 +28,13 @@ SubscriberId = 56789012345678
 
 # multiple
 # Current Network Name
-# NetworkInfo= <CountryCode>, <NetworkId>, <DisplayTag>, <NetworkShortName>, <NetworkLongName> , <NetworkAccess> "
-NetworkInfo = 0,              0,          Unknown,      UnKn,               Unknown_Network,    0
-NetworkInfo = 234,            15,         Vodafone,     Voda,               Vodafone_UK,        0
-NetworkInfo = 234,            15,         Vodafone,     Voda,               Vodafone_UK,        0
-NetworkInfo = 0,              0,          Unknown,      UnKn,               Unknown_Network,    0
+# Note that network type 2 is GSM, network type 6 is CDMA.
+# NetworkInfo= <CountryCode>, <NetworkId>, <DisplayTag>, <NetworkShortName>, <NetworkLongName> , <NetworkAccess> <Network Type>"
+NetworkInfo = 0,              0,          Unknown,      UnKn,               Unknown_Network,		0,                 2
+NetworkInfo = 234,            15,         Vodafone,     Voda,               Vodafone_UK,	        0,                 2
+NetworkInfo = 234,            15,         Vodafone,     Voda,               Vodafone_UK,                0,                 6
+NetworkInfo = 234,            15,         Vodafone,     Voda,               Vodafone_UK,                0,                 2
+NetworkInfo = 234,            15,         Vodafone,     Voda,               Vodafone_UK,                0,                 2
 
 
 # multiple
@@ -39,13 +44,15 @@ RegStatus =    5000,       5,           0
 RegStatus =    5000,       5,           1
 RegStatus =    5000,       5,           2
 RegStatus =    5000,       5,           3
+RegStatus =    5000,       5,           4
 
 
 # LocationArea = <AreaKnown>, <LocationAreaCode>, <CellId> . Where <AreaKnown> is -1 for true and 0 for false?! 
 LocationArea =    0,           0,                 0
 LocationArea =    -1,          1911,              36463
-LocationArea =    -1,          1911,              47622
-LocationArea =    0,           0,                 0
+LocationArea =    -1,          1911,              36463
+LocationArea =    -1,          1911,              90000
+LocationArea =    -1,          1911,              36000
 
 
 # ONStore= <max number of entries>, <max size of telephone number>, <max text length>
@@ -60,6 +67,7 @@ ONStoreEntry =   1,       447511699393,       2,                           0,   
 # for getting CellId by our code. We use LocationArea records and GetCurrentNetwork/NotifyCurrentNetworkChange instead.
 # <CellInfoStatus> - The status of cell info. Look at TCellInfoStatus for the list of values.
 # CellInfo = <Timeout>, <NetworkMode>, <CellId>, <TimingAdvance>, <CellInfoStatus> .
+CellInfo =    0,         2,             0,        0,               2
 CellInfo =    0,         2,             0,        0,               2
 CellInfo =    0,         2,             0,        0,               2
 CellInfo =    0,         2,             0,        0,               2

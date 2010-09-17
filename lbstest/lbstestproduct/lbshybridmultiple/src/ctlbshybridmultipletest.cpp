@@ -264,7 +264,7 @@ void CT_LbsHybridMultipleTest::OnHandleNGMessage(TUint aPmId, TInt aMessageType)
 				//Message was not expected by any sequence.  Manually set the Net Proxy off listening
 				// again, so the sequence can receive the message it expected.
 				INFO_PRINTF2(_L("-> RequestAssistanceData() [2004] Sq: unknown, PM: %d"), aPmId);
-				proxy->WaitForResponseL(60 * 1000 * 1000);
+				proxy->WaitForResponseL(80 * 1000 * 1000);
 				
 				//Break out of the function now
 				return;
@@ -412,7 +412,7 @@ void CT_LbsHybridMultipleTest::OnHandleNGMessage(TUint aPmId, TInt aMessageType)
 	else
 		{
 		// when an unexpected message arrives merley ignore and wait for next one!
-		proxy->WaitForResponseL(60 * 1000 * 1000);
+		proxy->WaitForResponseL(80 * 1000 * 1000);
 		}
 	}
 

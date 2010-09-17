@@ -41,6 +41,7 @@ LIBRARY		lbsloccommon.lib
 LIBRARY		lbsassistancedata.lib
 LIBRARY		lbs.lib
 LIBRARY		getafixutils.lib
-LIBRARY		cinidata.lib
+LIBRARY	    iniparser.lib
+
 
 SMPSAFE

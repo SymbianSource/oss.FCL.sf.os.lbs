@@ -150,32 +150,28 @@ TVerdict CT_LbsHybridCombinedStep_Tracking01::doTestStepL()
 	
 	// LBS->PM :: RequestSelfLocation()
 	TESTL(iProxy->WaitForResponse(KTimeOut) == ENetMsgRequestSelfLocation);
-
-	// check the Client AGPS Usage Flag is as expected at the NPE Hybrid GPS module...
-	TESTL(EClientAgps == ReadClientUsageProperty());
-	
-        // Process the response.
-        TLbsNetSessionId* 					sessionId = NULL;
-        TLbsNetPosRequestOptionsAssistance*	opts = NULL;
-        cleanupCnt = iProxy->GetArgsLC(ENetMsgRequestSelfLocation, &sessionId, &opts);
-        TBool qualitycheck = 	ArgUtils::CompareQuality(	opts, 
-                                                            ETrue, 
-                                                            KMinHorizontalAcc, 
-                                                            KMinVerticalAcc, 
-                                                            KTestMaxFixTime,
-                                                            0, 
-														EAssistanceDataReferenceTime, 
-														(TPositionModuleInfo::ETechnologyTerminal 
-														| TPositionModuleInfo::ETechnologyAssisted)
-													);
+    // Process the response.
+	TLbsNetSessionId* 					sessionId = NULL;
+	TLbsNetPosRequestOptionsAssistance*	opts = NULL;
+	cleanupCnt = iProxy->GetArgsLC(ENetMsgRequestSelfLocation, &sessionId, &opts);
+	TBool qualitycheck = 	ArgUtils::CompareQuality(	opts, 
+														ETrue, 
+														KMinHorizontalAcc, 
+														KMinVerticalAcc, 
+														KTestMaxFixTime,
+														0, 
+													EAssistanceDataReferenceTime, 
+													(TPositionModuleInfo::ETechnologyTerminal 
+													| TPositionModuleInfo::ETechnologyAssisted)
+												);
 		
-        TESTL(qualitycheck);
-        
-        iSessionId.SetSessionNum(sessionId->SessionNum());
-        iSessionId.SetSessionOwner(sessionId->SessionOwner());
-        CleanupStack::PopAndDestroy(cleanupCnt);
-        sessionId = NULL;
-        opts = NULL;
+    TESTL(qualitycheck);
+    
+    iSessionId.SetSessionNum(sessionId->SessionNum());
+    iSessionId.SetSessionOwner(sessionId->SessionOwner());
+    CleanupStack::PopAndDestroy(cleanupCnt);
+    sessionId = NULL;
+    opts = NULL;
 
     // PM->LBS ProcessStatusUpdate(EServiceSelfLocation)
     serviceMask1 = MLbsNetworkProtocolObserver::EServiceSelfLocation;
@@ -265,14 +261,9 @@ TVerdict CT_LbsHybridCombinedStep_Tracking01::doTestStepL()
         // request for 
         mType = iProxy->WaitForResponse(KTimeOut);
         TESTL(mType == ENetMsgRequestAssistanceData);
-        // check that the client a-gps flag has been cleared at the aGPS module
-        TESTL(EClientNoAgps == ReadClientUsageProperty());
-        
+                
         // LBS->NRH Callback from ProcessNetworkPostionUpdate(GPS Location)
         CheckForObserverEventTestsL(KTimeOut, *this);
-        
-        // check the Client AGPS Usage Flag is as expected at the NPE Hybrid GPS module...
-        TESTL(EClientAgps == ReadClientUsageProperty());
         
         // LBS->PM RespondLocationRequest()
         TESTL(iProxy->WaitForResponse(KTimeOut) == ENetMsgRespondLocationRequest); 
@@ -304,9 +295,6 @@ TVerdict CT_LbsHybridCombinedStep_Tracking01::doTestStepL()
     TESTL(dataMask == EAssistanceDataNone);
     CleanupStack::PopAndDestroy(cleanupCnt);
     
-    // check the Client AGPS Usage Flag is as expected at the NPE Hybrid GPS module...
-    TESTL(EClientAgps == ReadClientUsageProperty());
-
     // PM->LBS ProcessAssistanceData()
     dataMask = EAssistanceDataReferenceTime;
     RLbsAssistanceDataBuilderSet assistanceData;
@@ -326,10 +314,6 @@ TVerdict CT_LbsHybridCombinedStep_Tracking01::doTestStepL()
     cleanupCnt = iProxy->GetArgsLC(ENetMsgRequestAssistanceData, &dataMask);
     TESTL(dataMask == EAssistanceDataNone);
     CleanupStack::PopAndDestroy(cleanupCnt);
-    
-    // check the Client AGPS Usage Flag is as expected at the NPE Hybrid GPS module...
-    TESTL(EClientAgps == ReadClientUsageProperty());
-
     // LBS->PM RespondLocationRequest()
     TESTL(iProxy->WaitForResponse(KTimeOut) == ENetMsgRespondLocationRequest);
     sessionId = NULL;

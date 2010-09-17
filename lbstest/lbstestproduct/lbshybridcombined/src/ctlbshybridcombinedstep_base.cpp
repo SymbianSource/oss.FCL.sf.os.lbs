@@ -141,15 +141,3 @@ void CT_LbsHybridCombinedStep_Base::OnSetGpsOptions(const TLbsGpsOptions& aGpsOp
 		}
 	}
 
-
-/**
- * returns the client agps usage flag as updated by the NPE Hybrid Module
- */
-TInt CT_LbsHybridCombinedStep_Base::ReadClientUsageProperty()
-    {
-    // check client usage here
-    TInt mode;
-    TEST(KErrNone == RProperty::Get(KUidSystemCategory, ELbsTestAGpsModuleClientMode,mode));
-    return mode;
-    }
-

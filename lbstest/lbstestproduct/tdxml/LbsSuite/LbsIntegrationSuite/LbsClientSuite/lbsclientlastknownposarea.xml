@@ -35,6 +35,10 @@
 			<hostPath>lbstest\lbstestproduct\lbsclient\testdata\lbsclientlastknownposarea0003.txt</hostPath>
 			<devicePath>c:\testdata\configs\lbsclientlastknownposarea0003.txt</devicePath>
 		</data>
+		<data>
+			<hostPath>lbstest\lbstestproduct\lbsclient\testdata\lbsclientlastknownposarea0009.txt</hostPath>
+			<devicePath>c:\testdata\configs\lbsclientlastknownposarea0009.txt</devicePath>
+		</data>
 	</dependencies>
 
 </testExecuteTest>

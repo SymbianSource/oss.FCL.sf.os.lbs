@@ -1129,6 +1129,7 @@ TVerdict CT_LbsClientStep_UpdateOptions::doTestStepL()
   					TPositionUpdateOptions& updateOpts = iParent.iSharedData->iVerifyUpdateOpts;
 					updateOpts.SetUpdateInterval(0);
 					updateOpts.SetMaxUpdateAge(0);
+					updateOpts.SetUpdateTimeOut(4000000);
 					//Second call to NPU should have maxupdateage set.
 					iPositioner.SetUpdateOptions(updateOpts);
    					

@@ -20,7 +20,7 @@
 #include "lbsnetextendedprotocolproxy.h"
 #include <lbs/lbsnetprotocolbase.h>
 #include <lbs/test/lbsmarshallingstubs.h>
-#include <cinidata.h>
+#include <iniparser.h>
 #include <lbs/test/memorymanager.h>
 
 EXPORT_C CNetProtocolProxy* CNetProtocolProxy::NewL()

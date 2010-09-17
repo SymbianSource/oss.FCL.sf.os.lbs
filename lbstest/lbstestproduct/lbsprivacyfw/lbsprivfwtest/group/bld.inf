@@ -57,5 +57,7 @@ PRJ_TESTEXPORTS
 ../scripts/sppm/lbsprivfwqnn_sppm.script		c:/testdata/scripts/lbsprivfwqnn_sppm.script
 ../scripts/sppm/lbsprivfwparamqnn_sppm.script	c:/testdata/scripts/lbsprivfwparamqnn_sppm.script
 
+lbsprivacyfw.iby			/epoc32/rom/include/lbsprivacyfw.iby
+
 PRJ_TESTMMPFILES
 ctlbsprivfwtestserver.mmp

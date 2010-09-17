@@ -17,7 +17,8 @@ SubscriberId= 56789012345678
 NetworkInfo= 234, 456, Vodafone, Voda, Vodafone_UK, 0
 
 //Sync switch
-RegStatus= 5,5,0
+# RegStatus = <Duration>, <RegStatus>, <NetworkIndex>
+RegStatus=        0,           5,               0
 
 # LocationArea = <AreaKnown>, <LocationAreaCode>, <CellId> . Where <AreaKnown> is -1 for true and 0 for false. 
 LocationArea= -1, 10, 10

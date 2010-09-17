@@ -54,6 +54,10 @@ SOURCE		ctlbsconflictstepcanceltrackingconflict.cpp
 SOURCE		ctlbsconflictstepcanceltrackingconflictb.cpp
 SOURCE		ctlbsconflictstepmtlrnetlocreq.cpp
 
+//  Test Execute libraries.
+LIBRARY	testexecuteutils.lib 
+LIBRARY	testexecutelogclient.lib
+
 // LBS libraries.
 LIBRARY	lbs.lib
 LIBRARY	lbsloccommon.lib

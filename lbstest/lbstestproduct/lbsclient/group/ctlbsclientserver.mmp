@@ -59,6 +59,10 @@ SOURCE		ctlbsclientstepignoreaccurracysettingtracking.cpp
 SOURCE		ctlbsclientstep_reset_assistance.cpp
 SOURCE		ctlbsclientstepconcurrent.cpp
 
+//  Test Execute libraries.
+LIBRARY	testexecuteutils.lib 
+LIBRARY	testexecutelogclient.lib
+
 // LBS libraries.
 LIBRARY lbs.lib
 LIBRARY	lbsloccommon.lib

@@ -36,6 +36,9 @@ SOURCE		ctlbsclockplugindata.cpp
 // Lbs Data Source test step code.
 SOURCE		ctlbsclockstepmain.cpp
 
+//  Test Execute libraries.
+LIBRARY	testexecuteutils.lib 
+LIBRARY	testexecutelogclient.lib
 
 // LBS libraries.
 LIBRARY	lbs.lib

@@ -100,4 +100,7 @@ EXPORTS
 	_ZN17CLbsWcdmaCellInfo4NewLERKS_ @ 99 NONAME
 	_ZN17CLbsWcdmaCellInfo17SetSignalStrengthEi @ 100 NONAME
 	_ZNK17CLbsWcdmaCellInfo14SignalStrengthEv @ 101 NONAME
+	_ZN17CLbsWcdmaCellInfo16SetLocalAreaCodeEi @ 102 NONAME
+	_ZN17CLbsWcdmaCellInfo4NewLEiiii @ 103 NONAME
+	_ZNK17CLbsWcdmaCellInfo13LocalAreaCodeEv @ 104 NONAME
 

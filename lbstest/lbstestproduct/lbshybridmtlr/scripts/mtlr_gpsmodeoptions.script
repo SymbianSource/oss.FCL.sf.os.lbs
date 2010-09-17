@@ -27,7 +27,7 @@ PREFIX RUN_UTILS
 MkDir c:\private\10282253\
 MkDir c:\private\10282253\lbs\
 MkDir c:\private\10282253\lbs\locmods\
-CopyFile c:\testdata\configs\ctagpsnpetestmoduledatasource_tb.ini  c:\private\10282253\lbs\locmods\agpsintegmodule.ini
+CopyFile c:\testdata\configs\ctagpshybridmoduledatasource_tb.ini  c:\private\10282253\lbs\locmods\agpsintegmodule.ini
 CopyFile c:\testdata\configs\lbstestconfig.txt c:\config.txt
 REMOVE_PREFIX
 
@@ -45,7 +45,7 @@ RUN_TEST_STEP 010 LbsHybridMTLRTestServer LbsStep_SetupProtocolStub
 
 //--------------------------------------------------------------- Module Caps = TB -----------------------------------------------------------------------
 
-RUN_UTILS CopyFile c:\testdata\configs\ctagpsnpetestmoduledatasource_tb.ini  c:\private\10282253\lbs\locmods\agpsintegmodule.ini
+RUN_UTILS CopyFile c:\testdata\configs\ctagpshybridmoduledatasource_tb.ini  c:\private\10282253\lbs\locmods\agpsintegmodule.ini
 RUN_TEST_STEP 030 LbsHybridMTLRTestServer LbsStep_StartLbs
 
 
@@ -225,7 +225,7 @@ END_TESTCASE LBS-MTLR-TBCAP-TATBNET-001
 
 // Change module caps to TA only:
 RUN_TEST_STEP 020 LbsHybridMTLRTestServer LbsStep_StopLbs
-RUN_UTILS CopyFile c:\testdata\configs\ctagpsnpetestmoduledatasource_ta.ini  c:\private\10282253\lbs\locmods\agpsintegmodule.ini
+RUN_UTILS CopyFile c:\testdata\configs\ctagpshybridmoduledatasource_ta.ini  c:\private\10282253\lbs\locmods\agpsintegmodule.ini
 RUN_TEST_STEP 030 LbsHybridMTLRTestServer LbsStep_StartLbs
 
 
@@ -411,7 +411,7 @@ END_TESTCASE LBS-MTLR-TACAP-TATBNET-001
 
 // Change module caps to TA || TB:
 RUN_TEST_STEP 020 LbsHybridMTLRTestServer LbsStep_StopLbs
-RUN_UTILS CopyFile c:\testdata\configs\ctagpsnpetestmoduledatasource_exclusive.ini  c:\private\10282253\lbs\locmods\agpsintegmodule.ini
+RUN_UTILS CopyFile c:\testdata\configs\ctagpshybridmoduledatasource_exclusive.ini  c:\private\10282253\lbs\locmods\agpsintegmodule.ini
 RUN_TEST_STEP 030 LbsHybridMTLRTestServer LbsStep_StartLbs
 
 PRINT ----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -600,7 +600,7 @@ END_TESTCASE LBS-MTLR-TBORTACAP-TATBNET-001
 
 // Change module caps to Hybrid (TA && TB):
 RUN_TEST_STEP 020 LbsHybridMTLRTestServer LbsStep_StopLbs
-RUN_UTILS CopyFile c:\testdata\configs\ctagpsnpetestmoduledatasource.ini  c:\private\10282253\lbs\locmods\agpsintegmodule.ini
+RUN_UTILS CopyFile c:\testdata\configs\ctagpshybridmoduledatasource.ini  c:\private\10282253\lbs\locmods\agpsintegmodule.ini
 RUN_TEST_STEP 030 LbsHybridMTLRTestServer LbsStep_StartLbs
 
 

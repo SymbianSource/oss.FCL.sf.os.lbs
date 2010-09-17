@@ -16,7 +16,6 @@
 		<suite>LbsROMspecificSuites</suite>
 		<suite>lbsintegrationcasirasuite</suite>
 		<suite>lbsunitcasirasuite</suite>
-		<suite>LbsSFSuite</suite>
 	</testItems>
 
 </testSuite>

@@ -65,6 +65,25 @@ public:
     IMPORT_C static CLbsWcdmaCellInfo* NewL( const TInt aCountryCode,
                                              const TInt aNetworkCode,
                                              const TInt aUniqueCellId );     
+
+
+	/**
+     * Allocates and constructs a new WCDMA cell info object. 
+     *
+     * @param[in] aCountryCode Network country code.
+     * @param[in] aNetworkCode Network code.
+	 * @param[in] aLocalAreaCode Local Area Code (LAC)
+     * @param[in] aUniqueCellId Cell ID of a cell in WCDMA PLMN.
+     * @return Pointer to the new WCDMA cell info object.
+     * @leave KErrArgument in case of invalid input or other standard symbian 
+     * error codes, such as KErrNoMemory.
+     */    
+
+	IMPORT_C static CLbsWcdmaCellInfo* NewL( const TInt aCountryCode,
+											 const TInt aNetworkCode,
+											 const TInt aLocalAreaCode,
+                                             const TInt aUniqueCellId );
+
     /**
       * Allocates and constructs a WCDMA cell info object, a copy of another one.
       * 
@@ -106,6 +125,22 @@ public:
      *        KErrNotFound if the value is undefined.
      */    
     IMPORT_C TInt MobileNetworkCode() const;
+
+
+    /**
+     * Sets the Local Area Code (LAC).
+     *
+     * @param[in] aLocalAreaCode Local Area Code (LAC), range 0..0xffff.
+     */
+    IMPORT_C void SetLocalAreaCode( const TInt aLocalAreaCode );
+    
+    /**
+     * Retrieves the Local Area Code.
+     *
+     * @return Local Area Code (LAC), range 0..0xffff.
+     *        KErrNotFound if the value is undefined.
+     */    
+    IMPORT_C TInt LocalAreaCode(void) const; 
     
     /**
      * Sets the Cell Identity.
@@ -242,10 +277,11 @@ private:
     void ConstructL();
     
     /**
-     * Symbian 2 phase constructor 
+     * Symbian 2 phase constructor # 2
      */
     void ConstructL( const TInt aCountryCode, 
                      const TInt aNetworkCode,
+					 const TInt aLocalAreaCode,
                      const TInt aUniqueCellId );
     
 private: // data
@@ -258,6 +294,7 @@ private: // data
         EWcdmaUCid = 0x04,
         EWcdmaSC = 0x08,
         EWcdmaRSSI = 0x10,
+		EWcdmaLAC = 0x20,
         };
     
     /**
@@ -294,6 +331,11 @@ private: // data
      * Neighbouring cell info
      */
     RLbsWcdmaNeighbourCellInfoArray  iNeighbourCellInfo;
+
+    /**
+     * Local Area Code (LAC)
+     */
+	TInt32		iLAC;
     
     };
 

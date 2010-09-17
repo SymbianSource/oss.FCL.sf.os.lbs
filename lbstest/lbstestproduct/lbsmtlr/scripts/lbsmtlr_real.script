@@ -26,8 +26,6 @@ PRINT select the lbsprofile.ini  to use (copy .ini file to appropriate place)
 PREFIX RUN_UTILS
 	MkDir c:\private\10282253\
 	MkDir c:\private\10282253\lbs\
-	MkDir c:\private\10282253\lbs\locmods\
-	CopyFile z:\testdata\configs\sirfdatasource.ini c:\private\10282253\lbs\locmods\agpsintegmodule.ini
 	CopyFile c:\testdata\configs\lbstestprofile.ini c:\private\10282253\lbs\lbsprofile.ini 
 REMOVE_PREFIX
 

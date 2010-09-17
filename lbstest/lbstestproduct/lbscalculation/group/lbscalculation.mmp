@@ -37,6 +37,10 @@ SOURCE		ctlbscalculationtp234.cpp
 SOURCE		ctlbscalculationtp235.cpp
 SOURCE		ctlbscalculationtp236.cpp
 
+//  Test Execute libraries.
+LIBRARY	testexecuteutils.lib 
+LIBRARY	testexecutelogclient.lib
+
 // LBS libraries.  
 LIBRARY		lbs.lib // lbs.lib should be used instead of lbsselflocate.lib for these tests
 LIBRARY		lbsloccommon.lib

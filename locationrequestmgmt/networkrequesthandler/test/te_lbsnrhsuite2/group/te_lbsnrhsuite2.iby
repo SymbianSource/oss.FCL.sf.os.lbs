@@ -19,9 +19,11 @@
 #define __TE_LBSNRH_SUITE2_IBY__
 
 #include <testexecute.iby>
-
+file=ABI_DIR\DEBUG_DIR\t_lbsnetworkrequesthandler.exe	sys\bin\t_lbsnetworkrequesthandler.exe
 file=ABI_DIR\DEBUG_DIR\te_lbsnrhsuite2.exe		sys\bin\te_lbsnrhsuite2.exe
 data=EPOCROOT##Epoc32\data\c\TestData\configs\te_lbsnrhsuite2.ini TestData\configs\te_lbsnrhsuite2.ini
 data=EPOCROOT##Epoc32\data\c\TestData\scripts\te_lbsnrhsuite2.script TestData\Scripts\te_lbsnrhsuite2.Script
+data=EPOCROOT##Epoc32\data\c\TestData\configs\te_lbsnrhsuite2_mtlr.ini TestData\configs\te_lbsnrhsuite2_mtlr.ini
+data=EPOCROOT##Epoc32\data\c\TestData\scripts\te_lbsnrhsuite2_mtlr.script TestData\Scripts\te_lbsnrhsuite2_mtlr.Script
 
 #endif

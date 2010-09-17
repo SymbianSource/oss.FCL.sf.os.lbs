@@ -27,7 +27,7 @@ PREFIX RUN_UTILS
 MkDir c:\private\10282253\
 MkDir c:\private\10282253\lbs\
 MkDir c:\private\10282253\lbs\locmods\
-CopyFile c:\testdata\configs\ctagpsnpetestmoduledatasource.ini c:\private\10282253\lbs\locmods\agpsintegmodule.ini
+CopyFile c:\testdata\configs\ctagpshybridmoduledatasource.ini c:\private\10282253\lbs\locmods\agpsintegmodule.ini
 CopyFile c:\testdata\configs\lbstestconfig.txt c:\config.txt
 DeleteFile c:\private\10282253\lbs\lbsprofile.ini
 REMOVE_PREFIX
@@ -62,29 +62,6 @@ RUN_TEST_STEP 020 LbsHybridCombinedTestServer LbsStep_SetUpPsy c:\testdata\confi
 RUN_TEST_STEP 120 LbsHybridCombinedTestServer LbsStep_ConfigHybridModule c:\testdata\configs\lbs_combined.ini CombinedConcurrent01
 RUN_TEST_STEP 120 LbsHybridCombinedTestServer LbsHybridCombinedStep_Concurrent01
 END_TESTCASE  					LBS-HybridCombined-Concurrent-0001
-RUN_TEST_STEP 020 LbsHybridCombinedTestServer LbsStep_StopLbs
-
-
-START_TESTCASE                LBS-HybridCombined-Concurrent-0002
-//! @SYMTestCaseID              LBS-HybridCombined-Concurrent-0002
-//! @SYMTestCaseDesc            Checks that the GPS Module is correctly updated with the presence of a Client Assisted GPS request.
-//!                             Client generates MOLR request GPS Module generates an accurate position in Autonomous mode
-//!                             An MTLR is requested concurrently (immediately after second client NPUD), and an accurate position is returned in TB mode.
-//!                             client a-gps flag is checked to be NOT SET throughout the MOLR session
-//! @SYMTestPriority            Critical
-//! @SYMTestActions             See test step Sequence inline comments
-//! @SYMTestExpectedResults     Sequence as per specified by FSM and UML Seq diagram is Followed
-//! @SYMTestType                CIT
-//! @SYMCreationDate            28/8/2008
-//! @SYMAuthor                  ralphs
-//! @SYMTestStatus              2. Functional
-RUN_TEST_STEP 020 LbsHybridCombinedTestServer LbsStep_SetAutonomousMode
-RUN_TEST_STEP 030 LbsHybridCombinedTestServer LbsStep_StartLbs
-RUN_TEST_STEP 010 LbsHybridCombinedTestServer LbsStep_InstallScheduler
-RUN_TEST_STEP 020 LbsHybridCombinedTestServer LbsStep_SetUpPsy c:\testdata\configs\lbs_combined.ini LBS-COMBINED
-RUN_TEST_STEP 120 LbsHybridCombinedTestServer LbsStep_ConfigHybridModule c:\testdata\configs\lbs_combined.ini CombinedConcurrent02
-RUN_TEST_STEP 120 LbsHybridCombinedTestServer LbsHybridCombinedStep_Concurrent02
-END_TESTCASE  					LBS-HybridCombined-Concurrent-0002
 RUN_TEST_STEP 020 LbsHybridCombinedTestServer LbsStep_StopLbs
 
 

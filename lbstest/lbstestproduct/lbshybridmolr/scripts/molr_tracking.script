@@ -30,7 +30,7 @@ DeleteFile c:\private\10282253\lbs\lbsprofile.ini
 MkDir c:\private\10282253\
 MkDir c:\private\10282253\lbs\
 MkDir c:\private\10282253\lbs\locmods\
-CopyFile c:\testdata\configs\ctagpsnpetestmoduledatasource_ta.ini  c:\private\10282253\lbs\locmods\agpsintegmodule.ini
+CopyFile c:\testdata\configs\ctagpshybridmoduledatasource_ta.ini  c:\private\10282253\lbs\locmods\agpsintegmodule.ini
 CopyFile c:\testdata\configs\lbstestconfig.txt c:\config.txt
 REMOVE_PREFIX
 
@@ -274,7 +274,7 @@ END_TESTCASE                  LBS-MOLR-ATA-TRACKING3CLIENTS-001
 
 
 RUN_TEST_STEP 020 LbsHybridMOLRTestServer LbsStep_StopLbs
-RUN_UTILS CopyFile c:\testdata\configs\ctagpsnpetestmoduledatasource.ini  c:\private\10282253\lbs\locmods\agpsintegmodule.ini
+RUN_UTILS CopyFile c:\testdata\configs\ctagpshybridmoduledatasource.ini  c:\private\10282253\lbs\locmods\agpsintegmodule.ini
 RUN_TEST_STEP 030 LbsHybridMOLRTestServer LbsStep_StartLbs
 
 //--------------------------------------------------------------- Module Caps = TB + TA -----------------------------------------------------------------------
@@ -485,7 +485,7 @@ END_TESTCASE                  	LBS-MOLR-HYBRIDCAPS-TRACKING2Clients_TA_Auto-001
 
 //--------------------------------------------------------------- Module Caps = TA -----------------------------------------------------------------------
 RUN_TEST_STEP 020 LbsHybridMOLRTestServer LbsStep_StopLbs
-RUN_UTILS CopyFile c:\testdata\configs\ctagpsnpetestmoduledatasource_ta.ini  c:\private\10282253\lbs\locmods\agpsintegmodule.ini
+RUN_UTILS CopyFile c:\testdata\configs\ctagpshybridmoduledatasource_ta.ini  c:\private\10282253\lbs\locmods\agpsintegmodule.ini
 RUN_TEST_STEP 030 LbsHybridMOLRTestServer LbsStep_StartLbs
 
 
@@ -519,7 +519,7 @@ RUN_TEST_STEP 010 LbsHybridMOLRTestServer LbsStep_SetPTBMode
 //--------------------------------------------------------------- Module Caps = TB -----------------------------------------------------------------------
 
 PRINT ----------------------------------------------------------------------------------------------------------------------------------------------------
-RUN_UTILS CopyFile c:\testdata\configs\ctagpsnpetestmoduledatasource_tb.ini  c:\private\10282253\lbs\locmods\agpsintegmodule.ini
+RUN_UTILS CopyFile c:\testdata\configs\ctagpshybridmoduledatasource_tb.ini  c:\private\10282253\lbs\locmods\agpsintegmodule.ini
 RUN_TEST_STEP 030 LbsHybridMOLRTestServer LbsStep_StartLbs
 PRINT ----------------------------------------------------------------------------------------------------------------------------------------------------
 

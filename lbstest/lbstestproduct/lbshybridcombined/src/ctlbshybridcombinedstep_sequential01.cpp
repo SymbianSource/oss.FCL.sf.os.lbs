@@ -133,9 +133,8 @@ TVerdict CT_LbsHybridCombinedStep_Sequential01::doTestStepL()
 
 	// >> RequestSelfLocation()
 	TESTL(iProxy->WaitForResponse(KTimeOut) == ENetMsgRequestSelfLocation);
-
+ 
 	// check the Client AGPS Usage Flag is as expected at the NPE Hybrid GPS module...
-	TESTL(EClientAgps == ReadClientUsageProperty());
 	
 	// Process the response.
 	TLbsNetSessionId* 					sessionId = NULL;
@@ -183,8 +182,7 @@ TVerdict CT_LbsHybridCombinedStep_Sequential01::doTestStepL()
 	TESTL(dataMask == EAssistanceDataNone);
 	CleanupStack::PopAndDestroy(cleanupCnt);
 	
-    // check the Client AGPS Usage Flag is as expected at the NPE Hybrid GPS module...
-    TESTL(EClientAgps == ReadClientUsageProperty());
+	// check the Client AGPS Usage Flag is as expected at the NPE Hybrid GPS module...
 
 	// << ProcessAssistanceData()
 	dataMask = EAssistanceDataReferenceTime;
@@ -199,17 +197,17 @@ TVerdict CT_LbsHybridCombinedStep_Sequential01::doTestStepL()
 	quality = ArgUtils::Quality();
 	method   = ArgUtils::RequestHybridMethod();
 	iProxy->CallL(ENetMsgProcessLocationRequest, &iSessionId, &emergency, &service, &quality, &method);
+  
+	// check the Client AGPS Usage Flag is as expected at the NPE Hybrid GPS module...
 
+	
 	// >> RequestAssistanceData - as a result of the NRH request.
 	TESTL(iProxy->WaitForResponse(KTimeOut) == ENetMsgRequestAssistanceData); 
 	cleanupCnt = iProxy->GetArgsLC(ENetMsgRequestAssistanceData, &dataMask);
 	TESTL(dataMask == EAssistanceDataNone);
 	CleanupStack::PopAndDestroy(cleanupCnt);
-	
-    // check the Client AGPS Usage Flag is as expected at the NPE Hybrid GPS module...
-    TESTL(EClientAgps == ReadClientUsageProperty());
 
-	// >> RespondLocationRequest()
+   	// >> RespondLocationRequest()
 	TESTL(iProxy->WaitForResponse(KTimeOut) == ENetMsgRespondLocationRequest);
 	sessionId = NULL;
 	reason = KErrNone;
@@ -302,7 +300,6 @@ TVerdict CT_LbsHybridCombinedStep_Sequential01::doTestStepL()
     CheckForObserverEventTestsL(KTimeOut, *this);
     
     // check the Client AGPS Usage Flag is as expected at the NPE Hybrid GPS module...
-    TESTL(EClientNoAgps == ReadClientUsageProperty());
     
     // >> RequestAssistanceData(0)
     TESTL(iProxy->WaitForResponse(KTimeOut) == ENetMsgRequestAssistanceData); 

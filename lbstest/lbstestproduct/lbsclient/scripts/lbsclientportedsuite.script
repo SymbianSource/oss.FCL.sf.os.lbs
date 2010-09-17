@@ -2408,7 +2408,7 @@ RUN_TEST_STEP 100 te_LbsPortedSuite TP4723
 
 END_TESTCASE                   LBS-ClientV2-0052
 
-START_TESTCASE                  LBS-ClientV2-0053
+//START_TESTCASE                  LBS-ClientV2-0053
 //!@SYMTestCaseID               LBS-ClientV2-0053
 //!@SYMTestCaseDesc		Install Event Notification
 //!
@@ -2439,11 +2439,11 @@ START_TESTCASE                  LBS-ClientV2-0053
 //!@SYMTestStatus             Implemented
 //! @SYMAuthor                LornaM
  
-RUN_TEST_STEP 20 te_LbsPortedSuite TP300	c:\testdata\configs\ctlbsinstallabletrackingpsy.ini
+//RUN_TEST_STEP 20 te_LbsPortedSuite TP300	c:\testdata\configs\ctlbsinstallabletrackingpsy.ini
  
-END_TESTCASE                   LBS-ClientV2-0053
+//END_TESTCASE                   LBS-ClientV2-0053
  
-START_TESTCASE                  LBS-ClientV2-0054
+//START_TESTCASE                  LBS-ClientV2-0054
 //!@SYMTestCaseID               LBS-ClientV2-0054
 //!@SYMTestCaseDesc		Error on Uninstall
 //!
@@ -2473,13 +2473,13 @@ START_TESTCASE                  LBS-ClientV2-0054
 //!@SYMTestStatus             Implemented
 //! @SYMAuthor                LornaM
  
-RUN_TEST_STEP 60 te_LbsPortedSuite TP301	c:\testdata\configs\ctlbsinstallabletrackingpsy.ini
+//RUN_TEST_STEP 60 te_LbsPortedSuite TP301	c:\testdata\configs\ctlbsinstallabletrackingpsy.ini
  
-END_TESTCASE                   LBS-ClientV2-0054
+//END_TESTCASE                   LBS-ClientV2-0054
  
  
  
-START_TESTCASE                  LBS-ClientV2-0055
+//START_TESTCASE                  LBS-ClientV2-0055
 //!@SYMTestCaseID               LBS-ClientV2-0055
 //!@SYMTestCaseDesc		Install during Fallback
 //!
@@ -2507,12 +2507,12 @@ START_TESTCASE                  LBS-ClientV2-0055
 //!@SYMTestStatus             Implemented
 //! @SYMAuthor                LornaM
  
-RUN_TEST_STEP 30 te_LbsPortedSuite TP302	c:\testdata\configs\ctlbsinstallabletrackingpsy.ini
+//RUN_TEST_STEP 30 te_LbsPortedSuite TP302	c:\testdata\configs\ctlbsinstallabletrackingpsy.ini
  
-END_TESTCASE                   LBS-ClientV2-0055
+//END_TESTCASE                   LBS-ClientV2-0055
  
  
-START_TESTCASE                  LBS-ClientV2-0056
+//START_TESTCASE                  LBS-ClientV2-0056
 //!@SYMTestCaseID               LBS-ClientV2-0056
 //!@SYMTestCaseDesc		Uninstall during Fallback
 //!
@@ -2546,12 +2546,12 @@ START_TESTCASE                  LBS-ClientV2-0056
 //! @SYMAuthor                LornaM
  
  
-RUN_TEST_STEP 60 te_LbsPortedSuite TP301	c:\testdata\configs\ctlbsinstallabletrackingpsy.ini
+//RUN_TEST_STEP 60 te_LbsPortedSuite TP301	c:\testdata\configs\ctlbsinstallabletrackingpsy.ini
  
-END_TESTCASE                   LBS-ClientV2-0056
+//END_TESTCASE                   LBS-ClientV2-0056
  
  
-START_TESTCASE                  LBS-ClientV2-0057
+//START_TESTCASE                  LBS-ClientV2-0057
 //!@SYMTestCaseID               LBS-ClientV2-0057
 //!@SYMTestCaseDesc		Avoid Multiple Integrated GPS Positioning Modules in Fallback
 //!
@@ -2578,9 +2578,9 @@ START_TESTCASE                  LBS-ClientV2-0057
 //!@SYMTestStatus             Implemented
 //! @SYMAuthor                LornaM
  
-RUN_TEST_STEP 100 te_LbsPortedSuite TP304
+//RUN_TEST_STEP 100 te_LbsPortedSuite TP304
  
-END_TESTCASE                   LBS-ClientV2-0057
+//END_TESTCASE                   LBS-ClientV2-0057
  
 PRINT Stop LBS 
 RUN_TEST_STEP 020 te_LbsPortedSuite LbsStep_StopLbs

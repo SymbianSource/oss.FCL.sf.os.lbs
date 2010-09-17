@@ -18,24 +18,9 @@
 #define __LBS_HYBRID_MTLR__
 
 #include <testexecute.iby>
-#include <lbs.iby>
-#include <lbsnetworklocationmanager.iby>
-#include <lbstestserver.iby>
-#include <lbstestutils.iby>
-#include <lbstestchannel.iby>
-#include <agpsnpetestintegmodule.iby>
-#include <ctlbsclockplugin.iby>
+#include <ctagpshybridmodule.iby>
 #include <hybridprotocolmodule.iby>
-//#include <simtsy.iby>
-
-file=ABI_DIR\DEBUG_DIR\LbsDebug.dll System\libs\LbsDebug.dll
-
-data=EPOCROOT##epoc32\data\C\testdata\configs\lbstestconfig.txt	  testdata\configs\lbstestconfig.txt
-data=EPOCROOT##epoc32\data\C\testdata\configs\ctagpsnpetestmoduledatasource.ini	  testdata\configs\ctagpsnpetestmoduledatasource.ini
 
 file=ABI_DIR\DEBUG_DIR\LbsHybridMTLRTestServer.exe sys\bin\LbsHybridMTLRTestServer.exe
-data=EPOCROOT##epoc32\data\C\testdata\configs\lbs_mtlr.ini	  testdata\configs\lbs_mtlr.ini
-data=EPOCROOT##epoc32\data\C\testdata\scripts\uebased_mtlr.script	  testdata\scripts\uebased_mtlr.script
-data=EPOCROOT##epoc32\data\C\testdata\scripts\run_hw_mtlr.bat	  testdata\scripts\run_hw_mtlr.bat
 
 #endif

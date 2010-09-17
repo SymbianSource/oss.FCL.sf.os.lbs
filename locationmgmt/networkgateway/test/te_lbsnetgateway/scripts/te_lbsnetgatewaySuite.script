@@ -32,8 +32,6 @@ PREFIX RUN_UTILS
 	CopyFile c:\testdata\configs\simtsy_home_config.txt c:\config.txt
 REMOVE_PREFIX
 
-
-
 START_TESTCASE                LBS-NetGateway-0001
 //! @SYMTestCaseID              LBS-NetGateway-0001
 //! @SYMTestCaseDesc            Not Available
@@ -175,7 +173,7 @@ REMOVE_PREFIX
 START_TESTCASE                LBS-NetGateway-0014
 //! @SYMTestCaseID              LBS-NetGateway-0014
 RUN_TEST_STEP 20 te_lbsnetgatewaySuite lbsnetgatewaystartstep c:\testdata\configs\te_lbsnetgatewaySuite.ini AllProtDiffProt
-RUN_TEST_STEP 20 te_lbsnetgatewaySuite lbsnetgatewaynetregstatusstep c:\testdata\configs\te_lbsnetgatewaySuite.ini AllProtDiffProt
+RUN_TEST_STEP 40 te_lbsnetgatewaySuite lbsnetgatewaynetregstatusstep c:\testdata\configs\te_lbsnetgatewaySuite.ini AllProtDiffProt
 RUN_TEST_STEP 20 te_lbsnetgatewaySuite lbsnetgatewaystopstep c:\testdata\configs\te_lbsnetgatewaySuite.ini
 END_TESTCASE   LBS-NetGateway-0014
 

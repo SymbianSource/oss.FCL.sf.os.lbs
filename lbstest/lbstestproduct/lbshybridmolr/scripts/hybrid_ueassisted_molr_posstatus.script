@@ -31,7 +31,7 @@ PREFIX RUN_UTILS
 	MkDir c:\private\10282253\lbs\
 	MkDir c:\private\10282253\lbs\locmods\
 //	CopyFile c:\testdata\configs\xtestmodule.ini c:\private\10282253\lbs\locmods\agpsintegmodule.ini
-        CopyFile c:\testdata\configs\ctagpsnpetestmoduledatasource.ini  c:\private\10282253\lbs\locmods\agpsintegmodule.ini
+        CopyFile c:\testdata\configs\ctagpshybridmoduledatasource.ini  c:\private\10282253\lbs\locmods\agpsintegmodule.ini
 	CopyFile c:\testdata\configs\lbstestconfig.txt c:\config.txt
 REMOVE_PREFIX
 

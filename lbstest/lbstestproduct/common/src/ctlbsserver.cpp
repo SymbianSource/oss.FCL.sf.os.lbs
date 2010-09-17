@@ -51,7 +51,6 @@
 #include "ctlbsstepsetuppsy.h"
 #include "ctlbsstepconfignpppsy.h"
 #include "ctlbsstepconfigsuplpsy.h"
-
 CT_LbsServer::~CT_LbsServer()
 	{
 	delete iSharedData;
@@ -240,6 +239,5 @@ CTestStep* CT_LbsServer::CreateTestStep(const TDesC& aStepName)
         {
         return CT_LbsStep_ConfigSuplPsy::New(*this);
         }
-    
-	return NULL;
+    return NULL;
 	}

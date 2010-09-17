@@ -740,8 +740,9 @@ TBool CLbsLocMonitorConversionHandler::CacheLookupL()
         CLbsLocationInfo* locationInfo = static_cast<CLbsLocationInfo*>(iLocationInfoArray[i]);
         RLbsAreaInfoBaseArray areaArray;
         CleanupStack::PushL(TCleanupItem(*CleanUpResetAndDestroy, &areaArray));
-        // NOTE! When locmonitor is expanded to cache 3g / wlan this call must be changed!
-        locationInfo->GetAreaInfoL(areaArray, ELbsAreaGsmCellInfoClass);
+        // NOTE! When locmonitor is expanded to cache wlan etc. this call must be changed! 
+		// Currently we know about GSM and 3g (WCDMA).
+        locationInfo->GetAreaInfoL(areaArray, CLbsLocationInfo::ELbsGsmInfo|CLbsLocationInfo::ELbsWcdmaInfo);
         
         TInt areaCount = areaArray.Count();
         TBool saved = EFalse;
@@ -766,9 +767,27 @@ TBool CLbsLocMonitorConversionHandler::CacheLookupL()
                     areaInfoGci.iMnc = area->MobileNetworkCode();
                     areaInfoGci.iLac = area->LocationAreaCode();
                     areaInfoGci.iCid = area->CellId();
+                    areaInfoGci.iValidity = ETrue;
+                    areaInfoGci.iIs3gNetworkMode = EFalse;
+                    
                     resolved = ETrue;
                     break;
                     }
+
+                case ELbsAreaWcmdaCellInfoClass :
+                    {
+                    CLbsWcdmaCellInfo* area = static_cast<CLbsWcdmaCellInfo*>(areaArray[j]);
+                    areaInfoGci.iMcc = area->MobileCountryCode();
+                    areaInfoGci.iMnc = area->MobileNetworkCode();
+                    areaInfoGci.iLac = area->LocalAreaCode();
+                    areaInfoGci.iCid = area->UniqueCellId();
+                    areaInfoGci.iValidity = ETrue;
+                    areaInfoGci.iIs3gNetworkMode = ETrue;
+                    
+                    resolved = ETrue;
+                    break;
+                    }
+
                 default:
                     {
                     resolved = EFalse;
@@ -850,7 +869,7 @@ TBool CLbsLocMonitorConversionHandler::CacheSaveL()
         
         RLbsAreaInfoBaseArray cellArray;
         CleanupStack::PushL(TCleanupItem(*CleanUpResetAndDestroy, &cellArray));
-        locationInfo->GetAreaInfoL(cellArray, CLbsLocationInfo::ELbsGsmInfo);
+        locationInfo->GetAreaInfoL(cellArray, CLbsLocationInfo::ELbsGsmInfo | CLbsLocationInfo::ELbsWcdmaInfo);
         
         RLbsAreaInfoBaseArray locationArray;
         CleanupStack::PushL(TCleanupItem(*CleanUpResetAndDestroy, &locationArray));
@@ -870,12 +889,34 @@ TBool CLbsLocMonitorConversionHandler::CacheSaveL()
                 {
                 for(TInt i = 0; i < cellArray.Count(); i++)
                     {
-                    CLbsGsmCellInfo* cell = static_cast<CLbsGsmCellInfo*>(cellArray[i]);
-                    TLbsLocMonitorAreaInfoGci areaInfoGci;
-                    areaInfoGci.iMcc = cell->MobileCountryCode();
-                    areaInfoGci.iMnc = cell->MobileNetworkCode();
-                    areaInfoGci.iLac = cell->LocationAreaCode();
-                    areaInfoGci.iCid = cell->CellId();
+					TLbsLocMonitorAreaInfoGci areaInfoGci;
+					if (cellArray[i]->Type() == ELbsAreaGsmCellInfoClass)
+						{
+						CLbsGsmCellInfo* cell = static_cast<CLbsGsmCellInfo*>(cellArray[i]);
+						areaInfoGci.iMcc = cell->MobileCountryCode();
+						areaInfoGci.iMnc = cell->MobileNetworkCode();
+						areaInfoGci.iLac = cell->LocationAreaCode();
+						areaInfoGci.iCid = cell->CellId();
+                        areaInfoGci.iValidity = ETrue;
+						areaInfoGci.iIs3gNetworkMode = EFalse;
+						}
+					else 
+						{ 
+						// by elimination type must be ELbsAreaWcmdaCellInfoClass!
+						CLbsWcdmaCellInfo* cell = static_cast<CLbsWcdmaCellInfo*>(cellArray[i]);
+
+						// If we don't have a valid LAC (which may happen with WCDMA) then we cannot
+						// save to the cache and we should go to the next cell immediately.
+						if (cell->LocalAreaCode() == -1)
+							continue;
+						areaInfoGci.iMcc = cell->MobileCountryCode();
+						areaInfoGci.iMnc = cell->MobileNetworkCode();
+						areaInfoGci.iLac = cell->LocalAreaCode();
+						areaInfoGci.iCid = cell->UniqueCellId();
+						areaInfoGci.iValidity = ETrue;
+						areaInfoGci.iIs3gNetworkMode = ETrue;
+						}
+
                     RPointerArray<TLbsLocMonitorAreaInfoBase> areaArray;
                     areaArray.Append(&areaInfoGci);
                     TTime now;

@@ -24,7 +24,6 @@ PRJ_TESTEXPORTS
 
 ./lbsromspecificsuite.iby   						/epoc32/rom/include/lbsromspecificsuite.iby
 
-
 ../testdata/lbsromspecificsuite.ini			c:/testdata/configs/lbsromspecificsuite.ini
                         
 PRJ_TESTMMPFILES

@@ -144,17 +144,21 @@ void CTe_locsrvSuiteStepBase::DisableAllModulesL()
 
 void CTe_locsrvSuiteStepBase::TogglePsyL(TUid aPsyUid, TBool aEnabled)
 {
+		INFO_PRINTF1(_L("TogglePsyL() ++"));
     CPosModules* modules = CPosModules::OpenL();
     CleanupStack::PushL(modules);
     CPosModuleUpdate* moduleUpdate = CPosModuleUpdate::NewLC();
 
     // toggle module
+    INFO_PRINTF2(_L("TogglePsyL with psy 0x%x"), aPsyUid);
     moduleUpdate->SetUpdateAvailability(aEnabled);
     modules->UpdateModuleL(aPsyUid, *moduleUpdate);
 
     CleanupStack::PopAndDestroy(2);   // moduleUpdate, modules
 
     User::After(KSecond);
+    	
+    INFO_PRINTF1(_L("TogglePsyL() --"));
 }
 
 void CTe_locsrvSuiteStepBase::CheckExpectedResult(TInt aResult, TInt aExpectedResult, const TDesC& aLabel)

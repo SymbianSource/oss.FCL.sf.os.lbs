@@ -14,11 +14,13 @@
 // @file ctlbscommon.mmp
 // 
 //
-
+MACRO ENABLE_LBS_DEV_LOGGER
 OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 USERINCLUDE	../inc
 USERINCLUDE	../../../../locationmgmt/locationcore/LbsLogging/inc
+USERINCLUDE ../../../../locationmgmt/locationcore/LbsPartnerCommon/inc
+
 USERINCLUDE	../../lbstestutils/inc
 
 
@@ -70,11 +72,12 @@ SOURCE		ctlbsstepconfignpppsy.cpp
 SOURCE		ctlbsstepconfigsuplpsy.cpp
 
 
-
 // EPOC + Test Execute libraries.
 LIBRARY	euser.lib
-LIBRARY	testexecuteutils.lib 
-LIBRARY	testexecutelogclient.lib 
+// NOTE: these must be included directly by test server .mmp files due to a limitation of helium
+// which determines the test harness by looking for these libs but doesn't look in included .mmp files
+//LIBRARY	testexecuteutils.lib 
+//LIBRARY	testexecutelogclient.lib 
 
 // For logging
 LIBRARY			logcli.lib
@@ -83,7 +86,7 @@ LIBRARY			lbsloggerapi.lib
 LIBRARY 		efsrv.lib
 LIBRARY			centralrepository.lib
 LIBRARY 		bafl.lib // BaflUtils
-
+LIBRARY		    lbspartnercommon.lib
 // Lbs Libraries
 LIBRARY eposmodset.lib
 SMPSAFE

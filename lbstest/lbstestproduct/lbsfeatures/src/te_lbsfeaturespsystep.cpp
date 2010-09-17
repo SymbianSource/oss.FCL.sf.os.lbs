@@ -104,19 +104,19 @@ void CT_LbsFeaturesPsyStep::TestFeatureL(const TDesC& aFeatureName,  const TUid&
 	if(aFeatureUid == NFeature::KGPSPositioningPlugin)
 		{
 		featureConsistent =  (featureSupported==IsFilePresent(_L("z:\\resource\\lbsgpspsy_name.rsc"))) &&
-							(featureSupported==IsFilePresent(_L("z:\\private\\10202be9\\101fe98a.cre")));
+							(featureSupported==IsFilePresent(_L("z:\\private\\10202be9\\101fe98a.txt")));
 		}
 	else if(aFeatureUid == NFeature::KAGPSPositioningPlugin)
 		{
 		featureConsistent =  (featureSupported==IsFilePresent(_L("z:\\resource\\lbsagpspsy_name.rsc"))) &&
-							(featureSupported==IsFilePresent(_L("z:\\private\\10202be9\\101fe98c.cre")));
+							(featureSupported==IsFilePresent(_L("z:\\private\\10202be9\\101fe98c.txt")));
 				
 		}
 	else if(aFeatureUid == NFeature::KNetworkPositioningPlugin)
 		{
 		featureConsistent = (featureSupported==IsFilePresent(_L("z:\\sys\\bin\\lbsnetpsy.dll"))) && 
 							(featureSupported==IsFilePresent(_L("z:\\resource\\lbsnetpsy_name.rsc"))) &&
-							(featureSupported==IsFilePresent(_L("z:\\private\\10202be9\\101fe98e.cre")));
+							(featureSupported==IsFilePresent(_L("z:\\private\\10202be9\\101fe98e.txt")));
 				
 		}
 	else if(aFeatureUid == NFeature::KLocationAPIVariant2)

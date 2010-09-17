@@ -29,7 +29,6 @@ ECOM_PLUGIN(lbsnetextendedprotocolstub2.dll, lbsnetextendedprotocolstub2.rsc)
 #endif
 
 file=ABI_DIR\DEBUG_DIR\lbsnetextendedprotocolproxy.dll		System\libs\lbsnetextendedprotocolproxy.dll
-file=ABI_DIR\DEBUG_DIR\lbsnetextendedprotocolproxy2.dll		System\libs\lbsnetextendedprotocolproxy2.dll
 file=ABI_DIR\DEBUG_DIR\getafixutils.dll		System\libs\getafixutils.dll
 data=EPOCROOT##epoc32\data\C\testdata\configs\pminfo.ini	  testdata\configs\pminfo.ini
 

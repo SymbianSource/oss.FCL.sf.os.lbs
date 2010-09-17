@@ -68,6 +68,11 @@ SOURCE		ctlbssuplmolrtbfutilesp.cpp
 //Positioning Indicator test files
 SOURCE		ctlbshybridueassistednpudposstatus.cpp
 
+
+// Test Execute libraries.
+LIBRARY	testexecuteutils.lib
+LIBRARY	testexecutelogclient.lib
+
 // LBS libraries.
 LIBRARY	lbs.lib
 LIBRARY	lbsloccommon.lib

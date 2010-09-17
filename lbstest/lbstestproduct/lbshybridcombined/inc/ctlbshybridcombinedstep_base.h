@@ -23,7 +23,6 @@
 #include <lbs/lbsnetcommon.h>
 #include <lbs/test/ctlbsagpsmoduleeventlistener.h>
 #include <lbs/lbsprivacycontroller.h>
-#include "locationengine_api.h"
 
 #include <lbs/test/lbsnetprotocolproxy.h>
 #include "ctlbshybridcombinedserver.h"
@@ -47,8 +46,6 @@ protected:
 	
 	CT_LbsHybridCombinedServer& iParent;
 	
-    TInt ReadClientUsageProperty();
-
 private: // from MT_AgpsModuleEventHandler
 	void OnSetGpsOptions(const TLbsGpsOptions& aGpsOptions);
 	

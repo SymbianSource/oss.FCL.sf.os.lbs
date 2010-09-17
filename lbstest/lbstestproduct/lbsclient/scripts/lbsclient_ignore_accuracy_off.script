@@ -397,7 +397,7 @@ RUN_TEST_STEP 120 LbsClientTestServer LbsClientStep_IgnoreAccuracySetting c:\tes
 END_TESTCASE  LBS-IGNORE-ACC-IgnoreAccuracyOff-0013
 
 // Use the hybrid AGPS module
-RUN_UTILS CopyFile c:\testdata\configs\ctagpsnpetestmoduledatasource.ini c:\private\10282253\lbs\locmods\agpsintegmodule.ini
+RUN_UTILS CopyFile c:\testdata\configs\ctagpshybridmoduledatasource.ini c:\private\10282253\lbs\locmods\agpsintegmodule.ini
 
 
 RUN_TEST_STEP 030 LbsClientTestServer LbsStep_StopLbs

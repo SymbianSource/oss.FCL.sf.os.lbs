@@ -30,6 +30,6 @@ SOURCE			lbsnetextendedprotocolproxy.cpp
 
 LIBRARY		euser.lib
 LIBRARY		getafixutils.lib
-LIBRARY		cinidata.lib
+LIBRARY	    iniparser.lib
 
 SMPSAFE

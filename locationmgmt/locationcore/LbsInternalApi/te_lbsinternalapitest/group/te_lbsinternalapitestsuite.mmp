@@ -13,9 +13,9 @@
 // Description:
 //
 
-          TARGET      te_lbsinternalapitestsuite.exe
-          TARGETTYPE  exe
-          UID             0x1000007A 0x10281D6A
+TARGET      te_lbsinternalapitestsuite.exe
+TARGETTYPE  exe
+UID         0x1000007A 0x10281D6A
 
 CAPABILITY	WriteDeviceData ReadDeviceData Location
 

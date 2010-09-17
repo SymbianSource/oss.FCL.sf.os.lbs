@@ -97,6 +97,10 @@ class CPositionRequest : public CActive
         void StopPsyTracking();
 
         void LoadPositionerL();
+        
+        void ActivatePositioningStatusIfNeeded();
+        
+        void DeActivatePositioningStatusIfNeeded();
 
     private:  // Data
 
@@ -141,6 +145,15 @@ class CPositionRequest : public CActive
 //        CPosLocMonitorReqHandlerHub&    iLastPositionHandler;
         CPosLocMonitorReqHandlerHub&    iLocMonitorReqHandler;
         CPosModuleSettings&         	iModuleSettings;
+        
+        TUid                            iPosStatusCategory;
+        
+        /**
+         * Positioning state flag
+         */
+        TBool                           iPositioningActive;
+        
+        
     };  
 
 #endif  // CPOSITIONREQUEST_H

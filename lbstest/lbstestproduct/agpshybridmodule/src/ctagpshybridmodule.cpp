@@ -28,6 +28,8 @@
 #include "LbsInternalInterface.h"
 #include "lbsdevloggermacros.h"
 
+#include <lbs/test/tlbsdefs.h>
+#define __ASSERT_ALWAYSX(c,p) (void)((c)||(RDebug::Printf("Assert at line %d in file %s ",__LINE__,__FILE__),p,0));
 
 // Literals Used
 const TInt KAssistanceDataTimeDelay = 1000000;
@@ -40,6 +42,39 @@ const TInt KIntervalOffset = 1000000;		// 1 second to ensure to ensure updates a
 const TInt KPosUpdateTimerId = 1;
 const TInt KDelayUpdateTimerId = 2;
 const TInt KQuickPositionUpdate = 1000;
+
+const TInt KLbsModuleNumOfUpdates = 3;  // Can't be greater than 16
+
+#define POS_LAT                         49.2
+#define POS_LONG                        3.5
+#define POS_ALT                         50.0
+#define POS_HORZ_ACCURACY               2
+#define POS_VERT_ACCURACY               3
+#define SPEED                           26.0
+#define VERTICAL_SPEED                  20.0
+#define HEADING                         25.0
+#define COURSE                          30.0
+#define SPEED_ACCURACY                  2.0
+#define VERTICAL_SPEED_ACCURACY         3.0
+#define HEADING_ACCURACY                10.0    
+#define COURSE_ACCURACY                 4.0
+//TGpsTimingMeasurementData
+#define GPS_TIMING_OF_CELL_MsPart       16383                          
+#define GPS_TIMING_OF_CELL_LsPart       4294967295UL
+#define REFERENCE_IDENTITY              511
+#define SFN                             4095
+//TDetailedErrorReport
+#define SD_OF_LONG_ERROR                5.0 
+#define SD_OF_LAT_ERROR                 6.0
+#define SD_OF_ALT_ERROR                 7.0 
+#define SD_OF_SEMI_MAJOR_AXIS_ERROR     8.0
+#define SD_OF_SEMI_MINOR_AXIS_ERROR     9.0
+#define ORIEN_OF_SEMI_MAJOR_AXIS_ERROR  10.0
+#define RMS_VAL_OF_SD_OF_RANGE          11.0
+
+#define GEOIDAL_SEPARATION              12.0
+#define MAGNETIC_VARIATION              13.0
+#define COURSE_OVER_GROUND_MAGNETIC     14.0
 
 CT_AGpsHybridModule::CT_AGpsHybridModule(MLbsLocationSourceGpsObserver& aObserver)
 	:
@@ -98,27 +133,24 @@ void CT_AGpsHybridModule::ConstructL()
 	TInt error = RProperty::Define(KUidSystemCategory, ELbsTestAGpsModuleResetAssistanceDataFlag, RProperty::EInt);
 	error = RProperty::Set(KUidSystemCategory, ELbsTestAGpsModuleResetAssistanceDataFlag, ELbsTestAGpsResetAssistanceDataNotReceived);
 	// Clear module update log.
+
+    error = RProperty::Define(KUidSystemCategory, ELbsTestAGpsModuleAssistanceDataRequestFlag, RProperty::EInt);
+    error = RProperty::Set(KUidSystemCategory, ELbsTestAGpsModuleAssistanceDataRequestFlag, ELbsTestAGpsModuleAssistanceDataExpected);
 	LBSDUMPNEWLOG();
 	}
 
-
-const TInt KLbsModuleNumOfUpdates = 3;	// Can't be greater than 16
-
-#define POS_LAT				49.2
-#define POS_LONG			3.5
-#define POS_ALT				50.0
-#define POS_HORZ_ACCURACY	2
-#define POS_VERT_ACCURACY	3
 
 
 void CT_AGpsHybridModule::PopulateUpdateArrayL()
 	{
 	TLbsModuleUpdateItem* update;
 	TPositionExtendedSatelliteInfo posInfo;
+    TCourse course;
 	TPosition pos;
 	TPositionGpsMeasurementInfo measureInfo;	
 	TPositionGpsMeasurementData measureData;
-	
+    TGpsTimingMeasurementData gpsTimingData;
+    TDetailedErrorReport detailedErrorReport;
 	for (TInt i = 0; i < KLbsModuleNumOfUpdates; i++)
 		{
 		// Create the update.
@@ -130,6 +162,41 @@ void CT_AGpsHybridModule::PopulateUpdateArrayL()
 		pos.SetCurrentTime();
 		posInfo.SetPosition(pos);
 
+        // Set Speed and Direction
+        course.SetSpeed(SPEED);
+        course.SetVerticalSpeed(VERTICAL_SPEED);
+        course.SetHeading(HEADING);
+        course.SetSpeedAccuracy(SPEED_ACCURACY);
+        course.SetVerticalSpeedAccuracy(VERTICAL_SPEED_ACCURACY);
+        course.SetHeadingAccuracy(HEADING_ACCURACY);
+        course.SetCourse(COURSE);
+        course.SetCourseAccuracy(COURSE_ACCURACY);
+        posInfo.SetCourse(course);
+        
+        // Set timing assistance measurement data
+        gpsTimingData.SetDataType(TGpsTimingMeasurementData::EGpsTimingDataTypeUtran);
+        gpsTimingData.SetNetworkMode(TGpsTimingMeasurementData::ENetworkModeFdd);
+        gpsTimingData.SetGPSTimingOfCellMsPart(GPS_TIMING_OF_CELL_MsPart);
+        gpsTimingData.SetGPSTimingOfCellLsPart(GPS_TIMING_OF_CELL_LsPart);
+        gpsTimingData.SetReferenceIdentity(REFERENCE_IDENTITY);
+        gpsTimingData.SetSfn(SFN);
+        posInfo.SetGpsTimingData(gpsTimingData);
+                
+        //Set GNSS Pseudorange Error Statistics 
+        detailedErrorReport.SetStanDeviOfLongitudeError(SD_OF_LONG_ERROR);
+        detailedErrorReport.SetStanDeviOfLatiitudeError(SD_OF_LAT_ERROR);
+        detailedErrorReport.SetStanDeviOfAltitudeError(SD_OF_ALT_ERROR);
+        detailedErrorReport.SetStanDeviOfSemiMajorAxisError(SD_OF_SEMI_MAJOR_AXIS_ERROR);
+        detailedErrorReport.SetStanDeviOfSemiMinorAxisError(SD_OF_SEMI_MINOR_AXIS_ERROR);
+        detailedErrorReport.SetOrientationOfSemiMajorAxisError(ORIEN_OF_SEMI_MAJOR_AXIS_ERROR);
+        detailedErrorReport.SetRmsValOfStanDeviOfRange(RMS_VAL_OF_SD_OF_RANGE);
+        posInfo.SetDetailedErrorReport(detailedErrorReport);
+        // Set Geoidal separation
+        posInfo.SetGeoidalSeparation(GEOIDAL_SEPARATION);
+        //Set Magnetic variation
+        posInfo.SetMagneticVariation(MAGNETIC_VARIATION);
+        //Set Course over ground
+        posInfo.SetCourseOverGroundMagnetic(COURSE_OVER_GROUND_MAGNETIC);
 		update->SetPosition(posInfo);				
 		
 		// Set measurement info.
@@ -396,8 +463,15 @@ void CT_AGpsHybridModule::AssistanceDataEvent(TInt aError, TLbsAsistanceDataGrou
 		iAssistanceDataRequested = EFalse;
 		iAssistanceDataAvailable = ETrue;
 		
+        // check the assistance data received was part of what was requested
+        if(iOutstandingAssistanceData & aDataMask != aDataMask)
+        	{
+            // NOTE: maybe panic - at the moment log a warning.
+            LBSLOG(ELogP1, "CT_AGpsHybridModule - WARNING assistance data did not verify.\n");
+        	}
 		//Remove the assistance data received from the outstanding mask
-		iOutstandingAssistanceData ^= aDataMask;
+
+        iOutstandingAssistanceData &= ~aDataMask;
 		
 		// Verify the error and the mask
 		if ((aError != KErrNone) || (aDataMask != iOutstandingAssistanceData))
@@ -492,6 +566,23 @@ void CT_AGpsHybridModule::HandleTimerL(TInt aTimerId, const TTime& aTargetTime)
 				{
 				// Request some simple assistance data.
 				iLocSourceGpsObserver.RequestAssistanceData(iOutstandingAssistanceData);
+				
+				//In some of the tests, Assistance Data is not supplied and position is expected.
+				//There is no way to notify Test client API of assistance data is not delivered so the code
+				//below is a work around for those scenarios - Need to find a better way to do this.
+			    RProperty assDataReqProperty;
+			    User::LeaveIfError(assDataReqProperty.Attach(KUidSystemCategory, ELbsTestAGpsModuleAssistanceDataRequestFlag));
+			    TInt assDataReqStatus;
+			    TInt error = assDataReqProperty.Get(assDataReqStatus);
+			    if (error == KErrNone && assDataReqStatus == ELbsTestAGpsModuleAssistanceDataNotExpected)
+			        {
+		            TTime time;
+		                            
+		            time.UniversalTime();
+		            time += TTimeIntervalMicroSeconds(KAssistanceDataTimeDelay);
+		            time += iTimeOut;
+		            iDelayUpdateTimer->SetTimer(time);
+			        }
 				}
 				
 			// Time stamp the request, to enable assistance data time stamp verfication.
@@ -620,6 +711,10 @@ void CT_AGpsHybridModule::UpdateLocation()
 		TPositionGpsMeasurementInfo measurement = iUpdateArr[iUpdateArrIndex]->Measurement();
 
 		// Determine how and what to deliver.
+		if (iImmediateMeasurements)
+			{
+			measurement.SetPositionCalculationPossible(ETrue);
+			}
 		if (iGpsOptionsType & ELbsGpsOptionsArrayClass)
 			{
 			// ensure or warn 2 == iGpsOptions.NumOptionItems()
@@ -738,6 +833,9 @@ void CT_AGpsHybridModule::ReturnNanPosition()
 	TReal64 nanValue = nan;
 			
 	TPosition pos;
+	TCourse course;
+	TDetailedErrorReport detailedErrorReport;
+	TGpsTimingMeasurementData gpsTimingData;
 	TPositionExtendedSatelliteInfo posInfo;
 	
 	pos.SetCoordinate(nanValue, nanValue, nanValue);			
@@ -746,7 +844,41 @@ void CT_AGpsHybridModule::ReturnNanPosition()
 	
 	posInfo.SetPosition(pos);
 
-
+	course.SetSpeed(nanValue);
+    course.SetVerticalSpeed(nanValue);
+    course.SetHeading(nanValue);
+    course.SetSpeedAccuracy(nanValue);
+    course.SetVerticalSpeedAccuracy(nanValue);
+    course.SetHeadingAccuracy(nanValue);
+    course.SetCourse(nanValue);
+    course.SetCourseAccuracy(nanValue);
+    posInfo.SetCourse(course);
+    
+    // Set timing assistance measurement data
+    gpsTimingData.SetDataType(TGpsTimingMeasurementData::EGpsTimingDataTypeUtran);
+    gpsTimingData.SetNetworkMode(TGpsTimingMeasurementData::ENetworkModeFdd);
+    gpsTimingData.SetGPSTimingOfCellMsPart(nanValue);
+    gpsTimingData.SetGPSTimingOfCellLsPart(nanValue);
+    gpsTimingData.SetReferenceIdentity(nanValue);
+    gpsTimingData.SetSfn(nanValue);
+    posInfo.SetGpsTimingData(gpsTimingData);
+    
+    
+    //Set GNSS Pseudorange Error Statistics 
+    detailedErrorReport.SetStanDeviOfLongitudeError(nanValue);
+    detailedErrorReport.SetStanDeviOfLatiitudeError(nanValue);
+    detailedErrorReport.SetStanDeviOfAltitudeError(nanValue);
+    detailedErrorReport.SetStanDeviOfSemiMajorAxisError(nanValue);
+    detailedErrorReport.SetStanDeviOfSemiMinorAxisError(nanValue);
+    detailedErrorReport.SetOrientationOfSemiMajorAxisError(nanValue);
+    detailedErrorReport.SetRmsValOfStanDeviOfRange(nanValue);
+    posInfo.SetDetailedErrorReport(detailedErrorReport);
+    // Set Geoidal separation
+    posInfo.SetGeoidalSeparation(nanValue);
+    //Set Magnetic variation
+    posInfo.SetMagneticVariation(nanValue);
+    //Set Course over ground
+    posInfo.SetCourseOverGroundMagnetic(nanValue);
 	// Configure position info.
 
 	// Set base class items.
@@ -845,7 +977,7 @@ void CT_AGpsHybridModule::ProcessRequestError(TInt aError)
 
 void CT_AGpsHybridModule::ProcessImmediateMeasurements(TInt aImmediateMeasurements)
 	{
-	iError = aImmediateMeasurements;	
+	iImmediateMeasurements = aImmediateMeasurements;	
 	}
 
 

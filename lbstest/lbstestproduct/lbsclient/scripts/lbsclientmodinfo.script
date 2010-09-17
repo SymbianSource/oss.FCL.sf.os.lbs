@@ -158,7 +158,7 @@ END_TESTCASE LBS-Client-ModInfo-0002
 //RUN_UTILS DeleteFile c:\private\10282253\lbs\locmods\agpsintegmodule.ini
 //RUN_UTILS DeleteFile c:\private\10282253\lbs\locmods\agpsintegmodule.ini
 //RUN_UTILS CopyFile c:\testdata\configs\xtestmodule.ini c:\private\10282253\lbs\locmods\agpsintegmodule.ini
-//RUN_UTILS CopyFile c:\testdata\configs\agpsnpeintegmodule.ini c:\private\10282253\lbs\locmods\agpsintegmodule.ini
+//RUN_UTILS CopyFile c:\testdata\configs\ctagpshybridmoduledatasource.ini c:\private\10282253\lbs\locmods\agpsintegmodule.ini
 
 // Restart LBS
 //RUN_TEST_STEP 030 LbsClientTestServer LbsStep_StartLbs

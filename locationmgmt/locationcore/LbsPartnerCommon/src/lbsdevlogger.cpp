@@ -461,7 +461,7 @@ void LbsDevLogger::WriteListL(TLbsLogType aType, TLbsLogPriority aPrior, TRefByV
 	{
 	RBuf8 strList;
 	strList.CleanupClosePushL();
-	strList.Create(KLbsDevLogMaxBufSize*10);
+	User::LeaveIfError(strList.Create(KLbsDevLogMaxBufSize*10));
 	strList.FormatList(aFmt, list);
 	WriteL(aType, aPrior, aFmt, list);
 	CleanupStack::PopAndDestroy();

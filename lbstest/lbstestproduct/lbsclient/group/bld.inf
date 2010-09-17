@@ -77,13 +77,17 @@ PRJ_TESTEXPORTS
 ../testdata/lbsclientupdateoptions_real.ini			c:/testdata/configs/lbsclientupdateoptions_real.ini
 ../testdata/lbsclientcellbasednpud.ini			c:/testdata/configs/lbsclientcellbasednpud.ini
 ../testdata/lbsclientcellbasednpud_real.ini			c:/testdata/configs/lbsclientcellbasednpud_real.ini
+../testdata/lbsclientconcurrent.ini			c:/testdata/configs/lbsclientconcurrent.ini
 
 
 ../testdata/lbsclientlastknownposareacommon.txt	c:/testdata/configs/lbsclientlastknownposareacommon.txt
 ../testdata/lbsclientlastknownposarea0001.txt	c:/testdata/configs/lbsclientlastknownposarea0001.txt
 ../testdata/lbsclientlastknownposarea0003.txt	c:/testdata/configs/lbsclientlastknownposarea0003.txt
+../testdata/lbsclientlastknownposarea0009.txt	c:/testdata/configs/lbsclientlastknownposarea0009.txt
 ../testdata/lbsclientlastknownposareasources.txt	c:/testdata/configs/lbsclientlastknownposareasources.txt
 
+// Rom
+ctlbsclientserver.iby /epoc32/rom/include/ctlbsclientserver.iby
 
 PRJ_TESTMMPFILES
 ctlbsclientserver.mmp

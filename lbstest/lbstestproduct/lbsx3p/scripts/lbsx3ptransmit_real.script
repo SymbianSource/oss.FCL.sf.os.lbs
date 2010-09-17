@@ -17,14 +17,6 @@ LOAD_SUITE LbsX3PTestServer -SharedData
 LOAD_SUITE CTSuplMolrRealTestServer
 
 PRINT Run LbsX3PTestServer
-PRINT
-
-PREFIX RUN_UTILS
-MkDir c:\private\10282253\
-MkDir c:\private\10282253\lbs\
-MkDir c:\private\10282253\lbs\locmods\
-CopyFile z:\testdata\configs\sirfdatasource.ini c:\private\10282253\lbs\locmods\agpsintegmodule.ini
-REMOVE_PREFIX
 // Before we start LBS, select the test A-GPS integration module to use.
 PREFIX RUN_UTILS
 	MkDir c:\private\10282253\

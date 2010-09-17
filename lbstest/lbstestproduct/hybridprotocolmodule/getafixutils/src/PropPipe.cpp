@@ -22,7 +22,8 @@
 
 #include "PropPipe.h"
 #include "../../lbsnetprotocolproxy/inc/lbsnetprotocolproxydefs.h"
-
+#include <lbs/test/lbstestlogger.h>
+#include <lbs/test/lbsparamlogger.h>
 //Size of the buffer to store incoming messages.  This currently is sufficient for up to
 // 6 simultaneous sequences and may need to be increased in the future.
 const TInt KDefPropBufSize = 6000;
@@ -120,16 +121,22 @@ void CPropPipeBase::BaseConstructL(TUint32 aKey, TUint32 aKeyFlowCtrl)
 		
 		iPropPipe.Set(KNullDesC8);
 		iPropFlow.Set(EReadyToWrite);
+		   LBSTESTLOG_METHOD(_L("--"), "jcmi PropFlow.Set(EReadyToWrite)"); 
+
 		}
 	}
 
 
 TBool CPropPipeBase::WaitForStateL(TFlowControl aDesiredState, TInt32 aTimeout)
 	{
+    LBSTESTLOG_METHOD(_L("--"), "CPropPipeBase::WaitForStateL a"); 
+
 	TInt flowState = (aDesiredState == EReadyToRead)?EReadyToWrite:EReadyToRead;
 	
 	User::LeaveIfError(iPropFlow.Get(flowState));
 	
+	LBSTESTLOG_METHOD2(_L("--"), "flowstate is and desired state is ",flowState,aDesiredState); 
+
 	if(aDesiredState != flowState)
 		{
 		RTimer timeout;
@@ -141,9 +148,14 @@ TBool CPropPipeBase::WaitForStateL(TFlowControl aDesiredState, TInt32 aTimeout)
 					   	
 		timeout.After(statTime, aTimeout);
 		iPropFlow.Subscribe(statProp);
+		   LBSTESTLOG_METHOD(_L("--"), "CPropPipeBase::WaitForStateL b"); 
+
 		User::LeaveIfError(iPropFlow.Get(flowState));
+	     LBSTESTLOG_METHOD1(_L("--"), "iPropFlow.Get(flowState) c",flowState); 
 		if(aDesiredState == flowState)
 			{ // if the flow property was changed while subscribing then cancel the subscribtion and return
+		     LBSTESTLOG_METHOD(_L("--"), "CPropPipeBase::WaitForStateL x"); 
+		    
 			iPropFlow.Cancel();
 			User::WaitForRequest(statProp);
 			timeout.Cancel();
@@ -151,17 +163,23 @@ TBool CPropPipeBase::WaitForStateL(TFlowControl aDesiredState, TInt32 aTimeout)
 			}
 		else
 			{
+		     LBSTESTLOG_METHOD(_L("--"), "CPropPipeBase::WaitForStateL y"); 
 			User::WaitForRequest(statProp, statTime);
 			
 			if(KRequestPending == statProp.Int())
 				{
+			      LBSTESTLOG_METHOD(_L("--"), "CPropPipeBase::WaitForStateL y1"); 
+			    
 				iPropFlow.Cancel();
 				}
 			else
 				{
+	               LBSTESTLOG_METHOD(_L("--"), "CPropPipeBase::WaitForStateL y2"); 
+
 				timeout.Cancel();
-				
+			       LBSTESTLOG_METHOD(_L("--"), "CPropPipeBase::WaitForStateL d"); 
 				User::LeaveIfError(iPropFlow.Get(flowState));
+			       LBSTESTLOG_METHOD1(_L("--"), "xx iPropFlow.Get(flowState) e",flowState); 
 				
 				__ASSERT_DEBUG(aDesiredState == flowState, User::Invariant());
 				}
@@ -174,29 +192,48 @@ TBool CPropPipeBase::WaitForStateL(TFlowControl aDesiredState, TInt32 aTimeout)
 		
 		CleanupStack::PopAndDestroy(&timeout);
 		}
+    LBSTESTLOG_METHOD2(_L("--"), "return",aDesiredState,flowState); 
 	
 	return (aDesiredState == flowState);
 	}
 
 void CPropPipeBase::WriteL(const TDesC8& aBuf, TInt32 aTimeout)
 	{
+    LBSTESTLOG_METHOD(_L("--"), "CPropPipeBase::WriteL a"); 
+
 	if(!WaitForStateL(EReadyToWrite, aTimeout))
+	    
+	    {
+        LBSTESTLOG_METHOD(_L("--"), "CPropPipeBase::WriteL KErrNotRdy"); 
+
 		User::Leave(KErrNotReady);
-	
+	    }
+    LBSTESTLOG_METHOD(_L("--"), "CPropPipeBase::WriteL b"); 
 	User::LeaveIfError(iPropPipe.Set(aBuf));
+    LBSTESTLOG_METHOD(_L("--"), "CPropPipeBase::WriteL c"); 
 	User::LeaveIfError(iPropFlow.Set(EReadyToRead));
+    LBSTESTLOG_METHOD(_L("--"), "de WriteL iPropFlow.Set(EReadyToRead)"); 
+
+    LBSTESTLOG_METHOD(_L("--"), "CPropPipeBase::WriteL d"); 
 	}
 	
 void CPropPipeBase::ReadL(TDes8& aBuf, TInt32 aTimeout)
 	{
 	__ASSERT_DEBUG(aBuf.MaxLength() >= KDefPropBufSize, User::Invariant());
 	__ASSERT_DEBUG(!aBuf.Length(), User::Invariant());
-	
+    LBSTESTLOG_METHOD(_L("--"), "CPropPipeBase::ReadL a");
 	if(!WaitForStateL(EReadyToRead, aTimeout))
+	    {
+        LBSTESTLOG_METHOD(_L("--"), "CPropPipeBase::ReadLKErrNotRdy");
 		User::Leave(KErrNotReady);
-	
+	    }
+    LBSTESTLOG_METHOD(_L("--"), "CPropPipeBase::ReadL b");
 	User::LeaveIfError(iPropPipe.Get(aBuf));
+    LBSTESTLOG_METHOD(_L("--"), "CPropPipeBase::ReadL c");
 	User::LeaveIfError(iPropFlow.Set(EReadyToWrite));
+	   LBSTESTLOG_METHOD(_L("--"), "pp ReadL iPropFlow.Set(EReadyToWrite)"); 
+
+    LBSTESTLOG_METHOD(_L("--"), "CPropPipeBase::ReadL d");
 	}
 
 void CPropPipeBase::ReadL(HBufC8* aBuf, TInt32 aTimeout, TRequestStatus& aStatus)
@@ -208,22 +245,31 @@ void CPropPipeBase::ReadL(HBufC8* aBuf, TInt32 aTimeout, TRequestStatus& aStatus
 	__ASSERT_DEBUG(!iTimeOut, User::Invariant());
 	__ASSERT_DEBUG(!iWatcher, User::Invariant());
 
+	  LBSTESTLOG_METHOD(_L("--"), "CCPropPipeBase::ReadL 2"); 
+
 	aStatus = KRequestPending;
 	iReadBuf = aBuf;
 
 	TInt flowState = EReadyToWrite;
 	
 	User::LeaveIfError(iPropFlow.Get(flowState));
+    LBSTESTLOG_METHOD1(_L("--"), "qw ReadL iPropFlow.Get(flowState)",flowState); 
+
+	
 	iTimeOut = CPropPipeBaseTimeOut::NewL(*this);
 	iWatcher = new(ELeave) CPropPipeBaseWatcher(*this, iPropFlow);
 	
 	if(EReadyToRead != flowState)
 		{
+	    LBSTESTLOG_METHOD2(_L("--"), "(EReadyToRead != flowState)",EReadyToRead,flowState); 
+
 		iTimeOut->After(aTimeout);
 		iWatcher->Watch();
 		}
 	else
 		{
+	    LBSTESTLOG_METHOD2(_L("--"), "(EReadyToRead == flowState)",EReadyToRead,flowState); 
+
 		iTimeOut->After(aTimeout);
 		iWatcher->CompleteRequest();
 		}
@@ -257,11 +303,14 @@ void CPropPipeBase::SendTimeOut()
 
 void CPropPipeBase::StateChangedL()
 	{
+    LBSTESTLOG_METHOD(_L("--"), "CPropPipeBase::StateChangedL a"); 
 	iTimeOut->Cancel();
 	TPtr8 p = iReadBuf->Des();
 	User::LeaveIfError(iPropPipe.Get(p));
+    LBSTESTLOG_METHOD(_L("--"), "CPropPipeBase::StateChangedL b"); 
 	iReadBuf = NULL;
 	User::LeaveIfError(iPropFlow.Set(EReadyToWrite));
+    LBSTESTLOG_METHOD(_L("--"), "wer CPropPipeBase::StateChangedL c"); 
 	SendResponse();
 	delete iWatcher;
 	iWatcher = NULL;

@@ -35,7 +35,7 @@
 // Literals used
 _LIT(KLbsMolrTracking, "LbsMolrTracking");
 
-class CT_LbsMolrTracking :	public	CT_LbsHybridMOLRStep, public MTestFlowObserver, public MLbsPositioningStatusObserver
+class CT_LbsMolrTracking :	public	CT_LbsHybridMOLRStep, public MTestFlowObserver
 	{
 private:
 	class CT_ClientData : public CBase
@@ -105,9 +105,6 @@ public:
 	void StopTest();
 	void OnSignalNetworkStep(TInt aSessionId, TInt aSessionStep);
 	
-    //MLbsPositioningStatusObserver
-    void OnPositioningStatusUpdate(const CLbsPositioningStatus::TLbsPositioningStatus& aPositioningStatus);
-
 protected:
 	CT_LbsMolrTracking(CT_LbsHybridMOLRServer& aParent);
 	void ConstructL();
@@ -134,10 +131,6 @@ private:
 	// =2 - MaxAge test
 	// =3 - EarlyComplete test 
 	TInt iSpecialTestMode;
-	TInt  iPositioningIndicatorCount;
-    TInt  iPosStatusCount;
-    CLbsPositioningStatus* iLbsPositioningStatus;
-    CLbsPositioningStatus::TLbsPositioningStatus iPositioningStatus;
 	};
 
 #endif //__CT_LBS_MOLR_TRACKING_H__

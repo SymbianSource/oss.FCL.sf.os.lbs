@@ -42,7 +42,7 @@
 
 #include <lbs/test/activeyield.h>
 
-const TInt KSmallDelta = 350 * 1000; // 250ms
+const TInt KSmallDelta = 800 * 1000; // 800 ms
 
 /**
 Static Constructor
@@ -84,9 +84,6 @@ void CT_LbsMolrTracking::ConstructL()
 	{
 	// Create the base class objects.
 	CT_LbsHybridMOLRStep::ConstructL();
-    iLbsPositioningStatus = CLbsPositioningStatus::NewL(*this);
-    iPosStatusCount = 0;
-    iPositioningStatus = CLbsPositioningStatus::ELbsPositioningStatusNotActive;
 	}
 
 /**
@@ -94,7 +91,6 @@ void CT_LbsMolrTracking::ConstructL()
  */
 CT_LbsMolrTracking::~CT_LbsMolrTracking()
 	{
-    delete iLbsPositioningStatus;
 	TRAP_IGNORE(doTestStepPostambleL());
 	}
 
@@ -236,17 +232,6 @@ TVerdict CT_LbsMolrTracking::doTestStepPreambleL()
 		TEST(EFalse);
 		}
 
-    _LIT(KPositioningIndicator, "PositioningIndicator");
-    TInt positioningIndicatorCount;
-    if(GetIntFromConfig(ConfigSection(), KPositioningIndicator, positioningIndicatorCount))
-        {
-        iPositioningIndicatorCount = positioningIndicatorCount;
-        }
-    else
-        {
-        iPositioningIndicatorCount = 0;
-        }
-		
 	// Get the SpecialTestModemode setting ... 0 means not in a LastKnownPosition mode
 	_LIT(KLastKnownPosition, "SpecialTestMode");
 	TInt specialTestModeInt;
@@ -288,11 +273,6 @@ TVerdict CT_LbsMolrTracking::doTestStepPreambleL()
 TVerdict CT_LbsMolrTracking::doTestStepPostambleL()
 	{
 	INFO_PRINTF1(_L("&gt;&gt;CT_LbsMolrTracking::doTestStepPostambleL()"));
-    if(iPositioningIndicatorCount>0)
-        {
-        TESTL(iPositioningIndicatorCount==iPosStatusCount);
-        TESTL(iPositioningStatus == CLbsPositioningStatus::ELbsPositioningStatusNotActive);
-        }
 	iClients.ResetAndDestroy();
 	iClientTestManagers.ResetAndDestroy();
 
@@ -408,11 +388,6 @@ void CT_LbsMolrTracking::OnNotifyPositionUpdateL(TInt aObjectId, TInt32 aErr, co
 			
 			INFO_PRINTF2(_L("Client number %d received a position"), aObjectId);
 			INFO_PRINTF3(_L("Client now has %d of %d positions"), positionsReceived+1, numberOfNPUDs);
-			if(iPositioningIndicatorCount>0)
-			    {
-                TESTL(iPosStatusCount==1);
-                TESTL(iPositioningStatus == CLbsPositioningStatus::ELbsPositioningStatusActive);
-			    }
 		
 			if (iSpecialTestMode == 2)
 				{
@@ -749,8 +724,3 @@ void CT_LbsMolrTracking::EnablePsy(TInt aPsyUid)
 	CleanupStack::PopAndDestroy(moduleUpdate);
 	CleanupStack::PopAndDestroy(db);
 }
-void CT_LbsMolrTracking::OnPositioningStatusUpdate(const CLbsPositioningStatus::TLbsPositioningStatus& aPositioningStatus)
-    {
-    iPosStatusCount++;
-    iPositioningStatus = aPositioningStatus;
-    }

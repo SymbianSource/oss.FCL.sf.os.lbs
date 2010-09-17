@@ -421,7 +421,7 @@ void CTestSessionSequence::PrintRemainingActions()
 void CTestSessionSequence::WaitForMessage()
 	{
 	//All timeout's are now 60 seconds
-	iNgProxy.WaitForResponseL(60 * 1000 * 1000);
+	iNgProxy.WaitForResponseL(80 * 1000 * 1000);
 	}
 
 //----------------------------------------------
@@ -561,7 +561,7 @@ void CTestSessionSequence::SignalCallbackIdleStart()
 		// for this sequence AND since this function was called, it was an expected message.  SO this sequence has
 		// "stolen" a WaitForResponse call from another sequence.  As such, manually make another call from this
 		// sequence on the same PM to satisfy the action on that other sequence.
-		iNgProxy.WaitForResponseL(60 * 1000 * 1000);
+		iNgProxy.WaitForResponseL(80 * 1000 * 1000);
 		}
 	}
 

@@ -43,6 +43,10 @@ SOURCE		clbstestmolrsessionsequence.cpp
 SOURCE		clbstestmtlrsessionsequence.cpp
 SOURCE		clbstestx3psessionsequence.cpp
 
+//  Test Execute libraries.
+LIBRARY	testexecuteutils.lib 
+LIBRARY	testexecutelogclient.lib
+
 // LBS libraries.
 LIBRARY	lbs.lib
 LIBRARY	lbsloccommon.lib

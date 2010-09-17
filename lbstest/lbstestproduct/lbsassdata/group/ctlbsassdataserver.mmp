@@ -39,6 +39,10 @@ SOURCE		ctlbsassdatamoduledata.cpp // may move to common or utils
 SOURCE		ctlbsassdatastepmain.cpp
 SOURCE		ctlbsroamingstep.cpp
 
+//  Test Execute libraries.
+LIBRARY	testexecuteutils.lib 
+LIBRARY	testexecutelogclient.lib
+
 // LBS libraries.
 LIBRARY	lbs.lib
 LIBRARY	lbsloccommon.lib

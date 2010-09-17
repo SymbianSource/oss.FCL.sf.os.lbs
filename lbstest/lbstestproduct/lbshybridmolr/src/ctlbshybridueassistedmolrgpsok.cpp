@@ -82,6 +82,9 @@ CT_LbsHybridUEAssistedMOLRGPSOk::~CT_LbsHybridUEAssistedMOLRGPSOk()
 TVerdict CT_LbsHybridUEAssistedMOLRGPSOk::doTestStepL()
 	{
 	INFO_PRINTF1(_L("CT_LbsHybridUEAssistedMOLRGPSOk::doTestStepL()"));	
+	
+	TInt result;
+	
 	// Stop the test if the preable failed
 	TESTL(TestStepResult() == EPass);
 
@@ -98,7 +101,10 @@ TVerdict CT_LbsHybridUEAssistedMOLRGPSOk::doTestStepL()
 	CleanupStack::PushL(proxy);
 
 	// >> AdviceSystemStatus(0) - GetCurrentCapabilitiesResponse
-	TESTL(proxy->WaitForResponse(KTimeOut) == ENetMsgGetCurrentCapabilitiesResponse);
+	result = proxy->WaitForResponse(KTimeOut);
+    INFO_PRINTF3(_L("expecting ENetMsgGetCurrentCapabilitiesResponse(%d) got %d"),ENetMsgGetCurrentCapabilitiesResponse, result ); 
+	TESTL(result == ENetMsgGetCurrentCapabilitiesResponse);
+	
 	CLbsNetworkProtocolBase::TLbsSystemStatus status;
 	TInt cleanupCnt;
 	cleanupCnt = proxy->GetArgsLC(ENetMsgGetCurrentCapabilitiesResponse, &status);
@@ -137,8 +143,13 @@ TVerdict CT_LbsHybridUEAssistedMOLRGPSOk::doTestStepL()
 		pWatch->IssueNotifyPositionUpdate();
 
 		// >> RequestSelfLocation()
-		TESTL(proxy->WaitForResponse(KTimeOut) == ENetMsgRequestSelfLocation);
+		//TESTL(proxy->WaitForResponse(KTimeOut) == ENetMsgRequestSelfLocation);
+		result = proxy->WaitForResponse(KTimeOut);
+	   INFO_PRINTF3(_L("expecting ENetMsgRequestSelfLocation(%d) got %d"),ENetMsgRequestSelfLocation, result ); 
 
+       TESTL(result == ENetMsgRequestSelfLocation);
+
+	   
 		// Process the response.
 		TLbsNetSessionId* 					sessionId = NULL;
 		TLbsNetPosRequestOptionsAssistance*	opts = NULL;
@@ -174,6 +185,8 @@ TVerdict CT_LbsHybridUEAssistedMOLRGPSOk::doTestStepL()
 			}
 		else
 			{
+	      INFO_PRINTF3(_L("Expected a Cancel()%d, but got %d"),ENetMsgCancelSelfLocation , err); 
+
 			TESTL(err == ENetMsgCancelSelfLocation);
 			}	
 		
@@ -225,7 +238,10 @@ TVerdict CT_LbsHybridUEAssistedMOLRGPSOk::doTestStepL()
 		pWatch->IssueNotifyPositionUpdate();
 
 		// >> RequestSelfLocation()
-		TESTL(proxy->WaitForResponse(KTimeOut) == ENetMsgRequestSelfLocation);
+	
+		result = proxy->WaitForResponse(KTimeOut);
+        INFO_PRINTF3(_L("expecting ENetMsgRequestSelfLocation(%d) got %d"),ENetMsgRequestSelfLocation, result ); 
+  		TESTL(result == ENetMsgRequestSelfLocation);
 
 		// Process the response.
 		TLbsNetSessionId* 					sessionId = NULL;
@@ -285,20 +301,9 @@ TVerdict CT_LbsHybridUEAssistedMOLRGPSOk::doTestStepL()
 		TTime startTime;
 		startTime.HomeTime();
 
-		// >> RequestAssistanceData(0)
-		TESTL(proxy->WaitForResponse(KTimeOut) == ENetMsgRequestAssistanceData); 
-		cleanupCnt = proxy->GetArgsLC(ENetMsgRequestAssistanceData, &dataMask);
-		TESTL(dataMask == EAssistanceDataNone);
-		CleanupStack::PopAndDestroy(cleanupCnt);
-
 		// << NotifyPositionUpdate()
 		pWatch->IssueNotifyPositionUpdate();
 
-		// >> RequestAssistanceData(0)
-		TESTL(proxy->WaitForResponse(KTimeOut) == ENetMsgRequestAssistanceData); 
-		cleanupCnt = proxy->GetArgsLC(ENetMsgRequestAssistanceData, &dataMask);
-		TESTL(dataMask == EAssistanceDataNone);
-		CleanupStack::PopAndDestroy(cleanupCnt);
 		// Determine the value to take off the alpha2 value. This is required because we had to wait for the assistance data response.
 		TTimeIntervalMicroSeconds microseconds;
 		TTime stopTime;
@@ -308,10 +313,14 @@ TVerdict CT_LbsHybridUEAssistedMOLRGPSOk::doTestStepL()
 		TInt delta = 2 * 1000 * 1000; // 2 secs.
 
 		// >> RespondLocationRequest()
-		TESTL(proxy->WaitForResponse(ArgUtils::Alpha2() - timeElapsed - delta) == ENetMsgTimeoutExpired);
+		result = proxy->WaitForResponse(ArgUtils::Alpha2() - timeElapsed - delta,ENetMsgRequestAssistanceData);
+		INFO_PRINTF3(_L("expecting ENetMsgTimeoutExpired(%d) got %d"),ENetMsgTimeoutExpired, result ); 
+		TESTL(result == ENetMsgTimeoutExpired);
 
 		// Wait for and process the response.
-		TESTL(proxy->WaitForResponse(2 * delta) == ENetMsgRespondLocationRequest);		// DONT get because the measurement data bus has not been created...
+		result = proxy->WaitForResponse(2 * delta,ENetMsgRequestAssistanceData);
+		INFO_PRINTF3(_L("expecting ENetMsgRespondLocationRequest(%d) got %d"),ENetMsgRespondLocationRequest, result ); 
+		TESTL(result == ENetMsgRespondLocationRequest);		// DONT get because the measurement data bus has not been created...
 
 		sessionId = NULL;
 		TPositionGpsMeasurementInfo* measurementInfo = NULL;
@@ -320,12 +329,6 @@ TVerdict CT_LbsHybridUEAssistedMOLRGPSOk::doTestStepL()
 		TESTL(reason == KErrNone);
 		CleanupStack::PopAndDestroy(cleanupCnt);//sessionId, measurementInfo
 
-		// Recv -> RequestAssistanceData - we get an extra msg as the result of the A-GPS manager re-issueing a location request when it's
-		//									max fix time timer expries.
-		TESTL(proxy->WaitForResponse(KTimeOut) == ENetMsgRequestAssistanceData); 
-		cleanupCnt = proxy->GetArgsLC(ENetMsgRequestAssistanceData, &dataMask);
-		TESTL(dataMask == EAssistanceDataNone);
-		CleanupStack::PopAndDestroy(cleanupCnt);
 		const TInt t = 8 * 1000 * 1000; // 8 secs.
 		quality.SetMaxFixTime(t);
 
@@ -337,14 +340,10 @@ TVerdict CT_LbsHybridUEAssistedMOLRGPSOk::doTestStepL()
 			// << ProcessLocationRequest(SessionId, HybridMode, t)
 			proxy->CallL(ENetMsgProcessLocationRequest, &iSessionId, &emergency, &service, &quality, &method);
 
-			// >> RequestAssistanceData(0)
-			TESTL(proxy->WaitForResponse(KTimeOut) == ENetMsgRequestAssistanceData); 
-			cleanupCnt = proxy->GetArgsLC(ENetMsgRequestAssistanceData, &dataMask);
-			TESTL(dataMask == EAssistanceDataNone);
-			CleanupStack::PopAndDestroy(cleanupCnt);
-
 			// >> RespondLocationRequest() - first measurement, second position.
-			TESTL(proxy->WaitForResponse(t + delta) == ENetMsgRespondLocationRequest);
+			result = proxy->WaitForResponse(t + delta,ENetMsgRequestAssistanceData);
+			INFO_PRINTF3(_L("expecting ENetMsgRespondLocationRequest(%d) got %d"),ENetMsgRespondLocationRequest, result ); 
+			TESTL(result == ENetMsgRespondLocationRequest);
 
 			sessionId = NULL;
 			
@@ -356,14 +355,6 @@ TVerdict CT_LbsHybridUEAssistedMOLRGPSOk::doTestStepL()
 
 				// Check it is measurement
 				TESTL(measurementInfo->PositionClassType() == EPositionGpsMeasurementInfoClass);
-
-				// >> RequestAssistanceData - we get an extra msg as the result of the A-GPS manager re-issueing a location request when it's
-				//									max fix time timer expries.
-				TESTL(proxy->WaitForResponse(KTimeOut) == ENetMsgRequestAssistanceData);
-
-				cleanupCnt += proxy->GetArgsLC(ENetMsgRequestAssistanceData, &dataMask);
-
-				TESTL(dataMask == EAssistanceDataNone);
 				TESTL(sessionId->SessionNum() == iSessionId.SessionNum());
 				TESTL(reason == KErrNone);
 				}

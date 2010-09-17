@@ -365,7 +365,7 @@ void CLbsSystem::InitializeQualityProfileInfoL()
 	RArray<TQualityProfile> qualityArray;
 	CleanupClosePushL(qualityArray);
 	
-	qualityArray.Reserve(5);
+	qualityArray.ReserveL(5);
 
 	// Only want to use the first file that is found.
 	// The way TFindFile::FindByDir works, it will search
@@ -1459,7 +1459,7 @@ void CProcessOverseer::AttachLbsProcessesL()
             finished = err != KErrNone;
 	        if(!finished)
 	            {	        	
-        	    iLbsProcess.Append(newProcess);
+        	    iLbsProcess.AppendL(newProcess);
                 ++count;
                 if (newProcess->IsRunning())
                 	{

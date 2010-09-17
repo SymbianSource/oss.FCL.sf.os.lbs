@@ -272,6 +272,7 @@ Loading is a 'one-off' process, nothing further is loaded (and nothing is unload
 */
 void CNetworkGateway::LoadProtocolModuleL(TLbsProtocolModuleId aModuleId)
 	{
+	LBSLOG(ELogP2, "CNetworkGateway::LoadProtocolModuleL:");
 	if(aModuleId != KLbsProtocolNullModuleId)
 	    {
         CProtocolModuleInfo* moduleInfo = ModuleInfo(aModuleId);

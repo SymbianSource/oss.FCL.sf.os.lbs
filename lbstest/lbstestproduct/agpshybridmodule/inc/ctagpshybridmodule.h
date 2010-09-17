@@ -125,6 +125,7 @@ private:
 	
 	TTimeIntervalMicroSeconds iTimeOut;
 	TInt iError;
+	TInt iImmediateMeasurements;
 	
 	/** Target time. */
 	TTime iTargetTime;

@@ -16,7 +16,7 @@
 #include "lbsmemlogger.h"
 #include "claunchedprocess.h"
 #include "csecureprocessasbase.h"
-
+#include "lbsdevloggermacros.h"
 
 /** Create instance of trap handler and cleanup stack
 called by the launched process! 
@@ -166,7 +166,9 @@ wait for scheduler to be stopped to return process
 	// do any _FINAL _ operations. If anything.. default does nothing
 	s->Final();
 	// Cleanup the scheduler
+	LBSLOG(ELogP1, "CLaunchedProcess::Destroy scheduler \n");
 	CleanupStack::PopAndDestroy(s);
+	LBSLOG(ELogP1, "CLaunchedProcess::Scheduler destroyed\n");
 	return r;
 	}		
 	

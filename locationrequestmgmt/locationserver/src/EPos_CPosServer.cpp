@@ -28,6 +28,7 @@
 #include "EPos_CPosResourceReader.h"
 #include <eposserver.rsg>
 #include <lbs/epos_mposmodulesobserver.h>
+#include <centralrepository.h>
 #ifdef SYMBIAN_FEATURE_MANAGER
 	#include <featdiscovery.h>
 	#include <featureuids.h>
@@ -39,6 +40,7 @@
 #include "EPos_CPosServerDelayedShutdown.h"
 #include "EPos_CPosModulesStatus.h"
 #include "EPos_CPosLocMonitorReqHandlerHub.h"
+#include "lbsrootcenrepdefs.h"
 
 #include "EPos_Global.h"
 #include "lbspositioningstatusprops.h"
@@ -216,7 +218,18 @@ void CPosServer::ConstructL()
 
     // Define the MO Positioning Status property
 	LbsPositioningStatusProps::InitializeMoPropertyL();	
-   
+
+	// Reset the key to zero
+    TInt posStatusCategory;
+    
+    CRepository* rep = CRepository::NewLC(KLbsCenRepUid);
+    TInt err = rep->Get(KMoPositioningStatusAPIKey, posStatusCategory);
+    if( err == KErrNone )
+        {
+        err = RProperty::Set(TUid::Uid(posStatusCategory), KLbsMoPositioningStatusKey,0);
+        }
+    CleanupStack::PopAndDestroy(rep);
+
     DEBUG_TRACE("Starting server active object...", __LINE__)
     StartL(KPositionServerName);
     }

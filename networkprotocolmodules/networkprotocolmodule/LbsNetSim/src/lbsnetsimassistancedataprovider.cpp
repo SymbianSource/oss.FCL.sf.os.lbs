@@ -118,10 +118,14 @@ void CLbsNetSimAssistanceDataProvider::SetQuality(TLbsNetPosRequestQuality& aQua
 */
 TBool CLbsNetSimAssistanceDataProvider::SetAssistanceDataProvider(TUid aUid)
 	{
+    LBSLOG2(ELogP1, "CLbsNetSimAssistanceDataProvider::SetAssistanceDataProvider(Uid= dataSourceId  = 0x%08X\n", aUid.iUid);
+    
 	// Always reload the current plugin to make sure it's properly initialised
 	// Delete the old plugins if there's any
 	if (iAssistanceDataUid != aUid)
 		{
+	    LBSLOG(ELogP1, "Delete the old plugins if there's any\n");
+	  
  		if (iAssistanceModule != NULL)		
  			{
 			delete iAssistanceSource;
@@ -134,23 +138,37 @@ TBool CLbsNetSimAssistanceDataProvider::SetAssistanceDataProvider(TUid aUid)
 		// Set the new plugin Uid
 		iAssistanceDataUid = aUid;
 
-		// Load the new assistance module plugin		
+		// Load the new assistance module plugin	
+	    LBSLOG(ELogP1, "Load the new assistance module plugin\n");
+	    
 		if (iAssistanceModule == NULL)
 			{
 			if (iAssistanceDataUid.iUid == 0)
 				{
+			    LBSLOG(ELogP1, "iAssistanceDataUid.iUid == 0\n");
 				iAssistanceModule = CAssistanceDataSourceModuleBase::NewL(*this); // Loads default
+                LBSLOG(ELogP1, "end iAssistanceDataUid.iUid == 0\n");
+
 				}
 			else
 				{
+			    LBSLOG(ELogP1, "iAssistanceDataUid.iUid != 0 \n");
 				iAssistanceModule = CAssistanceDataSourceModuleBase::NewL(iAssistanceDataUid, *this); // Loads specified
+                LBSLOG(ELogP1, "end iAssistanceDataUid.iUid != 0 \n");
+
 				}
 
 			// Load the new assistance data source
+            LBSLOG(ELogP1, "Load the new assistance data source \n");
+
 			iAssistanceSource = iAssistanceModule->NewDataSourceL();
+			
+			LBSLOG(ELogP1, "end Load the new assistance data source \n");
+
 			}
 		}
-		
+	LBSLOG2(ELogP1, "end CLbsNetSimAssistanceDataProvider::SetAssistanceDataProvider(Uid= dataSourceId  = 0x%08X\n", aUid.iUid);
+	 
 	return ETrue;
 	}
 	

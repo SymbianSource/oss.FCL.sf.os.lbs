@@ -38,6 +38,10 @@ SOURCE		ctlbsptbmtlr_beforereq_cancel.cpp
 SOURCE		ctlbsptbmtlrcancel_emergency.cpp
 
 
+//  Test Execute libraries.
+LIBRARY	testexecuteutils.lib 
+LIBRARY	testexecutelogclient.lib
+
 // LBS libraries.
 LIBRARY	lbs.lib
 LIBRARY	lbsloccommon.lib

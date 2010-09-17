@@ -24,12 +24,11 @@
 #include <lbstestserver.iby>
 #include <lbstestutils.iby>
 #include <lbstestchannel.iby>
-#include <agpsnpetestintegmodule.iby>
+#include <ctagpshybridmodule.iby>
 #include <ctlbsclockplugin.iby>
 #include <hybridprotocolmodule.iby>
 
 data=EPOCROOT##epoc32\data\C\testdata\configs\lbstestconfig.txt	  testdata\configs\lbstestconfig.txt
-data=EPOCROOT##epoc32\data\C\testdata\configs\ctagpsnpetestmoduledatasource.ini	  testdata\configs\ctagpsnpetestmoduledatasource.ini
 
 file=ABI_DIR\DEBUG_DIR\LbsHybridMOLRTestServer.exe sys\bin\LbsHybridMOLRTestServer.exe
 data=EPOCROOT##epoc32\data\C\testdata\configs\lbs_molr.ini	  testdata\configs\lbs_molr.ini

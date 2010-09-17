@@ -62,7 +62,12 @@ TInt RLbsLocMonitorDb::SavePosition(const TPosition& aPosition, const RPointerAr
 	if(iDbEngine)
 		{
 		const TLbsLocMonitorAreaInfoGci* areaGci = static_cast<const TLbsLocMonitorAreaInfoGci*>(aAreaInfo[0]);
-		return iDbEngine->SavePosition(areaGci->iMcc, areaGci->iMnc, areaGci->iLac, areaGci->iCid, aPosition, aUserPosition, aStatus);
+
+		// Only try to save valid cells and ignore any that are invalid.
+		if (areaGci->iValidity)
+			return iDbEngine->SavePosition(areaGci->iMcc, areaGci->iMnc, areaGci->iLac, areaGci->iCid, areaGci->iIs3gNetworkMode, aPosition, aUserPosition, aStatus);
+		else
+			return KErrNone;
 		}
 	return KErrNotFound;
 	}
@@ -81,7 +86,8 @@ TInt RLbsLocMonitorDb::GetPosition(TPosition& aPosition, const RPointerArray<TLb
 	if(iDbEngine)
 		{
 		const TLbsLocMonitorAreaInfoGci* areaGci = static_cast<const TLbsLocMonitorAreaInfoGci*>(aAreaInfo[0]);
-		return iDbEngine->GetPosition(areaGci->iMcc, areaGci->iMnc, areaGci->iLac, areaGci->iCid, aPosition, aMatchingAreaInfo, aStatus);
+		return iDbEngine->GetPosition(areaGci->iMcc, areaGci->iMnc, areaGci->iLac, areaGci->iCid, areaGci->iIs3gNetworkMode,
+			                          aPosition, aMatchingAreaInfo, aStatus);
 		}
 	return KErrNotFound;
 	}

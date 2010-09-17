@@ -18,7 +18,7 @@ md c:\logs
 md c:\logs\lbs
 md c:\testdata
 md c:\testdata\configs
-copy z:\testdata\configs\ctagpsnpetestmoduledatasource.ini c:\testdata\configs\ctagpsnpetestmoduledatasource.ini
+copy z:\testdata\configs\ctagpshybridmoduledatasource.ini c:\testdata\configs\ctagpshybridmoduledatasource.ini
 copy z:\testdata\configs\lbstestconfig.txt c:\testdata\configs\lbstestconfig.txt
 copy z:\testdata\configs\lbs_mtlr.ini c:\testdata\configs\lbs_mtlr.ini
 testexecute z:\testdata\scripts\uebased_mtlr.script

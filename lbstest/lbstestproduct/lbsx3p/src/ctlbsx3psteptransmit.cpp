@@ -1364,14 +1364,15 @@ void CT_LbsX3PStep_Transmit::MT_LbsX3PDoTransmitPosCallback(TRequestStatus& aSta
 				    SetTestStepResult(EFail);
 				    }
 		    	// we are stampping the received time after callback ,so we are adding 1s for actual maxtime.
-			    TInt64 realtimediff= maxtime_ini + 1000000;
+			    TInt64 realtimediff= maxtime_ini + 2000000;
 				//Timedifference between position actually received and position actually requested
 				TInt64 actualtimediff;
 		        actualtimediff = iTimeReceived.Int64() - iTimeRequested.Int64();
+		        INFO_PRINTF2(_L("timediff = %ld"), actualtimediff);
 		        //compare actualtimediff with realtimediff
 				if(actualtimediff > realtimediff)
 					{
-					INFO_PRINTF1(_L("timediff not matched with maxfixtime in profile"));
+					INFO_PRINTF2(_L("timediff greater than maxfixtime %ld in profile"), realtimediff);
 					SetTestStepResult(EFail);
 					}
 				}

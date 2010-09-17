@@ -23,18 +23,9 @@
 #include <lbstestserver.iby>
 #include <lbstestutils.iby>
 #include <lbstestchannel.iby>
-#include <agpsnpetestintegmodule.iby>
+#include <ctagpshybridmodule.iby>
 #include <ctlbsclockplugin.iby>
 #include <hybridprotocolmodule.iby>
-//#include <simtsy.iby>
-
-file=ABI_DIR\DEBUG_DIR\LbsDebug.dll System\libs\LbsDebug.dll
-
-data=EPOCROOT##epoc32\data\C\testdata\configs\lbstestconfig.txt	  testdata\configs\lbstestconfig.txt
-data=EPOCROOT##epoc32\data\C\testdata\configs\ctagpsnpetestmoduledatasource.ini	  testdata\configs\ctagpsnpetestmoduledatasource.ini
 
 file=ABI_DIR\DEBUG_DIR\lbsptbmtlrtestserver.exe sys\bin\lbsptbmtlrtestserver.exe
-data=EPOCROOT##epoc32\data\C\testdata\configs\lbs_ptb_mtlr.ini	  testdata\configs\lbs_ptb_mtlr.ini
-data=EPOCROOT##epoc32\data\C\testdata\scripts\ptb_mtlr_cancel.script	  testdata\scripts\ptb_mtlr_cancel.script
-
 #endif

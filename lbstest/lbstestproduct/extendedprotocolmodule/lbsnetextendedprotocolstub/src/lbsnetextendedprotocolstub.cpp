@@ -23,7 +23,7 @@
 #include <lbs/test/lbsmarshallingstubs.h>
 #include <lbs/test/lbsparamlogger.h>
 #include <lbs/test/lbstestlogger.h>
-#include <cinidata.h>
+#include <iniparser.h>
 #include <lbs/test/memorymanager.h>
 /** The unique ID of this plug-in interface.
 This corresponds to the interface UID specified in the .rss file

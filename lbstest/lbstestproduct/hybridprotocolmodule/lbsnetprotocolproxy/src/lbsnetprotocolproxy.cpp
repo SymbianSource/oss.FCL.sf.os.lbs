@@ -21,6 +21,9 @@
 #include <lbs/lbsnetprotocolbase.h>
 #include <lbs/test/lbsmarshallingstubs.h>
 #include <lbs/test/memorymanager.h>
+#include <lbs/test/lbstestlogger.h>
+#include <lbs/test/lbsparamlogger.h>
+
 EXPORT_C CNetProtocolProxy* CNetProtocolProxy::NewL()
 	{
 	CNetProtocolProxy* self = new (ELeave) CNetProtocolProxy;
@@ -46,6 +49,9 @@ void CNetProtocolProxy::CallL(TNetProtocolActionType aAction,...)
 	__ASSERT_ALWAYS(e == KErrNone, User::Panic(_L("ActionWriteFail"), aAction));
 	
 	r << aAction;
+	
+//	LBSTESTLOG_METHOD1(_L("--"), "CNetProtocolProxy::CallL", (TUint32)aAction); 
+
 	switch(aAction)
 		{
 		case ENetMsgProcessPrivacyRequest:  CallProcessPrivacyRequestL(r, list);
@@ -91,11 +97,13 @@ void CNetProtocolProxy::CallProcessStatusUpdateL(CWritePropPipe& aPipe, VA_LIST 
 
 void CNetProtocolProxy::CallProcessPrivacyRequestL(CWritePropPipe& aPipe, VA_LIST aList)
 	{
-	TLbsNetSessionId* aSessionId		= VA_ARG(aList, TLbsNetSessionId*); 
+
+    TLbsNetSessionId* aSessionId		= VA_ARG(aList, TLbsNetSessionId*); 
 	TBool* aEmergency					= VA_ARG(aList, TBool*); 
 	TLbsNetPosRequestPrivacy* pPrivacy 	= VA_ARG(aList, TLbsNetPosRequestPrivacy*);
 	TLbsExternalRequestInfo* pReqInfo 	= VA_ARG(aList, TLbsExternalRequestInfo*);
 	
+  
 	LBSTestMarshaller::WriteL(aPipe, *aSessionId);
 	LBSTestMarshaller::WriteL(aPipe, *aEmergency);
 	LBSTestMarshaller::WriteL(aPipe, *pPrivacy);
@@ -183,6 +191,12 @@ aResponseFilterMask should be set to:
 
 TNetProtocolResponseType CNetProtocolProxy::WaitForResponse(TInt aTimeout, TUint aResponseFilterMask)
 	{
+    TUint32 temp = (TUint32)aResponseFilterMask;
+    
+    LBSTESTLOG_METHOD(_L("--"), "jcm testing"); 
+
+ //   LBSTESTLOG_METHOD2(_L("--"), "CNetProtocolProxy::WaitForResponse", aTimeout, temp); 
+
 	CReadPropPipe& r = *iResponseReader;	
 	
  	TTime timeStart;
@@ -193,15 +207,20 @@ TNetProtocolResponseType CNetProtocolProxy::WaitForResponse(TInt aTimeout, TUint
 	while (!done)
 		{
 		TRAPD(e, r.RefreshL(aTimeout));
+       LBSTESTLOG_METHOD1(_L("--"), "TRAPD(e, r.RefreshL(aTimeout));",e); 
+
 		if (KErrNone == e)
 			{
 			TInt32 response;
 			r >> response;
 			
 			TNetProtocolResponseType protocolResponse = static_cast<TNetProtocolResponseType>(response);
-
+	 //       LBSTESTLOG_METHOD1(_L("--"), "response has been returned",protocolResponse); 
+			   LBSTESTLOG_METHOD(_L("--"), "jcm testing 1");
 			if (Filtered(protocolResponse, aResponseFilterMask))
 				{
+		//	    LBSTESTLOG_METHOD(_L("--"), "CNetProtocolProxy::WaitForResponse - response is being discarded because of filter"); 
+			    LBSTESTLOG_METHOD(_L("--"), "jcm testing 2");
 			 	TTime timeNow;
 				timeNow.UniversalTime();
 				TTimeIntervalMicroSeconds delay(0);
@@ -213,22 +232,32 @@ TNetProtocolResponseType CNetProtocolProxy::WaitForResponse(TInt aTimeout, TUint
 					{
 					iLastResponse = ENetMsgTimeoutExpired;
 					done = ETrue;
+			//        LBSTESTLOG_METHOD1(_L("--"), "returning ENetMsgTimeoutExpired",iLastResponse); 
+					   LBSTESTLOG_METHOD1(_L("--"), "jcm testing 3",iLastResponse);
 					}
 				}
 			else
 				{
 				iLastResponse = protocolResponse;
+           //     LBSTESTLOG_METHOD1(_L("--"), "CNetProtocolProxy::WaitForResponse - no filering here, response is ", iLastResponse); 
+				   LBSTESTLOG_METHOD1(_L("--"), "jcm testing 4",iLastResponse);
 				done = ETrue;
 				}
 			}
 		else
 			{
+       //     LBSTESTLOG_METHOD1(_L("--"), "RefreshL(aTimeout) returned erorr",e); 
+		    LBSTESTLOG_METHOD(_L("--"), "jcm testing 5");
 			iLastResponse = ENetMsgTimeoutExpired;
 			done = ETrue;
+       //    LBSTESTLOG_METHOD1(_L("--"), "returning ENetMsgTimeoutExpired",iLastResponse); 
+			   LBSTESTLOG_METHOD1(_L("--"), "jcm testing 6",iLastResponse);
 			}
 		
 		}
 
+   // LBSTESTLOG_METHOD1(_L("--"), "CNetProtocolProxy::WaitForResponse returning", iLastResponse); 
+	   LBSTESTLOG_METHOD1(_L("--"), "jcm testing 7",iLastResponse);
 	return iLastResponse;
 	}
 

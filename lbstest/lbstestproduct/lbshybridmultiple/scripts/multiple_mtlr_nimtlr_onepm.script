@@ -26,7 +26,7 @@ PREFIX RUN_UTILS
 	MkDir c:\private\10282253\
 	MkDir c:\private\10282253\lbs\
 	MkDir c:\private\10282253\lbs\locmods\
-	CopyFile c:\testdata\configs\ctagpsnpetestmoduledatasource.ini c:\private\10282253\lbs\locmods\agpsintegmodule.ini
+	CopyFile c:\testdata\configs\ctagpshybridmoduledatasource.ini c:\private\10282253\lbs\locmods\agpsintegmodule.ini
 	CopyFile c:\testdata\configs\lbstestconfig.txt c:\config.txt
 REMOVE_PREFIX
 
@@ -62,7 +62,7 @@ START_TESTCASE                LBS-MultipleMTLRs-NIMTLR-OnePm-0001
 //! @SYMTestStatus              3. Released
 RUN_TEST_STEP 010 LbsHybridMultipleTestServer LbsStep_InstallScheduler
 RUN_TEST_STEP 120 LbsHybridMultipleTestServer LbsStep_ConfigHybridModule c:\testdata\configs\lbs_multiple_subsessions.ini MultipleSubsessionsOK
-RUN_TEST_STEP 120 LbsHybridMultipleTestServer LbsHybridMultipleTest c:\testdata\configs\multiple_subsessions_onepm.ini TwoMtlrsOneNIMtlrOnePm
+RUN_TEST_STEP 240 LbsHybridMultipleTestServer LbsHybridMultipleTest c:\testdata\configs\multiple_subsessions_onepm.ini TwoMtlrsOneNIMtlrOnePm
 END_TESTCASE                  LBS-MultipleMTLRs-NIMTLR-OnePm-0001
 
 // Stop LBS

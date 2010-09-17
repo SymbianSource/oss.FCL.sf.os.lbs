@@ -28,6 +28,8 @@ SOURCEPATH    ../../src
 
 CAPABILITY All -Tcb
 
+EPOCSTACKSIZE 16384
+
 // Unit test only macro
 MACRO NRH_UNIT_TEST
 

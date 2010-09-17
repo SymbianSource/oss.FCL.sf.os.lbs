@@ -39,6 +39,7 @@ SOURCE tstartparamsbase.cpp
 
 USERINCLUDE   ../src
 USERINCLUDE   ../../inc
+//USERINCLUDE	../../../../LbsPartnerCommon/inc
 
 OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 

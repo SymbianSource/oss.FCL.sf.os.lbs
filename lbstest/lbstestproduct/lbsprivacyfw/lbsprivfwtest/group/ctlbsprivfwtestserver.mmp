@@ -73,6 +73,10 @@ SOURCE			ctlbsprivfwreqsubmitter.cpp
 SOURCE			ctlbsstepinitializetestchannel.cpp
 SOURCE			ctlbsstepclosetestchannel.cpp
 SOURCE			ctlbsprivfwapiwrapper.cpp
+
+//  Test Execute libraries.
+LIBRARY	testexecuteutils.lib 
+LIBRARY	testexecutelogclient.lib
 	
 // LBS libraries.  
 LIBRARY		lbs.lib
@@ -96,4 +100,6 @@ LIBRARY		lbstestclient.lib
 LIBRARY		lbsprivfwproxy.lib
 LIBRARY		lbsprivfwtestchannel.lib
 
+LIBRARY		testexecuteutils.lib
+LIBRARY		testexecutelogclient.lib
 SMPSAFE

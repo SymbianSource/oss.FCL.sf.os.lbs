@@ -34,15 +34,18 @@ USERINCLUDE   	../inc
 USERINCLUDE	  	../../internal/lbstestutils/inc
 
 OS_LAYER_SYSTEMINCLUDE_SYMBIAN
- 
-// LBS libraries.
 
+//  Test Execute libraries.
+LIBRARY	testexecuteutils.lib 
+LIBRARY	testexecutelogclient.lib
+
+// LBS libraries.
 LIBRARY lbs.lib             // Location Client Library [EPOS LocServer]
 LIBRARY	lbsloccommon.lib
 LIBRARY	lbsadmin.lib
 LIBRARY lbsrootapi.lib
-
 LIBRARY lbsnetprotocol.lib
+
 // LBS test libraries.
 LIBRARY lbstestutils.lib
 LIBRARY lbsnetsim.lib

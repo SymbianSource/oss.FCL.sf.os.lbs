@@ -83,7 +83,7 @@ TVerdict CT_LbsHybridEmergencyCancel::doTestStepL()
 	// Stop the test if the preable failed
 	TESTL(TestStepResult() == EPass);
 
-	const TInt KTimeOut = 60*1000*1000;
+	const TInt KTimeOut = 80*1000*1000;
 	const TInt KAdviceSystemStatusTimeout = 40*1000*1000;
 	
 	// reset integration modules count of number of cancels recieved from LBS 
@@ -191,8 +191,8 @@ TVerdict CT_LbsHybridEmergencyCancel::doTestStepL()
 	InitiateCancelMTLR(iSessionId.SessionNum());
 	
 //NHR's timer alpha2 times out -> Hybrid Positioning Start
-	quality = ArgUtils::Quality();  // set timeout t 
-	iProxy->CallL(ENetMsgProcessLocationRequest, &iSessionId, &emergency, &service, &quality, &method);
+//	quality = ArgUtils::Quality();  // set timeout t 
+//	iProxy->CallL(ENetMsgProcessLocationRequest, &iSessionId, &emergency, &service, &quality, &method);
 
 	// >> RequestAssistanceData(0)
 	TESTL(iProxy->WaitForResponse(KTimeOut) == ENetMsgRequestAssistanceData); 
@@ -208,8 +208,12 @@ TVerdict CT_LbsHybridEmergencyCancel::doTestStepL()
 	// Verify that the last callback was to ProcessSessionComplete()
 	TESTL(iState==EGpsLocReceived);
 	
-	
-// MTLR Session Completion Start
+   // and finally check that no cancels were sent to test integration module
+	TInt cancelCount  = utils.IntegrationModulesCountOfCancelsL();
+	INFO_PRINTF2(_L("--- cancel count = %d"), cancelCount);
+	TESTL(cancelCount== 0);
+
+   // MTLR Session Completion Start
 	// << ProcessSessionComplete()
 	iProxy->CallL(ENetMsgProcessSessionComplete, &iSessionId, &reason);
 
@@ -220,14 +224,10 @@ TVerdict CT_LbsHybridEmergencyCancel::doTestStepL()
 	// >> Callback from ProcessRequestComplete()
 	CheckForObserverEventTestsL(KTimeOut, *this);
 
+	INFO_PRINTF2(_L("iState = 0x%x. Expecting ERequestComplete"), iState);    
 	// Verify that the last callback was to ProcessSessionComplete()
 	TESTL(iState==ERequestComplete);
-
-	// and finally check that no cancels were sent to test integration module
-	TInt cancelCount  = utils.IntegrationModulesCountOfCancelsL();
-	INFO_PRINTF2(_L("--- cancel count = %d"), cancelCount);
-	TESTL(cancelCount== 0);
-	
+		
 // MTLR Session Completion Stop
 
 
@@ -246,6 +246,12 @@ void CT_LbsHybridEmergencyCancel::ProcessNetworkLocationRequest(TUint aRequestId
    
 void CT_LbsHybridEmergencyCancel::ProcessNetworkPositionUpdate(TUint /*aRequestId*/, const TPositionInfo& aPosInfo)
 	{
+	TPosition getPos;
+	aPosInfo.GetPosition(getPos);
+	INFO_PRINTF2(_L("latitude=%f"), getPos.Latitude());
+	INFO_PRINTF2(_L("Longitude=%f"), getPos.Longitude());
+	INFO_PRINTF2(_L("HorizontalAccuracy=%f"), getPos.HorizontalAccuracy());
+	INFO_PRINTF2(_L("PositionMode=%d"), aPosInfo.PositionMode());
 	if(iState==EPrivacyCheckOk)
 		{
 		iState=ERefLocReceived;	
@@ -253,8 +259,6 @@ void CT_LbsHybridEmergencyCancel::ProcessNetworkPositionUpdate(TUint /*aRequestI
 		}
 	else if(iState==ERefLocReceived)
 		{
-		TPosition getPos;
-		aPosInfo.GetPosition(getPos);
 		if(getPos.Latitude()==49.2 && getPos.Longitude()==3.5 && getPos.Altitude()==50 && getPos.HorizontalAccuracy()==2 && getPos.VerticalAccuracy()==3) 		
 			{
 			INFO_PRINTF1(_L("&gt;&gt;CT_LbsHybridEmergencyCancel::ProcessNetworkPositionUpdate(GpsPosition)"));

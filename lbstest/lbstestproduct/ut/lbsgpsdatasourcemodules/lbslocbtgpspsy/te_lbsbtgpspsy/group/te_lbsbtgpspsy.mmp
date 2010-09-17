@@ -75,7 +75,6 @@ LIBRARY         btmanclient.lib
 LIBRARY			centralrepository.lib
 LIBRARY			ecom.lib
 LIBRARY         epospluginfw.lib
-LIBRARY			btuiutility.lib
 LIBRARY			sishelper.lib
 LIBRARY			fbscli.lib
 LIBRARY			esock.lib

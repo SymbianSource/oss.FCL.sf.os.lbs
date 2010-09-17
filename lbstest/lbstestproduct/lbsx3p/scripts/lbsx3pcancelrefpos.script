@@ -1,4 +1,4 @@
-// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+﻿// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
 // All rights reserved.
 // This component and the accompanying materials are made available
 // under the terms of "Eclipse Public License v1.0"
@@ -194,7 +194,7 @@ START_TESTCASE LBS-X3P-CancelRefPos-0006
 RUN_TEST_STEP 010 LbsX3PTestServer LbsStep_InstallScheduler
 RUN_TEST_STEP 020 LbsX3PTestServer LbsStep_CreateVerifyPosInfos 
 RUN_TEST_STEP 060 LbsX3PTestServer LbsX3PStep_Cancel c:\testdata\configs\lbsx3pcancelrefpos.ini LBS-X3P-Cancel-0006
-RUN_TEST_STEP 010 LbsX3PTestServer LbsStep_VerifyPosInfos
+
 
 END_TESTCASE LBS-X3P-CancelRefPos-0006
 

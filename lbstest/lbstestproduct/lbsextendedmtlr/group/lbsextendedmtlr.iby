@@ -18,23 +18,9 @@
 #define __LBS_EXTENDED_MTLR__
 
 #include <testexecute.iby>
-#include <lbs.iby>
-#include <lbsnetworklocationmanager.iby>
-#include <lbstestserver.iby>
-#include <lbstestutils.iby>
-#include <lbstestchannel.iby>
-#include <agpsnpetestintegmodule.iby>
-#include <ctlbsclockplugin.iby>
-#include <hybridprotocolmodule.iby>
-//#include <simtsy.iby>
-
-file=ABI_DIR\DEBUG_DIR\LbsDebug.dll System\libs\LbsDebug.dll
-
-data=EPOCROOT##epoc32\data\C\testdata\configs\lbstestconfig.txt	  testdata\configs\lbstestconfig.txt
-data=EPOCROOT##epoc32\data\C\testdata\configs\ctagpsnpetestmoduledatasource.ini	  testdata\configs\ctagpsnpetestmoduledatasource.ini
+#include <extendedprotocolmodule.iby>
+#include <ctagpshybridmodule.iby>
 
 file=ABI_DIR\DEBUG_DIR\lbsextendedmtlrtestserver.exe sys\bin\lbsextendedmtlrtestserver.exe
-data=EPOCROOT##epoc32\data\C\testdata\configs\lbs_extended_mtlr.ini	  testdata\configs\lbs_extended_mtlr.ini
-data=EPOCROOT##epoc32\data\C\testdata\scripts\extended_mtlr_cancel.script	  testdata\scripts\extended_mtlr_cancel.script
 
 #endif

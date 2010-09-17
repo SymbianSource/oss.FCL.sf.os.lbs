@@ -100,24 +100,36 @@ TVerdict CNegativeStep::doTestStepL()
 					{
 					for(TInt z = -1;z < 2;z++)
 						{
-						TRequestStatus status;
-						TLbsLocMonitorAreaInfoGci in;
-						in.iMcc = w;
-						in.iMnc = x;
-						in.iLac = y;
-						in.iCid = z;
-						inArray.Append(&in);
-						result = locMonitorDb.SavePosition(dummyIn,inArray,ETrue,iWaiter->iStatus);
-						if(w >= 0 && x >= 0 && y >= 0 && z >= 0)
+						for (TInt is3gIndex = 0; is3gIndex < 2; is3gIndex++)
 							{
-							iWaiter->StartAndWait();
-							TEST(result >= KErrNone);
+							TRequestStatus status;
+							TLbsLocMonitorAreaInfoGci in;
+							in.iMcc = w;
+							in.iMnc = x;
+							in.iLac = y;
+							in.iCid = z;
+							in.iValidity = ETrue;
+							if (is3gIndex == 0)
+								{
+								in.iIs3gNetworkMode = EFalse;
+								}
+							else
+								{
+								in.iIs3gNetworkMode = ETrue;
+								}							
+							inArray.Append(&in);
+							result = locMonitorDb.SavePosition(dummyIn,inArray,ETrue,iWaiter->iStatus);
+							if(w >= 0 && x >= 0 && y >= 0 && z >= 0)
+								{
+								iWaiter->StartAndWait();
+								TEST(result >= KErrNone);
+								}
+							else
+								{
+								TEST(result == KErrArgument);
+								}
+							inArray.Reset();
 							}
-						else
-							{
-							TEST(result == KErrArgument);
-							}
-						inArray.Reset();
 						}
 					}
 				}
@@ -134,27 +146,39 @@ TVerdict CNegativeStep::doTestStepL()
 					{
 					for(TInt z = -1;z < 2;z++)
 						{
-						TLbsLocMonitorAreaInfoGci out;
-						out.iMnc = w;
-						out.iMcc = x;
-						out.iLac = y;
-						out.iCid = z;
-						RPointerArray<TLbsLocMonitorAreaInfoBase> outArray;
-						outArray.Append(&out);
-						TPosition outPosition;
-						TPositionAreaExtendedInfo matchLevel;
-						result = locMonitorDb.GetPosition(outPosition,outArray,matchLevel,iWaiter->iStatus);
-						if(w >= 0 && x >= 0 && y >= 0 && z >= 0)
+						for (TInt is3gIndex = 0; is3gIndex < 2; is3gIndex++)
 							{
-							iWaiter->StartAndWait();
-							TEST(result >= KErrNone);
-							ComparePositions(dummyIn,outPosition);
+							TLbsLocMonitorAreaInfoGci out;
+							out.iMnc = w;
+							out.iMcc = x;
+							out.iLac = y;
+							out.iCid = z;
+							out.iValidity = ETrue;
+							if (is3gIndex == 0)
+								{
+								out.iIs3gNetworkMode = EFalse;
+								}
+							else
+								{
+								out.iIs3gNetworkMode = ETrue;
+								}														
+							RPointerArray<TLbsLocMonitorAreaInfoBase> outArray;
+							outArray.Append(&out);
+							TPosition outPosition;
+							TPositionAreaExtendedInfo matchLevel;
+							result = locMonitorDb.GetPosition(outPosition,outArray,matchLevel,iWaiter->iStatus);
+							if(w >= 0 && x >= 0 && y >= 0 && z >= 0)
+								{
+								iWaiter->StartAndWait();
+								TEST(result >= KErrNone);
+								ComparePositions(dummyIn,outPosition);
+								}
+							else
+								{
+								TEST(result == KErrArgument);
+								}
+							outArray.Reset();
 							}
-						else
-							{
-							TEST(result == KErrArgument);
-							}
-						outArray.Reset();
 						}
 					}
 				}

@@ -13,9 +13,9 @@
 // Description:
 //
 
-          TARGET      te_lbssimulationpsysuite.exe
-          TARGETTYPE  exe
-          UID             0x1000007A 0x1028375D
+TARGET      te_lbssimulationpsysuite.exe
+TARGETTYPE  exe
+UID             0x1000007A 0x1028375D
 
 MACRO SIMPSYTEST
 

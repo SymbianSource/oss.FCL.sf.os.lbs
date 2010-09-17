@@ -28,7 +28,6 @@ USERINCLUDE		../inc
 USERINCLUDE		../../../../locationmgmt/locationcore/LbsNetInternalApi/inc
 USERINCLUDE		../../../../locationmgmt/locationcore/LbsInternalApi/inc
 USERINCLUDE		../../../../locationmgmt/locationcore/LbsPartnerCommon/inc
-USERINCLUDE		../../../../datasourcemodules/npeintegmodule/npeapi/inc
 
 // Lbs Hybrid MoLr framework code.
 SOURCEPATH	../src
@@ -44,6 +43,10 @@ SOURCE		ctlbshybridcombinedstep_tracking01.cpp
 SOURCE		ctlbshybridcombinedstep_tracking02.cpp
 
 
+
+//  Test Execute libraries.
+LIBRARY	testexecuteutils.lib 
+LIBRARY	testexecutelogclient.lib
 
 // LBS libraries.
 LIBRARY	lbs.lib

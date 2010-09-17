@@ -159,7 +159,7 @@ void CLbsLocMonitorServer::ConstructL(const TDesC& aServerName)
 	// and set DB reader and writer as its observers.	
 	iAreaInfoFinders.ReserveL(1);
 	
-	iAreaInfoFinders.Insert(static_cast<CLbsLocMonitorAreaInfoFinder*>(CLbsLocMonitorNetworkInfoFinder::NewL()), ENetworkInfoFinder);
+	iAreaInfoFinders.InsertL(static_cast<CLbsLocMonitorAreaInfoFinder*>(CLbsLocMonitorNetworkInfoFinder::NewL()), ENetworkInfoFinder);
 	iAreaInfoFinders[ENetworkInfoFinder]->RegisterObserverL(*iRequestHandler);
 
 	// Instantiate a position listener that will feed positions to the DB writer

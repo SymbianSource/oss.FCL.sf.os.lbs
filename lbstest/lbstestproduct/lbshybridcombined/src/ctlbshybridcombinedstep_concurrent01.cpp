@@ -110,12 +110,13 @@ TVerdict CT_LbsHybridCombinedStep_Concurrent01::doTestStepL()
     
     // receive the cababilities message
 	TESTL(iProxy->WaitForResponse(KTimeOut) == ENetMsgGetCurrentCapabilitiesResponse);
+	INFO_PRINTF1(_L("ENetMsgGetCurrentCapabilitiesResponse got"));
 	CLbsNetworkProtocolBase::TLbsSystemStatus status;
 	TInt cleanupCnt;
 	cleanupCnt = iProxy->GetArgsLC(ENetMsgGetCurrentCapabilitiesResponse, &status);
 	TESTL(status == CLbsNetworkProtocolBase::ESystemStatusNone);
 	CleanupStack::PopAndDestroy(cleanupCnt);
-
+    
 	// Create the client objects...
 	RPositionServer server;
 	TInt connectError = server.Connect();
@@ -130,12 +131,13 @@ TVerdict CT_LbsHybridCombinedStep_Concurrent01::doTestStepL()
 
 	// <<(App) NotifyPositionUpdate().
 	pWatch->IssueNotifyPositionUpdate();
-
+    INFO_PRINTF1(_L("NotifyPositionUpdate sent"));
+	
 	// >> RequestSelfLocation()
 	TESTL(iProxy->WaitForResponse(KTimeOut) == ENetMsgRequestSelfLocation);
-
+    INFO_PRINTF1(_L("RequestSelfLocation got"));
+	
 	// check the Client AGPS Usage Flag is as expected at the NPE Hybrid GPS module...
-	TESTL(EClientAgps == ReadClientUsageProperty());
 	
 	// Process the response.
 	TLbsNetSessionId* 					sessionId = NULL;
@@ -166,67 +168,66 @@ TVerdict CT_LbsHybridCombinedStep_Concurrent01::doTestStepL()
 	// << ProcessStatusUpdate(EServiceSelfLocation)
 	activeServiceMask1 = MLbsNetworkProtocolObserver::EServiceSelfLocation;
 	iProxy->CallL(ENetMsgProcessStatusUpdate, &activeServiceMask1);
-	
+	INFO_PRINTF1(_L("ProcessStatusUpdate sent"));
 	// << ProcessLocationUpdate(SessionId, RefPosition)
 	TPositionInfo refPosInfo = ArgUtils::MolrReferencePositionInfo();
 	iProxy->CallL(ENetMsgProcessLocationUpdate, &iSessionId, &refPosInfo);
-
+    INFO_PRINTF1(_L("ProcessLocationUpdate sent"));
 	// TEST: Get NotifyPositionUpdate app side - get the ref pos.
 	CheckForObserverEventTestsL(KTimeOut, *this);
 
 		
-		INFO_PRINTF1(_L("Starting an MTLR..."));   
-		TESTL(TestStepResult() == EPass);
+	INFO_PRINTF1(_L("Starting an MTLR..."));   
+	TESTL(TestStepResult() == EPass);
 
-		// << ProcessStatusUpdate() EServiceSelfLocation | EServiceMobileTerminated
-		activeServiceMask1 |= MLbsNetworkProtocolObserver::EServiceMobileTerminated;
-		iProxy->CallL(ENetMsgProcessStatusUpdate, &activeServiceMask1);
-
-		// << ProcessPrivacyRequest()
-		emergency = EFalse;
-		privacy    = ArgUtils::Privacy();
-		requestInfo = ArgUtils::RequestInfo();
-		iProxy->CallL(ENetMsgProcessPrivacyRequest, &iSessionId2, &emergency, &privacy, &requestInfo);
-
-		// >> Callback from RespondNetworkLocationRequest(ERequestAccepted)
-		CheckForObserverEventTestsL(KTimeOut, *this);
-		
-		// >> Respond Privacy Request
-		TESTL(iProxy->WaitForResponse(KTimeOut) == ENetMsgRespondPrivacyRequest);
-		
-		TLbsNetSessionId* getSessionId = NULL;
-		CLbsNetworkProtocolBase::TLbsPrivacyResponse getPrivacy;
-		cleanupCnt = 0;
-		cleanupCnt = iProxy->GetArgsLC(ENetMsgRespondPrivacyRequest, &getSessionId, &getPrivacy);
-		TESTL(getSessionId->SessionNum()==iSessionId2.SessionNum());
-		TESTL(getPrivacy==CLbsNetworkProtocolBase::EPrivacyResponseAccepted);
-		CleanupStack::PopAndDestroy(cleanupCnt);
-		
-	// second client NPUD
-	pWatch->IssueNotifyPositionUpdate();
+	// << ProcessStatusUpdate() EServiceSelfLocation | EServiceMobileTerminated
+	activeServiceMask1 |= MLbsNetworkProtocolObserver::EServiceMobileTerminated;
+	iProxy->CallL(ENetMsgProcessStatusUpdate, &activeServiceMask1);
+    INFO_PRINTF1(_L("ProcessStatusUpdate sent")); 
+	// << ProcessPrivacyRequest()
+	emergency = EFalse;
+	privacy    = ArgUtils::Privacy();
+	requestInfo = ArgUtils::RequestInfo();
+	iProxy->CallL(ENetMsgProcessPrivacyRequest, &iSessionId2, &emergency, &privacy, &requestInfo);
+    INFO_PRINTF1(_L("ProcessPrivacyRequest sent"));
+	// >> Callback from RespondNetworkLocationRequest(ERequestAccepted)
+	CheckForObserverEventTestsL(KTimeOut, *this);
 	
-	    // << ProcessLocationUpdate() - the MT-LR
-		TPositionInfo positionInfo = ArgUtils::ReferencePositionInfo();
-		iProxy->CallL(ENetMsgProcessLocationUpdate, &iSessionId2, &positionInfo);
-		
-	    // << ProcessAssistanceData() - network may supply non-requested info
-	    TLbsAsistanceDataGroup dataRequestMask = EAssistanceDataReferenceTime;
-	    RLbsAssistanceDataBuilderSet assistanceData2;
-	    ArgUtils::PopulateLC(assistanceData2);
-	    reason = KErrNone;
-	    iProxy->CallL(ENetMsgProcessAssistanceData, &dataRequestMask, &assistanceData2, &reason);
-	    CleanupStack::PopAndDestroy();
-
+	// >> Respond Privacy Request
+	TESTL(iProxy->WaitForResponse(KTimeOut) == ENetMsgRespondPrivacyRequest);
+	INFO_PRINTF1(_L("RespondPrivacyRequest got")); 
+	TLbsNetSessionId* getSessionId = NULL;
+	CLbsNetworkProtocolBase::TLbsPrivacyResponse getPrivacy;
+	cleanupCnt = 0;
+	cleanupCnt = iProxy->GetArgsLC(ENetMsgRespondPrivacyRequest, &getSessionId, &getPrivacy);
+	TESTL(getSessionId->SessionNum()==iSessionId2.SessionNum());
+	TESTL(getPrivacy==CLbsNetworkProtocolBase::EPrivacyResponseAccepted);
+	CleanupStack::PopAndDestroy(cleanupCnt);
+	
+    // second client NPUD
+    pWatch->IssueNotifyPositionUpdate();
+    INFO_PRINTF1(_L("second NotifyPositionUpdate sent"));
+    // << ProcessLocationUpdate() - the MT-LR
+	TPositionInfo positionInfo = ArgUtils::ReferencePositionInfo();
+	iProxy->CallL(ENetMsgProcessLocationUpdate, &iSessionId2, &positionInfo);
+	INFO_PRINTF1(_L("ProcessLocationUpdate sent"));
+    // << ProcessAssistanceData() - network may supply non-requested info
+    TLbsAsistanceDataGroup dataRequestMask = EAssistanceDataReferenceTime;
+    RLbsAssistanceDataBuilderSet assistanceData2;
+    ArgUtils::PopulateLC(assistanceData2);
+    reason = KErrNone;
+    iProxy->CallL(ENetMsgProcessAssistanceData, &dataRequestMask, &assistanceData2, &reason);
+    CleanupStack::PopAndDestroy();
+    INFO_PRINTF1(_L("ProcessAssistanceData sent"));
 	// >> RequestAssistanceData - as a result of the second client request.
 	TLbsAsistanceDataGroup dataMask;	
 	TESTL(iProxy->WaitForResponse(KTimeOut) == ENetMsgRequestAssistanceData); 
 	cleanupCnt = iProxy->GetArgsLC(ENetMsgRequestAssistanceData, &dataMask);
 	TESTL(dataMask == EAssistanceDataNone);
 	CleanupStack::PopAndDestroy(cleanupCnt);
-	
+	INFO_PRINTF1(_L("RequestAssistanceData got"));
     // check the Client AGPS Usage Flag is as expected at the NPE Hybrid GPS module...
-    TESTL(EClientAgps == ReadClientUsageProperty());
-
+		
 	// << ProcessAssistanceData()
 	dataMask = EAssistanceDataReferenceTime;
 	RLbsAssistanceDataBuilderSet assistanceData;
@@ -234,22 +235,21 @@ TVerdict CT_LbsHybridCombinedStep_Concurrent01::doTestStepL()
 	reason = KErrNone;
 	iProxy->CallL(ENetMsgProcessAssistanceData, &dataMask, &assistanceData, &reason);
 	CleanupStack::PopAndDestroy(); // assistanceData
-	
+	INFO_PRINTF1(_L("ProcessAssistanceData sent"));
 	// << ProcessLocationRequest() - this will cancel the client req.
     service = MLbsNetworkProtocolObserver::EServiceSelfLocation;
 	quality = ArgUtils::Quality();
 	method   = ArgUtils::RequestHybridMethod();
 	iProxy->CallL(ENetMsgProcessLocationRequest, &iSessionId, &emergency, &service, &quality, &method);
-
+    INFO_PRINTF1(_L("ProcessLocationRequest sent"));
+    // check the Client AGPS Usage Flag is as expected at the NPE Hybrid GPS module...
+	
 	// >> RequestAssistanceData - as a result of the NRH request.
 	TESTL(iProxy->WaitForResponse(KTimeOut) == ENetMsgRequestAssistanceData); 
 	cleanupCnt = iProxy->GetArgsLC(ENetMsgRequestAssistanceData, &dataMask);
 	TESTL(dataMask == EAssistanceDataNone);
 	CleanupStack::PopAndDestroy(cleanupCnt);
-	
-    // check the Client AGPS Usage Flag is as expected at the NPE Hybrid GPS module...
-    TESTL(EClientAgps == ReadClientUsageProperty());
-
+	INFO_PRINTF1(_L("RequestAssistanceData got"));
 	// >> RespondLocationRequest()
 	TESTL(iProxy->WaitForResponse(KTimeOut) == ENetMsgRespondLocationRequest);
 	sessionId = NULL;
@@ -258,10 +258,10 @@ TVerdict CT_LbsHybridCombinedStep_Concurrent01::doTestStepL()
 	cleanupCnt = iProxy->GetArgsLC(ENetMsgRespondLocationRequest, &sessionId, &reason, &getPositionInfo);
 	TESTL(sessionId->SessionNum() == iSessionId.SessionNum());
 	TESTL(reason == KErrNone);
-
+    INFO_PRINTF1(_L("RespondLocationRequest got")); 
  	// << ProcessLocationUpdate(SessionId, FinalNetworkPosition)
 	iProxy->CallL(ENetMsgProcessLocationUpdate, &iSessionId, getPositionInfo);
-
+    INFO_PRINTF1(_L("ProcessLocationUpdate sent")); 
 	CleanupStack::PopAndDestroy(cleanupCnt);
 	
 	// Client recv - the gps position determined by the gps module.
@@ -272,11 +272,11 @@ TVerdict CT_LbsHybridCombinedStep_Concurrent01::doTestStepL()
 	// << ProcessSessionComplete()
 	reason = KErrNone;
 	iProxy->CallL(ENetMsgProcessSessionComplete, &iSessionId, &reason);
-
+    INFO_PRINTF1(_L("ProcessSessionComplete sent")); 
 	// << ProcessStatusUpdate()
 	activeServiceMask2 = MLbsNetworkProtocolObserver::EServiceNone;	
 	iProxy->CallL(ENetMsgProcessStatusUpdate, &activeServiceMask2);
-
+    INFO_PRINTF1(_L("ProcessStatusUpdate sent")); 
 	// Wait for 10 seconds to ensure no additional responses turn up.
 	TInt delta = 10 * 1000 * 1000;
 	TNetProtocolResponseType mType = iProxy->WaitForResponse(delta);

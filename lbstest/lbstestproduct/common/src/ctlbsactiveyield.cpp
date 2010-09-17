@@ -24,7 +24,6 @@
 
 #include <test/testexecutestepbase.h>
 
-
 void CheckForObserverEventTestsL(TTimeIntervalMicroSeconds32 aTimeout, CTestStep& aStep)
 	{
 	class CTimeout : public CTimer
@@ -33,7 +32,7 @@ void CheckForObserverEventTestsL(TTimeIntervalMicroSeconds32 aTimeout, CTestStep
 
 		void RunL()  
 	    	{
-	    	iStep.SetTestStepError(KErrTimedOut);
+			iStep.SetTestStepError(KErrTimedOut);
 	    	CActiveScheduler::Stop();
 			}
 

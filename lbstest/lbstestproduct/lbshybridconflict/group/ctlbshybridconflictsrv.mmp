@@ -35,6 +35,10 @@ SOURCE		ctlbsX3PIntByMoLr.cpp
 SOURCE		ctlbsMoLrIntByX3P.cpp
 
 
+//  Test Execute libraries.
+LIBRARY	testexecuteutils.lib 
+LIBRARY	testexecutelogclient.lib
+
 // LBS libraries.
 LIBRARY	lbs.lib
 LIBRARY	lbsloccommon.lib

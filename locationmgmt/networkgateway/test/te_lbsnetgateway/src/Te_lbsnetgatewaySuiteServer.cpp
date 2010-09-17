@@ -50,7 +50,7 @@ CTe_lbsnetgatewaySuite* CTe_lbsnetgatewaySuite::NewL()
  * CTestServer derived server.
  */
 	{
-	LBSLOG(ELogP1, "CTe_lbsnetgatewaySuite::NewL()");
+	//LBSLOG(ELogP1, "CTe_lbsnetgatewaySuite::NewL()");
 	CTe_lbsnetgatewaySuite * server = new (ELeave) CTe_lbsnetgatewaySuite();
 	CleanupStack::PushL(server);
 
@@ -68,7 +68,7 @@ LOCAL_C void MainL()
  * Much simpler, uses the new Rendezvous() call to sync with the client
  */
 	{
-	LBSLOG(ELogP3, "te_lbsnetgatewaySuite MainL");
+	//LBSLOG(ELogP3, "te_lbsnetgatewaySuite MainL");
 	// Leave the hooks in for platform security
 #if (defined __DATA_CAGING__)
 	RProcess().DataCaging(RProcess::EDataCagingOn);
@@ -83,7 +83,7 @@ LOCAL_C void MainL()
 	if(!err)
 		{
 		// Sync with the client and enter the active scheduler
-		LBSLOG(ELogP3, "te_lbsnetgatewaySuite Randezvous and starting scheduler");
+		//LBSLOG(ELogP3, "te_lbsnetgatewaySuite Randezvous and starting scheduler");
 		RProcess::Rendezvous(KErrNone);
 		sched->Start();
 		}
@@ -101,8 +101,8 @@ GLDEF_C TInt E32Main()
  */
 	{
 	__UHEAP_MARK;
-	LBSLOG_BEGIN();
-	LBSLOG(ELogP3, "te_lbsnetgatewaySuite start");
+	//LBSLOG_BEGIN();
+	//LBSLOG(ELogP3, "te_lbsnetgatewaySuite start");
 	CTrapCleanup* cleanup = CTrapCleanup::New();
 	if(cleanup == NULL)
 		{
@@ -110,7 +110,7 @@ GLDEF_C TInt E32Main()
 		}
 	TRAPD(err,MainL());
 	delete cleanup;
-	LBSLOG(ELogP3, "te_lbsnetgatewaySuite stop");
+	//LBSLOG(ELogP3, "te_lbsnetgatewaySuite stop");
 	__UHEAP_MARKEND;
 	return err;
     }

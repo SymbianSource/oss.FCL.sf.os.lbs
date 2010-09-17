@@ -85,7 +85,9 @@ public:
 	};
 
 
-#ifndef _DISABLE_TEST_LOGGING
+
+
+#ifdef _ENABLE_TEST_LOGGING
 	#define INBOUND  _L("<-")
 	#define OUTBOUND _L("->")
 	
@@ -99,12 +101,12 @@ public:
 	#define INBOUND
 	#define OUTBOUND
 	
-	#define LBSTESTLOG_METHOD (d,m)				    { }
-	#define LBSTESTLOG_METHOD1(d,m,p1)				{ }
-	#define LBSTESTLOG_METHOD2(d,m,p1,p2)    		{ }
-	#define LBSTESTLOG_METHOD3(d,m,p1,p2,p3)		{ }
-	#define LBSTESTLOG_METHOD4(d,m,p1,p2,p3,p4)		{ }
-	#define LBSTESTLOG_METHOD5(d,m,p1,p2,p3,p4,p5)	{ }
+	#define LBSTESTLOG_METHOD(d,m)
+	#define LBSTESTLOG_METHOD1(d,m,p1)
+	#define LBSTESTLOG_METHOD2(d,m,p1,p2)
+	#define LBSTESTLOG_METHOD3(d,m,p1,p2,p3)
+	#define LBSTESTLOG_METHOD4(d,m,p1,p2,p3,p4)
+	#define LBSTESTLOG_METHOD5(d,m,p1,p2,p3,p4,p5)
 #endif // _DISABLE_TEST_LOGGING
 
 #endif // __LBS_GETAFIX_TEST_PARAMETER_LOGGER_H__

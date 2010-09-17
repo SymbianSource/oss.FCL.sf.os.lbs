@@ -68,7 +68,8 @@ CT_LbsHybridCombinedStep_Concurrent02::CT_LbsHybridCombinedStep_Concurrent02(CT_
 	iSessionId2.SetSessionNum(0x0002);
 	iClientPosUpdateCount =0;
 	iNetworkPosUpdateCount =0;
-	}
+	iState = EInitializing;
+    }
 
 
 void CT_LbsHybridCombinedStep_Concurrent02::ConstructL()
@@ -94,7 +95,7 @@ TVerdict CT_LbsHybridCombinedStep_Concurrent02::doTestStepL()
  	INFO_PRINTF1(_L("CT_LbsHybridCombinedStep_Concurrent02::doTestStepL()"));	
 	// Stop the test if the preable failed
 	TESTL(TestStepResult() == EPass);
-	const TInt KTimeOut = 60*1000*1000;
+	const TInt KTimeOut = 80*1000*1000;
 
 	// data declarations common to MOLR & MTLR
     TBool emergency = EFalse;
@@ -110,6 +111,7 @@ TVerdict CT_LbsHybridCombinedStep_Concurrent02::doTestStepL()
     
     // Protocol Module receives the cababilities message as LBS starts up...
     TESTL(iProxy->WaitForResponse(KTimeOut) == ENetMsgGetCurrentCapabilitiesResponse);
+	INFO_PRINTF1(_L("ENetMsgGetCurrentCapabilitiesResponse got"));
 	CLbsNetworkProtocolBase::TLbsSystemStatus status;
 	TInt cleanupCnt;
 	cleanupCnt = iProxy->GetArgsLC(ENetMsgGetCurrentCapabilitiesResponse, &status);
@@ -129,14 +131,13 @@ TVerdict CT_LbsHybridCombinedStep_Concurrent02::doTestStepL()
 	
 	// Client Send - self locate request... Autonomous mode selected in Admin...
 	pWatch->IssueNotifyPositionUpdate();
-
+    INFO_PRINTF1(_L("NotifyPositionUpdate sent"));
 	// LBS->PM :: RequestSelfLocation()
 	TESTL(iProxy->WaitForResponse(KTimeOut) == ENetMsgRequestSelfLocation);
-
+    INFO_PRINTF1(_L("RequestSelfLocation got"));
 	// check the Client AGPS Usage Flag is as expected at the NPE Hybrid GPS module...
 	// TODO: this test is being queried - should the flag indicate any client request,
 	//       or just AGPS client requests...
-	//TESTL(EClientNoAgps == ReadClientUsageProperty());
 	
 	// Process the response.
 	TLbsNetSessionId* 					sessionId = NULL;
@@ -162,24 +163,30 @@ TVerdict CT_LbsHybridCombinedStep_Concurrent02::doTestStepL()
 	// PM->LBS :: ProcessStatusUpdate()
 	serviceMask1 = MLbsNetworkProtocolObserver::EServiceSelfLocation;
 	iProxy->CallL(ENetMsgProcessStatusUpdate, &serviceMask1);
+	INFO_PRINTF1(_L("ProcessStatusUpdate sent"));
+	// Check client has received the gps position determined by the gps module
+	// Callback  from OnNotifyPositionUpdate
+	CheckForObserverEventTestsL(KTimeOut, *this);
 	
-	// The AGPS Hybrid Module is now processing a position request...
 	// Start an MT-LR (TB requested...)
         
         // PM->LBS :: ProcessStatusUpdate()
         serviceMask1 |= MLbsNetworkProtocolObserver::EServiceMobileTerminated;
         iProxy->CallL(ENetMsgProcessStatusUpdate, &serviceMask1);
-    
+        INFO_PRINTF1(_L("ProcessStatusUpdate sent"));
         // PM->LBS :: ProcessPrivacyRequest()
         emergency = ETrue;
         privacy    = ArgUtils::Privacy();
         requestInfo = ArgUtils::RequestInfo();
         iProxy->CallL(ENetMsgProcessPrivacyRequest, &iSessionId2, &emergency, &privacy, &requestInfo);
-    
-        // LBS->PM :: RespondNetworkLocationRequest(ERequestAccepted)
+        INFO_PRINTF1(_L("ProcessPrivacyRequest sent"));
+        
+		// LBS->PM :: ProcessNetworkLocationRequest
         CheckForObserverEventTestsL(KTimeOut, *this);
-        TESTL(iProxy->WaitForResponse(KTimeOut) == ENetMsgRespondPrivacyRequest);
-
+        TEST(iState == EPrivacyCheckOk);
+        INFO_PRINTF2(_L("iState=%d"),iState);
+		TESTL(iProxy->WaitForResponse(KTimeOut) == ENetMsgRespondPrivacyRequest);
+        INFO_PRINTF1(_L("RespondPrivacyRequest got"));
         // Check the privacy response (not really necessary here...)
         TLbsNetSessionId* getSessionId = NULL;
         CLbsNetworkProtocolBase::TLbsPrivacyResponse getPrivacy;
@@ -192,7 +199,7 @@ TVerdict CT_LbsHybridCombinedStep_Concurrent02::doTestStepL()
         // LBS->PM :: ProcessLocationUpdate() (will this result in the client NPUD being completed?!)
         TPositionInfo positionInfo = ArgUtils::ReferencePositionInfo();
         iProxy->CallL(ENetMsgProcessLocationUpdate, &iSessionId2, &positionInfo);
-
+        INFO_PRINTF1(_L("ProcessLocationUpdate sent"));
         // LBS->PM :: ProcessAssistanceData()
         TLbsAsistanceDataGroup dataRequestMask = EAssistanceDataReferenceTime;
         RLbsAssistanceDataBuilderSet assistanceData2;
@@ -200,24 +207,26 @@ TVerdict CT_LbsHybridCombinedStep_Concurrent02::doTestStepL()
         reason = KErrNone;
         iProxy->CallL(ENetMsgProcessAssistanceData, &dataRequestMask, &assistanceData2, &reason);
         CleanupStack::PopAndDestroy();
-
-        // LBS->PM :: ProcessLocationRequest()
+        INFO_PRINTF1(_L("ProcessAssistanceData sent"));
+        
+		// LBS->PM :: ProcessLocationRequest()
         service = MLbsNetworkProtocolObserver::EServiceMobileTerminated;
         quality = ArgUtils::QualityAlpha2();
         method   = ArgUtils::RequestHybridMethod();
         iProxy->CallL(ENetMsgProcessLocationRequest, &iSessionId2, &emergency, &service, &quality, &method);
-        
+        INFO_PRINTF1(_L("ProcessLocationRequest sent"));
         // >> Callback from ProcessNetworkPostionUpdate(refPosition)
         CheckForObserverEventTestsL(KTimeOut, *this);
-        TEST(iNetworkPosUpdateCount==1);
+        INFO_PRINTF2(_L("iNetworkPosUpdateCount is %d."), iNetworkPosUpdateCount);
+		TEST(iNetworkPosUpdateCount==1);
 
         // >> Callback from ProcessNetworkPostionUpdate(GPS Location)
         CheckForObserverEventTestsL(KTimeOut, *this);
-        TEST(iNetworkPosUpdateCount==2);
+        INFO_PRINTF2(_L("iNetworkPosUpdateCount is %d."), iNetworkPosUpdateCount);
+		TEST(iNetworkPosUpdateCount==2);
         
         // check the Client AGPS Usage Flag is as expected at the NPE Hybrid GPS module...
         // TODO: uncomment this out when fixed...
-        //TESTL(EClientNoAgps == ReadClientUsageProperty());
         
         // LBS->PM RequestAssistanceData(0)
         TESTL(iProxy->WaitForResponse(KTimeOut) == ENetMsgRequestAssistanceData); 
@@ -234,30 +243,27 @@ TVerdict CT_LbsHybridCombinedStep_Concurrent02::doTestStepL()
         TESTL(getSessionId->SessionNum() == iSessionId2.SessionNum());
         TESTL(getReason == KErrNone);
         CleanupStack::PopAndDestroy(cleanupCnt);
-        
+        INFO_PRINTF1(_L("RespondLocationRequest got"));
         
 	// Wait for AGPs module to send update
     //TInt KTimeout = 1000000; // 1 seconds
     //TESTL(iProxy->WaitForResponse(KTimeout) == ENetMsgTimeoutExpired);
 	
 	// check the Client AGPS Usage Flag is as expected at the NPE Hybrid GPS module...
-    //TESTL(EClientNoAgps == ReadClientUsageProperty());
 	
 	// PM->LBS :: ProcessSessionComplete (session1)
 	reason = KErrNone;
 	iProxy->CallL(ENetMsgProcessSessionComplete, &iSessionId, &reason);
-	
+	INFO_PRINTF1(_L("ProcessSessionComplete for session1 sent"));
     // PM->LBS :: ProcessSessionComplete (session2)
     reason = KErrNone;
     iProxy->CallL(ENetMsgProcessSessionComplete, &iSessionId2, &reason);
-
+    INFO_PRINTF1(_L("ProcessSessionComplete for session2 sent"));
     // PM->LBS :: ProcessStatusUpdate()
     serviceMask2 = MLbsNetworkProtocolObserver::EServiceNone; 
     iProxy->CallL(ENetMsgProcessStatusUpdate, &serviceMask2);
-
-	// Check client has received the gps position determined by the gps module
-	CheckForObserverEventTestsL(KTimeOut, *this);
-	
+    INFO_PRINTF1(_L("ProcessStatusUpdate got"));
+		
 	TEST(iClientPosUpdateCount==1);
     TEST(iNetworkPosUpdateCount==2);
 	
@@ -290,6 +296,7 @@ void CT_LbsHybridCombinedStep_Concurrent02::OnGetLastKnownPosition(TInt32 /*aErr
 
 void CT_LbsHybridCombinedStep_Concurrent02::OnNotifyPositionUpdate(TInt32 aErr, const TPositionInfoBase& /*aPosInfo*/)
 	{
+	INFO_PRINTF1(_L("CT_LbsHybridCombinedStep_Concurrent02::OnNotifyPositionUpdate()"));
 	// Verify error.
 	TEST(aErr == KErrNone);
 	iClientPosUpdateCount++;
@@ -302,7 +309,8 @@ void CT_LbsHybridCombinedStep_Concurrent02::ProcessNetworkLocationRequest(TUint 
 {
     INFO_PRINTF1(_L("&gt;&gt;CT_LbsUEBasedMTLR::ProcessNetworkLocationRequest()"));
     iController->RespondNetworkLocationRequest(aRequestId, CLbsPrivacyController::ERequestAccepted);
-    iState = EPrivacyCheckOk;
+    INFO_PRINTF1(_L("RespondNetworkLocationRequest sent"));
+	iState = EPrivacyCheckOk;
     ReturnToTestStep();
 }
 

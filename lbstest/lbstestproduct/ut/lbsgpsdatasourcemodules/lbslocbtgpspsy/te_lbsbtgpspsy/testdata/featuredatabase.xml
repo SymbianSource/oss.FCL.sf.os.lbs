@@ -109,7 +109,7 @@
 		<feature name="LocationAPIVariant2" statusflags="0x00000001" uid="0x10285D69">
 			<hrhmacro include="SYMBIAN_INCLUDE_LOCATION_API_VARIANT2"/>
 		</feature>
-		<feature name="BluetoothGPSPositioningPlugin" statusflags="0x00000001" uid="0x10285D6A">
+		<feature name="BluetoothGPSPositioningPlugin" statusflags="0x00000001" uid="0x0000007A">
 			<hrhmacro include="__BLUETOOTHGPSPSY"/>
 		</feature>
 		<feature name="DefaultPositioningPlugin" statusflags="0x00000001" uid="0x10285D6B">

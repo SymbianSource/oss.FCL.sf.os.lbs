@@ -40,6 +40,10 @@ SOURCE			  td_privfw.cpp
 SOURCE			  ctlbsprivfwserver.cpp
 SOURCE			  ctlbsprivfwstep.cpp
 
+//  Test Execute libraries.
+LIBRARY	testexecuteutils.lib 
+LIBRARY	testexecutelogclient.lib
+
 // LBS libraries.  --Some of them not really used..but necessary for compilation
 LIBRARY		lbs.lib
 LIBRARY		lbsloccommon.lib

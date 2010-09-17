@@ -13,11 +13,9 @@
 // Description:
 //
 
-          TARGET      Te_LocIndicatorLibSuite.exe
-          TARGETTYPE  exe
-          UID             0x1000007A 0x1028375E
-
-
+TARGET      Te_LocIndicatorLibSuite.exe
+TARGETTYPE  exe
+UID             0x1000007A 0x1028375E
 
 //Please add any change under here
 SOURCEPATH  ../src

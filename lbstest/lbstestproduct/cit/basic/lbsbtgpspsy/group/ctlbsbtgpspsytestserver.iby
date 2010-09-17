@@ -19,6 +19,8 @@
 #define __CT_LBSBTGPSPSY_SUITE_IBY__
 
 #include <testexecute.iby>
+#include <te_lbstestutils.iby>
+#include <cinidata.iby>
 
 file=ABI_DIR\DEBUG_DIR\ctlbsbtgpspsytestserver.exe										sys\bin\ctlbsbtgpspsytestserver.exe
 data=EPOCROOT##epoc32\data\c\testdata\configs\setupdevicelist_real.ini 				testdata\configs\setupdevicelist_real.ini

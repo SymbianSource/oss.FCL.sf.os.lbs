@@ -38,7 +38,7 @@
    		</build>
 		
 		<data>
-			<hostPath>\epoc32\data\Z\resource\plugins\lbssupltiapitestimplementation.rsc</hostPath>
+			<hostPath>\epoc32\data\z\resource\plugins\lbssupltiapitestimplementation.rsc</hostPath>
 			<devicePath>c:\resource\plugins\lbssupltiapitestimplementation.rsc</devicePath>
 		</data>
 		
@@ -50,7 +50,7 @@
    		</build>
 		
 		<data>
-			<hostPath>\epoc32\data\Z\resource\plugins\testreflocplugin.rsc</hostPath>
+			<hostPath>\epoc32\data\z\resource\plugins\testreflocplugin.rsc</hostPath>
 			<devicePath>c:\resource\plugins\testreflocplugin.rsc</devicePath>
 		</data>
 
@@ -62,7 +62,7 @@
    		</build -->
 		
 		<data>
-			<hostPath>\epoc32\data\Z\resource\plugins\testqnnplugin.rsc</hostPath>
+			<hostPath>\epoc32\data\z\resource\plugins\testqnnplugin.rsc</hostPath>
 			<devicePath>c:\resource\plugins\testqnnplugin.rsc</devicePath>
 		</data>
 		
@@ -76,27 +76,21 @@
 
 		<!-- Dependencies for Test Integration module. -->
 		<build type="test">
-	   		<hostPath>agpsnpetestintegmodule.dll</hostPath>
-      		<devicePath>c:\system\libs\agpsnpetestintegmodule.dll</devicePath>
-   			<mmpFile>agpsnpetestintegmodule.mmp</mmpFile>
-   			<bldInfPath>lbstest\lbstestproduct\agpsnpehybridmodule\npetestintegmodule\group\bld.inf</bldInfPath>
+	   		<hostPath>ctagpshybridmodule.dll</hostPath>
+      		<devicePath>c:\system\libs\ctagpshybridmodule.dll</devicePath>
+   			<mmpFile>ctagpshybridmodule.mmp</mmpFile>
+   			<bldInfPath>lbstest\lbstestproduct\agpshybridmodule\group\bld.inf</bldInfPath>
    		</build>
 
-		<build type="test">
-	   		<hostPath>npetestclientapi.dll</hostPath>
-      		<devicePath>c:\system\libs\npetestclientapi.dll</devicePath>
-   			<mmpFile>npetestclientapi.mmp</mmpFile>
-   			<bldInfPath>lbstest\lbstestproduct\agpsnpehybridmodule\npetestclientapi\group\bld.inf</bldInfPath>
-   		</build>
 		
 		<data>
-			<hostPath>\epoc32\data\Z\resource\plugins\agpsnpetestintegmodule.rsc</hostPath>
-			<devicePath>c:\resource\plugins\agpsnpetestintegmodule.rsc</devicePath>
+			<hostPath>\epoc32\data\z\resource\plugins\ctagpshybridmodule.rsc</hostPath>
+			<devicePath>c:\resource\plugins\ctagpshybridmodule.rsc</devicePath>
 		</data>
 		
 		<data>
-			<hostPath>lbstest\lbstestproduct\agpsnpehybridmodule\npetestintegmodule\testdata\ctagpsnpetestmoduledatasource.ini</hostPath>
-			<devicePath>c:\testdata\configs\ctagpsnpetestmoduledatasource.ini</devicePath>
+			<hostPath>lbstest\lbstestproduct\agpshybridmodule\testdata\ctagpshybridmoduledatasource.ini</hostPath>
+			<devicePath>c:\testdata\configs\ctagpshybridmoduledatasource.ini</devicePath>
 		</data>
 		
 		<data>

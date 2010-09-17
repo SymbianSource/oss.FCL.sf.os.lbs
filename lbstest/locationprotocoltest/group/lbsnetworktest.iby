@@ -22,6 +22,8 @@ REM LBS Network Test
 #if !defined(SYMBIAN_EXCLUDE_LOCATION)
 #include "lbsprotocolmodule.iby"
 #include "lbsnetsim.iby"
+#include "suplprovider.iby"
+#include "ctsimpleprovider.iby"
 #include "suplasn1.iby"
 #include "lbssupltestmodule.iby"
 #endif // SYMBIAN_EXCLUDE_LOCATION
