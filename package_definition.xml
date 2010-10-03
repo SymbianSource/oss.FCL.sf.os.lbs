@@ -72,7 +72,7 @@
       <component id="suplpmcore" name="SUPL Protocol Module Core" introduced="^3" purpose="optional" class="plugin">
         <unit bldFile="networkprotocolmodules/suplpmcore/group" mrp="networkprotocolmodules/suplpmcore/group/lbs_suplpmcore.mrp"/>
       </component>
-      <component id="networkpmasn1_pub" name="Network Protocol Module ASN1 Published" introduced="^3" purpose="optional" class="api">
+      <component id="networkpmasn1_pub" name="Network Protocol Module ASN1 Public Interfaces" introduced="^3" purpose="optional" class="api">
         <unit bldFile="networkprotocolmodules/networkpmasn1_pub/group" mrp="networkprotocolmodules/networkpmasn1_pub/group/lbs_networkpmasn1_pub.mrp"/>
       </component>
       <component id="suplcontrolplaneprotocols" name="SUPL Control Plane Protocols" introduced="^3" purpose="optional" class="plugin">
