@@ -34,7 +34,7 @@ USERINCLUDE	  ../../../../../locationmgmt/locationcore/lbsroot/src
 USERINCLUDE	  ../../../../../locationmgmt/locationcore/LbsPartnerCommon/inc
 USERINCLUDE   ../../../../../locationmgmt/locationcore/LbsInternalApi/inc
 USERINCLUDE   ../../../../../locationmgmt/locationcore/LbsInternalApi/src
-USERINCLUDE	  ../../../../networkpmutils/SuplDevLogger/inc					//for supldevloggermacros.h
+USERINCLUDE	  ../../../../common/SuplDevLogger/inc					//for supldevloggermacros.h
 
 OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 

@@ -31,7 +31,7 @@ TUint32 TLbsLocMonitorAreaInfoBase::AreaInfoClassType() const
 	}
 
 TLbsLocMonitorAreaInfoGci::TLbsLocMonitorAreaInfoGci():
-	iMcc(0), iMnc(0), iLac(0), iCid(0), iValidity(EFalse), iIs3gNetworkMode(EFalse)
+	iMcc(0), iMnc(0), iLac(0), iCid(0)
 	{
 	LBSLOG(ELogP1,"->TLbsLocMonitorAreaInfoBase::TLbsLocMonitorAreaInfoGci");
 	iAreaInfoClassType = EAreaGciClass;

@@ -71,12 +71,8 @@ public:
 public:
 	TUint iMcc; 
 	TUint iMnc; 
-	TInt iLac;		// this can be set to -1 to indicate not valid
+	TUint iLac; 
 	TUint iCid;
-
-	TBool iValidity;
-
-	TBool iIs3gNetworkMode;
 };
 
 #endif // LBSLOCMONITORAREAINFODEFS_H

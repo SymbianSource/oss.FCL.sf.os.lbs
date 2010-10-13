@@ -20,7 +20,6 @@
 #include "lbsdevloggermacros.h"
 #include "lbslocmonitorserverdata.h"
 #include "clbsareapositionersubsession.h"
-#include "clbsconversionpositionersubsession.h"
 
 // Called by the CServer2 code to complete construction of the session 
 void CLbsLocMonitorSession::CreateL()
@@ -91,21 +90,11 @@ MSubSessionImpl* CSubSessionBase::GetImplL(const RMessage2& aMessage)
 			subSession = CLbsAreaPositionerSubsession::NewL();
 			break;
 			}
-		case ELocMonitorSubSessionTypeConversionPositiner:
-		    {
-		    subSession = CLbsConversionPositionerSubsession::NewL();
-		    break;
-		    }
 		case ELocMonitorSubSessionTypeUnknown:
-		    {
-			_LIT(KPanicUnknownSubSession, "Unknown SubSession Type");
-			__ASSERT_DEBUG(0, MessageUtils::PanicClient(aMessage, KPanicUnknownSubSession, 0));
-		    break;
-		    }
 		default:
 			{
-			_LIT(KPanicSubSessionType, "Unrecognised SubSession Type");
-			__ASSERT_DEBUG(0, MessageUtils::PanicClient(aMessage, KPanicSubSessionType, 0));
+			_LIT(KPanicLocMonitorServer, "Unknown SubSession Type");
+			MessageUtils::PanicClient(aMessage, KPanicLocMonitorServer, 0);
 			break;
 			}
 		}

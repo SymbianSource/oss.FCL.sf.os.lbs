@@ -59,7 +59,7 @@ USERINCLUDE	../../locationcore/LbsPsyNgMsgs/inc
 USERINCLUDE	../../locationcore/LbsLogging/inc
 USERINCLUDE	../../locationcore/LbsNetProtocol/inc
 USERINCLUDE	../../locationcore/LbsDebug/inc
-USERINCLUDE 	../../locmonitor/lbslocmonitorapis/CommonClientServerApi/inc
+USERINCLUDE ../../locmonitor/lbslocmonitorclient/inc
 USERINCLUDE	../../locmonitor/lbslocmonitorserver/inc
 
 OS_LAYER_SYSTEMINCLUDE_SYMBIAN

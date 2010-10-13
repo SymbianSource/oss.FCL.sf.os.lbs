@@ -224,7 +224,7 @@ void CPosPluginsList::SortAsInstalledL( CPosModuleIdList& aPostInstalledList )
 	for ( TInt i = 0; i < aPostInstalledList.Count(); i++ )
 		{
 		TInt index = Find( aPostInstalledList[i] );
-	    MoveL( index, postInstalledOffset++ );
+	    Move( index, postInstalledOffset++ );
 		}
 
 	// 2. Move RomBased before postInstalled
@@ -234,7 +234,7 @@ void CPosPluginsList::SortAsInstalledL( CPosModuleIdList& aPostInstalledList )
 		CPosPluginProperties* plugin = iPlugins[i];
 		if ( plugin->IsRomBased() )
 			{
-			MoveL( i, romBasedOffset++ );
+			Move( i, romBasedOffset++ );
 			} 
 		}
 
@@ -255,12 +255,12 @@ TInt CPosPluginsList::Count() const
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 //
-void CPosPluginsList::MoveL( TInt aOldIndex, TInt aNewIndex )
+void CPosPluginsList::Move( TInt aOldIndex, TInt aNewIndex )
 	{
 	__ASSERT_DEBUG( aOldIndex >=0 && aOldIndex < iPlugins.Count(), Panic( KErrArgument ) );
 	__ASSERT_DEBUG( aNewIndex >=0 && aNewIndex <= iPlugins.Count(), Panic( KErrArgument ) );
 
 	CPosPluginProperties* swap = iPlugins[aOldIndex];
 	iPlugins.Remove( aOldIndex );
-	iPlugins.InsertL( swap, aNewIndex );
+	iPlugins.Insert( swap, aNewIndex );
 	}

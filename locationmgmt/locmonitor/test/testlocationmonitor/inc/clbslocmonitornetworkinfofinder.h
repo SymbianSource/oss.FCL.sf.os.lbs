@@ -21,7 +21,7 @@
 
 #include <etelmm.h>
 #include "clbslocmonitorareainfofinder.h"
-#include "LbsLogger.h"
+#include "lbslogger.h"
 
 
 /**
@@ -50,7 +50,7 @@ public:
 public:
 
 	~CLbsLocMonitorNetworkInfoFinder();
-	static CLbsLocMonitorNetworkInfoFinder* NewL();
+	static CLbsLocMonitorNetworkInfoFinder* CLbsLocMonitorNetworkInfoFinder::NewL();
 	
 	void StartGettingNetworkInfoL();
 

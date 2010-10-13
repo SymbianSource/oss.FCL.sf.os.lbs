@@ -47,13 +47,13 @@ SOURCE		suplcellinfohandler.cpp
 
 
 USERINCLUDE	../inc
-USERINCLUDE ../../../suplpmcore/suplrrlpasn1/inc
+USERINCLUDE ../../../common/suplrrlpasn1/inc
 USERINCLUDE ../../SuplConnectionManager/inc
-USERINCLUDE ../../../suplcontrolplaneprotocols/suplrrlpprotocol/inc
-USERINCLUDE ../../../suplcontrolplaneprotocols/suplpositioningprotbase/inc
+USERINCLUDE ../../../suplcontrolplaneprotocols/common/suplrrlpprotocol/inc
+USERINCLUDE ../../../suplcontrolplaneprotocols/common/suplpositioningprotbase/inc
 USERINCLUDE ../../HostSettingsApi/inc
 USERINCLUDE ../../../../locationmgmt/locationcore/LbsPartnerCommon/inc
-USERINCLUDE	../../../networkpmutils/supldevlogger/inc
+USERINCLUDE	../../../common/supldevlogger/inc
 
 OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 OS_LAYER_LIBC_SYSTEMINCLUDE

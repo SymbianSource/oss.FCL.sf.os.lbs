@@ -323,7 +323,7 @@ void CLbsBtGpsConfigImpl::GetDeviceListL(RPointerArray<TLbsBtGpsDeviceInfo>& aLi
 			devInfo->SetKey(devRecord.Key());
 			devInfo->SetAddress(devRecord.SocketAddress().BTAddr());
 			devInfo->SetType(devRecord.Type());
-			aList.AppendL(devInfo);
+			aList.Append(devInfo);
 			CleanupStack::Pop(devInfo);
 			}
 		
@@ -420,7 +420,7 @@ void CLbsBtGpsConfigImpl::GetDeviceRecordListL(RPointerArray<TLbsBtGpsDeviceReco
 		User::LeaveIfError(ReadDeviceRecord(index, *devRecord));
 
 		// Add to the passes list
-		aRecordList.AppendL(devRecord);
+		aRecordList.Append(devRecord);
 		
 		CleanupStack::Pop(devRecord);
 		}

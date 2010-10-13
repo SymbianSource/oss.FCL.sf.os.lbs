@@ -15,10 +15,4 @@
 
 PRJ_TESTMMPFILES
 #include "../te_locmonitorsuite/group/bld.inf"
-#include "../te_geolocmonitorsuite/group/bld.inf"
 #include "../te_lbslocmonitordbsuite/group/bld.inf"
-#include "../ExampleLocationConverter/group/bld.inf"
-#include "../TestLocationConverter/group/bld.inf"
-#include "../TestLocationConverter2/group/bld.inf"
-#include "../TestLocationConverter3/group/bld.inf"
-#include "../te_lbslocationinforconvertertef/group/bld.inf"

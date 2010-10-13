@@ -123,14 +123,14 @@ USERINCLUDE		../../inc
 
 // Test code headers
 USERINCLUDE     ../../src
-USERINCLUDE 	../../../../networkpmasn1_plat/test/suplrrlptestmessages/rrlp/inc
+USERINCLUDE 	../../../../suplcontrolplaneprotocols/common/test/suplrrlptestmessages/rrlp/inc
 USERINCLUDE 	../TestSuplConnectionManager/inc
-USERINCLUDE 	../../../../networkpmasn1_plat/test/suplspoofserver/inc
+USERINCLUDE 	../../../../common/test/suplspoofserver/inc
 USERINCLUDE		../../../../../locationmgmt/locationcore/lbsinternalapi/inc
 
 // RRLP Libraries headers
-USERINCLUDE 	../../../../suplcontrolplaneprotocols/SuplRrlpProtocol/inc
-USERINCLUDE 	../../../../suplcontrolplaneprotocols/SuplPositioningProtBase/inc
+USERINCLUDE 	../../../../suplcontrolplaneprotocols/common/SuplRrlpProtocol/inc
+USERINCLUDE 	../../../../suplcontrolplaneprotocols/common/SuplPositioningProtBase/inc
 
 // headers used by SUPL and RRLP code
 USERINCLUDE	  	../../../../../locationmgmt/locationcore/lbsrootapi/inc
@@ -140,7 +140,7 @@ USERINCLUDE 	../../../HostSettingsApi/inc/
 USERINCLUDE     ../../../../../locationmgmt/locationcore/LbsPartnerCommon/inc
  
 // for supldevloggermacros.h
-USERINCLUDE		../../../../networkpmutils/SuplDevLogger/inc					
+USERINCLUDE		../../../../common/SuplDevLogger/inc					
 
 // System headers
 OS_LAYER_SYSTEMINCLUDE_SYMBIAN

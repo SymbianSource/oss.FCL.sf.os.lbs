@@ -58,14 +58,11 @@ END
 
 USERINCLUDE         ../inc
 USERINCLUDE         ../resource
-USERINCLUDE	        ../../../locationmgmt/locationcore/lbsroot/inc		
-USERINCLUDE	        ../../../locationmgmt/locationcore/lbsrootapi/inc		
-USERINCLUDE	        ../../../locationmgmt/locationcore/LbsInternalApi/inc		// for the lbspositioningstatusprops.h
 USERINCLUDE	        ../../../locationmgmt/locationcore/LbsNetInternalApi/inc		// for the lbsnetinternalapi.h
 USERINCLUDE	        ../../../locationmgmt/locationcore/LbsPartnerCommon/inc			// for the lbsdevloggermacros.h
 USERINCLUDE	  	../../../locationmgmt/locationcore/LbsCommonInternalDataTypes/inc
 // for using loc monitor (sub)session
-USERINCLUDE 		../../../locationmgmt/locmonitor/lbslocmonitorapis/CommonClientServerApi/inc/
+USERINCLUDE 	../../../locationmgmt/locmonitor/lbslocmonitorclient/inc
 USERINCLUDE		../../../locationmgmt/locmonitor/lbslocmonitorserver/inc
 USERINCLUDE		../../../locationmgmt/locationcore/LbsLocCommon/ServerFramework/inc 
 USERINCLUDE		../../../locationmgmt/locationcore/LbsNetRegStatusInt/inc
@@ -87,10 +84,8 @@ LIBRARY             lbs.lib
 LIBRARY             bafl.lib
 LIBRARY             efsrv.lib
 LIBRARY             ecom.lib
-LIBRARY             centralrepository.lib
 LIBRARY 	    	lbsadmin.lib
 LIBRARY 	    	lbsnetinternalapi.lib
-LIBRARY				lbsinternalapi.lib
 LIBRARY				lbslocmonclient.lib
 LIBRARY				lbsnetregstatusint.lib
 #ifdef SYMBIAN_FEATURE_MANAGER

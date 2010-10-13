@@ -304,11 +304,7 @@ void CPositionInjector::ConstructL()
 CPositionInjector::~CPositionInjector()
 	{
 	LBSLOG(ELogP1, "CPositionInjector::doTestStepPostambleL()\n");
-	TRAPD(err,RLbsPositionUpdates::ShutDownL());
-	if(err!=KErrNone)
-	    {
-        LBSLOG2(ELogP3, "RLbsPositionUpdates::ShutDownL()left with error  = %d\n", err);
-	    }
+	RLbsPositionUpdates::ShutDownL();
 	}
 	
 void CPositionInjector::InjectGpsPosition(const TPosition& aPosition)

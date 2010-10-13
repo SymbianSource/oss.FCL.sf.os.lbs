@@ -24,10 +24,6 @@
 #include <flogger.h>
 #include <f32file.h>
 
-#include "lbsqualityprofile.h"
-#include "LbsExtendModuleInfo.h"
-
-const TInt KMaxInfoModules = 5;
 // LBS includes
 #include <lbs.h>
 
@@ -39,17 +35,6 @@ public:
 	
 	IMPORT_C void RestartLbs_RootOnlyL(TBuf8<KMaxFileName>& aFirstExe);
 	IMPORT_C void RestartLbs_NormalL(TBuf8<KMaxFileName>aFirstExe);
-	IMPORT_C static void DefineLbsPropertiesL();
-	IMPORT_C static void DeleteLbsPropertiesL();
-	
-private:
-	static void InitializeQualityProfileInfoL();
-	static void GetQualityProfileInfoL(RFs& aFs, RArray<TQualityProfile>& aQualityArray,
-	                                      const TDesC& aFileName);
-
-	static void GetModuleInfoL(RFs& aFs, TPositionModuleInfoExtended& aExtendedModuleInfo, 
-	                                          const TDesC& aFileName);
-	static void InitializeModuleInfoL();
 	
 private:
 	TUid iServerId;

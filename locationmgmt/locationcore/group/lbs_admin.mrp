@@ -30,7 +30,7 @@ source \sf\os\lbs\locationmgmt\locationcore\LbsNetInternalApi
 source \sf\os\lbs\locationmgmt\locationcore\lbsrootapi
 source \sf\os\lbs\locationmgmt\locationcore\lbsroot
 source \sf\os\lbs\locationmgmt\locationcore\LbsDebug
-source \sf\os\lbs\locationmgmt\locmonitor\lbslocmonitorapis
+source \sf\os\lbs\locationmgmt\locmonitor\lbslocmonitorclient
 source \sf\os\lbs\locationmgmt\locationcore
 
 source \sf\os\lbs\locationmgmt\locationcore\lbslocsettings

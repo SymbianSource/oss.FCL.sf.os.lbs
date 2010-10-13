@@ -37,7 +37,7 @@ public:
 	~RLbsLocMonitorDb();
 	void OpenL();
 	void Close();
-	TInt SavePosition(const TPosition& aPosition, const RPointerArray<TLbsLocMonitorAreaInfoBase>& aAreaInfo, TBool aUserPosition, TRequestStatus& aStatus);
+	TInt SavePosition(const TPosition& aPosition, const RPointerArray<TLbsLocMonitorAreaInfoBase>& aAreaInfo, TRequestStatus& aStatus);
 	TInt CancelSavePosition();
 	TInt GetPosition(TPosition& aPosition, const RPointerArray<TLbsLocMonitorAreaInfoBase>& aAreaInfo, TPositionAreaExtendedInfo& aMatchingAreaInfo, TRequestStatus& aStatus);
 	TInt CancelGetPosition();

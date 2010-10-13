@@ -15,19 +15,19 @@
 			<hostPath>LbsSuplRRLP_test.dll</hostPath>
 			<devicePath>c:\system\libs\lbssuplrrlp_test.dll</devicePath>
 			<mmpFile>LbsSuplRRLP_test.mmp</mmpFile>
-			<bldInfPath>networkprotocolmodules\networkpmasn1_plat\test\suplrrlpprotocol_test\lbssuplrrlp_test\group\bld.inf</bldInfPath>
+			<bldInfPath>networkprotocolmodules\suplcontrolplaneprotocols\common\suplrrlpprotocol\test\group\bld.inf</bldInfPath>
 		</build>
 		<build type="test">
 			<hostPath>suplrrlptestmessages.dll</hostPath>
 			<devicePath>c:\system\libs\suplrrlptestmessages.dll</devicePath>
 			<mmpFile>rrlptestmessage.mmp</mmpFile>
-			<bldInfPath>networkprotocolmodules\networkpmasn1_plat\test\suplrrlptestmessages\group\bld.inf</bldInfPath>
+			<bldInfPath>networkprotocolmodules\suplcontrolplaneprotocols\common\test\suplrrlptestmessages\group\bld.inf</bldInfPath>
 		</build>
 		<build type="test">
 			<hostPath>suplspoofserver.dll</hostPath>
 			<devicePath>c:\system\libs\suplspoofserver.dll</devicePath>
 			<mmpFile>suplspoofserver.mmp</mmpFile>
-			<bldInfPath>networkprotocolmodules\networkpmasn1_plat\test\suplspoofserver\group\bld.inf</bldInfPath>
+			<bldInfPath>networkprotocolmodules\common\test\suplspoofserver\group\bld.inf</bldInfPath>
 		</build>
 	</dependencies>
 

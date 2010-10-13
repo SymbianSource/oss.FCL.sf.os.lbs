@@ -41,7 +41,7 @@ SOURCE			lbsrequesthandler.cpp
 
 USERINCLUDE     ../inc
 USERINCLUDE 	../../common/posmsgapi/inc
-USERINCLUDE 	../../../../networkpmutils/utils/inc
+USERINCLUDE 	../../../../common/utils/inc
 USERINCLUDE 	../../../../../locationmgmt/locationcore/LbsPartnerCommon/inc
 
 OS_LAYER_SYSTEMINCLUDE_SYMBIAN

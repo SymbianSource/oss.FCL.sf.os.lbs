@@ -22,8 +22,6 @@ PRJ_TESTEXPORTS
 ../testdata/te_lbsagpspsy_devicecaps_simultaneous.ini	c:/testdata/configs/te_lbsagpspsy_devicecaps_simultaneous.ini
 ../testdata/te_lbsagpspsy_devicecaps_ta.ini		c:/testdata/configs/te_lbsagpspsy_devicecaps_ta.ini
 ../testdata/te_lbsagpspsy_devicecaps_tb.ini		c:/testdata/configs/te_lbsagpspsy_devicecaps_tb.ini
-../testdata/te_lbsagpspsy_lbsprofile.ini    	c:/testdata/configs/te_lbsagpspsy_lbsprofile.ini
-../testdata/te_lbsagpspsy_agpsintegmodule.ini	c:/testdata/configs/te_lbsagpspsy_agpsintegmodule.ini
 
 PRJ_TESTMMPFILES
 te_lbsagpspsysuite.mmp

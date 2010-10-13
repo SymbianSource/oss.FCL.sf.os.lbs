@@ -112,22 +112,11 @@ START_TESTCASE                LBS-Client-LastKnownPosArea-0003
 //! @SYMTestCaseID              LBS-Client-LastKnownPosArea-0003
 //! @SYMTestCaseDesc            verify that the last position is returned if current network position is unavailable
 //! @SYMTestPriority            Medium
-//! @SYMTestActions             1. Set up SIM TSY so that the cell area is unknown
+//! @SYMTestActions             1. Set up SIM TSY so that the cell id is unknown
 //!                             2. NPUD
-//!                             3. LastKnown Pos Area, to check position with invalid area params didn't go into database
-//!                             4. Move to GSM cell 234.15.1911.36463 (all valid) and do a NPUD
-//!								5. Do LastKnownPosArea and check match level
-//!                             6. Move to 'invalid' WCDMA cell 234.15.1911.36463 and do lastknown pos area
-//!                             7. Move to invalid GSM cell of 234.15.1911.90000 and do lastknown pos area
-//!                             8. Move to valid GSM cell of 234.15.1911.36000 and do lastknown pos area 
-//!                             9. Clear Database
-//! @SYMTestExpectedResults     Generally all methods should return KErrNone unless stated otherwise. Note the following:
-//!								Step 3: Lastknown Pos Area should return KErrUnknown
-//!                             Step 5: Lastknown Pos Area should return position from 4, with match level EAreaCity
-//!                             Step 6: Lastknown Pos Area should return position from 4, with match level EAreaCountry (match country and network)
-//!                             Step 7: Lastknown Pos Area should return position from 4, with match level EAreaUknown
-//!								Step 8: LastKnown Pos Area shoulr return position from 4, with match level EAreaRegion (match on all except cell)
-
+//!                             3. LastKnown Pos Area
+//!                             7. Clear Database
+//! @SYMTestExpectedResults     Step 3: Lastknown Pos Area should return position from 2, with match level unknown
 //! @SYMTestType                CIT
 //! @SYMCreationDate            13/2/2009
 //! @SymTestReq	REQ11527
@@ -283,55 +272,6 @@ RUN_TEST_STEP 120 LbsClientTestServer LbsClientStep_LastKnownPosArea c:\testdata
 //RUN_TEST_STEP 010 LbsClientTestServer LbsStep_VerifyPosInfos
 RUN_TEST_STEP 010 LbsClientTestServer LbsStep_StopLbs
 END_TESTCASE                  LBS-Client-LastKnownPosArea-0008
-
-
-DELAY 5000
-
-START_TESTCASE                LBS-Client-LastKnownPosArea-0009
-//! @SYMTestCaseID              LBS-Client-LastKnownPosArea-0009
-//! @SYMTestCaseDesc            With both GSM and WCDMA positions in the database, we check that GetLastKnownPosArea returns the correct 
-//!                             position and match level as we switch between GSM and WCDMA cells.
-//! @SYMTestPriority            Medium
-//! @SYMTestActions             1.  NPUD at 234.15.1911.65535 (GSM)
-//!                             2.  NPUD at 234.15.1913.65536 (WCDMA)
-//!                             3.  LastKnownPosInfo without change of cell
-//!                             4.  LastknownPosArea at 234.15.1913.32121
-//!                             5.  LastKnownPosArea at 234.15.1911.88880
-//!                             6.  LastKnownPosArea at 234.15.1913.76554
-//!                             7.  LastKnownPosArea at 234.15.1911.19980
-//!                             8.  LastKnownPosArea at 234.30.1511.66003
-//!                             9.  NPUD at 234.15.1911.100
-//!                             10. LastKnownPosArea at 234.15.1911.88880
-//!                             11. Clear Database
-//!
-//! @SYMTestExpectedResults     for LbsClientStep_LastKnownPosArea step
-//!                             1.  Completes successfully
-//!                             2.  Completes successfully
-//!								3.  WCDMA position with EAreaCity (all area fields match)
-//!                             4.  Get WCDMA position, accuracy EAreaCountry
-//!                             5.  Get WCDMA position, accuracy EAreaCountry
-//!                             6.  Get WCDMA position, accuracy EAreaRegion
-//!								7.  Get GSM position, accuracy EAreaRegion
-//!								8.  Get WCDMA position, accuracy EAreaCountry
-//!                             9.  Completes Sucessfully
-//!                             10. Gets GSM position with EAreaCountry.
-//!                             11. Completes successfully 
-//!
-//! @SYMTestType                CIT
-//! @SYMCreationDate            12/10/2010
-//! @SYMAuthor                  ajw
-RUN_UTILS CopyFile c:\testdata\configs\lbsclientlastknownposarea0009.txt c:\config.txt
-RUN_TEST_STEP 010 LbsClientTestServer LbsStep_StartLbs
-RUN_TEST_STEP 020 LbsClientTestServer LbsStep_SetAutonomousMode
-RUN_TEST_STEP 010 LbsClientTestServer LbsStep_InstallScheduler
-RUN_TEST_STEP 020 LbsClientTestServer LbsStep_SetUpPsy c:\testdata\configs\lbsclientlastknownposarea.ini LBS-Client-LastKnownPosArea
-RUN_TEST_STEP 020 LbsClientTestServer LbsStep_CreateVerifyPosInfos c:\testdata\configs\lbsclientlastknownposarea.ini LBS-Client-LastKnownPosArea-0009
-RUN_TEST_STEP 120 LbsClientTestServer LbsClientStep_LastKnownPosArea c:\testdata\configs\lbsclientlastknownposarea.ini LBS-Client-LastKnownPosArea-0009
-//RUN_TEST_STEP 010 LbsClientTestServer LbsStep_VerifyPosInfos
-RUN_TEST_STEP 010 LbsClientTestServer LbsStep_StopLbs
-END_TESTCASE                  LBS-Client-LastKnownPosArea-0009
-
-
 
 
 PREFIX RUN_UTILS

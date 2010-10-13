@@ -86,12 +86,9 @@ TVerdict CClearStep::doTestStepL()
 			in.iMnc = i+1000;
 			in.iLac = i+2000;
 			in.iCid = i+3000;
-	        in.iValidity = ETrue;
-	        in.iIs3gNetworkMode = EFalse;
-			
 			RPointerArray<TLbsLocMonitorAreaInfoBase> inArray;
 			inArray.Append(&in);
-			locMonitorDb.SavePosition(dummyPosition,inArray,ETrue,iWaiter->iStatus);
+			locMonitorDb.SavePosition(dummyPosition,inArray,iWaiter->iStatus);
 			iWaiter->StartAndWait();
 			inArray.Reset();
 			}

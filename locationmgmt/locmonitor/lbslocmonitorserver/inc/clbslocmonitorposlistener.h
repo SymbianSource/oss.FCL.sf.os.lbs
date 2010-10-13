@@ -26,7 +26,7 @@
 class MLbsLocMonitorPosListenerObserver
 	{
 public:
-	virtual void PositionAvailableL(const TPosition& aPosition) = 0;	
+	virtual void PositionAvailable(const TPosition& aPosition) = 0;	
 	};
 
 /**
@@ -47,7 +47,7 @@ public:
 	~CLbsLocMonitorPosListener();
 
 	// From MLbsLocMonitorGpsBusObserver
-	void GpsPositionAvailableL(const TPosition& aPosition);
+	void GpsPositionAvailable(const TPosition& aPosition);
 
 private:
 

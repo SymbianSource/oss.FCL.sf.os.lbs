@@ -46,7 +46,7 @@ NONSHARABLE_CLASS( CPosPluginsList ) : public CBase
 
     private:
 
-		void MoveL( TInt aOldIndex, TInt aNewIndex );
+		void Move( TInt aOldIndex, TInt aNewIndex );
         void Remove( TInt aIndex );
 
     private:

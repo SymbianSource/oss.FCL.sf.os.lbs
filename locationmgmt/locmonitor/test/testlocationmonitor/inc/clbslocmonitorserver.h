@@ -33,12 +33,10 @@
 #include "clbslocmonitorposlistener.h"
 #include "lbsrootapi.h"
 #include "lbsprocesssupervisor.h"
-#include "mlbsconversioncompleteobserver.h"
-#include "clbslocmonitorconversionhandler.h"
-#include "clbslocmonitorpluginresolver.h"
 
 
-
+// forward classes
+//class CLbsLocMonitorPositonWriter;
 class CSession2;
 
 /**
@@ -92,8 +90,7 @@ from different sources (e.g. from CLbsCurrentCellInfoFinder)
 @released
 */
 class CLbsLocMonitorServer : public CSecureServerBase,
-							 public MLbsProcessCloseDown,
-							 public MLbsConversionCompleteObserver
+							 public MLbsProcessCloseDown
 	{
 	
 	enum TAreaInfoFinder
@@ -115,28 +112,18 @@ public:
 	// to database for writting and reading positions and area info.
 	CLbsLocMonitorRequestHandler& ReadRequestHandler() const;
 	
-	CLbsLocMonitorConversionHandler* ConversionHandlerL( TUid aConversionPluginId );
-	
-	CLbsLocMonitorConversionHandler* ConversionHandler( const RMessage2& aMessage );
-	
-	CLbsLocMonitorPluginResolver* PluginResolver();
-	
 	void SetLocMonServerDestructObserverL(const MLocMonServerDestructObserver& aDestructObserver);
 	void UnsetLocMonServerDestructObserver(const MLocMonServerDestructObserver& aDestructObserver);
 	
 public: // From MLbsProcessCloseDown
     void OnProcessCloseDown();	
-    
-public: // From MLbsConversionCompleteObserver
-    void HandleConversionComplete( CLbsLocMonitorConversionHandler*
-                                   aConversionHandler );
 	
 protected:
 
 	// From CSecureServerBase (from CPolicyServer)
 	CPolicyServer::TCustomResult CustomSecurityCheckL(const RMessage2& aMsg, TInt& aAction, TSecurityInfo& aMissing);
 	TBool FindRootProcess();
-
+	
 protected:
 
 	TVersion  iVersion;
@@ -151,9 +138,6 @@ protected:
 
 	CLbsCloseDownRequestDetector* iCloseDownRequestDetector;
 	
-	RPointerArray<CLbsLocMonitorConversionHandler> iConversionHandlerArray;
-	
-	CLbsLocMonitorPluginResolver* iPluginResolver;
 	RPointerArray<MLocMonServerDestructObserver> iDestructionObservers;
 	};
 	

@@ -21,7 +21,7 @@
 #include "lbslocmonitordbenginedefs.h"
 #include "lbsdevloggermacros.h"
 
-const TInt KMaskInBit28 = 0x10000000;
+
 
 CLbsLocMonitorDbEngine* CLbsLocMonitorDbEngine::NewL()
 	{
@@ -64,7 +64,6 @@ void CLbsLocMonitorDbEngine::InitDbL()
 		User::LeaveIfError(iDatabase.Exec(KCreateTable));
 		User::LeaveIfError(iDatabase.Exec(KCreateIndex4));
 		User::LeaveIfError(iDatabase.Exec(KCreateIndex3));
-		User::LeaveIfError(iDatabase.Exec(KCreateLastPosTable));
 		}
 	else
 		{
@@ -73,14 +72,12 @@ void CLbsLocMonitorDbEngine::InitDbL()
 		}
 	User::LeaveIfError(iDatabase.Exec(KCreateTempTable));
 	User::LeaveIfError(iDatabase.Exec(KCreateTempIndex4));
-	User::LeaveIfError(iDatabase.Exec(KCreateLastPosTempTable));
 	}
 
 
 CLbsLocMonitorDbEngine::CLbsLocMonitorDbEngine():
 CActive(EPriorityStandard),
-iDBInitialised(EFalse),
-iSaveLastPos(EFalse)
+iDBInitialised(EFalse)
 	{
 	LBSLOG(ELogP1,"->CLbsLocMonitorDbEngine::CLbsLocMonitorDbEngine");
 	CActiveScheduler::Add(this);
@@ -109,12 +106,9 @@ CLbsLocMonitorDbEngine::~CLbsLocMonitorDbEngine()
 	}
 
 
-TInt CLbsLocMonitorDbEngine::SavePosition(TUint aMcc, TUint aMnc, TUint aLac, TUint aCid, TBool aIs3gMode, const TPosition& aPosition, TBool aUserPosition, TRequestStatus& aStatus)
+TInt CLbsLocMonitorDbEngine::SavePosition(TUint aMcc, TUint aMnc, TUint aLac, TUint aCid, const TPosition& aPosition, TRequestStatus& aStatus)
 	{
 	LBSLOG(ELogP1,"->CLbsLocMonitorDbEngine::SavePosition");
-
-	iSaveLastPos = aUserPosition;
-
 	if(aMcc > KMaxTInt || aMnc > KMaxTInt || aLac > KMaxTInt || aCid > KMaxTInt)
 		{
 		return KErrArgument;
@@ -135,28 +129,18 @@ TInt CLbsLocMonitorDbEngine::SavePosition(TUint aMcc, TUint aMnc, TUint aLac, TU
 		iLastMnc = aMnc;
 		iLastLac = aLac;
 		iLastCid = aCid;
-		iLastModeIs3g = aIs3gMode;
 		iLastTime.UniversalTime();
 		iLastPosition = aPosition;
-		if(iSaveLastPos)
-		    {
-            iLastKnownPosition = aPosition;
-		    }
 		iIsLastValid = ETrue;
 		User::RequestComplete(iClientStatus, KErrNone);
 		return KErrNone;
 		} 
 	// If this cell is the same as the the cache, update the cache's position and timestamp
 	
-	else if(CacheMatchLevel(aMcc, aMnc, aLac, aCid, aIs3gMode).CellIdMatch())
+	else if(CacheMatchLevel(aMcc, aMnc, aLac, aCid).CellIdMatch())
 		{
 		iLastPosition = aPosition;
-	    if(iSaveLastPos)
-            {
-            iLastKnownPosition = aPosition;
-            }
 		iLastTime.UniversalTime();
-		iLastModeIs3g = aIs3gMode;
 		User::RequestComplete(iClientStatus, KErrNone);
 		return KErrNone;
 		}
@@ -172,7 +156,6 @@ TInt CLbsLocMonitorDbEngine::SavePosition(TUint aMcc, TUint aMnc, TUint aLac, TU
 			iLastCid = aCid;
 			iLastTime.UniversalTime();
 			iLastPosition = aPosition;
-			iLastModeIs3g = aIs3gMode;
 			iIsLastValid = ETrue;
 			}
 		return result;
@@ -198,13 +181,7 @@ TInt CLbsLocMonitorDbEngine::Insert(TBool aShutdown)
 		iSqlSaveStatement.BindInt(indexMcc, iLastMcc);
 		iSqlSaveStatement.BindInt(indexMnc, iLastMnc);
 		iSqlSaveStatement.BindInt(indexLac, iLastLac);
-		// Set bit 28 if 3g to distinguish from 2g equivalent...
-		TInt effectiveCid = iLastCid;
-		if (iLastModeIs3g)
-			{
-			effectiveCid |= KMaskInBit28;
-			}
-		iSqlSaveStatement.BindInt(indexCid, effectiveCid);
+		iSqlSaveStatement.BindInt(indexCid, iLastCid);
 		iSqlSaveStatement.BindInt64(indexStamp, iLastTime.Int64());
 		iSqlSaveStatement.BindBinary(indexData, positionDes);
 		
@@ -213,21 +190,6 @@ TInt CLbsLocMonitorDbEngine::Insert(TBool aShutdown)
 			{
 			iSqlSaveStatement.Exec();
 			iSqlSaveStatement.Close();
-			if(iSaveLastPos)
-			    {
-                error = iSqlSaveStatement.Prepare(iDatabase, KUpsertLastPosRow);
-                if(KErrNone == error)
-                    {
-                    TPckg<TPosition> positionDes(iLastKnownPosition);
-                    TInt indexStamp = iSqlSaveStatement.ParameterIndex(KStamp);
-                    TInt indexData = iSqlSaveStatement.ParameterIndex(KData);
-                    iSqlSaveStatement.BindInt64(indexStamp, iLastTime.Int64());
-                    iSqlSaveStatement.BindBinary(indexData, positionDes);
-                    
-                    iSqlSaveStatement.Exec();
-                    iSqlSaveStatement.Close();
-                    }
-			    }
 			}
 		else
 			{
@@ -241,7 +203,7 @@ TInt CLbsLocMonitorDbEngine::Insert(TBool aShutdown)
 	}
 
 
-TInt CLbsLocMonitorDbEngine::GetPosition(TUint aMcc, TUint aMnc, TUint aLac, TUint aCid, TBool aIs3gMode, TPosition& aPosition, TPositionAreaExtendedInfo& aMatchingAreaInfo, TRequestStatus& aStatus)
+TInt CLbsLocMonitorDbEngine::GetPosition(TUint aMcc, TUint aMnc, TUint aLac, TUint aCid, TPosition& aPosition, TPositionAreaExtendedInfo& aMatchingAreaInfo, TRequestStatus& aStatus)
 	{
 	LBSLOG(ELogP1,"->CLbsLocMonitorDbEngine::GetPosition");
 	if(aMcc > KMaxTInt || aMnc > KMaxTInt || aLac > KMaxTInt || aCid > KMaxTInt)
@@ -256,15 +218,8 @@ TInt CLbsLocMonitorDbEngine::GetPosition(TUint aMcc, TUint aMnc, TUint aLac, TUi
 	aMatchingAreaInfo.SetLocationAreaCodeMatch(EFalse);
 	aMatchingAreaInfo.SetCellIdMatch(EFalse);
 	aMatchingAreaInfo.SetArea(TPositionAreaExtendedInfo::EAreaUnknown);
-
-	TUint effectiveCid = aCid;
-	if (aIs3gMode)
-		{
-		effectiveCid |= KMaskInBit28;
-		}
-
-	TPositionAreaExtendedInfo cacheMatch = CacheMatchLevel(aMcc, aMnc, aLac, aCid, aIs3gMode);
-	if(cacheMatch.CellIdMatch() || Select(aPosition, TPtrC(KSelectTempRow4), aMcc, aMnc, aLac, effectiveCid) || Select(aPosition, TPtrC(KSelectRow4), aMcc, aMnc, aLac, effectiveCid))
+	TPositionAreaExtendedInfo cacheMatch = CacheMatchLevel(aMcc, aMnc, aLac, aCid);
+	if(cacheMatch.CellIdMatch() || Select(aPosition, TPtrC(KSelectTempRow4), aMcc, aMnc, aLac, aCid) || Select(aPosition, TPtrC(KSelectRow4), aMcc, aMnc, aLac, aCid))
 		{		
 		if(cacheMatch.CellIdMatch())
 			{
@@ -276,86 +231,47 @@ TInt CLbsLocMonitorDbEngine::GetPosition(TUint aMcc, TUint aMnc, TUint aLac, TUi
 		aMatchingAreaInfo.SetCellIdMatch(ETrue);
 		aMatchingAreaInfo.SetArea(TPositionAreaExtendedInfo::EAreaCity);
 		}
-	else 
-		{	
-		TBool matchLac = cacheMatch.LocationAreaCodeMatch();
-		if(matchLac)
+	else if(cacheMatch.LocationAreaCodeMatch() || Select(aPosition, TPtrC(KSelectTempRow3), aMcc, aMnc, aLac) || Select(aPosition, TPtrC(KSelectRow3), aMcc, aMnc, aLac))
+		{
+		if(cacheMatch.LocationAreaCodeMatch())
 			{
 			aPosition = iLastPosition;
 			}
-		else
+		aMatchingAreaInfo.SetMobileCountryCodeMatch(ETrue);
+		aMatchingAreaInfo.SetMobileNetworkCodeMatch(ETrue);
+		aMatchingAreaInfo.SetLocationAreaCodeMatch(ETrue);
+		aMatchingAreaInfo.SetArea(TPositionAreaExtendedInfo::EAreaRegion);
+		}
+	else if(cacheMatch.MobileNetworkCodeMatch() || Select(aPosition, TPtrC(KSelectTempRow2), aMcc, aMnc) || Select(aPosition, TPtrC(KSelectRow2), aMcc, aMnc))
+		{
+		if(cacheMatch.MobileNetworkCodeMatch())
 			{
-			TBuf<30>gsmOrWcdmaCells;
-			if (aIs3gMode)
-				{
-				gsmOrWcdmaCells = KSelectWcdmaCells;
-				}
-			else
-				{
-				gsmOrWcdmaCells = KSelectGsmCells;
-				}
-				
-			TBuf<256> selectStatement;
-			selectStatement.Format(KSelectTempRow3, &gsmOrWcdmaCells);
-
-			if (Select(aPosition, TPtrC(selectStatement), aMcc, aMnc, aLac))
-				{
-				matchLac = ETrue;
-				}
-			else
-				{
-				selectStatement.Format(KSelectRow3,&gsmOrWcdmaCells);
-				if (Select(aPosition, TPtrC(selectStatement), aMcc, aMnc, aLac))
-					{
-					matchLac = ETrue;
-					}
-				}
+			aPosition = iLastPosition;
 			}
-				
-		if (matchLac)
+		aMatchingAreaInfo.SetMobileCountryCodeMatch(ETrue);
+		aMatchingAreaInfo.SetMobileNetworkCodeMatch(ETrue);
+		aMatchingAreaInfo.SetArea(TPositionAreaExtendedInfo::EAreaCountry);
+		}
+	else if(cacheMatch.MobileCountryCodeMatch() || Select(aPosition, TPtrC(KSelectTempRow1), aMcc) || Select(aPosition, TPtrC(KSelectRow1), aMcc))
+		{
+		if(cacheMatch.MobileCountryCodeMatch())
 			{
-			aMatchingAreaInfo.SetMobileCountryCodeMatch(ETrue);
-			aMatchingAreaInfo.SetMobileNetworkCodeMatch(ETrue);
-			aMatchingAreaInfo.SetLocationAreaCodeMatch(ETrue);
-			aMatchingAreaInfo.SetArea(TPositionAreaExtendedInfo::EAreaRegion);
+			aPosition = iLastPosition;
 			}
-		else
+		aMatchingAreaInfo.SetMobileCountryCodeMatch(ETrue);
+		aMatchingAreaInfo.SetArea(TPositionAreaExtendedInfo::EAreaCountry);
+		}
+	else if(iIsLastValid || Select(aPosition, TPtrC(KSelectTempRowLatest)) || Select(aPosition, TPtrC(KSelectRowLatest)) || iIsLastValid)
+		{
+		if(iIsLastValid)
 			{
-			if(cacheMatch.MobileNetworkCodeMatch() || Select(aPosition, TPtrC(KSelectTempRow2), aMcc, aMnc) || Select(aPosition, TPtrC(KSelectRow2), aMcc, aMnc))
-				{
-				if(cacheMatch.MobileNetworkCodeMatch())
-					{
-					aPosition = iLastPosition;
-					}
-				aMatchingAreaInfo.SetMobileCountryCodeMatch(ETrue);
-				aMatchingAreaInfo.SetMobileNetworkCodeMatch(ETrue);
-				aMatchingAreaInfo.SetArea(TPositionAreaExtendedInfo::EAreaCountry);
-				}
-			else if(cacheMatch.MobileCountryCodeMatch() || Select(aPosition, TPtrC(KSelectTempRow1), aMcc) || Select(aPosition, TPtrC(KSelectRow1), aMcc))
-				{
-				if(cacheMatch.MobileCountryCodeMatch())
-					{
-					aPosition = iLastPosition;
-					}
-				aMatchingAreaInfo.SetMobileCountryCodeMatch(ETrue);
-				aMatchingAreaInfo.SetArea(TPositionAreaExtendedInfo::EAreaCountry);
-				}
-			else if(iIsLastValid || Select(aPosition, TPtrC(KSelectTempRowLatest)) || Select(aPosition, TPtrC(KSelectRowLatest)) || iIsLastValid)
-				{
-				if(iIsLastValid)
-					{
-					aPosition = iLastPosition;
-					}
-				}
-			else
-				{
-				result = KErrNotFound;
-				}
-
-			} // end else no match on LAC
-
-		} // end else no match on cell id
-
+			aPosition = iLastPosition;
+			}
+		}
+	else
+		{
+		result = KErrNotFound;
+		}
 	TRequestStatus* status = &aStatus;
 	*status = KRequestPending;
 	User::RequestComplete(status, result);
@@ -373,7 +289,7 @@ TInt CLbsLocMonitorDbEngine::GetPosition(TPosition& aPosition, TRequestStatus& a
 		aPosition = iLastPosition;
 		result = KErrNone;
 		}
-	else if(Select(aPosition, TPtrC(KSelectTempRowLatest)) || Select(aPosition, TPtrC(KSelectRowLatest)))
+	else if(Select(aPosition, TPtrC(KSelectRowLatest)) || Select(aPosition, TPtrC(KSelectRowLatest)))
 		{
 		result = KErrNone;
 		}
@@ -388,7 +304,6 @@ TInt CLbsLocMonitorDbEngine::ClearDatabase()
 	LBSLOG(ELogP1,"->CLbsLocMonitorDbEngine::ClearDatabase");	
 	iIsLastValid = EFalse;
 	iDatabase.Exec(KClear);
-	iDatabase.Exec(KLastPosClear);
 	iDatabase.Close();
 	TInt del = iDatabase.Delete(KSecureLocMonDB);
 	TRAPD(init, InitDbL());
@@ -457,8 +372,6 @@ void CLbsLocMonitorDbEngine::Flush(TBool aShutdown)
 		iDatabase.Exec(KBegin);
 		iDatabase.Exec(KCopy);	
 		iDatabase.Exec(KClear);
-		iDatabase.Exec(KLastPosCopy);
-		iDatabase.Exec(KLastPosClear);
 		if((!aShutdown) && (DbSize() > KMaxDbSize))
 			{
 			// Delete 2000 oldest records
@@ -493,7 +406,7 @@ TInt CLbsLocMonitorDbEngine::DbSize()
 	}
 
 
-TPositionAreaExtendedInfo CLbsLocMonitorDbEngine::CacheMatchLevel(TInt aMcc, TInt aMnc, TInt aLac, TInt aCid, TBool aIs3gMode)
+TPositionAreaExtendedInfo CLbsLocMonitorDbEngine::CacheMatchLevel(TInt aMcc, TInt aMnc, TInt aLac, TInt aCid)
 	{
 	LBSLOG(ELogP1,"->CLbsLocMonitorDbEngine::CacheMatchLevel");
 	TPositionAreaExtendedInfo areaInfo;
@@ -504,7 +417,7 @@ TPositionAreaExtendedInfo CLbsLocMonitorDbEngine::CacheMatchLevel(TInt aMcc, TIn
 			{
 			if(aMnc == iLastMnc)
 				{
-				if(aLac == iLastLac && aIs3gMode == iLastModeIs3g) 
+				if(aLac == iLastLac)
 					{
 					if(aCid == iLastCid)
 						{
@@ -517,8 +430,7 @@ TPositionAreaExtendedInfo CLbsLocMonitorDbEngine::CacheMatchLevel(TInt aMcc, TIn
 			areaInfo.SetMobileCountryCodeMatch(ETrue);
 			}
 		}
-	// areaInfo.iReserved2 is not used, and has been left here for future extension.
-	// coverity[uninit_use]
+
 	return areaInfo;
 	}
 
@@ -526,44 +438,10 @@ TPositionAreaExtendedInfo CLbsLocMonitorDbEngine::CacheMatchLevel(TInt aMcc, TIn
 
 void CLbsLocMonitorDbEngine::RunL()
 	{
-    // Now then
-    // we set a member variable when asked to save a pos we have seen ourselves
-    // we also want to save this position into the last pos table
-    
 	LBSLOG(ELogP1,"->CLbsLocMonitorDbEngine::RunL");
-	
-	if(!iSaveLastPos)
-	    {
-        // fully done, either we had no last pos to save, or we just did that
-        User::RequestComplete(iClientStatus, KErrNone);
-        iSqlSaveStatement.Close();
-        CheckFlush();
-	    }
-	else
-	    {
-        iSaveLastPos = EFalse;
-        // first close the statement, we can now reuse it
-        iSqlSaveStatement.Close();
-        
-        TInt error = iSqlSaveStatement.Prepare(iDatabase, KUpsertLastPosRow);
-
-        if(KErrNone == error)
-            {
-            TPckg<TPosition> positionDes(iLastKnownPosition);
-            TInt indexStamp = iSqlSaveStatement.ParameterIndex(KStamp);
-            TInt indexData = iSqlSaveStatement.ParameterIndex(KData);
-            iSqlSaveStatement.BindInt64(indexStamp, iLastTime.Int64());
-            iSqlSaveStatement.BindBinary(indexData, positionDes);
-            
-            // Statement is closed in RunL, once asynchrnous insert has taken place
-            iStatus = KRequestPending;
-            iSqlSaveStatement.Exec(iStatus);
-            SetActive();      
-            iLastKnownPosition = iLastPosition;
-            }
-
-	    }
-
+	User::RequestComplete(iClientStatus, KErrNone);
+	iSqlSaveStatement.Close();
+	CheckFlush();
 	}
 
 

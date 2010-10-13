@@ -26,6 +26,7 @@
 #define CLBSLOCMONITORSESSION_H
 
 #include <e32property.h>
+//#include <e32base.h>
 #include "tserverstartparams.h"
 #include "csecureasbase.h"
 #include "csecureserverbase.h"
@@ -34,7 +35,7 @@
 #include "csubsessionbase.h"
 #include "messageutils.h"
 
-/**
+/*
 Client side session of the Location Monitor server.
 
 It derives from the class CSecureSessionSubSessionBase (from Server Framework)

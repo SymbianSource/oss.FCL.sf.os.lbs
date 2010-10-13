@@ -32,7 +32,6 @@ public:
 
 private:
 	TPosition iDummyPosition;
-	TPosition iDummyPosition2;
 	};
 
 _LIT(KDBStep,"DBStep");

@@ -1,0 +1,32 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+
+#ifndef __TE_SUPLRRLPASN_SUITE_IBY__
+#define __TE_SUPLRRLPASN_SUITE_IBY__
+
+#include <testexecute.iby>
+
+file=ABI_DIR\DEBUG_DIR\te_suplrrlpasnsuite.exe		sys\bin\te_suplrrlpasnsuite.exe
+file=ABI_DIR\DEBUG_DIR\suplspoofserver.dll			sys\bin\suplspoofserver.dll
+file=ABI_DIR\DEBUG_DIR\suplrrlpasn1.dll				sys\bin\suplrrlpasn1.dll
+file=ABI_DIR\DEBUG_DIR\asn1rt.dll					sys\bin\asn1rt.dll
+file=ABI_DIR\DEBUG_DIR\asn1per.dll					sys\bin\asn1per.dll
+data=EPOCROOT##Epoc32\data\c\TestData\configs\te_suplrrlpasnsuite.ini TestData\configs\te_suplrrlpasnsuite.ini
+data=EPOCROOT##Epoc32\data\c\TestData\scripts\te_suplrrlpasnsuite.script TestData\Scripts\te_suplrrlpasnsuite.Script
+
+#endif
+

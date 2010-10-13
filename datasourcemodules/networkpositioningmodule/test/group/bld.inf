@@ -18,8 +18,7 @@
 PRJ_TESTEXPORTS
 ../scripts/te_lbsnetpsysuite.script	c:/testdata/scripts/te_lbsnetpsysuite.script
 ../testdata/te_lbsnetpsy.ini		c:/testdata/configs/te_lbsnetpsy.ini
-../testdata/te_lbsnetpsy_lbsprofile.ini		c:/testdata/configs/te_lbsnetpsy_lbsprofile.ini
-../testdata/te_lbsnetpsy_agpsintegmodule.ini		c:/testdata/configs/te_lbsnetpsy_agpsintegmodule.ini
+
 
 PRJ_TESTMMPFILES
 te_lbsnetpsysuite.mmp

@@ -22,10 +22,7 @@
 file=ABI_DIR\DEBUG_DIR\lbsadmin.dll			System\libs\lbsadmin.dll
 
 #include "lbsassistancedata.iby"
-#include "lbslocationinfodatatypes.iby"
 #include "lbslocmonclient.iby"
-#include "lbslocationinfoconverter.iby"
-#include "lbslocationinfoconverterplugin.iby"
 #include "lbsloccommon.iby"
 #include "LbsLocDataSource.iby"
 #include "lbsinternalapi.iby"

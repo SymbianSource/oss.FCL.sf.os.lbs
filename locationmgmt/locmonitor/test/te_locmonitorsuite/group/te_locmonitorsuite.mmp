@@ -71,7 +71,7 @@ SOURCE          tserverstartparams.cpp
 SOURCE			tstartparamsbase.cpp
 
 // Various LBS subsystem headers
-USERINCLUDE   ../../../lbslocmonitorapis/CommonClientServerApi/inc
+USERINCLUDE   ../../../lbslocmonitorclient/inc
 USERINCLUDE   ../../../lbslocmonitorserver/inc
 USERINCLUDE   ../../../../locationcore/LbsInternalApi/inc
 USERINCLUDE   ../../../../locationcore/LbsNetInternalApi/inc

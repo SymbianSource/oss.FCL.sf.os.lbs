@@ -72,13 +72,7 @@ enum ELbsLocMonitorMsgEnums
 	EGetLastKnownPositionArea =		 	EAreaPositionerFirstMsgId + 2,
 	ECancelGetLastKnownPosition =	 	EAreaPositionerFirstMsgId + 3,
 	ECancelGetLastKnownPositionArea =	EAreaPositionerFirstMsgId + 4,
-	
-	EConvertSingleLocationInfoBufferSize = EAreaPositionerFirstMsgId + 5,
-    EGetSingleLocationInfo = EAreaPositionerFirstMsgId + 6,
-    EConvertMultipleLocationInfoBufferSize = EAreaPositionerFirstMsgId + 7,
-    EGetMultipleLocationInfo = EAreaPositionerFirstMsgId + 8,
-    ECancelConvertLocationInfo = EAreaPositionerFirstMsgId + 9,
-	
+
 	// Add here any new message IDs for subsession type AreaPositioner
 	EAreaPositionerLastMessageId,
 
@@ -95,8 +89,6 @@ enum TLbsLocMonitorSubSessionType
 	{
 	ELocMonitorSubSessionTypeUnknown = 0,
 	ELocMonitorSubSessionTypeAreaPositioner,
-	ELocMonitorSubSessionTypeConversionPositiner,
-	ELocMonitorSubSessionTypeLocInfoConverter,
 	};
 
 /* Initialisation data sent to the Location Monitor server
@@ -107,15 +99,6 @@ class TLbsLocMonitorAreaPositionerData
 public:
 	TInt iUnused; /* Reserved for future use */
 	};
-
-/* Initialisation data sent to the Location Monitor server
-   when creating a new conversion Positioner subsession.
-*/
-class TLbsLocMonitorConversionPositionerData
-    {
-public:
-    TInt iUnused; /* Reserved for future use */
-    };
 
 /*
 	Parameters sent from client to server in a 

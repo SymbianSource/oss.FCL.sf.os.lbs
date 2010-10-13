@@ -21,4 +21,6 @@ PRJ_MMPFILES
 suplconnectionmanager.mmp
 
 
+#include "../test/te_suplconnectionmanager/group/bld.inf"
+
 

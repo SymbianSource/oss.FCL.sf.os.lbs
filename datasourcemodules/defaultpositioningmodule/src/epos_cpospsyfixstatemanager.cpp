@@ -157,7 +157,9 @@ void CPosPsyFixStateManager::PsyLoadedL(
         fixAndState.iPsyState = EPsyFixStateUnknown;
         fixAndState.iLocationRequestCount = 0;
         fixAndState.iTimer = timer;
-        iPsyStateArray.AppendL( fixAndState ) ;           
+        User::LeaveIfError( 
+            iPsyStateArray.Append( fixAndState ) );
+            
         CleanupStack::Pop( timer );
         }
     }

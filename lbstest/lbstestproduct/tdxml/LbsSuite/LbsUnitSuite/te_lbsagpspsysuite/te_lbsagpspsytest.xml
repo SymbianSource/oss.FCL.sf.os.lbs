@@ -37,14 +37,6 @@
 	<hostPath>datasourcemodules\gpspositioningmodule\lbsagpspsy\test\testdata\te_lbsagpspsy_devicecaps_tb.ini</hostPath>
 	<devicePath>c:\testdata\configs\te_lbsagpspsy_devicecaps_tb.ini</devicePath>
         </data>
-	<data>
-	<hostPath>datasourcemodules\gpspositioningmodule\lbsagpspsy\test\testdata\te_lbsagpspsy_lbsprofile.ini</hostPath>
-	<devicePath>c:\testdata\configs\te_lbsagpspsy_lbsprofile.ini</devicePath>
-    	</data>
-	<data>
-	<hostPath>datasourcemodules\gpspositioningmodule\lbsagpspsy\test\testdata\te_lbsagpspsy_agpsintegmodule.ini</hostPath>
-	<devicePath>c:\testdata\configs\te_lbsagpspsy_agpsintegmodule.ini</devicePath>
-	</data>
   </dependencies>
 
 </testExecuteTest>

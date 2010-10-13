@@ -76,11 +76,6 @@ public:
 	TUint iMnc; 
 	TUint iLac; 
 	TUint iCid;
-
-	TBool iValidity;
-
-	TBool iIs3gNetworkMode;
-
 };
 
 #endif // LBSLOCMONITORAREAINFODEFS_H

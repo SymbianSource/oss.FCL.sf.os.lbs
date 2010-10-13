@@ -19,18 +19,9 @@
 //! @SYMTestSuiteName         LBS-GpsPsySuite
 //! @SYMScriptTestEnvironment TestExecute using te_lbsgpspsysuite.script
 
-PREFIX RUN_UTILS
-MkDir c:\private\102869c5
-MkDir c:\private\102869c5\lbs
-MkDir c:\private\102869c5\lbs\locmods
-DeleteFile c:\private\102869c5\lbs\lbsprofile.ini
-DeleteFile c:\private\102869c5\lbs\locmods\agpsintegmodule.ini
-CopyFile c:\testdata\configs\te_lbsgpspsy_lbsprofile.ini c:\private\102869c5\lbs\lbsprofile.ini
-CopyFile c:\testdata\configs\te_lbsgpspsy_agpsintegmodule.ini c:\private\102869c5\lbs\locmods\agpsintegmodule.ini
-REMOVE_PREFIX
-
 //While loading the suite, we shutdown the whole LBS leaving the root process only.
 LOAD_SUITE te_lbsgpspsysuite
+
 
 PRINT RUN ALL te_lbsgpspsysuite TESTS
 
@@ -379,8 +370,6 @@ START_TESTCASE                	LBS-GpsPsySuite-PowerAdvice-Section0
 RUN_TEST_STEP 300 te_lbsgpspsysuite PowerAdvice c:\testdata\configs\te_lbsgpspsy.ini Section0
 END_TESTCASE                  	LBS-GpsPsySuite-PowerAdvice-Section0
 
-RUN_UTILS DeleteFile c:\private\102869c5\lbs\lbsprofile.ini
-RUN_UTILS DeleteFile c:\private\102869c5\lbs\locmods\agpsintegmodule.ini
 
 PRINT COMPLETE ALL te_lbsgpspsysuite TESTS
 

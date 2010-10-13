@@ -16,10 +16,8 @@
 //
 
 PRJ_TESTEXPORTS
-../scripts/te_lbsgpspsysuite.script				c:/testdata/scripts/te_lbsgpspsysuite.script
-../testdata/te_lbsgpspsy.ini					c:/testdata/configs/te_lbsgpspsy.ini
-../testdata/te_lbsgpspsy_agpsintegmodule.ini	c:/testdata/configs/te_lbsgpspsy_agpsintegmodule.ini
-../testdata/te_lbsgpspsy_lbsprofile.ini			c:/testdata/configs/te_lbsgpspsy_lbsprofile.ini
+../scripts/te_lbsgpspsysuite.script	c:/testdata/scripts/te_lbsgpspsysuite.script
+../testdata/te_lbsgpspsy.ini		c:/testdata/configs/te_lbsgpspsy.ini
 
 
 PRJ_TESTMMPFILES

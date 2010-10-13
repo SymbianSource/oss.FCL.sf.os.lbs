@@ -41,7 +41,7 @@
 #include "../lbslocsettings/group/bld.inf"
 #include "../lbsmlfwutilities/group/bld.inf"
 #include "../lbslocindicatorlib/group/bld.inf"
-#include "../../locmonitor/lbslocmonitorapis/group/bld.inf"
+#include "../../locmonitor/lbslocmonitorclient/group/bld.inf"
 #include "../LbsRefLocDataSource/group/bld.inf"
 
 

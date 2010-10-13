@@ -58,7 +58,7 @@ SOURCE	tstartparamsbase.cpp
 
 USERINCLUDE	../src
 USERINCLUDE	../../../SuplProxyProtocolModule/inc
-USERINCLUDE ../../../../suplpmcore/suplrrlpasn1/inc
+USERINCLUDE ../../../../common/suplrrlpasn1/inc
 USERINCLUDE ../../../../../locationmgmt/locationcore/lbsrootapi/inc
 USERINCLUDE ../../../../../locationmgmt/locationcore/LbsLocCommon/ServerFramework/inc   //for tprocessstartparams.h
 USERINCLUDE ../../../../../locationmgmt/locationcore/LbsCommonInternalDataTypes/inc
@@ -70,11 +70,12 @@ USERINCLUDE ../../../../../locationmgmt/locationcore/LbsCommonInternalDataTypes/
 
 USERINCLUDE ../../../../privacyprotocolmodule/ClientAPI/Common/inc
 USERINCLUDE ../../../../privacyprotocolmodule/ClientAPI/NetworkPrivacyAPI/inc
+USERINCLUDE ../../../clientapi/networkprivacyapi/inc
 USERINCLUDE ../../../clientapi/common/inc
 USERINCLUDE ../../../clientapi/common/posmsgapi/inc
-USERINCLUDE ../../../../suplpmcore/suplrrlpasn1/inc
-USERINCLUDE ../../../../suplcontrolplaneprotocols/suplrrlpprotocol/inc
-USERINCLUDE ../../../../suplcontrolplaneprotocols/suplpositioningprotbase/inc
+USERINCLUDE ../../../../common/suplrrlpasn1/inc
+USERINCLUDE ../../../../suplcontrolplaneprotocols/common/suplrrlpprotocol/inc
+USERINCLUDE ../../../../suplcontrolplaneprotocols/common/suplpositioningprotbase/inc
 
 OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 

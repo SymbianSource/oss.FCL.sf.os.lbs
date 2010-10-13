@@ -35,7 +35,7 @@ _LIT(KModeToManager, "NewModeToManager");
 _LIT(KExpectError, "ExpectError");
 
 // lrm TODO - this is ugly, step shouldn't need to know about suite, try to think of alternative:
-//const TUid  KServerUid = {0x10285ACB};
+const TUid  KServerUid = {0x10285ACB};
 
 const TInt KPosAGPSPSYImpl = 0x101fe98c;
 const TInt KPosGPSPSYImpl = 0x101fe98a;
@@ -56,10 +56,12 @@ CTe_PsyBaseStep(aPsyStaticData)
 void CTe_LbsAgpsPsyPosUpdateModeStep::ReallyDoTestStepImpL()
 	{
 	INFO_PRINTF1(_L("CTe_LbsAgpsPsyPosUpdateModeStep::ReallyDoTestStepImpL()"));
-	// Close and re-define the internal buses and quality profile so that device caps are refreshed:
-
-	CTe_SystemStarter::DeleteLbsPropertiesL();
-	CTe_SystemStarter::DefineLbsPropertiesL();
+	// Restart LBS so device caps are refreshed:
+	CTe_SystemStarter starter(KServerUid);
+	TBuf8<KMaxFileName> firstExe;
+	starter.RestartLbs_RootOnlyL(firstExe);	// lrm TODO - have a separate test step for this to avoid doing for every test case!
+	
+	INFO_PRINTF1(_L("Lbs restarted successfully"));	
 	
 	// Get settings from config
 	TPositionModuleInfo::TTechnologyType currMode = 0, newMode, newModeToManager = 0;
@@ -247,6 +249,7 @@ void CTe_LbsAgpsPsyPosUpdateModeStep::ReallyDoTestStepImpL()
 	CleanupStack::PopAndDestroy(admin);
 	CleanupStack::PopAndDestroy(updateRequest);	
 	
+	TRAP_IGNORE(starter.RestartLbs_NormalL(firstExe));
 	
 	INFO_PRINTF1(_L("CTe_LbsAgpsPsyPosUpdateModeStep::ReallyDoTestStepL() end"));
 	

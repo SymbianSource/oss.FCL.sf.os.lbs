@@ -38,7 +38,7 @@ public:
 	static CLbsLocMonitorDbEngine* NewL();
 	virtual ~CLbsLocMonitorDbEngine();
 	TInt SavePosition(TUint aMcc, TUint aMnc, TUint aLac, 
-			TUint aCid, const TPosition& aPosition, TBool aUserPosition, TRequestStatus& aStatus);
+			TUint aCid, const TPosition& aPosition, TRequestStatus& aStatus);
 	TInt GetPosition(TUint aMcc, TUint aMnc, TUint aLac, 
 			TUint aCid, TPosition& aPosition, TPositionAreaExtendedInfo& aMatchingAreaInfo, TRequestStatus& aStatus);
 	TInt GetPosition(TPosition& aPosition, TRequestStatus& aStatus);
@@ -71,14 +71,12 @@ private:
 	TRequestStatus* iClientStatus;
 	CLbsLocMonitorDbTimer* iDbTimer;
 	
-	TBool iSaveLastPos;
 	TBool iDBInitialised;
 	TInt iLastMcc;
 	TInt iLastMnc;
 	TInt iLastLac;
 	TInt iLastCid;
 	TPosition iLastPosition;
-	TPosition iLastKnownPosition;
 	TTime iLastTime;
 	TBool iIsLastValid;
 	};

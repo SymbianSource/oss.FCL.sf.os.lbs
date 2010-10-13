@@ -34,10 +34,10 @@ CAgpsEnvironment::~CAgpsEnvironment()
 	{
     Dll::SetTls(NULL);
     
+    delete iPositionerQ;
     delete iRequestHandler;
     delete iResponseHandler;
     delete iModStatusHandler;
-    delete iPositionerQ; //Should only be deleted after iRequestHandler
 	}
 
 /**

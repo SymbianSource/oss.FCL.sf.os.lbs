@@ -31,8 +31,7 @@
 		<suite>te_lbslocationmonitordbsuite</suite>
 		<suite>te_lbslocationmonitordbsuite2</suite>
 		<suite>te_locmonitorsuite</suite>
-		<suite>te_geolocmonitorsuite</suite>
-        	<suite>te_lbsnetgatewaySuite</suite>
+        <suite>te_lbsnetgatewaySuite</suite>
 		<suite>te_testprotocolmodulesuite</suite>
 		<suite>te_lbsnetsimtestSuite</suite>
 		<suite>te_lbssupltestmoduleSuite</suite>
@@ -46,8 +45,6 @@
 		<suite>tsuplasn1suite</suite>
  		<suite>te_suplproxypmsuite</suite>
  		<suite>te_npeintegrationmodulesuite</suite>
- 		<suite>te_lbslocationinfoconvertersuite</suite>
-		<suite>te_lbspositioningstatussuite</suite>
     </testItems>
     
     <dependencies>
@@ -136,35 +133,7 @@
       			<bldInfPath>locationrequestmgmt\locationserver\lbstestpsys\networkpsy2\group\bld.inf</bldInfPath>
 			</buildable>
     		
-    		<buildable type="test">
-      			<hostPath>lbstestlocmonitorapi.dll</hostPath>
-  				<devicePath>c:\system\libs\lbstestlocmonitorapi.dll</devicePath>
-  				<mmpFile>lbstestlocmonitorapi.mmp</mmpFile>
-  				<bldInfPath>locationrequestmgmt\locationserver\test\testLocMonitorApi\group\bld.inf</bldInfPath>
-			</buildable>
-  
-    		<buildable type="test">
-      			<hostPath>testlocmonitorserver.exe</hostPath>
-  				<devicePath>c:\sys\bin\testlocmonitorserver.exe</devicePath>
-  				<mmpFile>testlocmonitorserver.mmp</mmpFile>
-  				<bldInfPath>locationrequestmgmt\locationserver\test\testLocMonitorServer\group\bld.inf</bldInfPath>
-			</buildable>
-		
-			<buildable type="test">
-      			<hostPath>testlocserver.exe</hostPath>
-  				<devicePath>c:\sys\bin\testlocserver.exe</devicePath>
-  				<mmpFile>testlocserver.mmp</mmpFile>
-  				<bldInfPath>locationrequestmgmt\locationserver\test\testLocServer\group\bld.inf</bldInfPath>
-			</buildable>
-			
-			<buildable type="test">
-      			<hostPath>testlocationmonitor.exe</hostPath>
-  				<devicePath>c:\sys\bin\testlocationmonitor.exe</devicePath>
-  				<mmpFile>testlocationmonitor.mmp</mmpFile>
-  				<bldInfPath>locationmgmt\locmonitor\test\testlocationmonitor\group\bld.inf</bldInfPath>
-			</buildable>
-
-    		
+  		
 
 	</dependencies>
 

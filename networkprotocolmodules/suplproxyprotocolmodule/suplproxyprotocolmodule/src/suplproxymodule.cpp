@@ -563,12 +563,7 @@ void CSuplProxyProtocol::RequestNetworkLocation(
 		
 		// Add this request to the queue of outstanding requests
 		LBSLOG2(ELogP1, "CSuplProxyProtocol::RequestNetworkLocation() Adding sppm session object 0x%x to array\n", aSessionId);
-		TInt err = iLbsNetSessions.Append(netSession);
-		if(KErrNone != err)
-		    {
-		    LBSLOG(ELogP1, "CSuplProxyProtocol::RequestNetworkLocation() - iLbsNetSessions.Append failed!!\n");
-            delete netSession;
-		    }
+		iLbsNetSessions.Append(netSession);    
     	}
 
     //Create the prioritised list of positioning methods
@@ -722,13 +717,7 @@ void CSuplProxyProtocol::RequestSelfLocation(
 
 	                // Add this request to the queue of outstanding requests
 					LBSLOG2(ELogP1, "CSuplProxyProtocol::RequestSelfLocation() Adding sppm session object 0x%x to array\n", aSessionId);
-	                TInt err = iLbsNetSessions.Append(netSession);
-	                if(KErrNone != err)
-	                    {
-		    			LBSLOG(ELogP1, "CSuplProxyProtocol::RequestSelfLocation() - iLbsNetSessions.Append failed!!\n");
-	                    delete netSession;
-	                    return;
-	                    }
+	                iLbsNetSessions.Append(netSession);					
                 	}
                 
                 //Inform LBS of the start of an MOLR - TB 
@@ -980,19 +969,7 @@ void CSuplProxyProtocol::ProcessRequest(CSuplProxyPrivacyRequestInfo* aRequest)
 				{
 				netSession->SetExtRequestInfo(extReqInfo);
 				LBSLOG2(ELogP1, "CSuplProxyProtocol::ProcessRequest() Adding sppm session object 0x%x to array\n", sessionId);
-				TInt err = iLbsNetSessions.Append(netSession);
-				if (err != KErrNone)
-					{
-					// A problem occured and the request could not be added to the buffer
-					LBSLOG_WARN2(ELogP1, "CSuplProxyProtocol::ProcessRequest() - iLbsNetSessions.Append failed!! - (%d)\n", err);
-					if (aRequest->IsResponseRequired())
-						{
-						aRequest->CompleteRequest(err);
-						}
-                    delete netSession;
-					delete aRequest;
-					return;
-					}
+				iLbsNetSessions.Append(netSession);
 				}
         	}
         }
@@ -1147,12 +1124,7 @@ void CSuplProxyProtocol::NotifySubSessionOpen(MPosProtocolResponseObserver* aObs
 			netSession->SetPosSessionStarted(ETrue);
 			netSession->SetSessionStarted();
 			LBSLOG2(ELogP1, "CSuplProxyProtocol::NotifySubSessionOpen() Adding sppm session object 0x%x to array\n", sessionId);
-			TInt err = iLbsNetSessions.Append(netSession);
-            if(KErrNone != err)
-                   {
-	    		   LBSLOG(ELogP1, "CSuplProxyProtocol::NotifySubSessionOpen() - iLbsNetSessions.Append failed!!\n");
-                   delete netSession;
-                   }
+			iLbsNetSessions.Append(netSession);
         	}
         //Update LBS of the currently active services including this new session type
         StatusUpdate(MLbsNetworkProtocolObserver2::EServiceTriggeredMolr,ETrue);
