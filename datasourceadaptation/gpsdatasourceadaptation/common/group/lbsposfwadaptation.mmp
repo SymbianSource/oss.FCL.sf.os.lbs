@@ -28,3 +28,4 @@ USERINCLUDE ../../../../locationmgmt/locationcore/LbsPartnerCommon/inc
 LIBRARY lbsadmin.lib
 
 SMPSAFE
+PAGED

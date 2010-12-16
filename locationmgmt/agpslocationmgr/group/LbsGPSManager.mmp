@@ -89,3 +89,4 @@ DEBUGLIBRARY	lbsdebug.lib
 
 SMPSAFE
 
+PAGED

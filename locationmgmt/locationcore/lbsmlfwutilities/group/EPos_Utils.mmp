@@ -42,3 +42,4 @@ DEBUGLIBRARY    flogger.lib
 // End of File
 
 SMPSAFE
+PAGED

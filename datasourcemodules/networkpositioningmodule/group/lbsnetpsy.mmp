@@ -78,5 +78,6 @@ LIBRARY lbscommoninternaldatatypes.lib
 DEBUGLIBRARY flogger.lib
 
 SMPSAFE
+PAGED
 
 // End of File

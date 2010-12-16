@@ -36,3 +36,4 @@ LIBRARY		bluetooth.lib
 
 
 SMPSAFE
+PAGED

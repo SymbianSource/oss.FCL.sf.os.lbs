@@ -40,3 +40,4 @@ SOURCE		lbssuplpushreceiverchannel.cpp
 LIBRARY		euser.lib lbsrootapi.lib centralrepository.lib lbspartnercommon.lib
 
 SMPSAFE
+PAGED

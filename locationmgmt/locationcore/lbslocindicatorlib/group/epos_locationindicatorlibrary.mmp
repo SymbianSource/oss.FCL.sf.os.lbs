@@ -37,3 +37,4 @@ DEBUGLIBRARY         flogger.lib
 
 
 SMPSAFE
+PAGED

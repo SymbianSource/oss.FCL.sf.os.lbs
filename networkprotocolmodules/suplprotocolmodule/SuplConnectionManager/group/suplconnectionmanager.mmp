@@ -57,3 +57,4 @@ LIBRARY		x509.lib
 LIBRARY		supldevlogger.lib
 
 SMPSAFE
+PAGED

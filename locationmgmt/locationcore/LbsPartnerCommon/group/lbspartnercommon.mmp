@@ -34,3 +34,4 @@ LIBRARY			flogger.lib
 LIBRARY			hal.lib
 
 SMPSAFE
+PAGED

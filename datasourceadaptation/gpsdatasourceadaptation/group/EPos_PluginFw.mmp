@@ -42,3 +42,4 @@ LIBRARY             ecom.lib
 LIBRARY             lbs.lib
 
 SMPSAFE
+PAGED

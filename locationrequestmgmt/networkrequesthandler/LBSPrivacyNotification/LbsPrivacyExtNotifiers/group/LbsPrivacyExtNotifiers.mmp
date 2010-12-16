@@ -27,3 +27,4 @@ OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 LIBRARY		euser.lib lbsloccommon.lib
 
 SMPSAFE
+PAGED

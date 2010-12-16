@@ -84,3 +84,4 @@ macro         USEASN1RTDLL USEASN1PERDLL _NO_LICENSE_CHECK _NO_INT64_SUPPORT _CO
 // macro definition to exclude unused components of generated SUPL/RRLP code
 macro		  _ASN1_EXCLUDE
 SMPSAFE
+PAGED

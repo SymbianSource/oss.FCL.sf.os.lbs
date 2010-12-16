@@ -54,3 +54,4 @@ LIBRARY		lbsprivacyrequest.lib
 LIBRARY		lbsadmin.lib
 
 SMPSAFE
+PAGED

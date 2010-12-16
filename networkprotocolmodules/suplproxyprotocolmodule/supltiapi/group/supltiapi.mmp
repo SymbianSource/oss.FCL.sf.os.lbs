@@ -34,3 +34,4 @@ LIBRARY			ecom.lib
 LIBRARY			lbsnetprotocol.lib
 
 SMPSAFE
+PAGED

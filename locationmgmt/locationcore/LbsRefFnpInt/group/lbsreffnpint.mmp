@@ -42,3 +42,4 @@ LIBRARY     lbs.lib
 LIBRARY     centralrepository.lib
 
 SMPSAFE
+PAGED

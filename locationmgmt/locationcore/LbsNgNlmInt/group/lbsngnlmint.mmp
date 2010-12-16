@@ -40,3 +40,4 @@ LIBRARY     lbscommoninternaldatatypes.lib
 LIBRARY     centralrepository.lib
 
 SMPSAFE
+PAGED

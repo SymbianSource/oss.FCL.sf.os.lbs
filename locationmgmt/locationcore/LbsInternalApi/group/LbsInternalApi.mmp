@@ -50,3 +50,4 @@ LIBRARY		lbsnetprotocol.lib
 LIBRARY		lbscommoninternaldatatypes.lib
 
 SMPSAFE
+PAGED

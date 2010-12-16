@@ -98,3 +98,4 @@ SOURCEPATH ../src
 SOURCE netobserver.cpp
 
 SMPSAFE
+PAGED

@@ -45,3 +45,4 @@ LIBRARY		estor.lib
 
 
 SMPSAFE
+PAGED

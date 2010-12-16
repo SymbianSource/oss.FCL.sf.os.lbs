@@ -87,3 +87,4 @@ LIBRARY		insock.lib
 LIBRARY		commsdat.lib
 
 SMPSAFE
+PAGED

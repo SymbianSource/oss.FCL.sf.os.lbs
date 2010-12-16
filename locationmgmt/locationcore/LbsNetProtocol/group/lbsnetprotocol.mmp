@@ -30,3 +30,4 @@ LIBRARY		euser.lib
 LIBRARY		ecom.lib
 
 SMPSAFE
+PAGED

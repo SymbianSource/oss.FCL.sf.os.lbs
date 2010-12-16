@@ -38,3 +38,4 @@ LIBRARY     lbscommoninternaldatatypes.lib
 LIBRARY     lbsnetinternalapi.lib
 
 SMPSAFE
+PAGED

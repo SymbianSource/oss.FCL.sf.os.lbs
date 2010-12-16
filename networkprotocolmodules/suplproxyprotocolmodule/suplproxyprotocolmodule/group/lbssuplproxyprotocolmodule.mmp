@@ -75,3 +75,4 @@ LIBRARY		lbsinternalapi.lib
 LIBRARY		centralrepository.lib
 
 SMPSAFE
+PAGED

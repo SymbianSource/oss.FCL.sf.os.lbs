@@ -53,3 +53,4 @@ LIBRARY             eposutils.lib
 
 
 SMPSAFE
+PAGED

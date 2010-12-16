@@ -42,3 +42,4 @@ LIBRARY         lbsnetprotocol.lib
 LIBRARY			lbs.lib
 
 SMPSAFE
+PAGED

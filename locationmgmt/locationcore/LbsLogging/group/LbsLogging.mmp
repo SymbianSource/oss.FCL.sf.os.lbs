@@ -51,3 +51,4 @@ LIBRARY		lbsadmin.lib
 //exportunfrozen
 
 SMPSAFE
+PAGED

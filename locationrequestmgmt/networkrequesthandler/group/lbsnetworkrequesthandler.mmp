@@ -151,3 +151,4 @@ DEBUGLIBRARY	lbsdebug.lib
 #endif
 
 SMPSAFE
+PAGED

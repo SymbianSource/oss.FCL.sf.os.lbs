@@ -48,3 +48,4 @@ LIBRARY		lbsadmin.lib
 
 
 SMPSAFE
+PAGED

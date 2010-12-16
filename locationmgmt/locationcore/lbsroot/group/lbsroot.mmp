@@ -81,5 +81,6 @@ LIBRARY		featdiscovery.lib
 #endif
 
 SMPSAFE
+PAGED
 SOURCEPATH ../src
 SOURCE lbssystemstatelistener.cpp

@@ -38,3 +38,4 @@ LIBRARY			lbsinternalapi.lib
 LIBRARY			lbspartnercommon.lib
 
 SMPSAFE
+PAGED

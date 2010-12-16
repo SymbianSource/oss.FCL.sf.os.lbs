@@ -36,3 +36,4 @@ LIBRARY         euser.lib
 LIBRARY         estor.lib
 
 SMPSAFE
+PAGED

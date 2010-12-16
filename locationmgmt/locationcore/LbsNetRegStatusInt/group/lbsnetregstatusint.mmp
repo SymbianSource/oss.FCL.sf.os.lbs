@@ -38,3 +38,4 @@ LIBRARY		euser.lib
 LIBRARY     centralrepository.lib
 
 SMPSAFE
+PAGED

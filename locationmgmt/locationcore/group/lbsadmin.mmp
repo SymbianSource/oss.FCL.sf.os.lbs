@@ -42,3 +42,4 @@ LIBRARY			lbspartnercommon.lib
 LIBRARY			lbsinternalapi.lib
 LIBRARY			lbscommoninternaldatatypes.lib
 SMPSAFE
+PAGED

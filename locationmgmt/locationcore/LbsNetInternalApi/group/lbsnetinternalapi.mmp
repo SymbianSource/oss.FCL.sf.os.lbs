@@ -43,3 +43,4 @@ LIBRARY		lbsassistancedata.lib
 //exportunfrozen
 
 SMPSAFE
+PAGED

@@ -64,3 +64,4 @@ LIBRARY         centralrepository.lib
 
 SMPSAFE
 
+PAGED

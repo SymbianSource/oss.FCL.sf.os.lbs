@@ -42,3 +42,4 @@ LIBRARY			lbsloccommon.lib
 LIBRARY			lbspartnercommon.lib
 
 SMPSAFE
+PAGED

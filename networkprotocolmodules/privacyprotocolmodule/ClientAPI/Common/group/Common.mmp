@@ -35,3 +35,4 @@ LIBRARY	        lbsrootapi.lib
 LIBRARY         lbsnetprotocol.lib
 
 SMPSAFE
+PAGED

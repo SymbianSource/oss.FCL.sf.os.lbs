@@ -57,3 +57,4 @@ LIBRARY		lbspartnercommon.lib
 LIBRARY		lbsrootapi.lib
 
 SMPSAFE
+PAGED

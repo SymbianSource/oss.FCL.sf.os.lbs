@@ -71,3 +71,4 @@ LIBRARY 	lbsloggerapi.lib
 
 
 SMPSAFE
+PAGED
